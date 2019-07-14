@@ -22,10 +22,11 @@ class FrontendController extends Controller {
      */
     public function welcome(Request $request)
     {           
+        $theme='limitless';
         if (\Auth::check()) {
             return redirect(route('dashboard.index'));
         }else{
-            return view("welcome");            
+            return view("pages.$theme.dashboard.indexFront");            
         }                       
     }         
 }

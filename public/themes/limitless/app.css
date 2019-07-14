@@ -1,0 +1,14 @@
+/**menus*/
+.visible{
+    display:inline !important;
+}
+/**custom themes*/
+.icons-list a[data-action="closeredirect"]:after{
+    content:'\e9b6'
+}
+.icons-list a[data-action="printout"]:after{
+    content:'\eab7'
+}
+.noclose .ui-dialog-titlebar-close {
+    display:none;
+}
