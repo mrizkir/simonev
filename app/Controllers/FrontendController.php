@@ -21,8 +21,8 @@ class FrontendController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function welcome(Request $request)
-    {           
-        $theme='limitless';
+    {   
+        $theme='silverage';
         if (\Auth::check()) {
             return redirect(route('dashboard.index'));
         }else{
