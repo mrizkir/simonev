@@ -1,11 +1,11 @@
 @include('layouts.dore.l_header')
-<body>
+<body class="background show-spinner">
 @yield('page_content')
-<script src="{!!asset('js/modernizr.min.js')!!}"></script>
-<script src="{!!asset('js/vendor.min.js')!!}"></script>
-<script src="{!!asset('js/scripts.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery-3.3.1.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/bootstrap.bundle.min.js')!!}"></script>
+<script src="{!!asset('js/dore.script.js')!!}"></script>
+<script src="{!!asset('js/scripts.js')!!}"></script>
 @yield('page_asset_js')
 @yield('page_custom_js')
-<script src="{!!asset('app.js')!!}"></script>
 </body>
 </html>

@@ -2,17 +2,12 @@
 
 return [
     //setting general
-    'nama_institusi'=>env('SIMONEV_NAMA_INSTITUSI'),
-    'tahun_perencanaan'=>env('SIMONEV_TAHUN_PERENCANAAN'),
+    'nama_institusi'=>env('SIMONEV_NAMA_INSTITUSI'),    
     'tahun_penyerapan'=>env('SIMONEV_TAHUN_PENYERAPAN'),
     'default_provinsi'=>env('SIMONEV_DEFAULT_PROVINSI'),
     'defaul_kota_atau_kab'=>env('SIMONEV_DEFAULT_KOTA_KAB'),
 
-    //setting rpjmd
-    'rpjmd_tahun_mulai'=>env('SIMONEV_RPJMD_TAHUN_MULAI'),
-    'rpjmd_tahun_akhir'=>env('SIMONEV_RPJMD_TAHUN_AKHIR'),
-    'renstra_tahun_mulai'=>env('SIMONEV_RENSTRA_TAHUN_MULAI'),
-    'renstra_tahun_akhir'=>env('SIMONEV_RENSTRA_TAHUN_AKHIR'),
+    
 
     /**
      * Saat mengekspor dan mingimpor file, e-Planning membutuhkan lokasi tempat penyimpanan sementara
