@@ -22,7 +22,7 @@ class FrontendController extends Controller {
      */
     public function welcome(Request $request)
     {   
-        $theme='silverage';
+        $theme='dore';
         if (\Auth::check()) {
             return redirect(route('dashboard.index'));
         }else{

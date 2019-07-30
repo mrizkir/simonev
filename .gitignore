@@ -1,8 +1,7 @@
 /node_modules
-/public/themes/default/assets
-/public/themes/limitless/assets
-/public/themes/silverage/assets
-/public/hot
+/public/css
+/public/font
+/public/js
 /public/storage
 /storage/logs
 /storage/framework
