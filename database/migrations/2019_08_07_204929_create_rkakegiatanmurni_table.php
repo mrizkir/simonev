@@ -30,6 +30,14 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->primary('RKAID');
             $table->index('OrgID');
             $table->index('SOrgID');
+            $table->index('PrgID');
+            $table->index('RKPDID');
+
+            $table->foreign('OrgID')
+                    ->references('OrgID')
+                    ->on('tmOrg')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
 
 
         });
