@@ -102,14 +102,26 @@
                 </ul>
                 <ul class="list-unstyled" data-link="master">
                     <li>
+                        <a href="#">
+                            <p class="list-item-heading mb-1 color-theme-1">FUNGSIONAL</p>
+                        </a>
+                    </li>
+                    <div class="separator mb-5"></div>
+                    <li>
                         <a href="{{route('rkakegiatanmurni.index')}}">
-                            <i class="simple-icon-credit-card"></i>
+                            <i class="simple-icon-size-actual"></i>
+                            <span class="d-inline-block">KELOMPOK URUSAN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-puzzle"></i>
                             <span class="d-inline-block">URUSAN</span>
                         </a>
                     </li>
                     <li>
                         <a href="{{route('rkakegiatanmurni.index')}}">
-                            <i class="simple-icon-credit-card"></i>
+                            <i class="simple-icon-layers"></i>
                             <span class="d-inline-block">ORGANISASI</span>
                         </a>
                     </li>
@@ -121,8 +133,72 @@
                     </li>
                     <li>
                         <a href="{{route('rkakegiatanmurni.index')}}">
-                            <i class="simple-icon-credit-card"></i>
+                            <i class="simple-icon-disc"></i>
                             <span class="d-inline-block">PROGRAM</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="iconsminds-coins"></i>
+                            <span class="d-inline-block">PAGU DANA</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="list-item-heading mb-1 color-theme-1">REKENING</p>
+                        </a>
+                    </li>
+                    <div class="separator mb-5"></div>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-list"></i>
+                            <span class="d-inline-block">TRANSAKSI</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-puzzle"></i>
+                            <span class="d-inline-block">KELOMPOK</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-layers"></i>
+                            <span class="d-inline-block">JENIS</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-list"></i>
+                            <span class="d-inline-block">RINCIAN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-credit-card"></i>
+                            <span class="d-inline-block">OBJEK</span>
+                        </a>
+                    </li>
+                    <li>
+                        <p class="list-item-heading mb-1 color-theme-1">PEGAWAI</p>
+                    </li>
+                    <div class="separator mb-5"></div>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-people"></i>
+                            <span class="d-inline-block">ASN</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            <p class="list-item-heading mb-1 color-theme-1">LAIN - LAIN</p>
+                        </a>
+                    </li>
+                    <div class="separator mb-5"></div>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-size-actual"></i>
+                            <span class="d-inline-block">JENIS PELAKSANAAN</span>
                         </a>
                     </li>
                 </ul>
