@@ -107,6 +107,24 @@
                             <span class="d-inline-block">URUSAN</span>
                         </a>
                     </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-credit-card"></i>
+                            <span class="d-inline-block">ORGANISASI</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-credit-card"></i>
+                            <span class="d-inline-block">UNIT KERJA</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{route('rkakegiatanmurni.index')}}">
+                            <i class="simple-icon-credit-card"></i>
+                            <span class="d-inline-block">PROGRAM</span>
+                        </a>
+                    </li>
                 </ul>
                 <ul class="list-unstyled" data-link="rka">
                     <li>
