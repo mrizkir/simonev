@@ -39,6 +39,23 @@ class CreateRkakegiatanmurniTable extends Migration
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
 
+            $table->foreign('SOrgID')
+                    ->references('SOrgID')
+                    ->on('tmSOrg')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+
+            $table->foreign('PrgID')
+                    ->references('PrgID')
+                    ->on('tmPrg')
+                    ->onDelete('cascade')
+                    ->onUpdate('cascade');
+
+            $table->foreign('RKPDID')
+                    ->references('RKPDID')
+                    ->on('trRKPD')
+                    ->onDelete('set null')
+                    ->onUpdate('cascade');
 
         });
     }
