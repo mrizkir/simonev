@@ -1,4 +1,4 @@
-# SIMONEV (SISTEM INFORMASI MONITORING DAN EVALUASI)
+# SIMONEV
 Sistem Informasi Monitoring dan Evaluasi Pembangunan Daerah
 ## INSTALASI
 ### JAVASCRIPT
