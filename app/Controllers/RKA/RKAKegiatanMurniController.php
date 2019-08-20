@@ -26,37 +26,34 @@ class RKAKegiatanMurniController extends Controller
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        //if (!$this->checkStateIsExistSession('rkakegiatanmurni','orderby')) 
-        //{            
-        //    $this->putControllerStateSession('rkakegiatanmurni','orderby',['column_name'=>'replace_it','order'=>'asc']);
-        //}
-        //$column_order=$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'); 
-        //$direction=$this->getControllerStateSession('rkakegiatanmurni.orderby','order'); 
+        if (!$this->checkStateIsExistSession('rkakegiatanmurni','orderby')) 
+        {            
+           $this->putControllerStateSession('rkakegiatanmurni','orderby',['column_name'=>'KgtNm','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('rkakegiatanmurni.orderby','order'); 
 
-        // if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
-        // {            
-        //     $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
-        // }
-        // $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        // if ($this->checkStateIsExistSession('rkakegiatanmurni','search')) 
-        // {
-        //     $search=$this->getControllerStateSession('rkakegiatanmurni','search');
-        //     switch ($search['kriteria']) 
-        //     {
-        //         case 'replaceit' :
-        //             $data = RKAKegiatanMurniModel::where(['replaceit'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-        //         break;
-        //         case 'replaceit' :
-        //             $data = RKAKegiatanMurniModel::where('replaceit', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
-        //         break;
-        //     }           
-        //     $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
-        // }
-        // else
-        // {
-        //     $data = RKAKegiatanMurniModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        // }        
-        // $data->setPath(route('rkakegiatanmurni.index'));
+        if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
+        {            
+            $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
+        }
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        if ($this->checkStateIsExistSession('rkakegiatanmurni','search')) 
+        {
+            $search=$this->getControllerStateSession('rkakegiatanmurni','search');
+            switch ($search['kriteria']) 
+            {
+                case 'KgtNm' :
+                    $data = RKAKegiatanMurniModel::where(['KgtNm'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                break;                
+            }           
+            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+        }
+        else
+        {
+            $data = RKAKegiatanMurniModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        }        
+        $data->setPath(route('rkakegiatanmurni.index'));
         return $data;
     }
     /**
@@ -66,7 +63,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function changenumberrecordperpage (Request $request) 
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
@@ -89,17 +86,17 @@ class RKAKegiatanMurniController extends Controller
      */
     public function orderby (Request $request) 
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
         {
-            case 'replace_it' :
-                $column_name = 'replace_it';
+            case 'KgtNm' :
+                $column_name = 'KgtNm';
             break;           
             default :
-                $column_name = 'replace_it';
+                $column_name = 'KgtNm';
         }
         $this->putControllerStateSession('rkakegiatanmurni','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
 
@@ -119,6 +116,7 @@ class RKAKegiatanMurniController extends Controller
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
+    
     /**
      * paginate resource in storage called by ajax
      *
@@ -127,7 +125,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function paginate ($id) 
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         $this->setCurrentPageInsideSession('rkakegiatanmurni',$id);
         $data=$this->populateData($id);
@@ -148,7 +146,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function search (Request $request) 
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         $action = $request->input('action');
         if ($action == 'reset') 
@@ -180,7 +178,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function index(Request $request)
     {                
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         $search=$this->getControllerStateSession('rkakegiatanmurni','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rkakegiatanmurni'); 
@@ -192,11 +190,11 @@ class RKAKegiatanMurniController extends Controller
         $this->setCurrentPageInsideSession('rkakegiatanmurni',$data->currentPage());
         
         return view("pages.$theme.rka.rkakegiatanmurni.index")->with(['page_active'=>'rkakegiatanmurni',
-                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                'data'=>$data]);               
+                                                                    'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                    'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
+                                                                    'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                    'data'=>$data]);               
     }
     /**
      * Show the form for creating a new resource.
@@ -205,11 +203,11 @@ class RKAKegiatanMurniController extends Controller
      */
     public function create()
     {        
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
                                                                     
-                                                ]);  
+                                                                    ]);  
     }
     
     /**
@@ -250,7 +248,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function show($id)
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
 
         $data = RKAKegiatanMurniModel::findOrFail($id);
         if (!is_null($data) )  
@@ -269,7 +267,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function edit($id)
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
         
         $data = RKAKegiatanMurniModel::findOrFail($id);
         if (!is_null($data) ) 
@@ -319,7 +317,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $theme = \Auth::user()->theme;
+        $theme = 'dore';
         
         $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
         $result=$rkakegiatanmurni->delete();

@@ -14,27 +14,27 @@ class RKAKegiatanMurniModel extends Model
      *
      * @var string
      */
-    protected $table = 'rkakegiatanmurni';
+    protected $table = 'trRKA';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'replace_it', 'replace_it'
+        'RKAID', 'OrgID', 'SOrgID', 'PrgID', 'RKPDID', 'KgtNm', 'PaguDana1', 'PaguDana2', 'Descr', 'TA', 'Locked'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'rkakegiatanmurni_id';
+    protected $primaryKey = 'RKAID';
     /**
      * enable auto_increment.
      *
      * @var string
      */
-    public $incrementing = true;
+    public $incrementing = false;
     /**
      * activated timestamps.
      *
@@ -51,7 +51,7 @@ class RKAKegiatanMurniModel extends Model
     /**
      * log the changed attributes for all these events 
      */
-    // protected static $logAttributes = ['replace_it', 'replace_it'];
+    protected static $logAttributes = ['RKAID', 'KgtNm', 'PaguDana1', 'PaguDana1'];
     /**
      * log changes to all the $fillable attributes of the model
      */
