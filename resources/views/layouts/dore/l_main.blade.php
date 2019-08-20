@@ -104,7 +104,7 @@
                     <li>
                         <a href="{{route('rkakegiatanmurni.index')}}">
                             <i class="simple-icon-credit-card"></i>
-                            <span class="d-inline-block">KEGIATAN MURNI</span>
+                            <span class="d-inline-block">URUSAN</span>
                         </a>
                     </li>
                 </ul>
