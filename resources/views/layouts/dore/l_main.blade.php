@@ -108,41 +108,41 @@
                     </li>
                     <div class="separator mb-5"></div>
                     <li>
-                        <a href="{{route('rkakegiatanmurni.index')}}">
+                        <a href="{{route('kelompokurusan.index')}}">
                             <i class="simple-icon-size-actual"></i>
                             <span class="d-inline-block">KELOMPOK URUSAN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('rkakegiatanmurni.index')}}">
+                        <a href="{{route('urusan.index')}}">
                             <i class="simple-icon-puzzle"></i>
                             <span class="d-inline-block">URUSAN</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('rkakegiatanmurni.index')}}">
+                        <a href="{{route('organisasi.index')}}">
                             <i class="simple-icon-layers"></i>
                             <span class="d-inline-block">ORGANISASI</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('rkakegiatanmurni.index')}}">
+                        <a href="{{route('suborganisasi.index')}}">
                             <i class="simple-icon-credit-card"></i>
                             <span class="d-inline-block">UNIT KERJA</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{route('rkakegiatanmurni.index')}}">
+                        <a href="{{route('program.index')}}">
                             <i class="simple-icon-disc"></i>
                             <span class="d-inline-block">PROGRAM</span>
                         </a>
                     </li>
-                    <li>
+                    {{-- <li>
                         <a href="{{route('rkakegiatanmurni.index')}}">
-                            <i class="iconsminds-coins"></i>
-                            <span class="d-inline-block">PAGU DANA</span>
-                        </a>
-                    </li>
+                    <i class="iconsminds-coins"></i>
+                    <span class="d-inline-block">PAGU DANA</span>
+                    </a>
+                    </li> --}}
                     <li>
                         <a href="#">
                             <p class="list-item-heading mb-1 color-theme-1">REKENING</p>
