@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-chess-queen position-left"></i>
     <span class="text-semibold">        
-        KELOMPOK URUSAN TAHUN PERENCANAAN {{HelperKegiatan::getRPJMDTahunMulai()}} - {{HelperKegiatan::getRPJMDTahunAkhir()}}
+        <h1>KELOMPOK URUSAN</h1>
     </span>
 @endsection
 @section('page_info')

@@ -34,8 +34,8 @@ class LoginController extends Controller
     
     protected function authenticated ()
     {
-        $data_visi = \App\Models\RPJMD\RPJMDVisiModel::find(config('eplanning.rpjmd_visi_id'));        
-        $this->putControllerStateSession('global_controller','rpjmd_visi_id',config('eplanning.rpjmd_visi_id'));
+        $data_visi = \App\Models\RPJMD\RPJMDVisiModel::find(config('simonev.rpjmd_visi_id'));        
+        $this->putControllerStateSession('global_controller','rpjmd_visi_id',config('simonev.rpjmd_visi_id'));
         
         $this->putControllerStateSession('global_controller','rpjmd_tahun_awal',$data_visi->TA_Awal);
         $this->putControllerStateSession('global_controller','rpjmd_tahun_mulai',$data_visi->TA_Awal+1);

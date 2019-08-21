@@ -15,7 +15,6 @@
                     <rect x="1.56" y="15.5" width="16" height="1" />
                 </svg>
             </a>
-
             <a href="#" class="menu-button-mobile d-xs-block d-sm-block d-md-none">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 26 17">
                     <rect x="0.5" y="0.5" width="25" height="1" />
@@ -50,7 +49,7 @@
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right mt-3">
-                    <a class="dropdown-item" href="{!!route('login')!!}">Logout</a>
+                    <a class="dropdown-item" href="{!!route('logout')!!}">Logout</a>
                 </div>
             </div>
         </div>
@@ -217,18 +216,25 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>@yield('page_header')</h1>
-                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-                        <ol class="breadcrumb pt-0">
-                            <li class="breadcrumb-item">
-                                <a href="{!!route('frontend.index')!!}">HOME</a>
-                            </li>
-                            @yield('page_breadcrumb')
-                        </ol>
-                    </nav>
+                    <div class="mb-2">
+                        @yield('page_header')
+                        @yield('page_header_button')
+                        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                            <ol class="breadcrumb pt-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{!!route('frontend.index')!!}">HOME</a>
+                                </li>
+                                @yield('page_breadcrumb')
+                            </ol>
+                        </nav>
+                    </div>
+                    <div class="mb-2">
+                        @yield('page_header_display')
+                    </div>
                     <div class="separator mb-5"></div>
                 </div>
             </div>
-        </div>
+            @yield('page_content')
+        </div>        
     </main>
     @include('layouts.dore.l_footer')
