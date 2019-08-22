@@ -2,9 +2,8 @@
 
 namespace App\Controllers;
 
-use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\DashboardModel;
+use Illuminate\Http\Request;
 
 class DashboardController extends Controller
 {
@@ -36,34 +35,34 @@ class DashboardController extends Controller
                 $data = [];
                 return view("pages.dore.dashboard.index")->with([
                     'page_active' => 'dashboard',
-                    'data' => $data
+                    'data' => $data,
                 ]);
                 break;
             case 'opd':
                 $data = [];
                 return view("pages.dore.dashboard.indexOPD")->with([
                     'page_active' => 'dashboard',
-                    'data' => $data
+                    'data' => $data,
                 ]);
                 break;
             case 'dewan':
                 return view("pages.dore.dashboard.indexDewan")->with([
                     'page_active' => 'dashboard',
-                    'data' => $data
+                    'data' => $data,
                 ]);
                 break;
             case 'kecamatan':
                 $data = [];
                 return view("pages.dore.dashboard.indexKecamatan")->with([
                     'page_active' => 'dashboard',
-                    'data' => $data
+                    'data' => $data,
                 ]);
                 break;
             case 'desa':
                 $data = [];
                 return view("pages.dore.dashboard.indexDesa")->with([
                     'page_active' => 'dashboard',
-                    'data' => $data
+                    'data' => $data,
                 ]);
                 break;
         }
