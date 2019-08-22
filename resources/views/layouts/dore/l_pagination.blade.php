@@ -65,4 +65,5 @@
         </li>
         @endif        
     </ul>
+    <p class="text-muted text-small text-center">Total {{$paginator->total()}} Record </p>
 </nav>
