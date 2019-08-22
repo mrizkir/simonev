@@ -3,7 +3,7 @@
     RINGKASAN DATA
 @endsection
 @section('page_header')
-    RINGKASAN DATA
+    <h1>RINGKASAN DATA</h1>
 @endsection
 @section('page_breadcrumb')
     <li class="breadcrumb-item active" aria-current="page">RINGKASAN DATA</li>

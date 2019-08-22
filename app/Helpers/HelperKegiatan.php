@@ -4,6 +4,41 @@ namespace App\Helpers;
 
 class HelperKegiatan {
     /**
+     * digunakan untuk mendapatkan tahun awal rpjmd saat user login
+     */ 
+    public static function getRPJMDTahunAwal ()
+    {
+        return request()->session()->get("global_controller.rpjmd_tahun_awal");
+    }
+    /**
+     * digunakan untuk mendapatkan tahun mulai rpjmd saat user login
+     */ 
+    public static function getRPJMDTahunMulai ()
+    {
+        return request()->session()->get("global_controller.rpjmd_tahun_mulai");
+    }
+    /**
+     * digunakan untuk mendapatkan tahun akhir rpjmd saat user login
+     */ 
+    public static function getRPJMDTahunAkhir ()
+    {
+        return request()->session()->get("global_controller.rpjmd_tahun_akhir");
+    }
+    /**
+     * digunakan untuk mendapatkan tahun mulai renstra saat user login
+     */ 
+    public static function getRENSTRATahunMulai ()
+    {
+        return request()->session()->get("global_controller.renstra_tahun_mulai");
+    }
+    /**
+     * digunakan untuk mendapatkan tahun akhir renstra saat user login
+     */ 
+    public static function getRENSTRATahunAkhir ()
+    {
+        return request()->session()->get("global_controller.renstra_tahun_akhir");
+    }
+    /**
      * digunakan untuk mendapatkan tahun perencanaan saat user login
      */ 
     public static function getTahunPerencanaan ()

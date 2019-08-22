@@ -7,6 +7,9 @@ return [
     'default_provinsi'=>env('SIMONEV_DEFAULT_PROVINSI'),
     'defaul_kota_atau_kab'=>env('SIMONEV_DEFAULT_KOTA_KAB'),    
 
+    //setting rpjmd
+    'rpjmd_visi_id'=>env('EPLANNING_RPJMD_VISI_ID'),
+    
     /**
      * Saat mengekspor dan mingimpor file, e-Planning membutuhkan lokasi tempat penyimpanan sementara
      * disini anda bisa mengganti lokasinya.

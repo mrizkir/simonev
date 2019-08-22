@@ -34,7 +34,24 @@ class LoginController extends Controller
     
     protected function authenticated ()
     {
-        $this->putControllerStateSession('global_controller','tahun_perencanaan',request()->input('TACd'));
-        $this->putControllerStateSession('global_controller','tahun_penyerapan',request()->input('TACd')-1);
+        $data_visi = \App\Models\RPJMD\RPJMDVisiModel::find(config('simonev.rpjmd_visi_id'));        
+        $this->putControllerStateSession('global_controller','rpjmd_visi_id',config('simonev.rpjmd_visi_id'));
+        
+        $this->putControllerStateSession('global_controller','rpjmd_tahun_awal',$data_visi->TA_Awal);
+        $this->putControllerStateSession('global_controller','rpjmd_tahun_mulai',$data_visi->TA_Awal+1);
+        $this->putControllerStateSession('global_controller','rpjmd_tahun_akhir',$data_visi->TA_Awal+5);
+
+        $this->putControllerStateSession('global_controller','renstra_tahun_awal',$data_visi->TA_Awal);
+        $this->putControllerStateSession('global_controller','renstra_tahun_mulai',$data_visi->TA_Awal+1);
+        $this->putControllerStateSession('global_controller','renstra_tahun_akhir',$data_visi->TA_Awal+5);
+
+        $tahun_perencanaan = request()->input('TACd');
+        $tahun_penyerapan = $tahun_perencanaan - 1;
+
+        $this->putControllerStateSession('global_controller','tahun_perencanaan',$tahun_perencanaan);
+        $this->putControllerStateSession('global_controller','tahun_penyerapan',$tahun_penyerapan);
+
+        $tahun_n = $tahun_perencanaan-$data_visi->TA_Awal;
+        $this->putControllerStateSession('global_controller','tahun_N',"N$tahun_n");
     }
 }
