@@ -103,6 +103,7 @@
                             <th scope="col">NAMA KELOMPOK URUSAN </th>
                             <th scope="col">KET.</th>
                             <th scope="col" width="70">TA</th>
+                            <th scope="col" width="70">AKSI</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -115,6 +116,19 @@
                             <td>{{$item->Nm_Urusan}}</td>
                             <td>{{$item->Descr}}</td>
                             <td>{{$item->TA}}</td>                    
+                            <td>
+                                <div class="input-group-append">
+                                    <a href="#" class="btn btn-primary btn-xs mr-sm-2 default">
+                                        <i class="simple-icon-eye"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-primary btn-xs mr-sm-2 default">
+                                        <i class="simple-icon-pencil"></i>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-xs default">
+                                        <i class="simple-icon-trash"></i>
+                                    </a>
+                                </div>
+                            </td>                    
                         </tr>
                         <tr class="text-center">
                             <td colspan="5">
