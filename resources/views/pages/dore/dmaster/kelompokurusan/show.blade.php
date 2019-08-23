@@ -13,8 +13,8 @@
 @endsection
 @section('page_header_button')
     <div class="text-zero top-right-button-container">
-        <button type="button" class="btn btn-lg btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            AKSI
+        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{!!route('kelompokurusan.index')!!}">
