@@ -5,6 +5,7 @@
 <script src="{!!asset('js/vendor/bootstrap.bundle.min.js')!!}"></script>
 <script src="{!!asset('js/dore.script.js')!!}"></script>
 <script src="{!!asset('js/scripts.js')!!}"></script>
+<script src="{!!asset('app.js')!!}"></script>
 @yield('page_asset_js')
 @yield('page_custom_js')
 </body>

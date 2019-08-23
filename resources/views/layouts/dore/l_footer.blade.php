@@ -12,6 +12,7 @@
     let token = "{{ csrf_token() }}";
     let baseUserImageURL = "{{asset('storage/images/users')}}/";
 </script>
+<script src="{!!asset('app.js')!!}"></script>
 @yield('page_custom_js')
 </body>
 </html>

@@ -65,7 +65,6 @@ LOGIN
 <script type="text/javascript">
     $(document).ready(function () {
     $('#frmlogin').validate({
-        errorClass:'text-danger',  
         rules: {
             username : {
                 required: true
