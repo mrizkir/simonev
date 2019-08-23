@@ -227,11 +227,8 @@
                                 @yield('page_breadcrumb')
                             </ol>
                         </nav>
-                    </div>
-                    <div class="mb-2">
-                        @yield('page_header_display')
-                    </div>
-                    <div class="separator mb-5"></div>
+                    </div>                    
+                    @yield('page_header_display')
                 </div>
             </div>
             @yield('page_content')
