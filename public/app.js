@@ -165,6 +165,12 @@ function paginateTableData (selector,href)
 
 document.addEventListener('DOMContentLoaded', function() {
     /**
+     *  customization dore menu
+     */
+    $('div.dropdown-menu li').filter(function() {
+        return this.className == 'active';
+    }).parents('.dropdown').addClass('active');
+    /**
      *  customization jquery-validation
      */
     if ($.validator) //check jquery-validation has loaded
