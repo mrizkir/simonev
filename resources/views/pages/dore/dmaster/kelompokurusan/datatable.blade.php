@@ -27,14 +27,8 @@
                                 <td>{{$item->TA}}</td>
                                 <td>
                                     <div class="input-group-append">
-                                        <a href="#" class="btn btn-primary btn-xs mr-sm-2 default">
+                                        <a href="{{route('kelompokurusan.show',['id'=>$item->KUrsID])}}" class="btn btn-primary btn-xs mr-sm-2 default"  title="Detail Data Kelompok Urusan">
                                             <i class="simple-icon-eye"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-primary btn-xs mr-sm-2 default">
-                                            <i class="simple-icon-pencil"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-danger btn-xs default">
-                                            <i class="simple-icon-trash"></i>
                                         </a>
                                     </div>
                                 </td>
