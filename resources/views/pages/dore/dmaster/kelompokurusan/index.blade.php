@@ -17,10 +17,7 @@
     </a>
     <div class="collapse dont-collapse-sm" id="displayOptions">                            
         <div class="d-block d-md-inline-block">
-        {!! Form::open(['url'=>'#','method'=>'post','class'=>'form-inline','id'=>'frmheading','name'=>'frmheading'])!!}         
-                <div class="form-group">                   
-                    {!!Form::select('orderby',['Kd_Urusan'=>'KODE URUSAN','Nm_Urusan'=>'NAMA URUSAN'],$column_order,['id'=>'numberRecordPerPage','class'=>'form-control mr-sm-2'])!!}                                        
-                </div>
+        {!! Form::open(['url'=>'#','method'=>'post','class'=>'form-inline','id'=>'frmheading','name'=>'frmheading'])!!}                         
                 <div class="form-group">
                     {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                                        
                 </div>

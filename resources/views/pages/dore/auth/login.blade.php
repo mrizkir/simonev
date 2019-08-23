@@ -31,7 +31,7 @@ LOGIN
                             {{Form::text('username',old('username'),['class'=>'form-control','placeholder'=>'Masukan Username'])}}
                         </div>
                         <div class="form-group">
-                            <label for="username">Username</label>
+                            <label for="username">Password</label>
                             {{Form::password('password',['class'=>'form-control','placeholder'=>'Masukan Password'])}}
                         </div>
 

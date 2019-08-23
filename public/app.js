@@ -276,8 +276,9 @@ document.addEventListener('DOMContentLoaded', function() {
     //paginate table data
     $(document).on('click','#paginations a', function (ev)
     {
-        ev.preventDefault();
-        paginateTableData('#divdatatable',$(this));
+        alert('asdsad');
+        // ev.preventDefault();
+        // paginateTableData('#divdatatable',$(this));
     });
 
 });
