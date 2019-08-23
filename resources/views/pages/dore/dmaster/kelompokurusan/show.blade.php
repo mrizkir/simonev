@@ -2,36 +2,32 @@
 @section('page_title')
     KELOMPOK URUSAN
 @endsection
-@section('page_header')
-    <i class="icon-chess-queen position-left"></i>
-    <span class="text-semibold">        
-        <h1>KELOMPOK URUSAN</h1>
-    </span>
+@section('page_header')    
+    <h1>KELOMPOK URUSAN</h1>
 @endsection
 @section('page_info')
     @include('pages.dore.dmaster.kelompokurusan.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">MASTERS</a></li>
-    <li><a href="#">DATA</a></li>
-    <li><a href="{!!route('kelompokurusan.index')!!}">KELOMPOK URUSAN</a></li>
-    <li class="active">DETAIL DATA</li>
+    <li class="breadcrumb-item">DATA MASTER</li>
+    <li class="breadcrumb-item">FUNGSIONAL</li>
+    <li class="breadcrumb-item">
+        <a href="{!!route('kelompokurusan.index')!!}">KELOMPOK URUSAN</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
 @section('page_content')
 <div class="row">    
+    <div class="col-12 list">
+        
+    </div>
     <div class="col-md-12">
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
                     <i class="icon-eye"></i> DATA KELOMPOK URUSAN
                 </h5>
-                <div class="heading-elements">  
-                    <a href="{{route('kelompokurusan.create')}}" class="btn btn-info btn-icon heading-btn btnTambah" title="Tambah Data Kelompok Urusan">
-                        <i class="icon-googleplus5"></i>
-                    </a>
-                    <a href="{{route('kelompokurusan.edit',['id'=>$data->KUrsID])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data Kelompok Urusan">
-                        <i class="icon-pencil7"></i>
-                    </a>
+                <div class="heading-elements">                      
                     <a href="javascript:;" title="Hapus Data Kelompok Urusan" data-id="{{$data->KUrsID}}" data-url="{{route('kelompokurusan.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
                         <i class='icon-trash'></i>
                     </a>
@@ -91,35 +87,4 @@
         </div>
     </div>
 </div>
-@endsection
-@section('page_custom_js')
-<script type="text/javascript">
-$(document).ready(function () {
-    $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data Kelompok Urusan ini ?')) {
-            let url_ = $(this).attr("data-url");
-            let id = $(this).attr("data-id");
-            let token = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({            
-                type:'post',
-                url:url_+'/'+id,
-                dataType: 'json',
-                data: {
-                    "_method": 'DELETE',
-                    "_token": token,
-                    "id": id,
-                },
-                success:function(data){ 
-                    window.location.replace(url_);                        
-                },
-                error:function(xhr, status, error){
-                    console.log('ERROR');
-                    console.log(parseMessageAjaxEror(xhr, status, error));                           
-                },
-            });
-        }
-    });
-    
-});
-</script>
 @endsection
