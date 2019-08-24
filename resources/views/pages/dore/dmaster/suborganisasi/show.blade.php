@@ -49,7 +49,7 @@ UNIT KERJA
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="mb-4">DATA UNIT KERJA</h2>
+                        <h2 class="mb-2">DATA UNIT KERJA</h2>
                         <div class="row">
                             <div class="col-md-6">
                                 <form>

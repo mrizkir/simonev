@@ -2,26 +2,26 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-sm">
+            <table class="table">
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="190">
-                            <a class="column-sort text-white" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
                                 KODE URUSAN
                             </a>
                         </th>
                         <th scope="col">
-                            <a class="column-sort text-white" id="col-Nm_Bidang" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-Nm_Bidang" data-order="{{$direction}}" href="#">
                                 NAMA URUSAN
                             </a>
                         </th>
-                        <th scope="col">
-                            <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                                URUSAN
+                        <th scope="col" width="200">
+                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
+                                KELOMPOK URUSAN
                             </a>
                         </th>
-                        <th scope="col">KET.</th>
+                        <th scope="col" width="70">KET.</th>
                         <th scope="col" width="70">TA</th>
                         <th scope="col" width="70">AKSI</th>
                     </tr>
@@ -87,9 +87,7 @@
     </div>
 </div>
 @else
-<div class="card">
-    <div class="alert alert-info">
-        Belum ada data yang bisa ditampilkan.
-    </div>
+<div class="alert alert-info">
+    Belum ada data yang bisa ditampilkan.
 </div>
 @endif
