@@ -80,7 +80,102 @@
                 <div class="form-group row">
                     {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary default'] ) }}
+                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                    </div>
+                </div>
+            {!! Form::close()!!}
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="mb-4">
+                <i class="simple-icon-note"></i>
+                INFORMASI TAMBAHAN KEGIATAN
+            </h5>
+            <div class="separator mb-5"></div>
+            {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+                <div class="form-group row">
+                    {{Form::label('program','Program',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('size', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                    </div>
+                </div>
+                <h6>LOKASI KEGIATAN</h6>
+                <div class="separator mb-5"></div>
+                <div class="form-group row">
+                    {{Form::label('lokasi','Lokasi:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::text('lokasi','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
+                    </div>
+                </div>
+                <h6>DANA</h6>
+                <div class="separator mb-5"></div>
+                <div class="form-group row">
+                    {{Form::label('sumberdana','Sumber Dana:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('sumberdana', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                    </div>
+                </div>
+                <h6>INDIKATOR DAN TOLAK UKUR KINERJA BELANJA LANGSUNG</h6>
+                <div class="separator mb-5"></div>
+                <div class="form-group row">
+                    {{Form::label('capaianprogram','Capaian Program:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::textarea('capaianprogram','',['class'=>'form-control','placeholder'=>'Capaian Program','rows'=>3])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('targetkinerja','Target Kinerja Capaian (%):',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::text('targetkinerja','',['class'=>'form-control','placeholder'=>'Target Kinerja'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('masukan','Masukan:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::textarea('masukan','',['class'=>'form-control','placeholder'=>'Masukan','rows'=>3])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('keluaran','Keluaran:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::textarea('keluaran','',['class'=>'form-control','placeholder'=>'Keluaran','rows'=>3])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('targetkinerjakeluaran','Target Kinerja Keluaran:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::textarea('targetkinerjakeluaran','',['class'=>'form-control','placeholder'=>'Keluaran','rows'=>3])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('hasil','Hasil:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::textarea('hasil','',['class'=>'form-control','placeholder'=>'Hasil','rows'=>3])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('targetkinerjahasil','Target Kinerja Hasil:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::textarea('targetkinerjahasil','',['class'=>'form-control','placeholder'=>'Target Kinerja Hasil','rows'=>3])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('sifatkegiatan','Sifat Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('sifatkegiatan', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Sifat Kegiatan'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                        {{Form::label('waktupelaksanaan','Waktu Pelaksanaan:',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::text('targetkinerjahasil','',['class'=>'form-control','placeholder'=>'Waktu Pelaksanaan'])}}
+                        </div>
+                    </div>
+                <div class="form-group row">
+                    {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}
