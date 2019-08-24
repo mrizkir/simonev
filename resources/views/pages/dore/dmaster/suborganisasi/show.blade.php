@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-KELOMPOK URUSAN
+UNIT KERJA
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    KELOMPOK URUSAN
+    UNIT KERJA
 </h1>
 @endsection
 @section('page_info')
@@ -38,7 +38,7 @@ KELOMPOK URUSAN
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">FUNGSIONAL</li>
 <li class="breadcrumb-item">
-    <a href="{!!route('suborganisasi.index')!!}">KELOMPOK URUSAN</a>
+    <a href="{!!route('suborganisasi.index')!!}">UNIT KERJA</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
@@ -49,19 +49,19 @@ KELOMPOK URUSAN
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="mb-4">DATA KELOMPOK URUSAN</h2>
+                        <h2 class="mb-4">DATA UNIT KERJA</h2>
                         <div class="row">
                             <div class="col-md-6">
                                 <form>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>KODE KELOMPOK URUSAN:
+                                        <label class="col-md-4 col-form-label"><strong>KODE UNIT KERJA:
                                             </strong></label>
                                         <div class="col-md-8">
                                             <p class="form-control-static">{{$data->Kd_Urusan}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>NAMA KELOMPOK URUSAN:
+                                        <label class="col-md-4 col-form-label"><strong>NAMA UNIT KERJA:
                                             </strong></label>
                                         <div class="col-md-8">
                                             <p class="form-control-static">{{$data->Nm_Urusan}}</p>

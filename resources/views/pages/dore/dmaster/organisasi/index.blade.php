@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-ORGANISASI
+    ORGANISASI
 @endsection
 @section('page_header')
 <h1>

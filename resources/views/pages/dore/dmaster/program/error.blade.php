@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    KELOMPOK URUSAN
+    PROGRAM
 @endsection
 @section('page_header')    
     <h1>
         <i class="simple-icon-bag"></i> 
-        KELOMPOK URUSAN
+        PROGRAM
     </h1>
 @endsection
 @section('page_info')
@@ -27,7 +27,7 @@
     <li class="breadcrumb-item">DATA MASTER</li>
     <li class="breadcrumb-item">FUNGSIONAL</li>
     <li class="breadcrumb-item">
-        <a href="{!!route('kelompokurusan.index')!!}">KELOMPOK URUSAN</a>
+        <a href="{!!route('kelompokurusan.index')!!}">PROGRAM</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">ERROR</li>
 @endsection

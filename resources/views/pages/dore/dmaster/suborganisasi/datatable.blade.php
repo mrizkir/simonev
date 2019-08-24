@@ -34,7 +34,7 @@
                         <td>
                             <div class="input-group-append">
                                 <a href="{{route('suborganisasi.show',['id'=>$item->SOrgID])}}"
-                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Kelompok Urusan">
+                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Unit Kerja">
                                     <i class="simple-icon-eye"></i>
                                 </a>
                             </div>

@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-ORGANISASI
+    ORGANISASI
 @endsection
 @section('page_header')
 <h1>
@@ -9,7 +9,7 @@ ORGANISASI
 </h1>
 @endsection
 @section('page_info')
-@include('pages.dore.dmaster.kelompokurusan.info')
+@include('pages.dore.dmaster.organisasi.info')
 @endsection
 @section('page_header_button')
 <div class="text-zero top-right-button-container">
@@ -19,7 +19,7 @@ ORGANISASI
         <i class="simple-icon-menu"></i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="{!!route('kelompokurusan.index')!!}">
+        <a class="dropdown-item" href="{!!route('organisasi.index')!!}">
             <i class="simple-icon-close"></i> CLOSE
         </a>
     </div>
@@ -38,7 +38,7 @@ ORGANISASI
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">FUNGSIONAL</li>
 <li class="breadcrumb-item">
-    <a href="{!!route('kelompokurusan.index')!!}">ORGANISASI</a>
+    <a href="{!!route('organisasi.index')!!}">ORGANISASI</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection

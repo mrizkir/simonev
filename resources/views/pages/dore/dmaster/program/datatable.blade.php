@@ -17,7 +17,7 @@
                             </a>
                         </th>
                         <th scope="col">
-                            <a class="column-sort text-white" id="col-Nm_Program" data-order="{{$direction}}" href="#">
+                            <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
                                 URUSAN
                             </a>
                         </th>
