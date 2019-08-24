@@ -54,7 +54,7 @@ class programController extends Controller
                 case 'PrgNm':
                     $data = \DB::table('v_urusan_program')
                         ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
-                        ->where('PrgNm', SQL::like(), '%' . $search['isikriteria'] . '%')
+                        ->where('PrgNm', 'ILIKE', '%' . $search['isikriteria'] . '%')
                         ->orderBy($column_order, $direction);
                     break;
             }

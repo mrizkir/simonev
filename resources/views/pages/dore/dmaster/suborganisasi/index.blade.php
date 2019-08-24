@@ -34,7 +34,7 @@ SUB ORGANISASI
 @section('page_breadcrumb')
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">FUNGSIONAL</li>
-<li class="breadcrumb-item active" aria-current="page">KELOMPOK URUSAN</li>
+<li class="breadcrumb-item active" aria-current="page">UNIT KERJA</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />

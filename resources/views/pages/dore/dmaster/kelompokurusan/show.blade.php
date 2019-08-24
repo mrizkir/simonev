@@ -47,7 +47,11 @@
             <div class="col-12">                
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="mb-4">DATA KELOMPOK URUSAN</h2>
+                        <h2 class="mb-2">
+                            <i class="simple-icon-screen-tablet"></i>
+                            DATA KELOMPOK URUSAN
+                        </h2>
+                        <div class="separator mb-3"></div>
                         <div class="row">                                      
                             <div class="col-md-6">
                                 <form>

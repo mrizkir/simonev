@@ -2,21 +2,25 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table  table-sm">
+            <table class="table">
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="190">
-                            <a class="column-sort text-white" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-kode_organisasi" data-order="{{$direction}}" href="#">
                                 KODE SKPD / OPD
                             </a>
                         </th>
                         <th scope="col">
-                            <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-NmOrg" data-order="{{$direction}}" href="#">
                                 NAMA SKPD / OPD
                             </a>
                         </th>
-                        <th scope="col">URUSAN</th>
+                        <th scope="col">
+                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
+                                URUSAN
+                            </a>                                             
+                        </th>
                         <th scope="col" width="70">TA</th>
                         <th scope="col" width="70">AKSI</th>
                     </tr>
@@ -34,7 +38,7 @@
                         <td>
                             <div class="input-group-append">
                                 <a href="{{route('organisasi.show',['id'=>$item->OrgID])}}"
-                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Organiasi">
+                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Organisasi">
                                     <i class="simple-icon-eye"></i>
                                 </a>
                             </div>
@@ -80,11 +84,8 @@
         </div>
     </div>
 </div>
-</div>
 @else
-<div class="card">
-    <div class="alert alert-info">
-        Belum ada data yang bisa ditampilkan.
-    </div>
+<div class="alert alert-info">
+    Belum ada data yang bisa ditampilkan.
 </div>
 @endif

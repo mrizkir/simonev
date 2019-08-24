@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-PROGRAM
+    PROGRAM
 @endsection
 @section('page_header')
 <h1>
@@ -49,7 +49,7 @@ PROGRAM
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="mb-4">DATA PROGRAM</h2>
+                        <h2 class="mb-2">DATA PROGRAM</h2>
                         <div class="row">
                             <div class="col-md-6">
                                 <form>

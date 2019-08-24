@@ -170,6 +170,12 @@ document.addEventListener('DOMContentLoaded', function() {
     $('div.dropdown-menu li').filter(function() {
         return this.className == 'active';
     }).parents('.dropdown').addClass('active');
+    
+    // To make Pace works on Ajax calls
+    $(document).ajaxStart(function () {
+        Pace.restart();
+    });   
+    
     /**
      *  customization jquery-validation
      */

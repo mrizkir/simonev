@@ -2,17 +2,17 @@
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table  table-sm">
+            <table class="table">
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="190">
-                            <a class="column-sort text-white" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
                                 KODE UNIT KERJA
                             </a>
                         </th>
                         <th scope="col">
-                            <a class="column-sort text-white" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
                                 NAMA UNIT KERJA
                             </a>
                         </th>
@@ -34,7 +34,7 @@
                         <td>
                             <div class="input-group-append">
                                 <a href="{{route('suborganisasi.show',['id'=>$item->SOrgID])}}"
-                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Kelompok Urusan">
+                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Unit Kerja">
                                     <i class="simple-icon-eye"></i>
                                 </a>
                             </div>
@@ -82,9 +82,7 @@
 </div>
 </div>
 @else
-<div class="card">
-    <div class="alert alert-info">
-        Belum ada data yang bisa ditampilkan.
-    </div>
+<div class="alert alert-info">
+    Belum ada data yang bisa ditampilkan.
 </div>
 @endif

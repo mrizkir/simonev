@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-URUSAN
+    URUSAN
 @endsection
 @section('page_header')
 <h1>
@@ -49,7 +49,11 @@ URUSAN
             <div class="col-12">
                 <div class="card">
                     <div class="card-body">
-                        <h2 class="mb-4">DATA URUSAN</h2>
+                        <h2 class="mb-2">
+                            <i class="simple-icon-screen-tablet"></i>
+                            DATA URUSAN
+                        </h2>
+                        <div class="separator mb-3"></div>
                         <div class="row">
                             <div class="col-md-6">
                                 <form>
