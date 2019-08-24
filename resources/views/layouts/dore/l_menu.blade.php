@@ -23,8 +23,8 @@
 <div class="sub-menu">
     <div class="scroll">
         <ul class="list-unstyled" data-link="dashboard">
-            <li>
-                <a href="#">
+            <li{!!Helper::isMenuActive ($page_active,'dashboard',' class="active"')!!}>
+                <a href="{{route('dashboard.index')}}">
                     <i class="simple-icon-pie-chart"></i>
                     <span class="d-inline-block">RINGKASAN DATA</span>
                 </a>
@@ -49,7 +49,7 @@
                 </a>
             </li>
             <div class="separator mb-5"></div>
-            <li>
+            <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                 <a href="{{route('kelompokurusan.index')}}">
                     <i class="simple-icon-size-actual"></i>
                     <span class="d-inline-block">KELOMPOK URUSAN</span>
