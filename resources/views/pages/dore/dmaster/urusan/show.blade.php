@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-URUSAN
+    URUSAN
 @endsection
 @section('page_header')
 <h1>

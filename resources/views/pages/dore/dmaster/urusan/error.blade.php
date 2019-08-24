@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-KELOMPOK URUSAN
+    URUSAN
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    KELOMPOK URUSAN
+    URUSAN
 </h1>
 @endsection
 @section('page_info')
@@ -29,7 +29,7 @@ KELOMPOK URUSAN
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">FUNGSIONAL</li>
 <li class="breadcrumb-item">
-    <a href="{!!route('urusan.index')!!}">KELOMPOK URUSAN</a>
+    <a href="{!!route('urusan.index')!!}">URUSAN</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">ERROR</li>
 @endsection

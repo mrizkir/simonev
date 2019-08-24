@@ -49,7 +49,7 @@ class urusanController extends Controller
                     $data = UrusanModel::join('v_urusan', 'v_urusan.UrsID', 'tmUrs.UrsID')
                         ->select(\DB::raw('"tmUrs"."UrsID","tmUrs"."KUrsID",v_urusan."Nm_Urusan",v_urusan."Kode_Bidang","tmUrs"."Nm_Bidang","tmUrs"."Descr","tmUrs"."TA","tmUrs"."created_at","tmUrs"."updated_at"'))
                         ->where('tmUrs.TA', \HelperKegiatan::getRPJMDTahunMulai())
-                        ->where('tmUrs.Nm_Bidang', SQL::like(), '%' . $search['isikriteria'] . '%')
+                        ->where('tmUrs.Nm_Bidang', 'ILIKE', '%' . $search['isikriteria'] . '%')
                         ->orderBy($column_order, $direction);
                     break;
             }
