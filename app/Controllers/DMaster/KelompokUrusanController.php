@@ -56,12 +56,14 @@ class KelompokUrusanController extends Controller
         $this->setCurrentPageInsideSession('kelompokurusan', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active' => 'kelompokurusan',
+        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with([
+            'page_active' => 'kelompokurusan',
             'search' => $this->getControllerStateSession('kelompokurusan', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
             'column_order' => $this->getControllerStateSession('kelompokurusan.orderby', 'column_name'),
             'direction' => $this->getControllerStateSession('kelompokurusan.orderby', 'order'),
-            'data' => $data])->render();
+            'data' => $data
+        ])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
     }
     /**

@@ -17,31 +17,70 @@
 @endsection
 @section('page_content')
 <div class="content">
-    <div class="panel panel-flat">
-        <div class="panel-heading">
-            <h5 class="panel-title">
-                <i class="icon-pencil7 position-left"></i> 
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="mb-4">
+                <i class="simple-icon-note"></i>
                 TAMBAH DATA
             </h5>
-            <div class="heading-elements">
-                <ul class="icons-list">                    
-                    <li>               
-                        <a href="{!!route('rkakegiatanmurni.index')!!}" data-action="closeredirect" title="keluar"></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-        <div class="panel-body">
+            <div class="separator mb-5"></div>
             {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
-                <div class="form-group">
-                    {{Form::label('replaceit','replaceit',['class'=>'control-label col-md-2'])}}
-                    <div class="col-md-10">
-                        {{Form::text('replaceit','',['class'=>'form-control','placeholder'=>'replaceit'])}}
+                <div class="form-group row">
+                    {{Form::label('program','Program',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('size', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
                     </div>
                 </div>
-                <div class="form-group">            
-                    <div class="col-md-10 col-md-offset-2">                        
-                        {{ Form::button('<b><i class="icon-floppy-disk "></i></b> SIMPAN', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs'] ) }}
+                <h6>DATA KEGIATAN</h6>
+                <div class="separator mb-5"></div>
+                <div class="form-group row">
+                    {{Form::label('program','Program:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::text('kodekegiatan','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('namakegiatan','Nama Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::text('namakegiatan','',['class'=>'form-control','placeholder'=>'Nama Kegiatan'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('targetkinerjamasukan','Target Kinerja Masukan:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::text('targetkinerjamasukan','',['class'=>'form-control','placeholder'=>'Target Kinerja Masukan'])}}
+                    </div>
+                </div>
+                <h6>PENGAMPU KEGIATAN</h6>
+                <div class="separator mb-5"></div>
+                <div class="form-group row">
+                    {{Form::label('penggunaanggaran','Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('targetkinerjamasukan', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('kuasapenggunaanggaran','Kuasa Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('kuasapenggunaanggaran', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('ppk','PPK:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('ppk', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('pptk','PPTK:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('pptk', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary default'] ) }}
                     </div>
                 </div>
             {!! Form::close()!!}
