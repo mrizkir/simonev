@@ -5,7 +5,7 @@ KELOMPOK URUSAN
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    KELOMPOK URUSAN
+    URUSAN
 </h1>
 @endsection
 @section('page_header_display')
@@ -43,7 +43,7 @@ KELOMPOK URUSAN
 @section('page_content')
 <div class="row">
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.dmaster.kelompokurusan.datatable')
+        @include('pages.dore.dmaster.urusan.datatable')
     </div>
 </div>
 @endsection

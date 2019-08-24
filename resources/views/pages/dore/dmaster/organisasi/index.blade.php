@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-KELOMPOK URUSAN
+ORGANISASI
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    KELOMPOK URUSAN
+    ORGANISASI
 </h1>
 @endsection
 @section('page_header_display')
@@ -34,7 +34,7 @@ KELOMPOK URUSAN
 @section('page_breadcrumb')
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">FUNGSIONAL</li>
-<li class="breadcrumb-item active" aria-current="page">KELOMPOK URUSAN</li>
+<li class="breadcrumb-item active" aria-current="page">ORGANISASI</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
@@ -43,7 +43,7 @@ KELOMPOK URUSAN
 @section('page_content')
 <div class="row">
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.dmaster.kelompokurusan.datatable')
+        @include('pages.dore.dmaster.organisasi.datatable')
     </div>
 </div>
 @endsection
