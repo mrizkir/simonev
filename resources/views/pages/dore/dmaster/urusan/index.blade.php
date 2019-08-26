@@ -3,10 +3,10 @@
     URUSAN
 @endsection
 @section('page_header')
-<h1>
-    <i class="simple-icon-bag"></i>
-    URUSAN
-</h1>
+    <h1>
+        <i class="simple-icon-bag"></i>
+        URUSAN
+    </h1>
 @endsection
 @section('page_header_display')
 <div class="mb-2">
@@ -25,7 +25,7 @@
             {!! Form::close()!!}
         </div>
         <div class="float-md-right">
-
+            
         </div>
     </div>
 </div>
@@ -38,7 +38,6 @@
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
-<link rel="stylesheet" href="{!!asset('css/vendor/bootstrap-datepicker3.min.css')!!}" />
 @endsection
 @section('page_content')
 <div class="row">
@@ -81,5 +80,4 @@
 @endsection
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.contextMenu.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/bootstrap-datepicker.js')!!}"></script>
 @endsection

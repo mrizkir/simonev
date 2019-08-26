@@ -1,18 +1,18 @@
 @extends('layouts.limitless.l_main')
 @section('page_title')
-    RKAKEGIATANMURNI
+    RKA KEGIATAN MURNI
 @endsection
 @section('page_header')
     <i class="icon-database-refresh position-left"></i>
     <span class="text-semibold">
-        RKAKEGIATANMURNI TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}}
+        RKA KEGIATAN MURNI TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}}
     </span>
 @endsection
 @section('page_info')
     @include('pages.dore.rka.rkakegiatanmurni.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkakegiatanmurni.index')!!}">RKAKEGIATANMURNI</a></li>
+    <li><a href="{!!route('rkakegiatanmurni.index')!!}">RKA KEGIATAN MURNI</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

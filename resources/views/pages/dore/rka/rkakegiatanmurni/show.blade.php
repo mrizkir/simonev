@@ -1,18 +1,18 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    RKAKEGIATANMURNI
+    RKA KEGIATAN MURNI
 @endsection
 @section('page_header')
     <i class="icon-database-refresh position-left"></i>
     <span class="text-semibold"> 
-        RKAKEGIATANMURNI TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}}
+        RKA KEGIATAN MURNI TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}}
     </span>     
 @endsection
 @section('page_info')
     @include('pages.dore.rka.rkakegiatanmurni.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkakegiatanmurni.index')!!}">RKAKEGIATANMURNI</a></li>
+    <li><a href="{!!route('rkakegiatanmurni.index')!!}">RKA KEGIATAN MURNI</a></li>
     <li class="active">DETAIL DATA</li>
 @endsection
 @section('page_content')
@@ -21,10 +21,10 @@
         <div class="panel panel-flat border-top-info border-bottom-info">
             <div class="panel-heading">
                 <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA RKAKEGIATANMURNI
+                    <i class="icon-eye"></i>  DATA RKA KEGIATAN MURNI
                 </h5>
                 <div class="heading-elements">   
-                    <a href="{!!route('rkakegiatanmurni.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah RKAKEGIATANMURNI">
+                    <a href="{!!route('rkakegiatanmurni.create')!!}" class="btn btn-info btn-icon heading-btn btnAdd" title="Tambah RKA KEGIATAN MURNI">
                         <i class="icon-googleplus5"></i>
                     </a>
                     <a href="{{route('rkakegiatanmurni.edit',['id'=>$data->rkakegiatanmurni_id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data RKAKegiatanMurni">
