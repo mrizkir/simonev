@@ -19,7 +19,7 @@
         <i class="simple-icon-menu"></i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
-        <a class="dropdown-item" href="{!!route('urusan.index')!!}">
+        <a class="dropdown-item" href="{!!route('urusan.index')!!}" title="Tutup Halaman ini">
             <i class="simple-icon-close"></i> CLOSE
         </a>
     </div>

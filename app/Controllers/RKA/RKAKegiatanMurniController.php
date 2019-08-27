@@ -180,6 +180,7 @@ class RKAKegiatanMurniController extends Controller
     {                
         $theme = 'dore';
 
+        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
         $search=$this->getControllerStateSession('rkakegiatanmurni','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rkakegiatanmurni'); 
         $data = $this->populateData($currentpage);
@@ -188,8 +189,12 @@ class RKAKegiatanMurniController extends Controller
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('rkakegiatanmurni',$data->currentPage());
-        
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
+        $daftar_unitkerja=[];
         return view("pages.$theme.rka.rkakegiatanmurni.index")->with(['page_active'=>'rkakegiatanmurni',
+                                                                    'daftar_opd'=>$daftar_opd,
+                                                                    'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                    'filters'=>$filters,
                                                                     'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                                                     'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),

@@ -21,7 +21,21 @@ class RKAKegiatanMurniModel extends Model
      * @var array
      */
     protected $fillable = [
-        'RKAID', 'OrgID', 'SOrgID', 'PrgID', 'RKPDID', 'KgtNm', 'PaguDana1', 'PaguDana2', 'Descr', 'TA', 'Locked'
+        'RKAID', 
+        'OrgID', 
+        'SOrgID', 
+        'PrgID', 
+        'RKPDID', 
+        'KgtNm', 
+        'PaguDana1', 
+        'PaguDana2', 
+        'nip_pa', 
+        'nip_kpa', 
+        'nip_ppk', 
+        'nip_pptk', 
+        'Descr', 
+        'TA', 
+        'Locked'
     ];
     /**
      * primary key tabel ini.
