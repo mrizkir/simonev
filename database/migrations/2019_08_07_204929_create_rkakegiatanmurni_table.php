@@ -22,6 +22,11 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->text('KgtNm');
             $table->decimal('PaguDana1',15,2);
             $table->decimal('PaguDana2',15,2)->nullable();
+            $table->string('nip_pa',19);
+            $table->string('nip_kpa',19);
+            $table->string('nip_ppk',19);
+            $table->string('nip_pptk',19);
+            $table->integer('user_id'); 
             $table->string('Descr')->nullable();            
             $table->year('TA'); 
             $table->boolean('Locked')->default(0);
@@ -31,7 +36,10 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->index('OrgID');
             $table->index('SOrgID');
             $table->index('PrgID');
-            $table->index('RKPDID');
+            $table->index('nip_pa');
+            $table->index('nip_kpa');
+            $table->index('nip_ppk');
+            $table->index('nip_pptk');
 
             $table->foreign('OrgID')
                     ->references('OrgID')
