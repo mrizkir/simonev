@@ -17,6 +17,11 @@
                     <i class="iconsminds-digital-drawing"></i> RKA
                 </a>
             </li>
+            <li>
+                <a href="#setting">
+                    <i class="iconsminds-digital-drawing"></i> SETTING
+                </a>
+            </li>
         </ul>
     </div>
 </div>
@@ -49,7 +54,7 @@
                 </a>
             </li>
             <div class="separator mb-5"></div>
-            <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
+            <li{!!Helper::isMenuActive ($page_active,' kelompokurusan',' class="active"')!!}>
                 <a href="{{route('kelompokurusan.index')}}">
                     <i class="simple-icon-size-actual"></i>
                     <span class="d-inline-block">KELOMPOK URUSAN</span>
@@ -149,6 +154,14 @@
                 <a href="{{route('rkakegiatanmurni.index')}}">
                     <i class="simple-icon-credit-card"></i>
                     <span class="d-inline-block">KEGIATAN MURNI</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="list-unstyled" data-link="setting">
+            <li>
+                <a href="{{route('users.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">USER</span>
                 </a>
             </li>
         </ul>
