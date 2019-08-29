@@ -36,7 +36,7 @@
             &nbsp;
         </div>
         <div class="float-md-right">            
-            <span class="text-muted text-small">TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}} </span>
+            
         </div>
     </div>
 </div>

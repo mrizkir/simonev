@@ -40,7 +40,7 @@
             {!! Form::close()!!}
         </div>
         <div class="float-md-right">            
-            <span class="text-muted text-small">TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}} </span>
+            
         </div>
     </div>
 </div>
@@ -162,44 +162,66 @@
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
-<script type="text/javascript">    
+<script type="text/javascript">  
+$(document).ready(function () {    
     $("#OrgID.select").select2({
         theme: "bootstrap",
         placeholder: "PILIH OPD / SKPD",
         allowClear:true        
     });    
+    $('#SOrgID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH UNIT KERJA",
+        allowClear:true
+    }); 
     $(document).on('change','#OrgID',function(ev) {
         ev.preventDefault();   
-        alert('test');
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "OrgID": $('#OrgID').val(),
+            },
+            success:function(result)
+            { 
+                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });    
+    
+    $("#divdatatable").on("click",".btnDelete", function(){
+        if (confirm('Apakah Anda ingin menghapus Data RKA Kegiatan Murni ini ?')) {
+            let url_ = $(this).attr("data-url");
+            let id = $(this).attr("data-id");
+            $.ajax({            
+                type:'post',
+                url:url_+'/'+id,
+                dataType: 'json',
+                data: {
+                    "_method": 'DELETE',
+                    "_token": token,
+                    "id": id,
+                },
+                success:function(result){ 
+                    if (result.success==1){
+                        $('#divdatatable').html(result.datatable);                        
+                    }else{
+                        console.log("Gagal menghapus data RKAKegiatanMurni dengan id "+id);
+                    }                    
+                },
+                error:function(xhr, status, error){
+                    console.log('ERROR');
+                    console.log(parseMessageAjaxEror(xhr, status, error));                           
+                },
+            });
+        }        
     });
-    $(document).ready(function () {  
-        $("#divdatatable").on("click",".btnDelete", function(){
-            if (confirm('Apakah Anda ingin menghapus Data RKA Kegiatan Murni ini ?')) {
-                let url_ = $(this).attr("data-url");
-                let id = $(this).attr("data-id");
-                $.ajax({            
-                    type:'post',
-                    url:url_+'/'+id,
-                    dataType: 'json',
-                    data: {
-                        "_method": 'DELETE',
-                        "_token": token,
-                        "id": id,
-                    },
-                    success:function(result){ 
-                        if (result.success==1){
-                            $('#divdatatable').html(result.datatable);                        
-                        }else{
-                            console.log("Gagal menghapus data RKAKegiatanMurni dengan id "+id);
-                        }                    
-                    },
-                    error:function(xhr, status, error){
-                        console.log('ERROR');
-                        console.log(parseMessageAjaxEror(xhr, status, error));                           
-                    },
-                });
-            }        
-        });
-    });
+});
 </script>
 @endsection

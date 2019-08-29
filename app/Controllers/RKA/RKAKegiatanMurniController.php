@@ -139,6 +139,64 @@ class RKAKegiatanMurniController extends Controller
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = 'dore';
+
+        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+        $daftar_unitkerja=[];
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;
+            $filters['SOrgID']='none';
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPenyerapan(),false,$OrgID);  
+            
+            $this->putControllerStateSession('rkakegiatanmurni','filters',$filters);
+
+            $data = [];
+
+            $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',   
+                                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                            'data'=>$data])->render();
+
+          
+            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
+        } 
+        //index
+        if ($request->exists('SOrgID'))
+        {
+            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
+            $filters['SOrgID']=$SOrgID;
+            $this->putControllerStateSession('rkakegiatanmurni','filters',$filters);
+            $this->setCurrentPageInsideSession('rkakegiatanmurni',1);
+
+            $data = $this->populateData();            
+            $datatable = view("pages.$theme.rkpd.usulanrenja.datatable")->with(['page_active'=>'rkakegiatanmurni',   
+                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                'data'=>$data])->render();                                                                                       
+                        
+            $totalpaguindikatifunitkerja = RenjaRincianModel::getTotalPaguIndikatifByStatusAndUnitKerja(\HelperKegiatan::getTahunPenyerapan(),\HelperKegiatan::getLevelEntriByName('rkakegiatanmurni'),$filters['SOrgID']);            
+            
+            $json_data = ['success'=>true,'totalpaguindikatifunitkerja'=>$totalpaguindikatifunitkerja,'datatable'=>$datatable];            
+        } 
+    }
+    /**
      * search resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -163,11 +221,11 @@ class RKAKegiatanMurniController extends Controller
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',                                                            
-                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                            'data'=>$data])->render();      
+                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                                'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -189,7 +247,8 @@ class RKAKegiatanMurniController extends Controller
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('rkakegiatanmurni',$data->currentPage());
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false);  
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPenyerapan(),false);  
+        $daftar_opd['']='';
         $daftar_unitkerja=[];
         return view("pages.$theme.rka.rkakegiatanmurni.index")->with(['page_active'=>'rkakegiatanmurni',
                                                                     'daftar_opd'=>$daftar_opd,

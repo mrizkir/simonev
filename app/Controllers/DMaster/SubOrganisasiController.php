@@ -117,11 +117,11 @@ class SubOrganisasiController extends Controller
         }
 
         $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active' => 'suborganisasi',
-            'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-            'data' => $data])->render();
+                                                                                'search' => $this->getControllerStateSession('suborganisasi', 'search'),
+                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                                'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
+                                                                                'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
+                                                                                'data' => $data])->render();
 
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
 
@@ -139,11 +139,11 @@ class SubOrganisasiController extends Controller
         $this->setCurrentPageInsideSession('suborganisasi', $id);
         $data = $this->populateData($id);
         $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active' => 'suborganisasi',
-            'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-            'data' => $data])->render();
+                                                                                    'search' => $this->getControllerStateSession('suborganisasi', 'search'),
+                                                                                    'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                                    'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
+                                                                                    'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
+                                                                                    'data' => $data])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
     }
     /**

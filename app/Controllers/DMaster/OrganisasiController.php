@@ -78,11 +78,11 @@ class OrganisasiController extends Controller
         $data = $this->populateData();
 
         $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active' => 'organisasi',
-            'search' => $this->getControllerStateSession('organisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-            'data' => $data])->render();
+                                                                                'search' => $this->getControllerStateSession('organisasi', 'search'),
+                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                                'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
+                                                                                'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
+                                                                                'data' => $data])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
     }
     /**
@@ -118,11 +118,11 @@ class OrganisasiController extends Controller
         }
 
         $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active' => 'organisasi',
-            'search' => $this->getControllerStateSession('organisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-            'data' => $data])->render();
+                                                                                'search' => $this->getControllerStateSession('organisasi', 'search'),
+                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                                'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
+                                                                                'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
+                                                                                'data' => $data])->render();
 
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
 
