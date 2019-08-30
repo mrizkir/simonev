@@ -186,7 +186,13 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
+                var daftar_unitkerja = result.daftar_unitkerja;
+                var listitems='<option></option>';
+                $.each(daftar_unitkerja,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
                 
+                $('#SOrgID').html(listitems);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');
@@ -194,7 +200,26 @@ $(document).ready(function () {
             },
         });     
     });    
-    
+    $(document).on('change','#SOrgID',function(ev) {
+        ev.preventDefault();   
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "SOrgID": $('#SOrgID').val(),
+            },
+            success:function(result)
+            { 
+                $('#divdatatable').html(result.datatable);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });     
+    });
     $("#divdatatable").on("click",".btnDelete", function(){
         if (confirm('Apakah Anda ingin menghapus Data RKA Kegiatan Murni ini ?')) {
             let url_ = $(this).attr("data-url");
