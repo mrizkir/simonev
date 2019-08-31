@@ -164,6 +164,12 @@
                     <span class="d-inline-block">USER</span>
                 </a>
             </li>
+            <li>
+                <a href="{{route('usersbapelitbang.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">USER BAPELITBANG</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

@@ -1,48 +1,84 @@
-@extends('layouts.limitless.l_main')
+@extends('layouts.dore.l_main')
 @section('page_title')
     USERS BAPELITBANG
 @endsection
 @section('page_header')
-    <i class="icon-users position-left"></i>
-    <span class="text-semibold">
+    <h1>
+        <i class="simple-icon-people"></i>
         USERS BAPELITBANG
-    </span>
+    </h1>    
 @endsection
-@section('page_info')
-    @include('pages.limitless.setting.usersbapelitbang.info')
+@section('page_header_button')
+<div class="text-zero top-right-button-container">    
+    <div class="btn-group">
+        <button type="button"
+            class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
+            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="simple-icon-menu"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="{{route('usersbapelitbang.create')}}" title="Tambah Users">
+                <i class="simple-icon-plus"></i> TAMBAH
+            </a>            
+        </div>
+    </div>
+</div>
+@endsection
+@section('page_header_display')
+<div class="mb-2">
+    <a class="btn pt-0 pl-0 d-inline-block d-md-none" data-toggle="collapse" href="#displayOptions" role="button"
+        aria-expanded="true" aria-controls="displayOptions">
+        Display Options
+        <i class="simple-icon-arrow-down align-middle"></i>
+    </a>
+    <div class="collapse dont-collapse-sm" id="displayOptions">
+        <div class="d-block d-md-inline-block">
+            {!!Form::open(['url'=>'#','method'=>'post','class'=>'form-inline','id'=>'frmheading','name'=>'frmheading'])!!}
+            <div class="form-group">
+                {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}
+            </div>
+            {!! Form::close()!!}
+        </div>
+        <div class="float-md-right">            
+        </div>
+    </div>
+</div>
+<div class="separator mb-5"></div>
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">SETTING</a></li>
-    <li class="active">USERS BAPELITBANG</li>
+<li class="breadcrumb-item">SETTING</li>
+<li class="breadcrumb-item">USERS</li>
+<li class="breadcrumb-item active" aria-current="page">USERS BAPELITBANG</li>
+@endsection
+@section('page_asset_css')
+<link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
 @endsection
 @section('page_content')
 <div class="row">
-    <div class="col-md-12">
-        <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
-            <div class="panel-heading">
-                <h5 class="panel-title">
-                    <i class="icon-search4 position-left"></i>
-                    Pencarian Data
-                </h5>
-            </div>
-            <div class="panel-body">
-                {!! Form::open(['action'=>'Setting\UsersBapelitbangController@search','method'=>'post','class'=>'form-horizontal','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
-                    <div class="form-group">
-                        <label class="col-md-2 control-label">Kriteria :</label> 
+    <div class="col-12 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <h4 class="mb-4">
+                    <i class="simple-icon-magnifier"></i>
+                    PENCARIAN
+                </h4>
+                {!! Form::open(['action'=>'Setting\UsersBapelitbangController@search','method'=>'post','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                    <div class="form-group row">
+                        <label class="col-md-2 col-form-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['id'=>'USERID','username'=>'USERNAME','nama'=>'NAMA','email'=>'EMAIL'], isset($search['kriteria'])?$search['kriteria']:'username',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['id'=>'USERID','username'=>'USERNAME','nama'=>'NAMA','email'=>'EMAIL'], isset($search['kriteria'])?$search['kriteria']:'Kode_Bidang',['class'=>'form-control'])}}
                         </div>
                     </div>
-                    <div class="form-group" id="divKriteria">
-                        <label class="col-md-2 control-label">Isi Kriteria :</label>                                                    
+                    <div class="form-group row" id="divKriteria">
+                        <label class="col-md-2 col-form-label">Isi Kriteria :</label>                                                    
                         <div class="col-md-10">                            
                             {{Form::text('txtKriteria',isset($search['isikriteria'])?$search['isikriteria']:'',['class'=>'form-control','placeholder'=>'Isi Kriteria Pencarian','id'=>'txtKriteria'])}}                                                                  
                         </div>
                     </div>                                                     
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            {{ Form::button('<b><i class="icon-search4"></i></b> Cari', ['type' => 'submit', 'class' => 'btn btn-info btn-labeled btn-xs', 'id'=>'btnSearch'] )  }}                            
-                            <a id="btnReset" href="javascript:;" title="Reset Pencarian" class="btn btn-default btn-labeled btn-xs">
+                    <div class="form-group row">
+                        <div class="offset-md-2 col-md-10">
+                            {{ Form::button('<b><i class="icon-search4"></i></b> Cari', ['type' => 'submit', 'class' => 'btn btn-primary default', 'id'=>'btnSearch'] )  }}                            
+                            <a id="btnReset" href="javascript:;" title="Reset Pencarian" class="btn btn-dark default">
                                 <b><i class="icon-reset"></i></b> Reset
                             </a>                           
                         </div>
@@ -50,9 +86,9 @@
                 {!! Form::close()!!}
             </div>
         </div>
-    </div>       
-    <div class="col-md-12" id="divdatatable">
-        @include('pages.limitless.setting.usersbapelitbang.datatable')
+    </div>  
+    <div class="col-12" id="divdatatable">
+        @include('pages.dore.setting.usersbapelitbang.datatable')
     </div>
 </div>
 @endsection
@@ -60,7 +96,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data User BAPELITBANG ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data User ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -76,7 +112,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data User BAPELITBANG dengan id "+id);
+                        console.log("Gagal menghapus data Users dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

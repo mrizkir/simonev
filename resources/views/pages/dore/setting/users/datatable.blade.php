@@ -7,18 +7,18 @@
                     <tr>
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-image" data-order="{{$direction}}" href="#">
                                IMAGE
                             </a>
                         </th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-kd_user" data-order="{{$direction}}" href="#">
                                 KODE USER
                             </a>
                         </th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                                    USERNAME  
+                            <a class="column-sort" id="col-username" data-order="{{$direction}}" href="#">
+                                USERNAME  
                             </a>
                         </th>
                         <th scope="col" width="150">NAME</th>

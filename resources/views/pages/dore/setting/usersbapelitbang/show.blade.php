@@ -1,85 +1,102 @@
-@extends('layouts.limitless.l_main')
+@extends('layouts.dore.l_main')
 @section('page_title')
     USERS BAPELITBANG
 @endsection
-@section('page_header')
-    <i class="icon-users position-left"></i>
-    <span class="text-semibold"> 
+@section('page_header')    
+    <h1>
+        <i class="simple-icon-bag"></i> 
         USERS BAPELITBANG
-    </span>     
+    </h1>
 @endsection
 @section('page_info')
-    @include('pages.limitless.setting.usersbapelitbang.info')
+    @include('pages.dore.setting.usersbapelitbang.info')
+@endsection
+@section('page_header_button')
+    <div class="text-zero top-right-button-container">
+        <button type="button" class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <i class="simple-icon-menu"></i>
+        </button>
+        <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="{!!route('usersbapelitbang.index')!!}">
+                <i class="simple-icon-close"></i> CLOSE
+            </a>            
+        </div>
+    </div>
+@endsection
+@section('page_header_display')   
+<ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab"
+            aria-controls="first" aria-selected="true">DETAILS
+        </a>
+    </li>
+</ul>
 @endsection
 @section('page_breadcrumb')
-    <li><a href="#">SETTING</a></li>
-    <li><a href="{!!route('usersbapelitbang.index')!!}">USERS BAPELITBANG</a></li>
-    <li class="active">DETAIL DATA</li>
+    <li class="breadcrumb-item">SETTING</li>
+    <li class="breadcrumb-item">USERS BAPELITBANG</li>
+    <li class="breadcrumb-item">
+        <a href="{!!route('kelompokurusan.index')!!}">DETAIL USER</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
 @section('page_content')
-<div class="row">    
-    <div class="col-md-12">
-        <div class="panel panel-flat border-top-info border-bottom-info">
-            <div class="panel-heading">
-                <h5 class="panel-title"> 
-                    <i class="icon-eye"></i>  DATA USERS BAPELITBANG
-                </h5>
-                <div class="heading-elements">   
-                    <a href="{{route('usersbapelitbang.edit',['id'=>$data->id])}}" class="btn btn-primary btn-icon heading-btn btnEdit" title="Ubah Data User BAPELITBANG">
-                        <i class="icon-pencil7"></i>
-                    </a>
-                    <a href="javascript:;" title="Hapus Data User BAPELITBANG" data-id="{{$data->id}}" data-url="{{route('usersbapelitbang.index')}}" class="btn btn-danger btn-icon heading-btn btnDelete">
-                        <i class='icon-trash'></i>
-                    </a>
-                    <a href="{!!route('usersbapelitbang.index')!!}" class="btn btn-default btn-icon heading-btn" title="keluar">
-                        <i class="icon-close2"></i>
-                    </a>            
-                </div>
-            </div>
-            <div class="panel-body">
-                <div class="row">                                      
-                    <div class="col-md-6">
-                        <div class="form-horizontal">
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>ID: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->id}}</p>
-                                </div>                            
-                            </div>    
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>USERNAME: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->username}} [bapelitbang]</p>
-                                </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>NAMA: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->name}}</p>
-                                </div>                            
-                            </div>  
-                        </div>                        
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-horizontal">     
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>EMAIL: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{$data->email}}</p>
-                                </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                                </div>                            
-                            </div> 
-                            <div class="form-group">
-                                <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
-                                <div class="col-md-8">
-                                    <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
-                                </div>                            
-                            </div>          
+<div class="tab-content">
+    <div class="tab-pane show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+        <div class="row">
+            <div class="col-12">                
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mb-2">
+                            <i class="simple-icon-screen-tablet"></i>
+                            USERS BAPELITBANG
+                        </h2>
+                        <div class="separator mb-3"></div>
+                        <div class="row">                                      
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>ID: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->id}}</p>
+                                        </div>                            
+                                    </div> 
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>USERNAME: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->username}} [superadmin] </p>
+                                        </div>                            
+                                    </div>                             
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>NAMA: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->name}}</p>
+                                        </div>                            
+                                    </div>                       
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>EMAIL: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->email}}</p>
+                                        </div>                            
+                                    </div>        
+                                    <div class="form-group row">
+                                        <label class="col-4 control-label"><strong>TGL. BUAT: </strong></label>
+                                        <div class="col-8">
+                                            <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
+                                        </div>                            
+                                    </div>       
+                                    <div class="form-group row">
+                                        <label class="col-4 control-label"><strong>TGL. UBAH: </strong></label>
+                                        <div class="col-8">
+                                            <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                        </div>                            
+                                    </div>            
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -87,35 +104,4 @@
         </div>
     </div>
 </div>
-@endsection
-@section('page_custom_js')
-<script type="text/javascript">
-$(document).ready(function () {
-    $(".btnDelete").click(function(ev) {
-        if (confirm('Apakah Anda ingin menghapus Data User BAPELITBANG ini ?')) {
-            let url_ = $(this).attr("data-url");
-            let id = $(this).attr("data-id");
-            let token = $('meta[name="csrf-token"]').attr('content');
-            $.ajax({            
-                type:'post',
-                url:url_+'/'+id,
-                dataType: 'json',
-                data: {
-                    "_method": 'DELETE',
-                    "_token": token,
-                    "id": id,
-                },
-                success:function(data){ 
-                    window.location.replace(url_);                        
-                },
-                error:function(xhr, status, error){
-                    console.log('ERROR');
-                    console.log(parseMessageAjaxEror(xhr, status, error));                           
-                },
-            });
-        }
-    });
-    
-});
-</script>
 @endsection
