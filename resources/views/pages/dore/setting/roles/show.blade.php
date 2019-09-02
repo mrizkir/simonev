@@ -1,15 +1,15 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    USERS BAPELITBANG
+    USER ROLES
 @endsection
 @section('page_header')    
     <h1>
         <i class="simple-icon-bag"></i> 
-        USERS BAPELITBANG
+        USER ROLES
     </h1>
 @endsection
 @section('page_info')
-    @include('pages.dore.setting.usersbapelitbang.info')
+    @include('pages.dore.setting.users.info')
 @endsection
 @section('page_header_button')
     <div class="text-zero top-right-button-container">
@@ -17,7 +17,7 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('usersbapelitbang.index')!!}">
+            <a class="dropdown-item" href="{!!route('roles.index')!!}">
                 <i class="simple-icon-close"></i> CLOSE
             </a>            
         </div>
@@ -34,9 +34,9 @@
 @endsection
 @section('page_breadcrumb')
     <li class="breadcrumb-item">SETTING</li>
-    <li class="breadcrumb-item">USERS BAPELITBANG</li>
+    <li class="breadcrumb-item">USERS</li>
     <li class="breadcrumb-item">
-        <a href="{!!route('kelompokurusan.index')!!}">DETAIL USER</a>
+        <a href="{!!route('roles.index')!!}">DETAIL USER ROLES</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
@@ -49,7 +49,7 @@
                     <div class="card-body">
                         <h2 class="mb-2">
                             <i class="simple-icon-screen-tablet"></i>
-                            USERS BAPELITBANG
+                            USER ROLES
                         </h2>
                         <div class="separator mb-3"></div>
                         <div class="row">                                      
@@ -62,27 +62,21 @@
                                         </div>                            
                                     </div> 
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>USERNAME: </strong></label>
+                                        <label class="col-md-4 col-form-label"><strong>GUARD: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->username}}</p>
+                                            <p class="form-control-static">{{$data->guard_name}}</p>
                                         </div>                            
                                     </div>                             
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>NAMA: </strong></label>
+                                        <label class="col-md-4 col-form-label"><strong>JUMLAH USERS: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->name}}</p>
+                                            <p class="form-control-static">{{$data->jumlah}}</p>
                                         </div>                            
                                     </div>                       
                                 </form>
                             </div>
                             <div class="col-md-6">
                                 <form>
-                                    <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>EMAIL: </strong></label>
-                                        <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->email}}</p>
-                                        </div>                            
-                                    </div>        
                                     <div class="form-group row">
                                         <label class="col-4 control-label"><strong>TGL. BUAT: </strong></label>
                                         <div class="col-8">

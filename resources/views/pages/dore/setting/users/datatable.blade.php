@@ -49,7 +49,7 @@
                                     <i class="simple-icon-pencil"></i>
                                 </a>
                                 @if ($item->isdeleted)  
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('users.index')}}">
+                                <a class="btn btn-primary btn-xs mr-sm-2 default btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('users.index')}}">
                                     <i class="simple-icon-trash"></i>
                                 </a>
                                 @endif   

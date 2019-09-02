@@ -36,7 +36,7 @@
     <li class="breadcrumb-item">SETTING</li>
     <li class="breadcrumb-item">USERS</li>
     <li class="breadcrumb-item">
-        <a href="{!!route('kelompokurusan.index')!!}">DETAIL USER</a>
+        <a href="{!!route('users.index')!!}">DETAIL USER</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
