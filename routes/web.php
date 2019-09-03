@@ -134,6 +134,7 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/setting/usersbapelitbang/orderby',['uses'=>'Setting\UsersBapelitbangController@orderby','as'=>'usersbapelitbang.orderby']); 
     Route::post('/setting/usersbapelitbang/search',['uses'=>'Setting\UsersBapelitbangController@search','as'=>'usersbapelitbang.search']);    
     Route::post('/setting/usersbapelitbang/filter',['uses'=>'Setting\UsersBapelitbangController@filter','as'=>'usersbapelitbang.filter']);
+    
     //setting - users OPD
     Route::resource('/setting/usersopd','Setting\UsersOPDController',['parameters'=>['usersopd'=>'id']]);           
     Route::post('/setting/usersopd/store1/{id}',['uses'=>'Setting\UsersOPDController@store1','as'=>'usersopd.store1']);  

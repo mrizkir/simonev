@@ -54,7 +54,7 @@
                 </a>
             </li>
             <div class="separator mb-5"></div>
-            <li{!!Helper::isMenuActive ($page_active,' kelompokurusan',' class="active"')!!}>
+            <li{!!Helper::isMenuActive ($page_active,'kelompokurusan',' class="active"')!!}>
                 <a href="{{route('kelompokurusan.index')}}">
                     <i class="simple-icon-size-actual"></i>
                     <span class="d-inline-block">KELOMPOK URUSAN</span>

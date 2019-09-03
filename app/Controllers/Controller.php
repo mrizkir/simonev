@@ -35,8 +35,7 @@ class Controller extends BaseController
 
     public function __construct () 
     {          
-        $this->listOfthemes=$this->getListThemes(false);
-        \View::share('listOfthemes', $this->listOfthemes);
+
     }
     /**
      * digunakan untuk mendapatkan nama untuk session 
@@ -180,25 +179,5 @@ class Controller extends BaseController
             $currentPage=$state['currentpage'];
         }
         return $currentPage;
-    }   
-    protected function getListThemes($prepend=true) 
-    {
-        $folder_themes=public_path().DIRECTORY_SEPARATOR.'themes'.DIRECTORY_SEPARATOR;
-        $r = \File::directories($folder_themes);
-        $daftar_theme=[];
-        if ($prepend)
-        {
-            $daftar_theme['none']='DAFTAR THEME';
-        }
-        foreach ($r as $theme)
-        {
-            $arr = explode($folder_themes, $theme);
-            if (isset($arr[1]) )
-            {
-                $daftar_theme[$arr[1]]=strtoupper($arr[1]);    
-            }
-           
-        }
-        return $daftar_theme;
-    }    
+    }     
 }

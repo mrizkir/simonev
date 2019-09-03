@@ -23,9 +23,10 @@
                 </svg>
             </a>
         </div>
-        <a class="navbar-logo" href="{!!route('frontend.index')!!}">
-            {{config('app.name')}}
-        </a>
+        <span class="navbar-logo">
+            <h3 class="navbar-logo">{{config('app.name')}}</h3>
+            Tahun Penyerapan {{HelperKegiatan::getTahunPenyerapan()}}
+        </span>
         <div class="navbar-right">
             <div class="header-icons d-inline-block align-middle">
                 <div class="d-none d-md-inline-block align-text-bottom mr-3">
