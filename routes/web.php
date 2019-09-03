@@ -99,7 +99,25 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/rka/realisasikegiatanmurni/changenumberrecordperpage',['uses'=>'RKA\RKAKegiatanMurniController@changenumberrecordperpage','as'=>'realisasikegiatanmurni.changenumberrecordperpage']);  
     Route::post('/rka/realisasikegiatanmurni/orderby',['uses'=>'RKA\RKAKegiatanMurniController@orderby','as'=>'realisasikegiatanmurni.orderby']); 
 
-        //setting - users
+    //setting - permissions    
+    Route::resource('/setting/permissions','Setting\PermissionsController',[
+                                                                            'parameters'=>['permissions'=>'id'],
+                                                                            'only'=>['index','show','create','store','destroy']
+                                                                        ]);               
+    
+    Route::get('/setting/permissions/paginate/{id}',['uses'=>'Setting\PermissionsController@paginate','as'=>'permissions.paginate']);    
+    Route::post('/setting/permissions/search',['uses'=>'Setting\PermissionsController@search','as'=>'permissions.search']);          
+    Route::post('/setting/permissions/changenumberrecordperpage',['uses'=>'Setting\PermissionsController@changenumberrecordperpage','as'=>'permissions.changenumberrecordperpage']);  
+    Route::post('/setting/permissions/orderby',['uses'=>'Setting\PermissionsController@orderby','as'=>'permissions.orderby']);  
+    
+    //setting - roles
+    Route::resource('/setting/roles','Setting\RolesController',['parameters'=>['roles'=>'id']]);           
+    Route::get('/setting/roles/paginate/{id}',['uses'=>'Setting\RolesController@paginate','as'=>'roles.paginate']);    
+    Route::post('/setting/roles/changenumberrecordperpage',['uses'=>'Setting\RolesController@changenumberrecordperpage','as'=>'roles.changenumberrecordperpage']);  
+    Route::post('/setting/roles/orderby',['uses'=>'Setting\RolesController@orderby','as'=>'roles.orderby']);  
+    Route::post('/setting/roles/storerolepermission', ['uses'=>'Setting\RolesController@storerolepermission','as'=>'roles.storerolepermission']);
+    
+    //setting - users
     Route::resource('/setting/users','Setting\UsersController',['parameters'=>['users'=>'id']])->middleware(['auth','role:superadmin']);           
     Route::get('/setting/users/paginatecreate/{id}',['uses'=>'Setting\UsersController@paginate','as'=>'users.paginate'])->middleware(['auth','role:superadmin']);    
     Route::get('/setting/users/profil/{id}',['uses'=>'Setting\UsersController@profil','as'=>'users.profil']);    

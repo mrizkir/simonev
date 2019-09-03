@@ -7,18 +7,18 @@
                     <tr>
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-image" data-order="{{$direction}}" href="#">
                                IMAGE
                             </a>
                         </th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-kd_user" data-order="{{$direction}}" href="#">
                                 KODE USER
                             </a>
                         </th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                                    USERNAME  
+                            <a class="column-sort" id="col-username" data-order="{{$direction}}" href="#">
+                                USERNAME  
                             </a>
                         </th>
                         <th scope="col" width="150">NAME</th>
@@ -49,7 +49,7 @@
                                     <i class="simple-icon-pencil"></i>
                                 </a>
                                 @if ($item->isdeleted)  
-                                <a class="btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('users.index')}}">
+                                <a class="btn btn-primary btn-xs mr-sm-2 default btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('users.index')}}">
                                     <i class="simple-icon-trash"></i>
                                 </a>
                                 @endif   

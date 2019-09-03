@@ -1,65 +1,90 @@
 <div class="panel panel-flat border-top-lg border-top-info border-bottom-info">
     <div class="panel-heading">       
         <div class="panel-title">
-            <h6 class="panel-title">DAFTAR OPD</h6>
-        </div>        
+            <h6 class="panel-title">&nbsp;</h6>
+        </div>
+        <div class="heading-elements">
+            {!! Form::open(['url'=>'#','method'=>'post','class'=>'heading-form','id'=>'frmheading','name'=>'frmheading'])!!} 
+                <div class="form-group">
+                    {!!Form::select('numberRecordPerPage',['1'=>1,'5'=>5,'10'=>10,'15'=>15,'30'=>30,'50'=>50],$numberRecordPerPage,['id'=>'numberRecordPerPage','class'=>'form-control','style'=>'width:70px'])!!}                        
+                </div> 
+                <div class="form-group">
+                    <a href="{!!route('usersopd.create')!!}" class="btn btn-info btn-xs" title="Tambah User OPD">
+                        <i class="icon-googleplus5"></i>
+                    </a>
+                </div> 
+            {!! Form::close()!!}
+        </div>       
     </div>
-    @if (count($dataopd) > 0)
+    @if (count($data) > 0)
     <div class="table-responsive"> 
         <table id="data" class="table table-striped table-hover">
             <thead>
                 <tr class="bg-teal-700">
-                    <th width="50">                      
-                        ID                                     
+                    <th width="55">NO</th>
+                    <th></th>
+                    <th width="100">
+                        <a class="column-sort text-white" id="col-id" data-order="{{$direction}}" href="#">
+                            ID  
+                        </a>                                             
                     </th>                     
-                    <th width="70">                        
-                        TA                          
+                    <th>
+                        <a class="column-sort text-white" id="col-username" data-order="{{$direction}}" href="#">
+                            USERNAME  
+                        </a>                                             
                     </th>
                     <th>
-                        NAMA OPD / SKPD                        
+                        <a class="column-sort text-white" id="col-nama" data-order="{{$direction}}" href="#">
+                            NAMA
+                        </a>                                             
                     </th>
-                    <th>NAMA UNIT KERJA</th>
-                    <th width="100">LOCKED</th>
+                    <th>
+                        <a class="column-sort text-white" id="col-email" data-order="{{$direction}}" href="#">
+                            EMAIL  
+                        </a>                                             
+                    </th>
+                    <th width="70">THEME</th>
                     <th width="100">AKSI</th>
                 </tr>
             </thead>
             <tbody>                    
-            @foreach ($dataopd as $key=>$item)
-                <tr>                   
-                    <td>{{$item->useropd}}</td>
-                    <td>{{$item->ta}}</td>  
-                    <td>{{$item->OrgNm}}</td> 
-                    <td>{{empty($item->SOrgNm)?'N.A':$item->SOrgNm}}</td> 
+            @foreach ($data as $key=>$item)
+                <tr>
                     <td>
-                        <div class="checkbox">
-                            {{Form::checkbox("chklocked[]", $item->useropd,$item->locked,['class'=>'switch'])}}  
-                        </div>
-                    </td>
+                        {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
+                    </td>                  
+                    <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
+                    <td>{{$item->id}}</td>
+                    <td>{{$item->username}}</td> 
+                    <td>{{$item->name}}</td> 
+                    <td>{{$item->email}}</td> 
+                    <td>{{$item->theme}}</td> 
                     <td>
                         <ul class="icons-list">
+                            <li class="text-primary-600">
+                                <a class="btnShow" href="{{route('usersopd.show',['id'=>$item->id])}}" title="Detail Data User OPD">
+                                    <i class='icon-eye'></i>
+                                </a>  
+                            </li>
+                            <li class="text-primary-600">
+                                <a class="btnEdit" href="{{route('usersopd.edit',['id'=>$item->id])}}" title="Ubah Data User OPD">
+                                    <i class='icon-pencil7'></i>
+                                </a>  
+                            </li>
                             <li class="text-danger-600">
-                                <a class="btnDeleteOPD" href="javascript:;" title="Hapus Data User OPD" data-id="{{$item->useropd}}" data-url="{{route('usersopd.index')}}">
+                                <a class="btnDelete" href="javascript:;" title="Hapus Data User OPD" data-id="{{$item->id}}" data-url="{{route('usersopd.index')}}">
                                     <i class='icon-trash'></i>
                                 </a> 
                             </li>
                         </ul>
                     </td>
                 </tr>
-                <tr class="text-center info">
-                    <td colspan="7">
-                        <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>OrgID:</strong>
-                            {{$item->OrgID}}
-                        </span>
-                        <span class="label label-warning label-rounded" style="text-transform: none">
-                            <strong>SOrgID:</strong>
-                            {{empty($item->SOrgID)?'N.A':$item->SOrgID}}
-                        </span>
-                    </td>                    
-                </tr>
             @endforeach                    
             </tbody>
         </table>               
+    </div>
+    <div class="panel-body border-top-info text-center" id="paginations">
+        {{$data->links('layouts.dore.l_pagination')}}               
     </div>
     @else
     <div class="panel-body">

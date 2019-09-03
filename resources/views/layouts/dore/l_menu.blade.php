@@ -164,6 +164,30 @@
                     <span class="d-inline-block">USER</span>
                 </a>
             </li>
+            <li>
+                <a href="{{route('usersbapelitbang.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">USER BAPELITBANG</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('usersopd.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">USER OPD</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('roles.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">ROLES</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('permissions.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">PERMISSIONS</span>
+                </a>
+            </li>
         </ul>
     </div>
 </div>

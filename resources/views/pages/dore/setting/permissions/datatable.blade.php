@@ -8,22 +8,19 @@
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="150">
                             <a class="column-sort" id="col-image" data-order="{{$direction}}" href="#">
-                               IMAGE
+                               ID
                             </a>
                         </th>
                         <th scope="col" width="150">
                             <a class="column-sort" id="col-kd_user" data-order="{{$direction}}" href="#">
-                                KODE USER
+                                NAME
                             </a>
                         </th>
                         <th scope="col" width="150">
                             <a class="column-sort" id="col-username" data-order="{{$direction}}" href="#">
-                                USERNAME  
+                                GUARD  
                             </a>
                         </th>
-                        <th scope="col" width="150">NAME</th>
-                        <th scope="col" width="150">EMAIL</th>
-                        <th scope="col" width="150">THEME</th>
                         <th scope="col" width="100">AKSI</th>
             
                     </tr>
@@ -36,20 +33,18 @@
                         </td>     
                         <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
                         <td>{{$item->id}}</td>
-                        <td>{{$item->username}}</td>
                         <td>{{$item->name}}</td>
-                        <td>{{$item->email}}</td>
-                        <td>{{$item->theme}}</td>
+                        <td>{{$item->guard_name}}</td>
                         <td>
                             <div class="input-group-append">
-                                <a href="{{route('usersopd.show',['id'=>$item->id])}}" title="Show Data User" class="btn btn-primary btn-xs mr-sm-2 default">
+                                <a href="{{route('users.show',['id'=>$item->id])}}" title="Show Data Permissions" class="btn btn-primary btn-xs mr-sm-2 default">
                                     <i class="simple-icon-eye"></i>
                                 </a>
-                                <a href="{{route('usersopd.edit',['id'=>$item->id])}}" title="Ubah Data User" class="btn btn-primary btn-xs mr-sm-2 default">
+                                <a href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data Permissions" class="btn btn-primary btn-xs mr-sm-2 default">
                                     <i class="simple-icon-pencil"></i>
                                 </a>
                                 @if ($item->isdeleted)  
-                                <a class="btn btn-primary btn-xs mr-sm-2 default btnDelete" href="javascript:;" title="Hapus Data User" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('usersopd.index')}}">
+                                <a class="btn btn-primary btn-xs mr-sm-2 default btnDelete" href="javascript:;" title="Hapus Data Permissions" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('users.index')}}">
                                     <i class="simple-icon-trash"></i>
                                 </a>
                                 @endif   

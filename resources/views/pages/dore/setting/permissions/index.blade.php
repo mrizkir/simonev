@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    USERS BAPELITBANG
+    USER PERMISSIONS
 @endsection
 @section('page_header')
     <h1>
         <i class="simple-icon-people"></i>
-        USERS BAPELITBANG
+        USER PERMISSIONS
     </h1>    
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('usersbapelitbang.create')}}" title="Tambah Users">
+            <a class="dropdown-item" href="{{route('permissions.create')}}" title="Tambah Users">
                 <i class="simple-icon-plus"></i> TAMBAH
             </a>            
         </div>
@@ -48,7 +48,7 @@
 @section('page_breadcrumb')
 <li class="breadcrumb-item">SETTING</li>
 <li class="breadcrumb-item">USERS</li>
-<li class="breadcrumb-item active" aria-current="page">USERS BAPELITBANG</li>
+<li class="breadcrumb-item active" aria-current="page">USER PERMISSIONS</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
@@ -62,7 +62,7 @@
                     <i class="simple-icon-magnifier"></i>
                     PENCARIAN
                 </h4>
-                {!! Form::open(['action'=>'Setting\UsersBapelitbangController@search','method'=>'post','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Setting\PermissionsController@search','method'=>'post','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Kriteria :</label> 
                         <div class="col-md-10">
@@ -88,7 +88,7 @@
         </div>
     </div>  
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.setting.usersbapelitbang.datatable')
+        @include('pages.dore.setting.permissions.datatable')
     </div>
 </div>
 @endsection
@@ -96,7 +96,7 @@
 <script type="text/javascript">
 $(document).ready(function () {  
     $("#divdatatable").on("click",".btnDelete", function(){
-        if (confirm('Apakah Anda ingin menghapus Data User ini ?')) {
+        if (confirm('Apakah Anda ingin menghapus Data Permissions ini ?')) {
             let url_ = $(this).attr("data-url");
             let id = $(this).attr("data-id");
             $.ajax({            
@@ -112,7 +112,7 @@ $(document).ready(function () {
                     if (result.success==1){
                         $('#divdatatable').html(result.datatable);                        
                     }else{
-                        console.log("Gagal menghapus data Users dengan id "+id);
+                        console.log("Gagal menghapus data Permissions dengan id "+id);
                     }                    
                 },
                 error:function(xhr, status, error){

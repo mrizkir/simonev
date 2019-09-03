@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    USERS BAPELITBANG
+    USER ROLES
 @endsection
 @section('page_header')
     <h1>
         <i class="simple-icon-bag"></i>
-        USERS BAPELITBANG
+        USER ROLES
     </h1> 
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('usersbapelitbang.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{!!route('roles.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
@@ -25,12 +25,12 @@
 </div>
 @endsection
 @section('page_info')
-    @include('pages.dore.setting.usersbapelitbang.info')
+    @include('pages.dore.setting.users.info')
 @endsection
 @section('page_breadcrumb')
     <li class="breadcrumb-item">SETTING</li>
     <li class="breadcrumb-item" aria-current="page">
-        <a href="{!!route('rkakegiatanmurni.index')!!}"> USERS BAPELITBANG</a>
+        <a href="{!!route('rkakegiatanmurni.index')!!}"> USER ROLES</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">UBAH DATA</li>
 @endsection
@@ -43,36 +43,12 @@
                 UBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>['Setting\UsersBapelitbangController@update',$data->id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+            {!! Form::open(['action'=>['Setting\RolesController@update',$data->id],'method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 {{Form::hidden('_method','PUT')}}
                 <div class="form-group row">
                     {{Form::label('name','NAMA',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::text('name',$data['name'],['class'=>'form-control','placeholder'=>'NAMA USER'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('email','EMAIL',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-md-10">
-                        {{Form::text('email',$data['email'],['class'=>'form-control','placeholder'=>'EMAIL USER'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('username','USERNAME',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-md-10">
-                        {{Form::text('username',$data['username'],['class'=>'form-control','placeholder'=>'USERNAME'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('password','PASSWORD',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-md-10">
-                        {{Form::password('password',['class'=>'form-control','placeholder'=>'PASSWORD'])}}
-                    </div>
-                </div>  
-                <div class="form-group row">
-                    {{Form::label('theme','THEME',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('theme', $daftar_theme,$data['theme'],['class'=>'form-control','id'=>'theme'])}}                                
                     </div>
                 </div>
                 <div class="form-group row">
@@ -101,18 +77,6 @@ $(document).ready(function () {
                 required: true,
                 minlength: 2
             },
-            email : {
-                required: true,
-                email: true,
-            },
-            username : {
-                required: true,
-                minlength: 5,
-            },
-            password : {
-                required: true,
-                minlength: 5,
-            }
         },
         messages : {
             name : {
