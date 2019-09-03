@@ -5,7 +5,6 @@ namespace App\Controllers\Setting;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class UsersOPDController extends Controller {
@@ -248,12 +247,9 @@ class UsersOPDController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {        
-        $theme = 'dore';
-        $daftar_theme = $this->listOfthemes;             
-        return view("pages.$theme.setting.usersopd.create")->with(['page_active'=>'usersopd',
-                                                                    'daftar_theme'=>$daftar_theme
-                                                                ]);  
+    {      
+        $theme = 'dore';  
+        return view("pages.$theme.setting.usersopd.create")->with(['page_active'=>'usersopd']);  
     }
     
     /**
@@ -279,7 +275,7 @@ class UsersOPDController extends Controller {
             'username'=> $request->input('username'),
             'password'=>\Hash::make($request->input('password')),            
             'email_verified_at'=>\Carbon\Carbon::now(),
-            'theme'=> $request->input('theme'),
+            'theme'=> "dore",
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);                    
@@ -407,13 +403,10 @@ class UsersOPDController extends Controller {
     public function edit($id)
     {
         $theme = 'dore';
-        
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {
-            $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersopd.edit")->with(['page_active'=>'usersopd',                                                                   
-                                                                    'daftar_theme'=>$daftar_theme,
                                                                     'data'=>$data
                                                                 ]);
         }        
@@ -442,7 +435,6 @@ class UsersOPDController extends Controller {
         if (!empty(trim($request->input('password')))) {
             $user->password = \Hash::make($request->input('password'));
         }  
-        $user->theme = $request->input('theme');
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
         $user->save();
 

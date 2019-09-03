@@ -5,7 +5,6 @@ namespace App\Controllers\Setting;
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\User;
-use Spatie\Permission\Models\Role;
 use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class UsersBapelitbangController extends Controller {
@@ -227,10 +226,7 @@ class UsersBapelitbangController extends Controller {
     public function create()
     {        
         $theme = 'dore';
-        $daftar_theme = $this->listOfthemes;             
-        return view("pages.$theme.setting.usersbapelitbang.create")->with(['page_active'=>'usersbapelitbang',
-                                                                    'daftar_theme'=>$daftar_theme
-                                                                ]);  
+        return view("pages.$theme.setting.usersbapelitbang.create")->with(['page_active'=>'usersbapelitbang']);  
     }
     
     /**
@@ -256,7 +252,7 @@ class UsersBapelitbangController extends Controller {
             'username'=> $request->input('username'),
             'password'=>\Hash::make($request->input('password')),          
             'email_verified_at'=>\Carbon\Carbon::now(),
-            'theme'=> $request->input('theme'),
+            'theme'=> "dore",
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);                    
@@ -312,9 +308,7 @@ class UsersBapelitbangController extends Controller {
         $data = User::findOrFail($id);
         if (!is_null($data) ) 
         {           
-            $daftar_theme = $this->listOfthemes;   
             return view("pages.$theme.setting.usersbapelitbang.edit")->with(['page_active'=>'usersbapelitbang',                                                                   
-                                                                    'daftar_theme'=>$daftar_theme,
                                                                     'data'=>$data
                                                                 ]);
         }        
@@ -330,7 +324,6 @@ class UsersBapelitbangController extends Controller {
     public function update(Request $request, $id)
     {
         $user = User::find($id);
-
         $this->validate($request, [
             'username'=>['required',new IgnoreIfDataIsEqualValidation('users',$user->username)],           
             'name'=>'required',            
@@ -343,7 +336,7 @@ class UsersBapelitbangController extends Controller {
         if (!empty(trim($request->input('password')))) {
             $user->password = \Hash::make($request->input('password'));
         }           
-        $user->theme = $request->input('theme');
+        $user->theme = "dore";
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
         $user->save();
 
@@ -374,7 +367,6 @@ class UsersBapelitbangController extends Controller {
     public function destroy(Request $request,$id)
     {
         $theme = 'dore';
-        
         $usersbapelitbang = User::find($id);
         $result=$usersbapelitbang->delete();
         if ($request->ajax()) 
