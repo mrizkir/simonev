@@ -70,12 +70,6 @@
                     </div>
                 </div>  
                 <div class="form-group row">
-                    {{Form::label('theme','THEME',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('theme', $daftar_theme,$data['theme'],['class'=>'form-control','id'=>'theme'])}}                                
-                    </div>
-                </div>
-                <div class="form-group row">
                     {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}

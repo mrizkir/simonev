@@ -31,7 +31,6 @@
                         <td>
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}    
                         </td>     
-                        <th><img src="{!!asset($item->foto)!!}" alt="{{$item->username}}" height="50"></th>
                         <td>{{$item->id}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->guard_name}}</td>
@@ -40,11 +39,8 @@
                                 <a href="{{route('users.show',['id'=>$item->id])}}" title="Show Data Permissions" class="btn btn-primary btn-xs mr-sm-2 default">
                                     <i class="simple-icon-eye"></i>
                                 </a>
-                                <a href="{{route('users.edit',['id'=>$item->id])}}" title="Ubah Data Permissions" class="btn btn-primary btn-xs mr-sm-2 default">
-                                    <i class="simple-icon-pencil"></i>
-                                </a>
                                 @if ($item->isdeleted)  
-                                <a class="btn btn-primary btn-xs mr-sm-2 default btnDelete" href="javascript:;" title="Hapus Data Permissions" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('users.index')}}">
+                                <a class="btn btn-primary btn-xs mr-sm-2 default btnDelete" href="javascript:;" title="Hapus Data Permissions" data-id="{{$item->id}}" class="btn btn-danger btn-xs default" data-url="{{route('permissions.index')}}">
                                     <i class="simple-icon-trash"></i>
                                 </a>
                                 @endif   
