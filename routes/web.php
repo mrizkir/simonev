@@ -82,6 +82,16 @@ Route::group (['prefix'=>'admin','middleware'=>['disablepreventback','web', 'aut
     Route::post('/dmaster/mappingprogramtoopd/filtercreate',['uses'=>'DMaster\MappingProgramToOPDController@filtercreate','as'=>'mappingprogramtoopd.filtercreate']);           
     Route::get('/dmaster/mappingprogramtoopd/paginate/{id}',['uses'=>'DMaster\MappingProgramToOPDController@paginate','as'=>'mappingprogramtoopd.paginate']);                  
     Route::post('/dmaster/mappingprogramtoopd/orderby',['uses'=>'DMaster\MappingProgramToOPDController@orderby','as'=>'mappingprogramtoopd.orderby']);  
+    
+     //masters - mapping program ke OPD [mapping]
+     Route::resource('/dmaster/asn','DMaster\ASNController',[
+                                                            'parameters'=>['asn'=>'uuid'],                                                            
+                                                        ]); 
+    Route::post('/dmaster/asn/search',['uses'=>'DMaster\ASNController@search','as'=>'asn.search']);  
+    Route::post('/dmaster/asn/filter',['uses'=>'DMaster\ASNController@filter','as'=>'asn.filter']);           
+    Route::post('/dmaster/asn/filtercreate',['uses'=>'DMaster\ASNController@filtercreate','as'=>'asn.filtercreate']);           
+    Route::get('/dmaster/asn/paginate/{id}',['uses'=>'DMaster\ASNController@paginate','as'=>'asn.paginate']);                  
+    Route::post('/dmaster/asn/orderby',['uses'=>'DMaster\ASNController@orderby','as'=>'asn.orderby']);  
 
     // RKA Kegiatan Murni
     Route::resource('/rka/rkakegiatanmurni','RKA\RKAKegiatanMurniController',['parameters'=>['rkakegiatanmurni'=>'uuid']]); 

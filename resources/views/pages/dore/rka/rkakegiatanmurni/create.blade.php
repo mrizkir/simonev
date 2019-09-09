@@ -70,6 +70,13 @@
                         {{Form::select('PrgID', $daftar_program, null, ['class'=>'form-control select'])}}
                     </div>
                 </div>
+                <div class="form-group row">
+                    {{Form::label('KgtID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('KgtID', $daftar_kegiatan, null, ['class'=>'form-control select'])}}
+                        <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI</small>
+                    </div>
+                </div>
                 <h6>DATA KEGIATAN</h6>
                 <div class="separator mb-5"></div>
                 <div class="form-group row">
@@ -234,6 +241,11 @@ $(document).ready(function () {
     $("#PrgID.select").select({
         theme: "bootstrap",
         placeholder: "PILIH PROGRAM",
+        allowClear:true        
+    });
+    $("#KgtID.select").select({
+        theme: "bootstrap",
+        placeholder: "PILIH KEGIATAN",
         allowClear:true        
     });
     $('#frmdata').validate({

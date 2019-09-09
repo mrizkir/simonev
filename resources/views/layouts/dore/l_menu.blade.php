@@ -131,7 +131,7 @@
             </li>
             <div class="separator mb-5"></div>
             <li>
-                <a href="{{route('rkakegiatanmurni.index')}}">
+                <a href="{{route('asn.index')}}">
                     <i class="simple-icon-people"></i>
                     <span class="d-inline-block">ASN</span>
                 </a>
