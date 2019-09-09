@@ -17,6 +17,10 @@ class RKAKegiatanMurniController extends Controller
     {
         parent::__construct();
         $this->middleware(['auth']);
+        //set nama session 
+        $this->SessionName=$this->getNameForSession();      
+        //set nama halaman saat ini
+        $this->NameOfPage = \Helper::getNameOfPage();
     }
     /**
      * collect data from resources for index view
@@ -272,10 +276,28 @@ class RKAKegiatanMurniController extends Controller
     public function create()
     {        
         $theme = 'dore';
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');         
+        $locked=false;
+        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
+        {
+            $SOrgID=$filters['SOrgID'];            
+            $OrgID=$filters['OrgID'];
 
-        return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
-                                                                    
-                                                                    ]);  
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                                ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                                ->find($SOrgID);  
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
+            return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
+                                                                            'daftar_program'=>$daftar_program
+                                                                        ]);  
+        }
+        else
+        {
+            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
+                                                                ]);  
+        }  
     }
     
     /**

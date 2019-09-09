@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
     /*    
     | "apc", "array", "database", "file", "memcached", "redis"
@@ -64,6 +66,6 @@ return [
     */
     'prefix' => env(
         'CACHE_PREFIX',
-        str_slug(env('APP_NAME', 'simonev'), '_').'_cache'
+        Str::slug(env('APP_NAME', 'simonev'), '_').'_cache'
     ),
 ];

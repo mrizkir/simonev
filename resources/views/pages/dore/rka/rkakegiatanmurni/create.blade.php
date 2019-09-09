@@ -49,6 +49,11 @@
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
+@section('page_asset_css')
+<link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
+<link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
+<link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
+@endsection
 @section('page_content')
 <div class="content">
     <div class="card mb-4">
@@ -60,15 +65,22 @@
             <div class="separator mb-5"></div>
             {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
                 <div class="form-group row">
-                    {{Form::label('program','Program',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('PrgID','Program',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('size', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                        {{Form::select('PrgID', $daftar_program, null, ['class'=>'form-control select'])}}
+                    </div>
+                </div>
+                <div class="form-group row">
+                    {{Form::label('KgtID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('KgtID', $daftar_kegiatan, null, ['class'=>'form-control select'])}}
+                        <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI</small>
                     </div>
                 </div>
                 <h6>DATA KEGIATAN</h6>
                 <div class="separator mb-5"></div>
                 <div class="form-group row">
-                    {{Form::label('program','Program:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('kodekegiatan','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::text('kodekegiatan','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
                     </div>
@@ -218,12 +230,24 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('themes/limitless/assets/js/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('themes/limitless/assets/js/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery-validation/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.contextMenu.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    $("#PrgID.select").select({
+        theme: "bootstrap",
+        placeholder: "PILIH PROGRAM",
+        allowClear:true        
+    });
+    $("#KgtID.select").select({
+        theme: "bootstrap",
+        placeholder: "PILIH KEGIATAN",
+        allowClear:true        
+    });
     $('#frmdata').validate({
         rules: {
             replaceit : {
