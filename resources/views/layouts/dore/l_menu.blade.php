@@ -1,4 +1,33 @@
-<div class="sub-menu">
+<div class="menu">
+    <div class="main-menu">
+        <div class="scroll">
+            <ul class="list-unstyled">
+                <li>
+                    <a href="#dashboard">
+                        <i class="iconsminds-shop-4"></i>
+                        <span>DASHBOARD</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#master">
+                        <i class="iconsminds-digital-drawing"></i> MASTER
+                    </a>
+                </li>
+                <li>
+                    <a href="#rka">
+                        <i class="iconsminds-air-balloon-1"></i> RKA
+                    </a>
+                </li>
+                <li>
+                    <a href="#setting">
+                        <i class="iconsminds-air-balloon-1"></i> SETTINGS
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="sub-menu">
         <div class="scroll">
             <ul class="list-unstyled" data-link="dashboard">
                 <li>
@@ -175,3 +204,5 @@
                 </li>
             </ul>
         </div>
+    </div>
+</div>
