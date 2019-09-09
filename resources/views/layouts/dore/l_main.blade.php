@@ -77,6 +77,7 @@
                     @yield('page_header_display')
                 </div>
             </div>
+            @include('layouts.dore.l_formmessages')
             @yield('page_content')
         </div>
     </main>
