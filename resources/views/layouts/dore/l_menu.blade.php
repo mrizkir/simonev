@@ -159,6 +159,18 @@
         </ul>
         <ul class="list-unstyled" data-link="setting">
             <li>
+                <a href="{{route('roles.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">ROLES</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{route('permissions.index')}}">
+                    <i class="simple-icon-credit-card"></i>
+                    <span class="d-inline-block">PERMISSIONS</span>
+                </a>
+            </li>
+            <li>
                 <a href="{{route('users.index')}}">
                     <i class="simple-icon-credit-card"></i>
                     <span class="d-inline-block">USER</span>
@@ -174,18 +186,6 @@
                 <a href="{{route('usersopd.index')}}">
                     <i class="simple-icon-credit-card"></i>
                     <span class="d-inline-block">USER OPD</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('roles.index')}}">
-                    <i class="simple-icon-credit-card"></i>
-                    <span class="d-inline-block">ROLES</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{route('permissions.index')}}">
-                    <i class="simple-icon-credit-card"></i>
-                    <span class="d-inline-block">PERMISSIONS</span>
                 </a>
             </li>
         </ul>
