@@ -138,7 +138,7 @@
                     <div id="collapseProfile" class="collapse show">
                         <ul class="list-unstyled inner-level-menu">
                             <li>
-                                <a href="{{route('asn.index')}}">
+                                <a href="{{route('rkakegiatanmurni.index')}}">
                                     <i class="simple-icon-people"></i>
                                     <span class="d-inline-block">ASN</span>
                                 </a>
