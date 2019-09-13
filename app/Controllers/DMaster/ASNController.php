@@ -242,12 +242,12 @@ class ASNController extends Controller
     {
         $theme = 'dore';
 
-        $data = ASNModel::where('KUrsID', $id)
-            ->firstOrFail();
+        $data = ASNModel::where('ASNID', $id)
+                        ->firstOrFail();
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.asn.show")->with(['page_active' => 'asn',
-                                                                                'data' => $data,
-                                                                            ]);
+                                                                'data' => $data,
+                                                            ]);
         }
     }
     /**
@@ -260,10 +260,10 @@ class ASNController extends Controller
     {
         $theme = 'dore';
         
-        $data = RKAKegiatanMurniModel::findOrFail($id);
+        $data = ASNModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.rka.rkakegiatanmurni.edit")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.dmaster.asn.edit")->with(['page_active'=>'rkakegiatanmurni',
                                                     'data'=>$data
                                                     ]);
         }        

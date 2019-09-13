@@ -47,7 +47,7 @@
 <li class="breadcrumb-item" aria-current="page">
     <a href="{!!route('asn.index')!!}"> KEGIATAN MURNI</a>
 </li>
-<li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
+<li class="breadcrumb-item active" aria-current="page">UBAH DATA</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
@@ -58,29 +58,29 @@
         <div class="card-body">
             <h4 class="mb-4">
                 <i class="simple-icon-note"></i>
-                TAMBAH DATA
+                UBAH DATA
             </h4>
             <div class="separator mb-5"></div>
             {!! Form::open(['action'=>'DMaster\ASNController@store','method'=>'post','class'=>'form-horizontal tooltip-label-right','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}                                                              
-                <div class="form-group row position-relative error-l-50">
+                <div class="form-group row">
                     {{Form::label('NIP_ASN','NIP ASN:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::text('NIP_ASN','',['class'=>'form-control','placeholder'=>'NIP ASN'])}}
                     </div>
                 </div>
-                <div class="form-group row position-relative error-l-50">
+                <div class="form-group row">
                     {{Form::label('Nm_ASN','Nama ASN:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::text('Nm_ASN','',['class'=>'form-control','placeholder'=>'Nama ASN'])}}
                     </div>
                 </div>
-                <div class="form-group row position-relative error-l-50">
+                <div class="form-group row">
                     {{Form::label('Descr','Keterangan:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Keterangan','rows'=>3])}}
                     </div>
                 </div>                
-                <div class="form-group row position-relative error-l-50">
+                <div class="form-group row">
                     {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
@@ -101,13 +101,13 @@
 $(document).ready(function () {   
     $('#frmdata').validate({
         rules: {
-            NIP_ASN : {
+            replaceit : {
                 required: true,
                 minlength: 2
             }
         },
         messages : {
-            NIP_ASN : {
+            replaceit : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
