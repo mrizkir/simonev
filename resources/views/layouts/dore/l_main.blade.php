@@ -50,6 +50,7 @@
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right mt-3">
+                    <a class="dropdown-item" href="#">Account</a>
                     <a class="dropdown-item" href="{!!route('logout')!!}">Logout</a>
                 </div>
             </div>
