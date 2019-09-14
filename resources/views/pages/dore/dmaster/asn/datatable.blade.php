@@ -39,7 +39,7 @@
                                     <a href="{{route('asn.edit',['uuid'=>$item->ASNID])}}" title="Ubah Data ASN" class="btn btn-primary btn-xs mr-sm-2 default">
                                         <i class="simple-icon-pencil"></i>
                                     </a>
-                                    <a href="javascript:;" title="Hapus Data ASN" data-id="{{$item->ASNID}}" class="btn btn-danger btn-xs default btnDelete" data-url="{{route('users.index')}}">
+                                    <a href="javascript:;" title="Hapus Data ASN" data-id="{{$item->ASNID}}" class="btn btn-danger btn-xs default btnDelete" data-url="{{route('asn.index')}}">
                                         <i class="simple-icon-trash"></i>
                                     </a>
                                 </div>
