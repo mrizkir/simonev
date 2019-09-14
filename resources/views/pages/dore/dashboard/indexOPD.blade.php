@@ -1,4 +1,4 @@
-@extends('layouts.dore.l_front')
+@extends('layouts.dore.l_main')
 @section('page_title')
     RINGKASAN DATA
 @endsection

@@ -18,11 +18,13 @@
                         <i class="iconsminds-air-balloon-1"></i> RKA
                     </a>
                 </li>
+                @hasrole('superadmin|bapelitbang')
                 <li>
                     <a href="#setting">
                         <i class="iconsminds-air-balloon-1"></i> SETTINGS
                     </a>
                 </li>
+                @endhasrole
             </ul>
         </div>
     </div>
@@ -137,53 +139,59 @@
                     </a>
                     <div id="collapseProfile" class="collapse show">
                         <ul class="list-unstyled inner-level-menu">
+                            @hasrole('superadmin|bapelitbang|opd')
                             <li>
                                 <a href="{{route('asn.index')}}">
                                     <i class="simple-icon-people"></i>
                                     <span class="d-inline-block">ASN</span>
                                 </a>
                             </li>
+                            @endhasrole
                         </ul>
                     </div>
                 </li>
+                @hasrole('superadmin|bapelitbang')
                 <li>
                     <a href="#" data-toggle="collapse" data-target="#collapseBlog" aria-expanded="true"
                         aria-controls="collapseBlog" class="rotate-arrow-icon opacity-50">
                         <i class="simple-icon-arrow-down"></i> <span class="d-inline-block">LAIN - LAIN</span>
                     </a>
                     <div id="collapseBlog" class="collapse show">
-                        <ul class="list-unstyled inner-level-menu">
+                        <ul class="list-unstyled inner-level-menu">                            
                             <li>
                                 <a href="{{route('rkakegiatanmurni.index')}}">
                                     <i class="simple-icon-size-actual"></i>
                                     <span class="d-inline-block">JENIS PELAKSANAAN</span>
                                 </a>
-                            </li>
+                            </li>                            
                         </ul>
                     </div>
                 </li>
+                @endhasrole
             </ul>
             <ul class="list-unstyled" data-link="rka">
                 <li>
-                    <a href="{{route('roles.index')}}">
+                    <a href="{{route('rkakegiatanmurni.index')}}">
                         <i class="simple-icon-picture"></i>
                         <span class="d-inline-block">KEGIATAN MURNI</span>
                     </a>
                 </li>
             </ul>
             <ul class="list-unstyled" data-link="setting">
+                @hasrole('superadmin|bapelitbang')                
+                <li>
+                        <a href="{{route('permissions.index')}}">
+                            <i class="simple-icon-credit-card"></i>
+                            <span class="d-inline-block">PERMISSIONS</span>
+                        </a>
+                    </li>
                 <li>
                     <a href="{{route('roles.index')}}">
                         <i class="simple-icon-picture"></i>
                         <span class="d-inline-block">ROLES</span>
                     </a>
                 </li>
-                <li>
-                    <a href="{{route('permissions.index')}}">
-                        <i class="simple-icon-credit-card"></i>
-                        <span class="d-inline-block">PERMISSIONS</span>
-                    </a>
-                </li>
+                @endhasrole
                 <li>
                     <a href="{{route('users.index')}}">
                         <i class="simple-icon-credit-card"></i>

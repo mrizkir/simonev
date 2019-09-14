@@ -1,4 +1,4 @@
-@extends('layouts.limitless.l_main')
+@extends('layouts.dore.l_main')
 @section('page_title')
     RKA KEGIATAN MURNI
 @endsection

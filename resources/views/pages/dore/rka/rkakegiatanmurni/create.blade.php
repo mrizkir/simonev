@@ -50,7 +50,6 @@
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
 @section('page_asset_css')
-<link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
 @endsection
@@ -230,9 +229,8 @@
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('js/vendor/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/jquery-validation/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/jquery.contextMenu.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
@@ -247,6 +245,33 @@ $(document).ready(function () {
         theme: "bootstrap",
         placeholder: "PILIH KEGIATAN",
         allowClear:true        
+    });
+    $(document).on('change','#PrgID',function(ev) {
+        ev.preventDefault();
+        PrgID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrgID": PrgID,
+                'create':0
+            },
+            success:function(result)
+            {   
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
     });
     $('#frmdata').validate({
         rules: {

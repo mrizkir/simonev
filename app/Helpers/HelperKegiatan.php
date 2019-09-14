@@ -52,4 +52,16 @@ class HelperKegiatan {
     {
         return request()->session()->get("global_controller.tahun_penyerapan");
     }   
+    public static function getPageTitle($nameofpage)
+    {
+        switch ($nameofpage) 
+        {            
+            case 'rkakegiatanmurni' :
+                $pagetitle = 'RENCANA KERJA DAN ANGGARAN (RKA) MURNI';
+            break;            
+            default :
+                $pagetitle = 'WORKFLOW';
+        }
+        return $pagetitle;
+    }
 }
