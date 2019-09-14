@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-ASN
+    ASN
 @endsection
 @section('page_header')
 <h1>
@@ -52,18 +52,10 @@ ASN
 <li class="breadcrumb-item">PEGAWAI</li>
 <li class="breadcrumb-item active" aria-current="page">ASN</li>
 @endsection
-@section('page_asset_css')
-<link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
-<link rel="stylesheet" href="{!!asset('css/vendor/bootstrap-datepicker3.min.css')!!}" />
-@endsection
 @section('page_content')
 <div class="row">
     <div class="col-12" id="divdatatable">
         @include('pages.dore.dmaster.asn.datatable')
     </div>
 </div>
-@endsection
-@section('page_asset_js')
-<script src="{!!asset('js/vendor/jquery.contextMenu.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/bootstrap-datepicker.js')!!}"></script>
 @endsection

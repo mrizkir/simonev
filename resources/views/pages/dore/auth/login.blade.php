@@ -25,7 +25,7 @@ LOGIN
                             <span class="logo-single"></span>
                         </a>
                         <h6 class="mb-4">Login</h6>
-                        {!! Form::open(['url'=>route('login'),'method'=>'post','id'=>'frmlogin','name'=>'frmlogin'])!!}
+                        {!! Form::open(['url'=>route('login'),'method'=>'post','id'=>'frmlogin','name'=>'frmlogin','class'=>'tooltip-label-bottom',])!!}
                         <div class="form-group">
                             <label for="username">Username</label>
                             {{Form::text('username',old('username'),['class'=>'form-control','placeholder'=>'Masukan Username'])}}
@@ -58,12 +58,12 @@ LOGIN
 </main>
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('js/vendor/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/jquery-validation/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-    $(document).ready(function () {
+$(document).ready(function () {
     $('#frmlogin').validate({
         rules: {
             username : {
