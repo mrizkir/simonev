@@ -267,7 +267,40 @@ class ASNController extends Controller
                                                     ]);
         }        
     }
-      /**
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request,$uuid)
+    {        
+        $asn = ASNModel::find($uuid);
+        
+        $this->validate($request, [            
+            'NIP_ASN'=>'required||digits:20|regex:/^[0-9]+$/',
+            'Nm_ASN'=>'required|min:5',
+        ]);
+        
+        $asn->NIP_ASN = $request->input('NIP_ASN');
+        $asn->Nm_ASN = $request->input('Nm_ASN');
+        $asn->Descr = $request->input('Descr');
+        $asn->save();
+     
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ]);
+        }
+        else
+        {
+            return redirect(route('asn.show',['uuid'=>$asn->ASNID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $uuid

@@ -16,7 +16,7 @@ class CreateAsnTable extends Migration
         Schema::create('tmASN', function (Blueprint $table) {
             $table->string('ASNID',19);
             $table->string('NIP_ASN',30);
-            $table->string('Nm_ASN',19);                        
+            $table->string('Nm_ASN');                        
             $table->string('Descr')->nullable();    
             $table->year('TA');                    
             $table->boolean('Active')->default(1);

@@ -56,15 +56,15 @@
                             <div class="col-md-6">
                                 <form>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>KODE ASN: </strong></label>
+                                        <label class="col-md-4 col-form-label"><strong>NIP ASN: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->Kd_Urusan}}</p>
+                                            <p class="form-control-static">{{$data->NIP_ASN}}</p>
                                         </div>                            
                                     </div> 
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>NAMA ASN: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->Nm_Urusan}}</p>
+                                            <p class="form-control-static">{{$data->Nm_ASN}}</p>
                                         </div>                            
                                     </div>                             
                                     <div class="form-group row">
