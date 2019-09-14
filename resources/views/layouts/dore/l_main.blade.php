@@ -50,6 +50,7 @@
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right mt-3">
+                    <a class="dropdown-item" href="{{route('users.profil',['id'=>Auth::user()->id])}}">Account</a>
                     <a class="dropdown-item" href="{!!route('logout')!!}">Logout</a>
                 </div>
             </div>
