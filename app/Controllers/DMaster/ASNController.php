@@ -203,7 +203,6 @@ class ASNController extends Controller
      */
     public function store(Request $request)
     {        
-        // dd($request->all());
         $this->validate($request, [            
             'NIP_ASN'=>'required||digits:20|regex:/^[0-9]+$/',
             'Nm_ASN'=>'required|min:5',
@@ -228,21 +227,21 @@ class ASNController extends Controller
         }
         else
         {
-            return redirect(route('asn.show',['id'=>$asn->ASNID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('asn.show',['uuid'=>$asn->ASNID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
         $theme = 'dore';
 
-        $data = ASNModel::where('ASNID', $id)
+        $data = ASNModel::where('ASNID', $uuid)
                         ->firstOrFail();
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.asn.show")->with(['page_active' => 'asn',
@@ -253,19 +252,53 @@ class ASNController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $uuid
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($uuid)
     {
         $theme = 'dore';
         
-        $data = ASNModel::findOrFail($id);
+        $data = ASNModel::findOrFail($uuid);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.dmaster.asn.edit")->with(['page_active'=>'rkakegiatanmurni',
                                                     'data'=>$data
                                                     ]);
+        }        
+    }
+      /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $uuid
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Request $request,$uuid)
+    {
+        $theme = 'dore';
+        
+        $asn = ASNModel::find($uuid);
+        $result=$asn->delete();
+        if ($request->ajax()) 
+        {
+            $currentpage=$this->getCurrentPageInsideSession('asn'); 
+            $data=$this->populateData($currentpage);
+            if ($currentpage > $data->lastPage())
+            {            
+                $data = $this->populateData($data->lastPage());
+            }
+            $datatable = view("pages.$theme.dmaster.asn.datatable")->with(['page_active'=>'asn',
+                                                                                        'search'=>$this->getControllerStateSession('asn','search'),
+                                                                                        'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                        'column_order'=>$this->getControllerStateSession('asn.orderby','column_name'),
+                                                                                        'direction'=>$this->getControllerStateSession('asn.orderby','order'),
+                                                                                        'data'=>$data])->render();      
+            
+            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
+        }
+        else
+        {
+            return redirect(route('asn.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

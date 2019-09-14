@@ -52,10 +52,62 @@
 <li class="breadcrumb-item">PEGAWAI</li>
 <li class="breadcrumb-item active" aria-current="page">ASN</li>
 @endsection
+@section('page_asset_css')
+<link rel="stylesheet" href="{!!asset('js/vendor/sweetalert2/sweetalert2.min.css')!!}" />
+@endsection
 @section('page_content')
 <div class="row">
     <div class="col-12" id="divdatatable">
         @include('pages.dore.dmaster.asn.datatable')
     </div>
 </div>
+@endsection
+@section('page_asset_js')
+<script src="{!!asset('js/vendor/sweetalert2/sweetalert2.min.js')!!}"></script>
+@endsection
+@section('page_custom_js')
+<script type="text/javascript">
+$(document).ready(function () {  
+    $("#divdatatable").on("click",".btnDelete", function(){
+        swal.fire ({
+            title:'Hapus Data',
+            text:'Apakah ingin menghapus data ASN ini ?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'YA, Hapus!',
+            cancelButtonText: 'TIDAK!',
+        }).then((result)=>{
+            if (result.value)
+            {
+                let url_ = $(this).attr("data-url");
+                let id = $(this).attr("data-id");
+                $.ajax({            
+                    type:'post',
+                    url:url_+'/'+id,
+                    dataType: 'json',
+                    data: {
+                        "_method": 'DELETE',
+                        "_token": token,
+                        "id": id,
+                    },
+                    success:function(result){ 
+                        if (result.success==1){
+                            $('#divdatatable').html(result.datatable);  
+                        }else{
+                            console.log("Gagal menghapus data ASN dengan id "+id);
+                        }                    
+                    },
+                    error:function(xhr, status, error){
+                        console.log('ERROR');
+                        console.log(parseMessageAjaxEror(xhr, status, error));                           
+                    },
+                });
+            }
+        }); 
+    });
+   
+});
+</script>
 @endsection
