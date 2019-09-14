@@ -46,110 +46,279 @@ PROFIL PENGGUNA
 <div class="tab-content">
     <div class="tab-pane show active" id="first" role="tabpanel" aria-labelledby="first-tab">
         <div class="row">
-            <div class="col-12">
-                <div class="card">
+
+        </div>
+    </div>
+</div>
+<div class="tab-content">
+    <div class="tab-pane show active" id="first" role="tabpanel" aria-labelledby="first-tab">
+        <div class="row">
+            <div class="col-12 col-lg-5 col-xl-4 col-left">
+                <div class="card mb-4">
                     <div class="card-body">
-                        <h2 class="mb-2">
-                            <i class="simple-icon-screen-tablet"></i>
-                            PROFIL
-                        </h2>
-                        <div class="separator mb-3"></div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-horizontal">
-                                    <div class="form-horizontal">
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label"><strong>ID: </strong></label>
-                                            <div class="col-md-8">
-                                                <p class="form-control-static">{{$data->id}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label"><strong>USERNAME: </strong></label>
-                                            <div class="col-md-8">
-                                                <p class="form-control-static">{{$data->username}}</p>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label class="col-md-4 control-label"><strong>NAMA: </strong></label>
-                                            <div class="col-md-8">
-                                                <p class="form-control-static">{{$data->name}}</p>
-                                            </div>
-                                        </div>
+                        <span>
+                            <img alt="Profile Picture" src="{{Auth::user()->foto}}" alt="{{Auth::user()->username}}" />
+                        </span>
+                    </div>
+                </div>
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <div class="form-horizontal">
+                            <div class="form-horizontal">
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>ID:
+                                        </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">{{$data->id}}</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-horizontal">
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"><strong>EMAIL: </strong></label>
-                                        <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->email}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"><strong>TGL. BUAT: </strong></label>
-                                        <div class="col-md-8">
-                                            <p class="form-control-static">
-                                                {{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label"><strong>TGL. UBAH: </strong></label>
-                                        <div class="col-md-8">
-                                            <p class="form-control-static">
-                                                {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
-                                        </div>
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>USERNAME:
+                                        </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">{{$data->username}}</p>
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="separator mb-5"></div>
-                        {!!Form::open(['action'=>['Setting\UsersController@updateprofil',$data->id],'method'=>'put','id'=>'frmdata','name'=>'frmdata'])!!}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    {{Form::label('username','USERNAME',['class'=>'col-sm-3 col-form-label'])}}
-                                    <div class="col-sm-9">
-                                        {{Form::text('username',$data->username,['class'=>'form-control','placeholder'=>'USERNAME','readonly'=>'readonly'])}}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>NAMA:
+                                        </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">{{$data->name}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    {{Form::label('email','EMAIL',['class'=>'col-sm-3 col-form-label'])}}
-                                    <div class="col-sm-9">
-                                        {{Form::text('email',$data->email,['class'=>'form-control','placeholder'=>'EMAIL'])}}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>EMAIL:
+                                        </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">{{$data->email}}</p>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    {{Form::label('password','NEW PASSWORD',['class'=>'col-sm-3 col-form-label'])}}
-                                    <div class="col-sm-9">
-                                        {{Form::password('password1',['class'=>'form-control','placeholder'=>'PASSWORD'])}}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>TGL. BUAT:
+                                        </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">
+                                            {{Helper::tanggal('d/m/Y H:m',$data->created_at)}}</p>
                                     </div>
                                 </div>
-                                <div class="form-group row">
-                                    {{Form::label('password','ULANGI PASSWORD',['class'=>'col-sm-3 col-form-label'])}}
-                                    <div class="col-sm-9">
-                                        {{Form::password('password2',['class'=>'form-control','placeholder'=>'ULANGI PASSWORD'])}}
+                                <div class="form-group">
+                                    <label class="col-md-4 control-label"><strong>TGL. UBAH:
+                                        </strong></label>
+                                    <div class="col-md-8">
+                                        <p class="form-control-static">
+                                            {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group row">
-                                    {{Form::label('','',['class'=>'col-sm-3 col-form-label'])}}
-                                    <div class="col-sm-9">
-                                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {!! Form::close()!!}
                     </div>
                 </div>
             </div>
+            <div class="col-8">
+                <div class="row listing-card-container">
+                    <div class="col-sm-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="separator mb-5"></div>
+                                {!!Form::open(['action'=>['Setting\UsersController@updateprofil',$data->id],'method'=>'put','id'=>'frmdata','name'=>'frmdata'])!!}
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            {{Form::label('username','USERNAME',['class'=>'col-sm-3 col-form-label'])}}
+                                            <div class="col-sm-9">
+                                                {{Form::text('username',$data->username,['class'=>'form-control','placeholder'=>'USERNAME','readonly'=>'readonly'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            {{Form::label('email','EMAIL',['class'=>'col-sm-3 col-form-label'])}}
+                                            <div class="col-sm-9">
+                                                {{Form::text('email',$data->email,['class'=>'form-control','placeholder'=>'EMAIL'])}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            {{Form::label('password','NEW PASSWORD',['class'=>'col-sm-3 col-form-label'])}}
+                                            <div class="col-sm-9">
+                                                {{Form::password('password1',['class'=>'form-control','placeholder'=>'PASSWORD'])}}
+                                            </div>
+                                        </div>
+                                        <div class="form-group row">
+                                            {{Form::label('password','ULANGI PASSWORD',['class'=>'col-sm-3 col-form-label'])}}
+                                            <div class="col-sm-9">
+                                                {{Form::password('password2',['class'=>'form-control','placeholder'=>'ULANGI PASSWORD'])}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-group row">
+                                            {{Form::label('','',['class'=>'col-sm-3 col-form-label'])}}
+                                            <div class="col-sm-9">
+                                                {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {!! Form::close()!!}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="tab-pane fade" id="second" role="tabpanel" aria-labelledby="second-tab">
+        <div class="row">
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-8.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Latarsha Gama</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Head Developer</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-2.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Kathryn Mengel</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Art Director</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-3.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Laree Munsch</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Lead Programmer</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-4.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Esperanza Lodge</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Director</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-5.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Mimi Carreira</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Photographer</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-6.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Rasheeda Vaquera</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Account</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card d-flex flex-row mb-4">
+                    <a class="d-flex" href="#">
+                        <img alt="Profile" src="img/profile-pic-l-7.jpg"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                    </a>
+                    <div class=" d-flex flex-grow-1 min-width-zero">
+                        <div
+                            class="card-body pl-0 align-self-center d-flex flex-column flex-lg-row justify-content-between min-width-zero">
+                            <div class="min-width-zero">
+                                <a href="#">
+                                    <p class="list-item-heading mb-1 truncate">Sarah Kortney</p>
+                                </a>
+                                <p class="mb-2 text-muted text-small">Executive Director</p>
+                                <button type="button" class="btn btn-xs btn-outline-primary ">View</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
 </div>
