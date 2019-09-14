@@ -180,11 +180,19 @@ document.addEventListener('DOMContentLoaded', function() {
      *  customization jquery-validation
      */
     if ($.validator) //check jquery-validation has loaded
-    {    
-        //override default value
+    {   
         $.validator.setDefaults({
-            errorClass: "text-danger",             
+            ignore: [],
+            errorElement: "div",            
+            errorPlacement: function (error, element) {
+                if (element.attr("class").indexOf("custom-control") != -1) {
+                error.insertAfter(element.parent());
+                } else {
+                error.insertAfter(element);
+                }
+            }
         });
+        
         //method value not equal
         $.validator.addMethod('valueNotEquals',function(value,element,arg){
             return arg !== value;
@@ -262,7 +270,6 @@ document.addEventListener('DOMContentLoaded', function() {
             });
         });
     }  
-
     /**
     * data table operations
     */
