@@ -1,0 +1,20 @@
+/** overrice error tooltip*/
+.invalid-tooltip,
+.valid-tooltip,
+div.error {
+    border-radius: 0.1rem;
+    padding: 0.5rem 1rem;
+    font-size: 0.76rem;
+    color: #ff0018;
+    background: white;
+    border: 1px solid #ff0018;
+    text-align: center;
+    width: unset !important;
+    position: absolute;
+    z-index: 4;
+    margin-top: -0.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    line-height: 1.5;
+    box-shadow: 0 1px 15px rgba(0, 0, 0, 0.04), 0 1px 6px rgba(0, 0, 0, 0.04); 
+}

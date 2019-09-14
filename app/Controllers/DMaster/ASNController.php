@@ -205,7 +205,7 @@ class ASNController extends Controller
     {        
         // dd($request->all());
         $this->validate($request, [            
-            'NIP_ASN'=>'required||digits:10|regex:/^[0-9]+$/',
+            'NIP_ASN'=>'required||digits:20|regex:/^[0-9]+$/',
             'Nm_ASN'=>'required|min:5',
         ]);
         
