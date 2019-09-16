@@ -313,9 +313,18 @@ class RKAKegiatanMurniController extends Controller
                                                                 ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
                                                                 ->find($SOrgID);  
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
+            $daftar_pa=[];
+            $daftar_kpa=[];
+            $daftar_ppk=[];
+            $daftar_pptk=[];
+            
             return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
-                                                                            'daftar_program'=>$daftar_program,
+                                                                            'daftar_program'=>$daftar_program,                                                                                                                                                       
                                                                             'daftar_kegiatan'=>[],
+                                                                            'daftar_pa'=>$daftar_pa,
+                                                                            'daftar_kpa'=>$daftar_kpa,
+                                                                            'daftar_ppk'=>$daftar_ppk,
+                                                                            'daftar_pptk'=>$daftar_pptk,
                                                                         ]);  
         }
         else
