@@ -344,12 +344,33 @@ class RKAKegiatanMurniController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'replaceit'=>'required',
-        ]);
         
+        $this->validate($request, [
+            'PrgID'=>'required',
+            'Kd_Keg'=>'required',
+            'KgtNm'=>'required',
+            'PaguDana1'=>'required',
+        ]);
+        dd($this->SessionName);
+        $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        dd($filters);
         $rkakegiatanmurni = RKAKegiatanMurniModel::create([
-            'replaceit' => $request->input('replaceit'),
+            'RKAID' => uniqid ('uid'),
+            'OrgID' => $filters['OrgID'],
+            'SOrgID' => $filters['SOrgID'],
+            'PrgID' => $request->input('PrgID'),
+            'RKPDID' => $request->input('PrgID'),
+            'Kd_Keg' => $request->input('Kd_Keg'),
+            'KgtNm' => $request->input('KgtNm'),
+            'PaguDana1' => $request->input('PaguDana1'),
+            'PaguDana1' => 0,
+            'nip_pa' => $request->input('nip_pa'),
+            'nip_kpa' => $request->input('nip_kpa'),
+            'nip_ppk' => $request->input('nip_ppk'),
+            'nip_pptk' => $request->input('nip_pptk'),
+            'user_id' => $theme = \Auth::user()->id,
+            'Descr' => '-',
+            'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);        
         
         if ($request->ajax()) 
