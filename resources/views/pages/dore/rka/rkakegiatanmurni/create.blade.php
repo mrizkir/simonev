@@ -72,7 +72,7 @@
                 <div class="form-group row">
                     {{Form::label('RKPDID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('RKPDID', $daftar_kegiatan, null, ['class'=>'form-control select'])}}
+                        {{Form::select('RKPDID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
                         <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI</small>
                     </div>
                 </div>
@@ -186,9 +186,9 @@ $(document).ready(function () {
             },
             success:function(result)
             {   
-                var daftar_kegiatan = result.daftar_kegiatan;
+                var daftar_rkpd = result.daftar_rkpd;
                 var listitems='<option></option>';
-                $.each(daftar_kegiatan,function(key,value){
+                $.each(daftar_rkpd,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
                 $('#RKPDID').html(listitems);

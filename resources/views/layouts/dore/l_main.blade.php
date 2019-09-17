@@ -46,7 +46,7 @@
                     aria-expanded="false">
                     <span class="name">{{Auth::user()->username}}</span>
                     <span>
-                        <img alt="Profile Picture" src="{{Auth::user()->foto}}" alt="{{Auth::user()->username}}" />
+                        <img alt="Profile Picture" src="{{asset(Auth::user()->foto)}}" alt="{{Auth::user()->username}}" />
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right mt-3">

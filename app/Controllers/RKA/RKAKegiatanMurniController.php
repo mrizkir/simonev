@@ -202,11 +202,12 @@ class RKAKegiatanMurniController extends Controller
         if ($request->exists('PrgID') && $request->exists('create'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
-            $r=\DB::table('v_program_kegiatan')
+            $r=\DB::table('v_rkpd')
+                    ->select(\DB::raw('"RKPDID","kode_kegiatan","KgtNm"'))
                     ->where('TA',\HelperKegiatan::getTahunPenyerapan())
                     ->where('PrgID',$PrgID)
-                    ->WhereNotIn('KgtID',function($query) use ($filters) {
-                        $query->select('KgtID')
+                    ->WhereNotIn('RKPDID',function($query) use ($filters) {
+                        $query->select('RKPDID')
                                 ->from('trRKA')
                                 ->where('TA', \HelperKegiatan::getTahunPenyerapan())
                                 ->where('OrgID', $filters['OrgID']);
@@ -214,14 +215,14 @@ class RKAKegiatanMurniController extends Controller
                     ->orderBy('Kd_Keg')
                     ->orderBy('kode_kegiatan')
                     ->get();
-            $daftar_kegiatan=[];        
+            $daftar_rkpd=[];        
             foreach ($r as $k=>$v)
             {               
-                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
+                $daftar_rkpd[$v->RKPDID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->RKPDID.')';
             }            
             $json_data['success']=true;
             $json_data['PrgID']=$PrgID;
-            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+            $json_data['daftar_rkpd']=$daftar_rkpd;
         } 
         return response()->json($json_data,200);  
     }
@@ -312,6 +313,7 @@ class RKAKegiatanMurniController extends Controller
             $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
                                                                 ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
                                                                 ->find($SOrgID);  
+
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
             $daftar_pa=[];
             $daftar_kpa=[];
@@ -320,7 +322,7 @@ class RKAKegiatanMurniController extends Controller
             
             return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
                                                                             'daftar_program'=>$daftar_program,                                                                                                                                                       
-                                                                            'daftar_kegiatan'=>[],
+                                                                            'daftar_rkpd'=>[],
                                                                             'daftar_pa'=>$daftar_pa,
                                                                             'daftar_kpa'=>$daftar_kpa,
                                                                             'daftar_ppk'=>$daftar_ppk,
@@ -351,15 +353,13 @@ class RKAKegiatanMurniController extends Controller
             'KgtNm'=>'required',
             'PaguDana1'=>'required',
         ]);
-        dd($this->SessionName);
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        dd($filters);
         $rkakegiatanmurni = RKAKegiatanMurniModel::create([
             'RKAID' => uniqid ('uid'),
             'OrgID' => $filters['OrgID'],
             'SOrgID' => $filters['SOrgID'],
             'PrgID' => $request->input('PrgID'),
-            'RKPDID' => $request->input('PrgID'),
+            'RKPDID' => $request->input('RKPDID'),
             'Kd_Keg' => $request->input('Kd_Keg'),
             'KgtNm' => $request->input('KgtNm'),
             'PaguDana1' => $request->input('PaguDana1'),
