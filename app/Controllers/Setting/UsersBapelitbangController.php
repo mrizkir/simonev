@@ -16,7 +16,7 @@ class UsersBapelitbangController extends Controller {
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang']);  
+        $this->middleware(['auth','role:superadmin|simonev']);  
     }
     /**
      * collect data from resources for index view
@@ -44,23 +44,23 @@ class UsersBapelitbangController extends Controller {
             switch ($search['kriteria']) 
             {
                 case 'id' :
-                    $data = User::role('bapelitbang')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = User::role('simonev')->where(['users.id'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;
                 case 'username' :
-                    $data = User::role('bapelitbang')->where('username', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
+                    $data = User::role('simonev')->where('username', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction);                                        
                 break;
                 case 'nama' :
-                    $data = User::role('bapelitbang')->where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('simonev')->where('name', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
                 case 'email' :
-                    $data = User::role('bapelitbang')->where('email', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
+                    $data = User::role('simonev')->where('email', 'ilike', '%' . $search['isikriteria'] . '%')->orderBy($column_order,$direction); 
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
         }
         else
         {
-            $data = User::role('bapelitbang')->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = User::role('simonev')->orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }                
         $data->setPath(route('usersbapelitbang.index'));
         return $data;
@@ -256,7 +256,7 @@ class UsersBapelitbangController extends Controller {
             'created_at'=>$now, 
             'updated_at'=>$now
         ]);                    
-        $user->assignRole('bapelitbang');        
+        $user->assignRole('simonev');        
         if ($request->input('do_sync')==1)
         {
             $user->syncPermissions($user->getPermissionsViaRoles()->pluck('name')->toArray());
@@ -340,7 +340,7 @@ class UsersBapelitbangController extends Controller {
         $user->updated_at = \Carbon\Carbon::now()->toDateTimeString();        
         $user->save();
 
-        $user->syncRoles('bapelitbang');
+        $user->syncRoles('simonev');
         if ($request->input('do_sync')==1)
         {
             $user->syncPermissions($user->getPermissionsViaRoles()->pluck('name')->toArray());

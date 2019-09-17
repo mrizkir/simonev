@@ -30,6 +30,11 @@
             aria-controls="first" aria-selected="true">DETAILS
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link" id="permission-tab" data-toggle="tab" href="#permission-tab" role="tab"
+            aria-controls="permission-tab" aria-selected="true">PERMISSION
+        </a>
+    </li>
 </ul>
 @endsection
 @section('page_breadcrumb')
@@ -96,6 +101,8 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="tab-pane" id="tab-permission" role="tabpanel" aria-labelledby="permission-tab">
     </div>
 </div>
 @endsection

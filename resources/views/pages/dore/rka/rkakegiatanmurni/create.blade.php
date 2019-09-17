@@ -50,7 +50,6 @@
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
 @section('page_asset_css')
-<link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
 @endsection
@@ -80,47 +79,47 @@
                 <h6>DATA KEGIATAN</h6>
                 <div class="separator mb-5"></div>
                 <div class="form-group row">
-                    {{Form::label('kodekegiatan','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('KgtCD','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::text('kodekegiatan','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
+                        {{Form::text('KgtCD','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('namakegiatan','Nama Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('KgtNm','Nama Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::text('namakegiatan','',['class'=>'form-control','placeholder'=>'Nama Kegiatan'])}}
+                        {{Form::text('KgtNm','',['class'=>'form-control','placeholder'=>'Nama Kegiatan'])}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('targetkinerjamasukan','Target Kinerja Masukan:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('PaguDana1','Pagu Dana:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::text('targetkinerjamasukan','',['class'=>'form-control','placeholder'=>'Target Kinerja Masukan'])}}
+                        {{Form::text('PaguDana1','',['class'=>'form-control','placeholder'=>'Pagu Dana'])}}
                     </div>
                 </div>
                 <h6>PENGAMPU KEGIATAN</h6>
                 <div class="separator mb-5"></div>
                 <div class="form-group row">
-                    {{Form::label('penggunaanggaran','Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('nip_pa','Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('targetkinerjamasukan', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                        {{Form::select('nip_pa', $daftar_pa, null, ['class'=>'form-control'])}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('kuasapenggunaanggaran','Kuasa Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('nip_kpa','Kuasa Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('kuasapenggunaanggaran', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                        {{Form::select('nip_kpa', $daftar_kpa, null, ['class'=>'form-control'])}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('ppk','PPK:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('nip_ppk','PPK:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('ppk', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                        {{Form::select('nip_ppk', $daftar_ppk, null, ['class'=>'form-control'])}}
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('pptk','PPTK:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('nip_pptk','PPTK:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('pptk', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
+                        {{Form::select('nip_pptk', $daftar_pptk, null, ['class'=>'form-control'])}}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -131,113 +130,29 @@
                 </div>
             {!! Form::close()!!}
         </div>
-    </div>
-    <div class="card mb-4">
-        <div class="card-body">
-            <h5 class="mb-4">
-                <i class="simple-icon-note"></i>
-                INFORMASI TAMBAHAN KEGIATAN
-            </h5>
-            <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
-                <div class="form-group row">
-                    {{Form::label('program','Program',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('size', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
-                    </div>
-                </div>
-                <h6>LOKASI KEGIATAN</h6>
-                <div class="separator mb-5"></div>
-                <div class="form-group row">
-                    {{Form::label('lokasi','Lokasi:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::text('lokasi','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
-                    </div>
-                </div>
-                <h6>DANA</h6>
-                <div class="separator mb-5"></div>
-                <div class="form-group row">
-                    {{Form::label('sumberdana','Sumber Dana:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('sumberdana', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Pick a size...'])}}
-                    </div>
-                </div>
-                <h6>INDIKATOR DAN TOLAK UKUR KINERJA BELANJA LANGSUNG</h6>
-                <div class="separator mb-5"></div>
-                <div class="form-group row">
-                    {{Form::label('capaianprogram','Capaian Program:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::textarea('capaianprogram','',['class'=>'form-control','placeholder'=>'Capaian Program','rows'=>3])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('targetkinerja','Target Kinerja Capaian (%):',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::text('targetkinerja','',['class'=>'form-control','placeholder'=>'Target Kinerja'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('masukan','Masukan:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::textarea('masukan','',['class'=>'form-control','placeholder'=>'Masukan','rows'=>3])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('keluaran','Keluaran:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::textarea('keluaran','',['class'=>'form-control','placeholder'=>'Keluaran','rows'=>3])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('targetkinerjakeluaran','Target Kinerja Keluaran:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::textarea('targetkinerjakeluaran','',['class'=>'form-control','placeholder'=>'Keluaran','rows'=>3])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('hasil','Hasil:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::textarea('hasil','',['class'=>'form-control','placeholder'=>'Hasil','rows'=>3])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('targetkinerjahasil','Target Kinerja Hasil:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::textarea('targetkinerjahasil','',['class'=>'form-control','placeholder'=>'Target Kinerja Hasil','rows'=>3])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('sifatkegiatan','Sifat Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('sifatkegiatan', ['L' => 'Large', 'S' => 'Small'], null, ['class'=>'form-control','placeholder' => 'Sifat Kegiatan'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                        {{Form::label('waktupelaksanaan','Waktu Pelaksanaan:',['class'=>'col-sm-2 col-form-label'])}}
-                        <div class="col-sm-10">
-                            {{Form::text('targetkinerjahasil','',['class'=>'form-control','placeholder'=>'Waktu Pelaksanaan'])}}
-                        </div>
-                    </div>
-                <div class="form-group row">
-                    {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
-                    </div>
-                </div>
-            {!! Form::close()!!}
-        </div>
-    </div>
+    </div>    
 </div>   
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('js/vendor/jquery-validation/jquery.validate.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/jquery-validation/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/jquery.contextMenu.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
+    AutoNumeric.multiple(['#NIP_ASN'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0,
+                                            maximumValue:99999999999999999999, 
+                                            numericPos:true,
+                                            decimalPlaces : 0,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
     $("#PrgID.select").select({
         theme: "bootstrap",
         placeholder: "PILIH PROGRAM",
@@ -247,6 +162,33 @@ $(document).ready(function () {
         theme: "bootstrap",
         placeholder: "PILIH KEGIATAN",
         allowClear:true        
+    });
+    $(document).on('change','#PrgID',function(ev) {
+        ev.preventDefault();
+        PrgID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "PrgID": PrgID,
+                'create':0
+            },
+            success:function(result)
+            {   
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
     });
     $('#frmdata').validate({
         rules: {

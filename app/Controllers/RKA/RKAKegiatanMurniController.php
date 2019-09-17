@@ -197,6 +197,32 @@ class RKAKegiatanMurniController extends Controller
             
             $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
+
+        //select prgid create 0
+        if ($request->exists('PrgID') && $request->exists('create'))
+        {
+            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('PrgID',$PrgID)
+                    ->WhereNotIn('KgtID',function($query) use ($filters) {
+                        $query->select('KgtID')
+                                ->from('trRKA')
+                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('OrgID', $filters['OrgID']);
+                    }) 
+                    ->orderBy('Kd_Keg')
+                    ->orderBy('kode_kegiatan')
+                    ->get();
+            $daftar_kegiatan=[];        
+            foreach ($r as $k=>$v)
+            {               
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
+            }            
+            $json_data['success']=true;
+            $json_data['PrgID']=$PrgID;
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+        } 
         return response()->json($json_data,200);  
     }
     /**
@@ -287,8 +313,18 @@ class RKAKegiatanMurniController extends Controller
                                                                 ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
                                                                 ->find($SOrgID);  
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
+            $daftar_pa=[];
+            $daftar_kpa=[];
+            $daftar_ppk=[];
+            $daftar_pptk=[];
+            
             return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
-                                                                            'daftar_program'=>$daftar_program
+                                                                            'daftar_program'=>$daftar_program,                                                                                                                                                       
+                                                                            'daftar_kegiatan'=>[],
+                                                                            'daftar_pa'=>$daftar_pa,
+                                                                            'daftar_kpa'=>$daftar_kpa,
+                                                                            'daftar_ppk'=>$daftar_ppk,
+                                                                            'daftar_pptk'=>$daftar_pptk,
                                                                         ]);  
         }
         else

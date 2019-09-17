@@ -19,13 +19,14 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->string('SOrgID',19);
             $table->string('PrgID',19);
             $table->string('RKPDID',19)->nullable();
+            $table->string('Kd_Keg',4);
             $table->text('KgtNm');
             $table->decimal('PaguDana1',15,2);
             $table->decimal('PaguDana2',15,2)->nullable();
-            $table->string('nip_pa',19);
-            $table->string('nip_kpa',19);
-            $table->string('nip_ppk',19);
-            $table->string('nip_pptk',19);
+            $table->string('nip_pa',19)->nullable();
+            $table->string('nip_kpa',19)->nullable();
+            $table->string('nip_ppk',19)->nullable();
+            $table->string('nip_pptk',19)->nullable();
             $table->integer('user_id'); 
             $table->string('Descr')->nullable();            
             $table->year('TA'); 

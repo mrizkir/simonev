@@ -51,7 +51,6 @@
 <li class="breadcrumb-item active" aria-current="page">KEGIATAN MURNI</li>
 @endsection
 @section('page_asset_css')
-<link rel="stylesheet" href="{!!asset('css/vendor/jquery.contextMenu.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
 @endsection
@@ -158,7 +157,6 @@
 </div>
 @endsection
 @section('page_asset_js')
-<script src="{!!asset('js/vendor/jquery.contextMenu.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
