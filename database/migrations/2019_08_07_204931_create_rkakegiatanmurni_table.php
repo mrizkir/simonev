@@ -19,6 +19,7 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->string('SOrgID',19);
             $table->string('PrgID',19);
             $table->string('RKPDID',19)->nullable();
+            $table->string('SumberDanaID',19);
             $table->string('Kd_Keg',4);
             $table->text('KgtNm');
             $table->decimal('PaguDana1',15,2);

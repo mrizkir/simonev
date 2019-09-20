@@ -70,18 +70,18 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('KgtID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('RKPDID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::select('KgtID', $daftar_kegiatan, null, ['class'=>'form-control select'])}}
+                        {{Form::select('RKPDID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
                         <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI</small>
                     </div>
                 </div>
                 <h6>DATA KEGIATAN</h6>
                 <div class="separator mb-5"></div>
                 <div class="form-group row">
-                    {{Form::label('KgtCD','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('Kd_Keg','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::text('KgtCD','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
+                        {{Form::text('Kd_Keg','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
                     </div>
                 </div>
                 <div class="form-group row">
@@ -142,17 +142,26 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#NIP_ASN'], {
-                                            allowDecimalPadding: false,
-                                            minimumValue:0,
-                                            maximumValue:99999999999999999999, 
-                                            numericPos:true,
-                                            decimalPlaces : 0,
-                                            digitGroupSeparator : '',
-                                            showWarnings:false,
-                                            unformatOnSubmit: true,
-                                            modifyValueOnWheel:false
-                                        });
+    AutoNumeric.multiple(['#Kd_Keg'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0,
+                                        maximumValue:99999999999999999999, 
+                                        numericPos:true,
+                                        decimalPlaces : 0,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
+
+    AutoNumeric.multiple(['#PaguDana1'],{
+                                        allowDecimalPadding: false,
+                                        decimalCharacter: ",",
+                                        digitGroupSeparator: ".",
+                                        unformatOnSubmit: true,
+                                        showWarnings:false,
+                                        modifyValueOnWheel:false
+                                    });
     $("#PrgID.select").select({
         theme: "bootstrap",
         placeholder: "PILIH PROGRAM",
@@ -177,12 +186,12 @@ $(document).ready(function () {
             },
             success:function(result)
             {   
-                var daftar_kegiatan = result.daftar_kegiatan;
+                var daftar_rkpd = result.daftar_rkpd;
                 var listitems='<option></option>';
-                $.each(daftar_kegiatan,function(key,value){
+                $.each(daftar_rkpd,function(key,value){
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
-                $('#KgtID').html(listitems);
+                $('#RKPDID').html(listitems);
             },
             error:function(xhr, status, error)
             {   
@@ -192,15 +201,31 @@ $(document).ready(function () {
     });
     $('#frmdata').validate({
         rules: {
-            replaceit : {
+            PrgID : {
                 required: true,
-                minlength: 2
+            },
+            Kd_Keg : {
+                required: true,
+            },
+            KgtNm : {
+                required: true,
+            },
+            PaguDana1 : {
+                required: true,
             }
         },
         messages : {
-            replaceit : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            PrgID : {
+                required: "Mohon untuk di pilih program nama kegiatan.",                
+            },
+            Kd_Keg : {
+                required: "Mohon untuk di isi kode kegiatan.",                
+            },
+            KgtNm : {
+                required: "Mohon untuk di isi nama kegiatan.",                
+            },
+            PaguDana1 : {
+                required: "Mohon untuk di isi pagu dana kegiatan.",                
             }
         }      
     });   

@@ -26,6 +26,7 @@ class RKAKegiatanMurniModel extends Model
         'SOrgID', 
         'PrgID', 
         'RKPDID', 
+        'Kd_Keg', 
         'KgtNm', 
         'PaguDana1', 
         'PaguDana2', 
@@ -33,6 +34,7 @@ class RKAKegiatanMurniModel extends Model
         'nip_kpa', 
         'nip_ppk', 
         'nip_pptk', 
+        'user_id', 
         'Descr', 
         'TA', 
         'Locked'
