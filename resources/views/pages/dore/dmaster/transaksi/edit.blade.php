@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-ASN
+TRANSAKSI
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    ASN
+    TRANSAKSI
 </h1>
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@ ASN
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('asn.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{!!route('transaksi.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
@@ -45,7 +45,7 @@ ASN
 @section('page_breadcrumb')
 <li class="breadcrumb-item">RKA</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('asn.index')!!}"> KEGIATAN MURNI</a>
+    <a href="{!!route('transaksi.index')!!}"> KEGIATAN MURNI</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
@@ -55,27 +55,28 @@ ASN
         <div class="card-body">
             <h4 class="mb-4">
                 <i class="simple-icon-note"></i>
-                TAMBAH DATA
+                UBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\ASNController@store','method'=>'post','class'=>'form-horizontal
+            {!!
+            Form::open(['action'=>['DMaster\TransaksiController@update',$data->StrID],'method'=>'put','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('NIP_ASN','NIP ASN:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_1','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('NIP_ASN','',['class'=>'form-control','placeholder'=>'NIP ASN'])}}
+                    {{Form::text('Kd_Rek_1',$data['Kd_Rek_1'],['class'=>'form-control','placeholder'=>'Kode Transaksi'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Nm_ASN','Nama ASN:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('StrNm',' NAMA TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Nm_ASN','',['class'=>'form-control','placeholder'=>'Nama ASN'])}}
+                    {{Form::text('StrNm',$data['StrNm'],['class'=>'form-control','placeholder'=>'Nama Transaksi'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Descr','Keterangan:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Descr',' DESKRIPSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Keterangan','rows'=>3])}}
+                    {{Form::textarea('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'Deskripsi','rows'=>2])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
@@ -97,7 +98,7 @@ ASN
 @section('page_custom_js')
 <script type="text/javascript">
     $(document).ready(function () {   
-    AutoNumeric.multiple(['#NIP_ASN'], {
+    AutoNumeric.multiple(['#NIP_TRANSAKSI'], {
                                             allowDecimalPadding: false,
                                             minimumValue:0,
                                             maximumValue:99999999999999999999, 
@@ -110,21 +111,21 @@ ASN
                                         });
     $('#frmdata').validate({
         rules: {
-            NIP_ASN : {
+            NIP_TRANSAKSI : {
                 required: true,
                 minlength: 2
             },
-            Nm_ASN : {
+            Nm_TRANSAKSI : {
                 required: true,
                 minlength: 2
             },
         },
         messages : {
-            NIP_ASN : {
+            NIP_TRANSAKSI : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            Nm_ASN : {
+            Nm_TRANSAKSI : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

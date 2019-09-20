@@ -100,7 +100,7 @@
                     <div id="collapseRekening" class="collapse show">
                         <ul class="list-unstyled inner-level-menu">
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('transaksi.index')}}">
                                     <i class="simple-icon-list"></i>
                                     <span class="d-inline-block">TRANSAKSI</span>
                                 </a>
@@ -157,13 +157,13 @@
                         <i class="simple-icon-arrow-down"></i> <span class="d-inline-block">LAIN - LAIN</span>
                     </a>
                     <div id="collapseBlog" class="collapse show">
-                        <ul class="list-unstyled inner-level-menu">                            
+                        <ul class="list-unstyled inner-level-menu">
                             <li>
                                 <a href="{{route('rkakegiatanmurni.index')}}">
                                     <i class="simple-icon-size-actual"></i>
                                     <span class="d-inline-block">JENIS PELAKSANAAN</span>
                                 </a>
-                            </li>                            
+                            </li>
                         </ul>
                     </div>
                 </li>
@@ -178,13 +178,13 @@
                 </li>
             </ul>
             <ul class="list-unstyled" data-link="setting">
-                @hasrole('superadmin|bapelitbang')                
+                @hasrole('superadmin|bapelitbang')
                 <li>
-                        <a href="{{route('permissions.index')}}">
-                            <i class="simple-icon-credit-card"></i>
-                            <span class="d-inline-block">PERMISSIONS</span>
-                        </a>
-                    </li>
+                    <a href="{{route('permissions.index')}}">
+                        <i class="simple-icon-credit-card"></i>
+                        <span class="d-inline-block">PERMISSIONS</span>
+                    </a>
+                </li>
                 <li>
                     <a href="{{route('roles.index')}}">
                         <i class="simple-icon-picture"></i>
