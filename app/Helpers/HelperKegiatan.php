@@ -64,4 +64,19 @@ class HelperKegiatan {
         }
         return $pagetitle;
     }
+    /**
+     * digunakan untuk mendapatkan nama view db
+     */
+    public static function getViewName ($nameofpage)
+    {
+        switch ($nameofpage) 
+        {         
+            case 'rkakegiatanmurni' :
+                $dbViewName = 'v_rka';
+            break;            
+            default :
+                $dbViewName = null;
+        }
+        return $dbViewName;
+    }   
 }

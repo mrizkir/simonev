@@ -55,7 +55,8 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            $data = RKAKegiatanMurniModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }        
         $data->setPath(route('rkakegiatanmurni.index'));
         return $data;
@@ -219,10 +220,28 @@ class RKAKegiatanMurniController extends Controller
             foreach ($r as $k=>$v)
             {               
                 $daftar_rkpd[$v->RKPDID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->RKPDID.')';
+            }                        
+            $json_data['daftar_rkpd']=$daftar_rkpd;
+
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('PrgID',$PrgID)
+                    ->WhereNotIn('KgtID',function($query) {
+                        $OrgID=$this->getControllerStateSession($this->SessionName,'filters.OrgID');
+                        $query->select('KgtID')
+                                ->from('trRenja')
+                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('OrgID', $OrgID);
+                    }) 
+                    ->get();
+            $daftar_kegiatan=[];           
+            foreach ($r as $k=>$v)
+            {               
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
             }            
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
             $json_data['success']=true;
             $json_data['PrgID']=$PrgID;
-            $json_data['daftar_rkpd']=$daftar_rkpd;
         } 
         return response()->json($json_data,200);  
     }
@@ -349,8 +368,7 @@ class RKAKegiatanMurniController extends Controller
         
         $this->validate($request, [
             'PrgID'=>'required',
-            'Kd_Keg'=>'required',
-            'KgtNm'=>'required',
+            'KgtID'=>'required',
             'PaguDana1'=>'required',
         ]);
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
@@ -359,9 +377,8 @@ class RKAKegiatanMurniController extends Controller
             'OrgID' => $filters['OrgID'],
             'SOrgID' => $filters['SOrgID'],
             'PrgID' => $request->input('PrgID'),
-            'RKPDID' => $request->input('RKPDID'),
-            'Kd_Keg' => $request->input('Kd_Keg'),
-            'KgtNm' => $request->input('KgtNm'),
+            'KgtID' => $request->input('KgtID'),
+            'RKPDID' => $request->input('RKPDID'),            
             'PaguDana1' => $request->input('PaguDana1'),
             'PaguDana1' => 0,
             'nip_pa' => $request->input('nip_pa'),

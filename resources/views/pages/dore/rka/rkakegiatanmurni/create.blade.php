@@ -70,30 +70,26 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    {{Form::label('RKPDID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('RKPDID','RKPD',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::select('RKPDID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
-                        <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI</small>
+                        <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI. Abaikan bila kegiatan yang di inputkan tidak terdaftar di RKPD</small>
                     </div>
                 </div>
                 <h6>DATA KEGIATAN</h6>
                 <div class="separator mb-5"></div>
                 <div class="form-group row">
-                    {{Form::label('Kd_Keg','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    {{Form::label('KgtID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
-                        {{Form::text('Kd_Keg','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('KgtNm','Nama Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::text('KgtNm','',['class'=>'form-control','placeholder'=>'Nama Kegiatan'])}}
+                        {{Form::select('KgtID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
+                        <small class="form-text text-muted">Daftar kegiatan ini berasal dari Master Kegiatan (tmKgt) Atau saat RKPD dipilih berasal dari tabel trRKPD. Bila kosong, barangkali sudah di inputkan.</small>
                     </div>
                 </div>
                 <div class="form-group row">
                     {{Form::label('PaguDana1','Pagu Dana:',['class'=>'col-sm-2 col-form-label'])}}
                     <div class="col-sm-10">
                         {{Form::text('PaguDana1','',['class'=>'form-control','placeholder'=>'Pagu Dana'])}}
+                        <small class="form-text text-muted">Nilai Pagu berasal dari Pembahasan RKPD Murni. Bisa diganti bila tidak sesuai dengan di E-Budgeting.</small>
                     </div>
                 </div>
                 <h6>PENGAMPU KEGIATAN</h6>
@@ -142,18 +138,6 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Kd_Keg'], {
-                                        allowDecimalPadding: false,
-                                        minimumValue:0,
-                                        maximumValue:99999999999999999999, 
-                                        numericPos:true,
-                                        decimalPlaces : 0,
-                                        digitGroupSeparator : '',
-                                        showWarnings:false,
-                                        unformatOnSubmit: true,
-                                        modifyValueOnWheel:false
-                                    });
-
     AutoNumeric.multiple(['#PaguDana1'],{
                                         allowDecimalPadding: false,
                                         decimalCharacter: ",",
@@ -192,6 +176,13 @@ $(document).ready(function () {
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
                 $('#RKPDID').html(listitems);
+
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
             },
             error:function(xhr, status, error)
             {   
@@ -204,10 +195,7 @@ $(document).ready(function () {
             PrgID : {
                 required: true,
             },
-            Kd_Keg : {
-                required: true,
-            },
-            KgtNm : {
+            KgtID : {
                 required: true,
             },
             PaguDana1 : {
@@ -216,13 +204,10 @@ $(document).ready(function () {
         },
         messages : {
             PrgID : {
-                required: "Mohon untuk di pilih program nama kegiatan.",                
+                required: "Mohon untuk di pilih nama program.",                
             },
-            Kd_Keg : {
-                required: "Mohon untuk di isi kode kegiatan.",                
-            },
-            KgtNm : {
-                required: "Mohon untuk di isi nama kegiatan.",                
+            KgtID : {
+                required: "Mohon untuk di pilih nama kegiatan.",                
             },
             PaguDana1 : {
                 required: "Mohon untuk di isi pagu dana kegiatan.",                
