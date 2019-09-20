@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-TRANSAKSI
+KELOMPOK
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    TRANSAKSI
+    KELOMPOK
 </h1>
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@ TRANSAKSI
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('transaksi.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{!!route('kelompok.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
@@ -45,7 +45,7 @@ TRANSAKSI
 @section('page_breadcrumb')
 <li class="breadcrumb-item">MASTER</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('transaksi.index')!!}"> REKENING</a>
+    <a href="{!!route('kelompok.index')!!}"> REKENING</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
@@ -58,18 +58,24 @@ TRANSAKSI
                 TAMBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\TransaksiController@store','method'=>'post','class'=>'form-horizontal
+            {!! Form::open(['action'=>'DMaster\KelompokController@store','method'=>'post','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_1','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('StrID','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_1','',['class'=>'form-control','placeholder'=>'Kode Transaksi'])}}
+                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::pluck('StrNm','StrID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Transaksi','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('StrNm','NAMA TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_2','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('StrNm','',['class'=>'form-control','placeholder'=>'Nama Transaksi'])}}
+                    {{Form::text('Kd_Rek_2','',['class'=>'form-control','placeholder'=>'Kode Kelompok'])}}
+                </div>
+            </div>
+            <div class="form-group row has-float-label">
+                {{Form::label('KlpNm','NAMA KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                <div class="col-sm-10">
+                    {{Form::text('KlpNm','',['class'=>'form-control','placeholder'=>'Nama Kelompok'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
@@ -98,31 +104,31 @@ TRANSAKSI
     $(document).ready(function () {   
     $('#frmdata').validate({
         rules: {
-            Kd_Rek_1 : {
-                required: true,
-                minlength: 3
-            },
-            StrNm : {
+            Kd_Rek_2 : {
                 required: true,
                 minlength: 2
             },
-            Descr : {
-            required: true,
-            minlength: 2
+            KlpNm : {
+                required: true,
+                minlength: 2
+            },
+            Descr : {   
+                required: true,
+                minlength: 2
             },
         },
         messages : {
-            Kd_Rek_1 : {
+            Kd_Rek_2 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            StrNm : {
+            KlpNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
             Descr : {
-            required: "Mohon untuk di isi karena ini diperlukan.",
-            minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
         },      
     });   

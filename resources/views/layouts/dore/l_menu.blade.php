@@ -106,7 +106,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('kelompok.index')}}">
                                     <i class="simple-icon-puzzle"></i>
                                     <span class="d-inline-block">KELOMPOK</span>
                                 </a>
