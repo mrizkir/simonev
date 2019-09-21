@@ -15,8 +15,8 @@ class CreateVRkaView extends Migration
     {
         \DB::statement('CREATE VIEW v_rka AS
             SELECT 
+                A."RKAID",
                 A."RKPDID",
-                A."RenjaID",
                 A."OrgID",
                 A."SOrgID",
                 E."Kd_Urusan" AS "Kd_UrusanUnit",
@@ -59,28 +59,24 @@ class CreateVRkaView extends Migration
                 END AS kode_kegiatan,
                 F."KgtNm",
                 K."Nm_SumberDana",
-                A."NamaIndikator",
-                A."Sasaran_Angka1",
-                A."Sasaran_Angka2",
-                A."Sasaran_Angka3",
-                A."Sasaran_Angka4",
-                A."Sasaran_Uraian1",
-                A."Sasaran_Uraian2",
-                A."Sasaran_Uraian3",
-                A."Sasaran_Uraian4",
-                A."Target1",
-                A."Target2",
-                A."Target3",
-                A."Target4",
-                A."NilaiUsulan1",
-                A."NilaiUsulan2",
-                A."NilaiUsulan3",
-                A."NilaiUsulan4",
-                A."Sasaran_AngkaSetelah",
-                A."Sasaran_UraianSetelah",
-                A."NilaiSebelum",
-                A."NilaiSetelah",
-                A."Tgl_Posting",               
+                A."keluaran",
+                A."tk_keluaran",
+                A."hasil",
+                A."tk_hasil",
+                A."capaian_program",
+                A."tk_capaian",
+                A."masukan",
+                A."ksk",
+                A."sifat_kegiatan",
+                A."waktu_pelaksanaan",
+                A."lokasi_kegiatan",
+                A."PaguDana1",
+                A."PaguDana2",
+                A."nip_pa",
+                A."nip_kpa",
+                A."nip_ppk",
+                A."nip_pptk",
+                A."user_id",
                 A."Descr",
                 A."TA",
                 A."Status",
@@ -90,12 +86,12 @@ class CreateVRkaView extends Migration
                 A."RKPDID_Src",
                 A."created_at",
                 A."updated_at"
-            FROM "trRKPD" A
+            FROM "trRKA" A
             JOIN "tmOrg" B ON A."OrgID"=B."OrgID"
             JOIN "tmSOrg" C ON A."SOrgID"=C."SOrgID"
             JOIN "tmUrs" D ON B."UrsID"=D."UrsID"
             JOIN "tmKUrs" E ON D."KUrsID"=E."KUrsID"
-            JOIN "tmSumberDana" K ON K."SumberDanaID"=A."SumberDanaID"
+            LEFT JOIN "tmSumberDana" K ON K."SumberDanaID"=A."SumberDanaID"
 
             JOIN "tmKgt" F ON A."KgtID"=F."KgtID"
             JOIN "tmPrg" G ON F."PrgID"=G."PrgID"

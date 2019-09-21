@@ -39,6 +39,7 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->string('nip_ppk',19)->nullable();
             $table->string('nip_pptk',19)->nullable();
             $table->integer('user_id'); 
+            $table->tinyInteger('EntryLvl')->default(0);
             $table->string('Descr')->nullable();            
             $table->year('TA'); 
             $table->boolean('Locked')->default(0);
