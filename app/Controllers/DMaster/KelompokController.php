@@ -278,17 +278,21 @@ class KelompokController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-        $kelompok = KelompokModel::find($uuid);
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
-            'StrNm' => 'required|min:5',
+            'Kd_Rek_2' => 'required|min:2',
+            'KlpNm' => 'required|min:5',
             'Descr' => 'required|min:5',
         ]);
 
-        $kelompok->Kd_Rek_1 = $request->input('Kd_Rek_1');
-        $kelompok->StrNm = $request->input('StrNm');
-        $kelompok->Descr = $request->input('Descr');
-        $kelompok->save();
+        $kelompok = KelompokModel::create([
+            'KlpID' => uniqid('uid'),
+            'StrID' => $request->input('StrID'),
+            'Kd_Rek_2' => $request->input('Kd_Rek_2'),
+            'KlpNm' => $request->input('KlpNm'),
+            'Descr' => $request->input('Descr'),
+            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+        ]);
+
 
         if ($request->ajax()) {
             return response()->json([

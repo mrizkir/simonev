@@ -71,7 +71,7 @@ TRANSAKSI
     $("#divdatatable").on("click",".btnDelete", function(){
         swal.fire ({
             title:'Hapus Data',
-            text:'Apakah ingin menghapus data Transaksi ini ?',
+            text:'Apakah ingin menghapus data Kelompok ini ?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
