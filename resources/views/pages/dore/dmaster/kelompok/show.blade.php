@@ -58,15 +58,21 @@ KELOMPOK
                             <div class="col-md-6">
                                 <form>
                                     <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>KODE TRANSAKSI: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->StrID}}</p>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>KODE KELOMPOK: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->Kd_Rek_1}}</p>
+                                            <p class="form-control-static">{{$data->Kd_Rek_2}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>NAMA KELOMPOK: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->StrNm}}</p>
+                                            <p class="form-control-static">{{$data->KlpNm}}</p>
                                         </div>
                                     </div>
                                     <div class="form-group row">

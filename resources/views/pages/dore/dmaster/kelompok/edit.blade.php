@@ -59,22 +59,28 @@ TRANSAKSI
             </h4>
             <div class="separator mb-5"></div>
             {!!
-            Form::open(['action'=>['DMaster\TransaksiController@update',$data->StrID],'method'=>'put','class'=>'form-horizontal
+            Form::open(['action'=>['DMaster\KelompokController@update',$data->KlpID],'method'=>'put','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_1','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('StrID','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_1',$data['Kd_Rek_1'],['class'=>'form-control','placeholder'=>'Kode Transaksi'])}}
+                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::pluck('StrNm','StrID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Transaksi','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('StrNm',' NAMA TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_2','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('StrNm',$data['StrNm'],['class'=>'form-control','placeholder'=>'Nama Transaksi'])}}
+                    {{Form::text('Kd_Rek_2',$data['Kd_Rek_2'],['class'=>'form-control','placeholder'=>'Kode Kelompok'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Descr',' DESKRIPSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('KlpNm','NAMA KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                <div class="col-sm-10">
+                    {{Form::text('KlpNm',$data['KlpNm'],['class'=>'form-control','placeholder'=>'Nama Kelompok'])}}
+                </div>
+            </div>
+            <div class="form-group row has-float-label">
+                {{Form::label('Descr','DESKRIPSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
                     {{Form::textarea('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'Deskripsi','rows'=>2])}}
                 </div>

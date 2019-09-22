@@ -7,13 +7,18 @@
                     <tr>
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="150">
-                            <a class="column-sort" id="col-NIP_TRANSAKSI" data-order="{{$direction}}" href="#">
+                            <a class="column-sort" id="col-NIP_KELOMPOK" data-order="{{$direction}}" href="#">
                                 KODE TRANSAKSI
                             </a>
                         </th>
                         <th scope="col">
                             <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                                NAMA TRANSAKSI
+                                KODE KELOMPOK
+                            </a>
+                        </th>
+                        <th scope="col">
+                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
+                                NAMA KELOMPOK
                             </a>
                         </th>
                         <th scope="col" width="70">DESKRIPSI</th>
@@ -28,8 +33,9 @@
 
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                             </td>
-                        <td>{{$item->Kd_Rek_1}}</td>
-                        <td>{{$item->StrNm}}</td>
+                        <td>{{$item->StrID}}</td>
+                        <td>{{$item->Kd_Rek_2}}</td>
+                        <td>{{$item->KlpNm}}</td>
                         <td>{{$item->Descr}}</td>
                         <td>{{$item->TA}}</td>
                         <td>
@@ -54,7 +60,7 @@
                         <td colspan="6">
                             <p class="mb-3">
                                 <span class="badge badge-pill badge-outline-theme-2 mb-1">
-                                    <strong>TRANSAKSIID:</strong>{{$item->KlpID}}
+                                    <strong>KELOMPOKID:</strong>{{$item->KlpID}}
                                 </span>
                                 <span class="badge badge-pill badge-outline-theme-2 mb-1">
                                     <strong>CREATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
