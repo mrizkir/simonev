@@ -45,6 +45,7 @@ class RKAKegiatanMurniModel extends Model
         'nip_ppk', 
         'nip_pptk', 
         'user_id', 
+        'EntryLvl', 
         'Descr', 
         'TA', 
         'Locked'

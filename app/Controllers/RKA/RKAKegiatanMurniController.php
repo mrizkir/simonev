@@ -403,13 +403,14 @@ class RKAKegiatanMurniController extends Controller
             'KgtID' => $request->input('KgtID'),
             'RKPDID' => $request->input('RKPDID'),            
             'PaguDana1' => $request->input('PaguDana1'),
-            'PaguDana1' => 0,
+            'PaguDana2' => 0,
             'nip_pa' => $request->input('nip_pa'),
             'nip_kpa' => $request->input('nip_kpa'),
             'nip_ppk' => $request->input('nip_ppk'),
             'nip_pptk' => $request->input('nip_pptk'),
             'user_id' => $theme = \Auth::user()->id,
             'Descr' => '-',
+            'EntryLvl' => 1,
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);        
         
