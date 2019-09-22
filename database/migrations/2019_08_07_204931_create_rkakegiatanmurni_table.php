@@ -43,6 +43,7 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->string('Descr')->nullable();            
             $table->year('TA'); 
             $table->boolean('Locked')->default(0);
+            $table->string('RKAID_Src',19)->nullable();
             $table->timestamps();
 
             $table->primary('RKAID');
@@ -56,6 +57,7 @@ class CreateRkakegiatanmurniTable extends Migration
             $table->index('nip_kpa');
             $table->index('nip_ppk');
             $table->index('nip_pptk');
+            $table->index('RKAID_Src');
 
             $table->foreign('OrgID')
                     ->references('OrgID')

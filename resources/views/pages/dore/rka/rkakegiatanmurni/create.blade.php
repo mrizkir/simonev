@@ -190,6 +190,34 @@ $(document).ready(function () {
             },
         });
     });
+    $(document).on('change','#RKPDID',function(ev) {
+        ev.preventDefault();
+        RKPDID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "RKPDID": RKPDID,
+                'create':0
+            },
+            success:function(result)
+            { 
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
+                AutoNumeric.getAutoNumericElement('#PaguDana1').set(result.NilaiUsulan2);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
     $('#frmdata').validate({
         rules: {
             PrgID : {

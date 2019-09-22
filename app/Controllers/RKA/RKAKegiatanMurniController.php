@@ -57,7 +57,7 @@ class RKAKegiatanMurniController extends Controller
         {
             $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+        }      
         $data->setPath(route('rkakegiatanmurni.index'));
         return $data;
     }
@@ -211,10 +211,8 @@ class RKAKegiatanMurniController extends Controller
                         $query->select('RKPDID')
                                 ->from('trRKA')
                                 ->where('TA', \HelperKegiatan::getTahunPenyerapan())
-                                ->where('OrgID', $filters['OrgID']);
+                                ->where('SOrgID', $filters['SOrgID']);
                     }) 
-                    ->orderBy('Kd_Keg')
-                    ->orderBy('kode_kegiatan')
                     ->get();
             $daftar_rkpd=[];        
             foreach ($r as $k=>$v)
@@ -227,11 +225,11 @@ class RKAKegiatanMurniController extends Controller
                     ->where('TA',\HelperKegiatan::getTahunPenyerapan())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('KgtID',function($query) {
-                        $OrgID=$this->getControllerStateSession($this->SessionName,'filters.OrgID');
+                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
-                                ->from('trRenja')
+                                ->from('trRKA')
                                 ->where('TA', \HelperKegiatan::getTahunPenyerapan())
-                                ->where('OrgID', $OrgID);
+                                ->where('SOrgID', $SOrgID);
                     }) 
                     ->get();
             $daftar_kegiatan=[];           
@@ -243,6 +241,31 @@ class RKAKegiatanMurniController extends Controller
             $json_data['success']=true;
             $json_data['PrgID']=$PrgID;
         } 
+        //select RKPDID create 0
+        if ($request->exists('RKPDID') && $request->exists('create'))
+        {
+            $RKPDID = $request->input('RKPDID')==''?'none':$request->input('RKPDID'); 
+            $daftar_kegiatan=[];  
+            $r=\DB::table('v_rkpd')
+                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('RKPDID',$RKPDID)
+                    ->WhereNotIn('KgtID',function($query) {
+                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
+                        $query->select('KgtID')
+                                ->from('trRKA')
+                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('SOrgID', $SOrgID);
+                    }) 
+                    ->get();
+            foreach ($r as $k=>$v)
+            {               
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
+            }   
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+            $json_data['NilaiUsulan2']=isset($r[0])?$r[0]->NilaiUsulan2:0;
+            $json_data['success']=true;
+            $json_data['RKPDID']=$RKPDID;
+        }
         return response()->json($json_data,200);  
     }
     /**
@@ -399,7 +422,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['id'=>$rkakegiatanmurni->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }

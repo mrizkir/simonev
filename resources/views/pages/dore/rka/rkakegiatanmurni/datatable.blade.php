@@ -33,10 +33,11 @@
                         <th scope="row">
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                             </td>
-                        <td>{{$item->Kode_Bidang}}</td>
-                        <td>{{$item->Nm_Bidang}}</td>
-                        <td>{{$item->Nm_Urusan}}</td>
-                        <td>{{$item->Descr}}</td>
+                        <td>{{$item->kode_kegiatan}}</td>
+                        <td>{{$item->KgtNm}}</td>
+                        <td>{{Helper::formatUang($item->PaguDana1)}}</td>
+                        <td>{{Helper::formatUang($item->PaguDana1)}}</td>
+                        <td>{{$item->TA}}</td>
                         <td>{{$item->TA}}</td>
                         <td>
                             <div class="input-group-append">

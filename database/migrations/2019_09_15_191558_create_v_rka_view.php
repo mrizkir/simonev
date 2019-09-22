@@ -79,11 +79,8 @@ class CreateVRkaView extends Migration
                 A."user_id",
                 A."Descr",
                 A."TA",
-                A."Status",
-                A."Status_Indikator",
                 A."EntryLvl",
-                A."Privilege",
-                A."RKPDID_Src",
+                A."RKAID_Src",
                 A."created_at",
                 A."updated_at"
             FROM "trRKA" A
