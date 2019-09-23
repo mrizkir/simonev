@@ -79,4 +79,18 @@ class HelperKegiatan {
         }
         return $dbViewName;
     }   
+    /**
+    * digunakan untuk mendapatkan entri level
+    */
+    public static function getLevelEntriByName ($level_name) {        
+        switch ($level_name) 
+        {            
+            case 'rkakegiatanmurni' :
+                $level = 1;
+            break;            
+            default :
+                $level = null;
+        }
+        return $level;
+    }
 }

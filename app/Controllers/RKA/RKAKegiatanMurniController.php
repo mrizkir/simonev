@@ -41,7 +41,19 @@ class RKAKegiatanMurniController extends Controller
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
+        
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                            'changetab'=>'ringkasan-tab',
+                                                                            ]);
+        }        
+        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
+
         if ($this->checkStateIsExistSession('rkakegiatanmurni','search')) 
         {
             $search=$this->getControllerStateSession('rkakegiatanmurni','search');
@@ -56,6 +68,9 @@ class RKAKegiatanMurniController extends Controller
         else
         {
             $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                        ->where('SOrgID',$SOrgID)                                            
+                        ->where('TA', \HelperKegiatan::getTahunPenyerapan())  
+                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
         $data->setPath(route('rkakegiatanmurni.index'));
@@ -427,7 +442,23 @@ class RKAKegiatanMurniController extends Controller
         }
 
     }
-    
+    /**
+     * digunakan untuk melakukan perubahan tabulasi detail rka.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changetab (Request $request)
+    {
+        $json_data = [];
+        $tab = $request->input('tab')==''?'none':$request->input('tab');
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']=$tab;
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
+        $json_data['success']=true;
+        $json_data['changetab']=$tab;
+        return response()->json($json_data,200);  
+    }
     /**
      * Display the specified resource.
      *
@@ -438,12 +469,44 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
-        $data = RKAKegiatanMurniModel::findOrFail($id);
-        if (!is_null($data) )  
+        $rka = RKAKegiatanMurniModel::select(\DB::raw('"trRKA"."RKAID",
+                                            "v_rka"."kode_urusan",
+                                            "v_rka"."Nm_Bidang",
+                                            "v_rka"."kode_organisasi",
+                                            "v_rka"."OrgNm",
+                                            "v_rka"."kode_suborganisasi",
+                                            "v_rka"."SOrgNm",
+                                            "v_rka"."kode_program",
+                                            "v_rka"."PrgNm",
+                                            "v_rka"."Kd_Keg",
+                                            "v_rka"."kode_kegiatan",
+                                            "v_rka"."KgtNm",
+                                            "v_rka"."sifat_kegiatan",
+                                            "v_rka"."tk_keluaran",
+                                            "v_rka"."keluaran",
+                                            "v_rka"."tk_capaian",
+                                            "v_rka"."capaian_program",
+                                            "v_rka"."tk_hasil",
+                                            "v_rka"."hasil",
+                                            "v_rka"."PaguDana1",
+                                            "v_rka"."Nm_SumberDana",
+                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."EntryLvl",
+                                            "v_rka"."created_at",
+                                            "v_rka"."updated_at"
+                                            '))
+                            ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
+                            ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                            ->findOrFail($id);
+        if (!is_null($rka) )  
         {
+            $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'filters'=>$filters,
+                                                                        'rka'=>$rka,
+                                                                        'sumber_dana'=>$sumber_dana
+                                                                    ]);
         }        
     }
 
