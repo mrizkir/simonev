@@ -279,21 +279,18 @@ class JenisController extends Controller
      */
     public function update(Request $request, $uuid)
     {
+        $jenis = JenisModel::find($uuid);
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:2',
-            'KlpNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
+            'Kd_Rek_3' => 'required|min:2',
+            'JnsNm' => 'required|min:5',
         ]);
 
-        $jenis = JenisModel::create([
-            'KlpID' => uniqid('uid'),
-            'StrID' => $request->input('StrID'),
-            'Kd_Rek_2' => $request->input('Kd_Rek_2'),
-            'KlpNm' => $request->input('KlpNm'),
-            'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
-        ]);
-
+        $jenis->KlpID = $request->input('KlpID');
+        $jenis->Kd_Rek_3 = $request->input('Kd_Rek_3');
+        $jenis->JnsNm = $request->input('JnsNm');
+        $jenis->Descr = $request->input('Descr');
+        $jenis->TA = \HelperKegiatan::getTahunPenyerapan();
+        $jenis->save();
 
         if ($request->ajax()) {
             return response()->json([
@@ -301,7 +298,7 @@ class JenisController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('jenis.show', ['uuid' => $jenis->ASNID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('jenis.show', ['uuid' => $jenis->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**

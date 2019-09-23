@@ -59,24 +59,24 @@ TRANSAKSI
             </h4>
             <div class="separator mb-5"></div>
             {!!
-            Form::open(['action'=>['DMaster\KelompokController@update',$data->KlpID],'method'=>'put','class'=>'form-horizontal
+            Form::open(['action'=>['DMaster\JenisController@update',$data->JnsID],'method'=>'put','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('StrID','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('KlpID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::pluck('StrNm','StrID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Transaksi','class'=>'form-control'])}}
+                    {{Form::select('KlpID', \App\Models\DMaster\KelompokModel::pluck('KlpNm','KlpID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Kelompok','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_2','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_3','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_2',$data['Kd_Rek_2'],['class'=>'form-control','placeholder'=>'Kode Kelompok'])}}
+                    {{Form::text('Kd_Rek_3',$data['Kd_Rek_3'],['class'=>'form-control','placeholder'=>'Kode Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('KlpNm','NAMA JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('JnsNm','NAMA JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('KlpNm',$data['KlpNm'],['class'=>'form-control','placeholder'=>'Nama Kelompok'])}}
+                    {{Form::text('JnsNm',$data['JnsNm'],['class'=>'form-control','placeholder'=>'Nama Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
@@ -103,35 +103,24 @@ TRANSAKSI
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-    $(document).ready(function () {   
-    AutoNumeric.multiple(['#NIP_TRANSAKSI'], {
-                                            allowDecimalPadding: false,
-                                            minimumValue:0,
-                                            maximumValue:99999999999999999999, 
-                                            numericPos:true,
-                                            decimalPlaces : 0,
-                                            digitGroupSeparator : '',
-                                            showWarnings:false,
-                                            unformatOnSubmit: true,
-                                            modifyValueOnWheel:false
-                                        });
-    $('#frmdata').validate({
+    $(document).ready(function (){
+        $('#frmdata').validate({ 
         rules: {
-            NIP_TRANSAKSI : {
+            Kd_Rek_3 : {
                 required: true,
                 minlength: 2
             },
-            Nm_TRANSAKSI : {
+            JnsNm : {
                 required: true,
                 minlength: 2
             },
         },
         messages : {
-            NIP_TRANSAKSI : {
+            Kd_Rek_3 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            Nm_TRANSAKSI : {
+            JnsNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }
