@@ -61,21 +61,21 @@ JENIS
             {!! Form::open(['action'=>'DMaster\KelompokController@store','method'=>'post','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('StrID','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('StrID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::pluck('StrNm','StrID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Transaksi','class'=>'form-control'])}}
+                    {{Form::select('StrID', \App\Models\DMaster\JenisModel::pluck('JnsNm','JnsID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Kelompok','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
                 {{Form::label('Kd_Rek_2','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_2','',['class'=>'form-control','placeholder'=>'Kode Kelompok'])}}
+                    {{Form::text('Kd_Rek_3','',['class'=>'form-control','placeholder'=>'Kode Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
                 {{Form::label('KlpNm','NAMA JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('KlpNm','',['class'=>'form-control','placeholder'=>'Nama Kelompok'])}}
+                    {{Form::text('JnsNm','',['class'=>'form-control','placeholder'=>'Nama Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">

@@ -26,7 +26,7 @@ class JenisController extends Controller
     {
         $columns = ['*'];
         if (!$this->checkStateIsExistSession('jenis', 'orderby')) {
-            $this->putControllerStateSession('jenis', 'orderby', ['column_name' => 'KlpID', 'order' => 'asc']);
+            $this->putControllerStateSession('jenis', 'orderby', ['column_name' => 'JnsID', 'order' => 'asc']);
         }
         $column_order = $this->getControllerStateSession('jenis.orderby', 'column_name');
         $direction = $this->getControllerStateSession('jenis.orderby', 'order');
@@ -83,13 +83,13 @@ class JenisController extends Controller
         $column = $request->input('column_name');
         switch ($column) {
             case 'col-KlpID':
-                $column_name = 'KlpID';
+                $column_name = 'JnsID';
                 break;
             case 'col-KlpNm':
-                $column_name = 'KlpNm';
+                $column_name = 'JnsNm';
                 break;
             default:
-                $column_name = 'KlpID';
+                $column_name = 'JnsID';
         }
         $this->putControllerStateSession('jenis', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
 
@@ -244,7 +244,7 @@ class JenisController extends Controller
     {
         $theme = 'dore';
 
-        $data = JenisModel::where('KlpID', $uuid)->firstOrFail();
+        $data = JenisModel::where('JnsID', $uuid)->firstOrFail();
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.jenis.show")->with([
                 'page_active' => 'jenis',

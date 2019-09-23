@@ -8,7 +8,7 @@
                         <th scope="col" width="55">NO</th>
                         <th scope="col" width="150">
                             <a class="column-sort" id="col-NIP_JENIS" data-order="{{$direction}}" href="#">
-                                KODE TRANSAKSI
+                                KODE KELOMPOk
                             </a>
                         </th>
                         <th scope="col">
@@ -33,24 +33,23 @@
 
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                             </td>
-                        <td>{{$item->StrID}}</td>
-                        <td>{{$item->Kd_Rek_2}}</td>
-                        <td>{{$item->KlpNm}}</td>
+                        <td>{{$item->KlpID}}</td>
+                        <td>{{$item->Kd_Rek_3}}</td>
+                        <td>{{$item->JnsNm}}</td>
                         <td>{{$item->Descr}}</td>
                         <td>{{$item->TA}}</td>
                         <td>
                             <div class="input-group-append">
-                                <a href="{{route('jenis.show',['uuid'=>$item->KlpID])}}"
+                                <a href="{{route('jenis.show',['uuid'=>$item->JnsID])}}"
                                     class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Transaksi">
                                     <i class="simple-icon-eye"></i>
                                 </a>
-                                <a href="{{route('jenis.edit',['uuid'=>$item->KlpID])}}" title="Ubah Data Transaksi"
+                                <a href="{{route('jenis.edit',['uuid'=>$item->JnsID])}}" title="Ubah Data Transaksi"
                                     class="btn btn-primary btn-xs mr-sm-2 default">
                                     <i class="simple-icon-pencil"></i>
                                 </a>
-                                <a href="javascript:;" title="Hapus Data Transaksi" data-id="{{$item->KlpID}}"
-                                    class="btn btn-danger btn-xs default btnDelete"
-                                    data-url="{{route('jenis.index')}}">
+                                <a href="javascript:;" title="Hapus Data Transaksi" data-id="{{$item->JnsID}}"
+                                    class="btn btn-danger btn-xs default btnDelete" data-url="{{route('jenis.index')}}">
                                     <i class="simple-icon-trash"></i>
                                 </a>
                             </div>

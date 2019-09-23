@@ -13,20 +13,20 @@ class JenisModel extends Model
      *
      * @var string
      */
-    protected $table = 'tmKlp';
+    protected $table = 'tmJns';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'KlpID';
+    protected $primaryKey = 'JnsID';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'KlpID', 'StrID', 'Kd_Rek_2', 'KlpNm', 'Descr', 'TA'
+        'KlpID', 'JnsID', 'Kd_Rek_3', 'JnsNm', 'Descr', 'TA'
     ];
     /**
      * enable auto_increment.
@@ -50,7 +50,7 @@ class JenisModel extends Model
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['KlpID', 'StrID', 'Kd_Rek_2', 'KlpNm', 'Descr', 'TA'];
+    protected static $logAttributes = ['KlpID', 'JnsID', 'Kd_Rek_3', 'JnsNm', 'Descr', 'TA'];
     /**
      * log changes to all the $fillable attributes of the model
      */

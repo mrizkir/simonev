@@ -103,6 +103,15 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/transaksi/paginate/{id}', ['uses' => 'DMaster\TransaksiController@paginate', 'as' => 'transaksi.paginate']);
     Route::post('/dmaster/transaksi/orderby', ['uses' => 'DMaster\TransaksiController@orderby', 'as' => 'transaksi.orderby']);
 
+    //masters - jenis
+    Route::resource('/dmaster/jenis', 'DMaster\JenisController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/jenis/search', ['uses' => 'DMaster\JenisController@search', 'as' => 'jenis.search']);
+    Route::post('/dmaster/jenis/filter', ['uses' => 'DMaster\JenisController@filter', 'as' => 'jenis.filter']);
+    Route::post('/dmaster/jenis/filtercreate', ['uses' => 'DMaster\JenisController@filtercreate', 'as' => 'jenis.filtercreate']);
+    Route::get('/dmaster/jenis/paginate/{id}', ['uses' => 'DMaster\JenisController@paginate', 'as' => 'jenis.paginate']);
+    Route::post('/dmaster/jenis/orderby', ['uses' => 'DMaster\JenisController@orderby', 'as' => 'jenis.orderby']);
 
     //masters - kelompok
     Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
