@@ -58,22 +58,22 @@ JENIS
                 TAMBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\KelompokController@store','method'=>'post','class'=>'form-horizontal
+            {!! Form::open(['action'=>'DMaster\JenisController@store','method'=>'post','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('StrID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('KlpID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('StrID', \App\Models\DMaster\JenisModel::pluck('JnsNm','JnsID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Kelompok','class'=>'form-control'])}}
+                    {{Form::select('KlpID', \App\Models\DMaster\KelompokModel::pluck('KlpNm','KlpID'), config('simonev.tahun_penyerapan'), ['placeholder' => 'Pilih Kode Kelompok','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_2','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_3','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
                     {{Form::text('Kd_Rek_3','',['class'=>'form-control','placeholder'=>'Kode Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('KlpNm','NAMA JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('JnsNm','NAMA JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
                     {{Form::text('JnsNm','',['class'=>'form-control','placeholder'=>'Nama Jenis'])}}
                 </div>
@@ -104,11 +104,15 @@ JENIS
     $(document).ready(function () {   
     $('#frmdata').validate({
         rules: {
-            Kd_Rek_2 : {
+            KlpID : {
+                required: true,
+                minlength: 1
+            },
+            Kd_Rek_3 : {
                 required: true,
                 minlength: 2
             },
-            KlpNm : {
+            JnsNm : {
                 required: true,
                 minlength: 2
             },
@@ -118,11 +122,15 @@ JENIS
             },
         },
         messages : {
-            Kd_Rek_2 : {
+            KlpID : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            KlpNm : {
+            Kd_Rek_3 : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            },
+            JnsNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },

@@ -112,7 +112,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('jenis.index')}}">
                                     <i class="simple-icon-layers"></i>
                                     <span class="d-inline-block">JENIS</span>
                                 </a>
