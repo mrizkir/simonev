@@ -3,10 +3,10 @@
 namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
-use App\Models\DMaster\KelompokModel;
+use App\Models\DMaster\RincianModel;
 use Illuminate\Http\Request;
 
-class KelompokController extends Controller
+class RincianController extends Controller
 {
     /**
      * Membuat sebuah objek
@@ -25,22 +25,22 @@ class KelompokController extends Controller
     public function populateData($currentpage = 1)
     {
         $columns = ['*'];
-        if (!$this->checkStateIsExistSession('kelompok', 'orderby')) {
-            $this->putControllerStateSession('kelompok', 'orderby', ['column_name' => 'KlpID', 'order' => 'asc']);
+        if (!$this->checkStateIsExistSession('rincian', 'orderby')) {
+            $this->putControllerStateSession('rincian', 'orderby', ['column_name' => 'ObyID', 'order' => 'asc']);
         }
-        $column_order = $this->getControllerStateSession('kelompok.orderby', 'column_name');
-        $direction = $this->getControllerStateSession('kelompok.orderby', 'order');
+        $column_order = $this->getControllerStateSession('rincian.orderby', 'column_name');
+        $direction = $this->getControllerStateSession('rincian.orderby', 'order');
 
         if (!$this->checkStateIsExistSession('global_controller', 'numberRecordPerPage')) {
             $this->putControllerStateSession('global_controller', 'numberRecordPerPage', 10);
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = KelompokModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = RincianModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
-        $data->setPath(route('kelompok.index'));
+        $data->setPath(route('rincian.index'));
         return $data;
     }
     /**
@@ -54,17 +54,16 @@ class KelompokController extends Controller
 
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-        $this->setCurrentPageInsideSession('kelompok', 1);
+        $this->setCurrentPageInsideSession('rincian', 1);
         $data = $this->populateData();
 
 
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -82,28 +81,28 @@ class KelompokController extends Controller
         $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
         $column = $request->input('column_name');
         switch ($column) {
-            case 'col-KlpID':
-                $column_name = 'KlpID';
+            case 'col-ObyID':
+                $column_name = 'ObyID';
                 break;
-            case 'col-KlpNm':
-                $column_name = 'KlpNm';
+            case 'col-ObyNm':
+                $column_name = 'ObyNm';
                 break;
             default:
-                $column_name = 'KlpID';
+                $column_name = 'ObyID';
         }
-        $this->putControllerStateSession('kelompok', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
+        $this->putControllerStateSession('rincian', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
 
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompok');
+        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rincian');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -119,14 +118,14 @@ class KelompokController extends Controller
     {
         $theme = 'dore';
 
-        $this->setCurrentPageInsideSession('kelompok', $id);
+        $this->setCurrentPageInsideSession('rincian', $id);
         $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
@@ -143,21 +142,21 @@ class KelompokController extends Controller
 
         $action = $request->input('action');
         if ($action == 'reset') {
-            $this->destroyControllerStateSession('kelompok', 'search');
+            $this->destroyControllerStateSession('rincian', 'search');
         } else {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('kelompok', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
+            $this->putControllerStateSession('rincian', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
         }
-        $this->setCurrentPageInsideSession('kelompok', 1);
+        $this->setCurrentPageInsideSession('rincian', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -172,20 +171,20 @@ class KelompokController extends Controller
     {
         $theme = 'dore';
 
-        $search = $this->getControllerStateSession('kelompok', 'search');
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompok');
+        $search = $this->getControllerStateSession('rincian', 'search');
+        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rincian');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('kelompok', $data->currentPage());
+        $this->setCurrentPageInsideSession('rincian', $data->currentPage());
 
-        return view("pages.$theme.dmaster.kelompok.index")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
+        return view("pages.$theme.dmaster.rincian.index")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data,
         ]);
     }
@@ -197,8 +196,8 @@ class KelompokController extends Controller
     public function create()
     {
         $theme = 'dore';
-        return view("pages.$theme.dmaster.kelompok.create")->with([
-            'page_active' => 'kelompok',
+        return view("pages.$theme.dmaster.rincian.create")->with([
+            'page_active' => 'rincian',
 
         ]);
     }
@@ -211,16 +210,16 @@ class KelompokController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:2',
-            'KlpNm' => 'required|min:5',
+            'JnsID' => 'required|min:2',
+            'Kd_Rek_4' => 'required|min:2',
+            'ObyNm' => 'required|min:5',
             'Descr' => 'required|min:5',
         ]);
 
-        $kelompok = KelompokModel::create([
-            'KlpID' => uniqid('uid'),
-            'StrID' => $request->input('StrID'),
-            'Kd_Rek_2' => $request->input('Kd_Rek_2'),
-            'KlpNm' => $request->input('KlpNm'),
+        $rincian = RincianModel::create([
+            'JnsID' => uniqid('uid'),
+            'Kd_Rek_4' => $request->input('Kd_Rek_4'),
+            'ObyNm' => $request->input('ObyNm'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);
@@ -231,7 +230,7 @@ class KelompokController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('kelompok.show', ['uuid' => $kelompok->KlpID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('rincian.show', ['uuid' => $rincian->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -244,10 +243,10 @@ class KelompokController extends Controller
     {
         $theme = 'dore';
 
-        $data = KelompokModel::where('KlpID', $uuid)->firstOrFail();
+        $data = RincianModel::where('JnsID', $uuid)->firstOrFail();
         if (!is_null($data)) {
-            return view("pages.$theme.dmaster.kelompok.show")->with([
-                'page_active' => 'kelompok',
+            return view("pages.$theme.dmaster.rincian.show")->with([
+                'page_active' => 'rincian',
                 'data' => $data,
             ]);
         }
@@ -262,9 +261,9 @@ class KelompokController extends Controller
     {
         $theme = 'dore';
 
-        $data = KelompokModel::findOrFail($uuid);
+        $data = RincianModel::findOrFail($uuid);
         if (!is_null($data)) {
-            return view("pages.$theme.dmaster.kelompok.edit")->with([
+            return view("pages.$theme.dmaster.rincian.edit")->with([
                 'page_active' => 'rkakegiatanmurni',
                 'data' => $data
             ]);
@@ -278,21 +277,19 @@ class KelompokController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-        $kelompok = KelompokModel::findOrFail($uuid);
+        $rincian = RincianModel::find($uuid);
+
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:2',
-            'KlpNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
+            'JnsID' => 'required|min:2',
+            'Kd_Rek_4' => 'required|min:2',
+            'ObyNm' => 'required|min:5',
         ]);
 
-        $kelompok->StrID = $request->input('StrID');
-        $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2 ');
-        $kelompok->KlpNm = $request->input('KlpNm');
-        $kelompok->Descr = $request->input('Descr ');
-        $kelompok->TA = \HelperKegiatan::getTahunPenyerapan();
-        $kelompok->StrID = $request->input('StrID');
-        $kelompok->save();
-
+        $rincian->JnsID = $request->input('JnsID');
+        $rincian->Kd_Rek_4 = $request->input('Kd_Rek_4');
+        $rincian->ObyNm = $request->input('ObyNm');
+        $rincian->Descr = $request->input('Descr');
+        $rincian->save();
 
         if ($request->ajax()) {
             return response()->json([
@@ -300,7 +297,7 @@ class KelompokController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('kelompok.show', ['uuid' => $kelompok->KlpID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('rincian.show', ['uuid' => $rincian->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -312,27 +309,27 @@ class KelompokController extends Controller
     public function destroy(Request $request, $uuid)
     {
         $theme = 'dore';
-        $kelompok = KelompokModel::find($uuid);
+        $rincian = RincianModel::find($uuid);
 
-        $result = $kelompok->delete();
+        $result = $rincian->delete();
         if ($request->ajax()) {
-            $currentpage = $this->getCurrentPageInsideSession('kelompok');
+            $currentpage = $this->getCurrentPageInsideSession('rincian');
             $data = $this->populateData($currentpage);
             if ($currentpage > $data->lastPage()) {
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-                'page_active' => 'kelompok',
-                'search' => $this->getControllerStateSession('kelompok', 'search'),
+            $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+                'page_active' => 'rincian',
+                'search' => $this->getControllerStateSession('rincian', 'search'),
                 'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-                'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
+                'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+                'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
                 'data' => $data
             ])->render();
 
             return response()->json(['success' => true, 'datatable' => $datatable], 200);
         } else {
-            return redirect(route('kelompok.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
+            return redirect(route('rincian.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
         }
     }
 }

@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-KELOMPOK
+RINCIAN
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-people"></i>
-    KELOMPOK
+    RINCIAN
 </h1>
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@ KELOMPOK
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('kelompok.create')}}" title="Tambah Kelompok">
+            <a class="dropdown-item" href="{{route('rincian.create')}}" title="Tambah Jenis">
                 <i class="simple-icon-plus"></i> TAMBAH
             </a>
         </div>
@@ -50,7 +50,7 @@ KELOMPOK
 @section('page_breadcrumb')
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">REKENING</li>
-<li class="breadcrumb-item active" aria-current="page">KELOMPOK</li>
+<li class="breadcrumb-item active" aria-current="page">RINCIAN</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('js/vendor/sweetalert2/sweetalert2.min.css')!!}" />
@@ -58,7 +58,7 @@ KELOMPOK
 @section('page_content')
 <div class="row">
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.dmaster.kelompok.datatable')
+        @include('pages.dore.dmaster.rincian.datatable')
     </div>
 </div>
 @endsection
@@ -71,7 +71,7 @@ KELOMPOK
     $("#divdatatable").on("click",".btnDelete", function(){
         swal.fire ({
             title:'Hapus Data',
-            text:'Apakah ingin menghapus data Kelompok ini ?',
+            text:'Apakah ingin menghapus data Rincian ini ?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
@@ -96,7 +96,7 @@ KELOMPOK
                         if (result.success==1){
                             $('#divdatatable').html(result.datatable);  
                         }else{
-                            console.log("Gagal menghapus data kelompok dengan id "+id);
+                            console.log("Gagal menghapus data rincian dengan id "+id);
                         }                    
                     },
                     error:function(xhr, status, error){

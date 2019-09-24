@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-JENIS
+RINCIAN
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    JENIS
+    RINCIAN
 </h1>
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@ JENIS
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('jenis.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{!!route('rincian.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
@@ -43,11 +43,11 @@ JENIS
 <div class="separator mb-5"></div>
 @endsection
 @section('page_breadcrumb')
-<li class="breadcrumb-item">RKA</li>
+<li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('jenis.index')!!}"> KEGIATAN MURNI</a>
+    <a href="{!!route('rincian.index')!!}"> REKENING</a>
 </li>
-<li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
+<li class="breadcrumb-item active" aria-current="page">RINCIAN</li>
 @endsection
 @section('page_content')
 <div class="content">
@@ -59,24 +59,24 @@ JENIS
             </h4>
             <div class="separator mb-5"></div>
             {!!
-            Form::open(['action'=>['DMaster\JenisController@update',$data->JnsID],'method'=>'put','class'=>'form-horizontal
+            Form::open(['action'=>['DMaster\RincianController@update',$data->ObyID],'method'=>'put','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('KlpID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('JnsID','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('KlpID', \App\Models\DMaster\KelompokModel::pluck('KlpNm','KlpID'), $data['KlpID'], ['placeholder' => 'Pilih Kode Kelompok','class'=>'form-control'])}}
+                    {{Form::select('JnsID', \App\Models\DMaster\JenisModel::pluck('JnsNm','JnsID'), $data['JnsID'], ['placeholder' => 'Pilih Kode Kelompok','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_3','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_4','KODE RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_3',$data['Kd_Rek_3'],['class'=>'form-control','placeholder'=>'Kode Jenis'])}}
+                    {{Form::text('Kd_Rek_4',$data['Kd_Rek_4'],['class'=>'form-control','placeholder'=>'Kode Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('JnsNm','NAMA JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('ObyNm','NAMA RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('JnsNm',$data['JnsNm'],['class'=>'form-control','placeholder'=>'Nama Jenis'])}}
+                    {{Form::text('ObyNm',$data['ObyNm'],['class'=>'form-control','placeholder'=>'Nama Jenis'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
@@ -99,28 +99,35 @@ JENIS
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
     $(document).ready(function (){
         $('#frmdata').validate({ 
         rules: {
-            Kd_Rek_3 : {
+            JnsID : {
                 required: true,
                 minlength: 2
             },
-            JnsNm : {
+            Kd_Rek_4 : {
+                required: true,
+                minlength: 2
+            },
+            ObyNm : {
                 required: true,
                 minlength: 2
             },
         },
         messages : {
-            Kd_Rek_3 : {
+            JnsID : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            JnsNm : {
+            Kd_Rek_4 : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            }
+            ObyNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             }

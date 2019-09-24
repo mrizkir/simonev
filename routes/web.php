@@ -113,6 +113,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/jenis/paginate/{id}', ['uses' => 'DMaster\JenisController@paginate', 'as' => 'jenis.paginate']);
     Route::post('/dmaster/jenis/orderby', ['uses' => 'DMaster\JenisController@orderby', 'as' => 'jenis.orderby']);
 
+    //masters - rincian
+    Route::resource('/dmaster/rincian', 'DMaster\RincianController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/rincian/search', ['uses' => 'DMaster\RincianController@search', 'as' => 'rincian.search']);
+    Route::post('/dmaster/rincian/filter', ['uses' => 'DMaster\RincianController@filter', 'as' => 'rincian.filter']);
+    Route::post('/dmaster/rincian/filtercreate', ['uses' => 'DMaster\RincianController@filtercreate', 'as' => 'rincian.filtercreate']);
+    Route::get('/dmaster/rincian/paginate/{id}', ['uses' => 'DMaster\RincianController@paginate', 'as' => 'rincian.paginate']);
+    Route::post('/dmaster/rincian/orderby', ['uses' => 'DMaster\RincianController@orderby', 'as' => 'rincian.orderby']);
+
     //masters - kelompok
     Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
         'parameters' => ['transaksi' => 'uuid'],

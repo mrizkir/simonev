@@ -260,7 +260,6 @@ class TransaksiController extends Controller
     public function edit($uuid)
     {
         $theme = 'dore';
-
         $data = TransaksiModel::findOrFail($uuid);
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.transaksi.edit")->with([

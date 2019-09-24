@@ -118,7 +118,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('rincian.index')}}">
                                     <i class="simple-icon-list"></i>
                                     <span class="d-inline-block">RINCIAN</span>
                                 </a>
