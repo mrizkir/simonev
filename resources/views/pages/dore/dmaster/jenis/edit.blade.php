@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-TRANSAKSI
+JENIS
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    TRANSAKSI
+    JENIS
 </h1>
 @endsection
 @section('page_header_button')

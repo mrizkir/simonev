@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-TRANSAKSI
+JENIS
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-people"></i>
-    TRANSAKSI
+    JENIS
 </h1>
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@ TRANSAKSI
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('jenis.create')}}" title="Tambah TRANSAKSI">
+            <a class="dropdown-item" href="{{route('jenis.create')}}" title="Tambah Jenis">
                 <i class="simple-icon-plus"></i> TAMBAH
             </a>
         </div>
@@ -50,7 +50,7 @@ TRANSAKSI
 @section('page_breadcrumb')
 <li class="breadcrumb-item">DATA MASTER</li>
 <li class="breadcrumb-item">REKENING</li>
-<li class="breadcrumb-item active" aria-current="page">TRANSAKSI</li>
+<li class="breadcrumb-item active" aria-current="page">JENIS</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('js/vendor/sweetalert2/sweetalert2.min.css')!!}" />
@@ -71,7 +71,7 @@ TRANSAKSI
     $("#divdatatable").on("click",".btnDelete", function(){
         swal.fire ({
             title:'Hapus Data',
-            text:'Apakah ingin menghapus data Kelompok ini ?',
+            text:'Apakah ingin menghapus data Jenis ini ?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#d33',
