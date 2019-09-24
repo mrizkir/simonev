@@ -58,6 +58,7 @@ class CreateVRkaView extends Migration
                         CONCAT(\'0.00.\',G."Kd_Prog", \'.\',F."Kd_Keg")
                 END AS kode_kegiatan,
                 F."KgtNm",
+                A."SumberDanaID",
                 K."Nm_SumberDana",
                 A."keluaran",
                 A."tk_keluaran",

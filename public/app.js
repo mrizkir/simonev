@@ -296,26 +296,26 @@ document.addEventListener('DOMContentLoaded', function() {
     /**
      * Detail RKA Kegiatan
     */
-   $(document).on('click','#ringkasan-tab',function(ev) {
-    $.ajax({
-        type:'post',
-        url: url_current_page +'/changetab',
-        dataType: 'json',
-        data: {
-            "_token": token,
-            "tab": 'ringkasan-tab',
-        },
-        success:function(result)
-        { 
-            console.log(result.success);
-        },
-        error:function(xhr, status, error)
-        {   
-            console.log(parseMessageAjaxEror(xhr, status, error));                           
-        },
+    $(document).on('click','#ringkasan-tab',function(ev) {
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changetab',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "tab": 'ringkasan-tab',
+            },
+            success:function(result)
+            { 
+                console.log(result.success);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
     });
-});
-   $(document).on('click','#data-kegiatan-tab',function(ev) {
+    $(document).on('click','#data-kegiatan-tab',function(ev) {
         $.ajax({
             type:'post',
             url: url_current_page +'/changetab',
@@ -333,5 +333,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });
-    });
+    });    
 });

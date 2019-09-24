@@ -481,16 +481,21 @@ class RKAKegiatanMurniController extends Controller
                                             "v_rka"."Kd_Keg",
                                             "v_rka"."kode_kegiatan",
                                             "v_rka"."KgtNm",
-                                            "v_rka"."sifat_kegiatan",
-                                            "v_rka"."tk_keluaran",
-                                            "v_rka"."keluaran",
+                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."SumberDanaID",
+                                            "v_rka"."Nm_SumberDana",
                                             "v_rka"."tk_capaian",
                                             "v_rka"."capaian_program",
+                                            "v_rka"."masukan",
+                                            "v_rka"."tk_keluaran",
+                                            "v_rka"."keluaran",
                                             "v_rka"."tk_hasil",
                                             "v_rka"."hasil",
+                                            "v_rka"."ksk",
+                                            "v_rka"."sifat_kegiatan",
+                                            "v_rka"."waktu_pelaksanaan",
                                             "v_rka"."PaguDana1",
-                                            "v_rka"."Nm_SumberDana",
-                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."Descr",
                                             "v_rka"."EntryLvl",
                                             "v_rka"."created_at",
                                             "v_rka"."updated_at"
@@ -541,10 +546,33 @@ class RKAKegiatanMurniController extends Controller
         $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'lokasi_kegiatan'=>'required',
+            'SumberDanaID'=>'required',
+            'capaian_program'=>'required',
+            'tk_capaian'=>'required',
+            'masukan'=>'required',
+            'keluaran'=>'required',
+            'tk_keluaran'=>'required',
+            'hasil'=>'required',
+            'tk_hasil'=>'required',
+            'ksk'=>'required',
+            'sifat_kegiatan'=>'required',
+            'waktu_pelaksanaan'=>'required'
         ]);
         
-        $rkakegiatanmurni->replaceit = $request->input('replaceit');
+        $rkakegiatanmurni->lokasi_kegiatan = $request->input('lokasi_kegiatan');
+        $rkakegiatanmurni->SumberDanaID=$request->input('SumberDanaID');
+        $rkakegiatanmurni->capaian_program=$request->input('capaian_program');
+        $rkakegiatanmurni->tk_capaian=$request->input('tk_capaian');
+        $rkakegiatanmurni->masukan=$request->input('masukan');
+        $rkakegiatanmurni->keluaran=$request->input('keluaran');
+        $rkakegiatanmurni->tk_keluaran=$request->input('tk_keluaran');
+        $rkakegiatanmurni->hasil=$request->input('hasil');
+        $rkakegiatanmurni->tk_hasil=$request->input('tk_hasil');
+        $rkakegiatanmurni->ksk=$request->input('ksk');
+        $rkakegiatanmurni->sifat_kegiatan=$request->input('sifat_kegiatan');
+        $rkakegiatanmurni->waktu_pelaksanaan=$request->input('waktu_pelaksanaan');
+        $rkakegiatanmurni->Descr=$request->input('Descr');
         $rkakegiatanmurni->save();
 
         if ($request->ajax()) 
@@ -556,7 +584,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['id'=>$rkakegiatanmurni->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 
