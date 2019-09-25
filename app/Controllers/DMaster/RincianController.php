@@ -3,10 +3,10 @@
 namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
-use App\Models\DMaster\TransaksiModel;
+use App\Models\DMaster\RincianModel;
 use Illuminate\Http\Request;
 
-class TransaksiController extends Controller
+class RincianController extends Controller
 {
     /**
      * Membuat sebuah objek
@@ -25,22 +25,22 @@ class TransaksiController extends Controller
     public function populateData($currentpage = 1)
     {
         $columns = ['*'];
-        if (!$this->checkStateIsExistSession('transaksi', 'orderby')) {
-            $this->putControllerStateSession('transaksi', 'orderby', ['column_name' => 'StrID', 'order' => 'asc']);
+        if (!$this->checkStateIsExistSession('rincian', 'orderby')) {
+            $this->putControllerStateSession('rincian', 'orderby', ['column_name' => 'ObyID', 'order' => 'asc']);
         }
-        $column_order = $this->getControllerStateSession('transaksi.orderby', 'column_name');
-        $direction = $this->getControllerStateSession('transaksi.orderby', 'order');
+        $column_order = $this->getControllerStateSession('rincian.orderby', 'column_name');
+        $direction = $this->getControllerStateSession('rincian.orderby', 'order');
 
         if (!$this->checkStateIsExistSession('global_controller', 'numberRecordPerPage')) {
             $this->putControllerStateSession('global_controller', 'numberRecordPerPage', 10);
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = TransaksiModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = RincianModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
-        $data->setPath(route('transaksi.index'));
+        $data->setPath(route('rincian.index'));
         return $data;
     }
     /**
@@ -54,17 +54,16 @@ class TransaksiController extends Controller
 
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-        $this->setCurrentPageInsideSession('transaksi', 1);
+        $this->setCurrentPageInsideSession('rincian', 1);
         $data = $this->populateData();
 
 
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -82,28 +81,28 @@ class TransaksiController extends Controller
         $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
         $column = $request->input('column_name');
         switch ($column) {
-            case 'col-StrID':
-                $column_name = 'StrID';
+            case 'col-ObyID':
+                $column_name = 'ObyID';
                 break;
-            case 'col-Nm_Urusan':
-                $column_name = 'Str_Nm';
+            case 'col-ObyNm':
+                $column_name = 'ObyNm';
                 break;
             default:
-                $column_name = 'StrID';
+                $column_name = 'ObyID';
         }
-        $this->putControllerStateSession('transaksi', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
+        $this->putControllerStateSession('rincian', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
 
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transaksi');
+        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rincian');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -119,14 +118,14 @@ class TransaksiController extends Controller
     {
         $theme = 'dore';
 
-        $this->setCurrentPageInsideSession('transaksi', $id);
+        $this->setCurrentPageInsideSession('rincian', $id);
         $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
@@ -143,21 +142,21 @@ class TransaksiController extends Controller
 
         $action = $request->input('action');
         if ($action == 'reset') {
-            $this->destroyControllerStateSession('transaksi', 'search');
+            $this->destroyControllerStateSession('rincian', 'search');
         } else {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('transaksi', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
+            $this->putControllerStateSession('rincian', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
         }
-        $this->setCurrentPageInsideSession('transaksi', 1);
+        $this->setCurrentPageInsideSession('rincian', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -172,20 +171,20 @@ class TransaksiController extends Controller
     {
         $theme = 'dore';
 
-        $search = $this->getControllerStateSession('transaksi', 'search');
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transaksi');
+        $search = $this->getControllerStateSession('rincian', 'search');
+        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rincian');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('transaksi', $data->currentPage());
+        $this->setCurrentPageInsideSession('rincian', $data->currentPage());
 
-        return view("pages.$theme.dmaster.transaksi.index")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        return view("pages.$theme.dmaster.rincian.index")->with([
+            'page_active' => 'rincian',
+            'search' => $this->getControllerStateSession('rincian', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
             'data' => $data,
         ]);
     }
@@ -197,8 +196,8 @@ class TransaksiController extends Controller
     public function create()
     {
         $theme = 'dore';
-        return view("pages.$theme.dmaster.transaksi.create")->with([
-            'page_active' => 'transaksi',
+        return view("pages.$theme.dmaster.rincian.create")->with([
+            'page_active' => 'rincian',
 
         ]);
     }
@@ -211,15 +210,16 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
-            'StrNm' => 'required|min:5',
+            'JnsID' => 'required|min:2',
+            'Kd_Rek_4' => 'required|min:2',
+            'ObyNm' => 'required|min:5',
             'Descr' => 'required|min:5',
         ]);
 
-        $transaksi = TransaksiModel::create([
-            'StrID' => uniqid('uid'),
-            'Kd_Rek_1' => $request->input('Kd_Rek_1'),
-            'StrNm' => $request->input('StrNm'),
+        $rincian = RincianModel::create([
+            'JnsID' => uniqid('uid'),
+            'Kd_Rek_4' => $request->input('Kd_Rek_4'),
+            'ObyNm' => $request->input('ObyNm'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);
@@ -230,7 +230,7 @@ class TransaksiController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('transaksi.show', ['uuid' => $transaksi->StrID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('rincian.show', ['uuid' => $rincian->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -243,10 +243,10 @@ class TransaksiController extends Controller
     {
         $theme = 'dore';
 
-        $data = TransaksiModel::where('StrID', $uuid)->firstOrFail();
+        $data = RincianModel::where('JnsID', $uuid)->firstOrFail();
         if (!is_null($data)) {
-            return view("pages.$theme.dmaster.transaksi.show")->with([
-                'page_active' => 'transaksi',
+            return view("pages.$theme.dmaster.rincian.show")->with([
+                'page_active' => 'rincian',
                 'data' => $data,
             ]);
         }
@@ -260,9 +260,10 @@ class TransaksiController extends Controller
     public function edit($uuid)
     {
         $theme = 'dore';
-        $data = TransaksiModel::findOrFail($uuid);
+
+        $data = RincianModel::findOrFail($uuid);
         if (!is_null($data)) {
-            return view("pages.$theme.dmaster.transaksi.edit")->with([
+            return view("pages.$theme.dmaster.rincian.edit")->with([
                 'page_active' => 'rkakegiatanmurni',
                 'data' => $data
             ]);
@@ -276,17 +277,19 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-        $transaksi = TransaksiModel::find($uuid);
+        $rincian = RincianModel::find($uuid);
+
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
-            'StrNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
+            'JnsID' => 'required|min:2',
+            'Kd_Rek_4' => 'required|min:2',
+            'ObyNm' => 'required|min:5',
         ]);
 
-        $transaksi->Kd_Rek_1 = $request->input('Kd_Rek_1');
-        $transaksi->StrNm = $request->input('StrNm');
-        $transaksi->Descr = $request->input('Descr');
-        $transaksi->save();
+        $rincian->JnsID = $request->input('JnsID');
+        $rincian->Kd_Rek_4 = $request->input('Kd_Rek_4');
+        $rincian->ObyNm = $request->input('ObyNm');
+        $rincian->Descr = $request->input('Descr');
+        $rincian->save();
 
         if ($request->ajax()) {
             return response()->json([
@@ -294,7 +297,7 @@ class TransaksiController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('transaksi.show', ['uuid' => $transaksi->ASNID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('rincian.show', ['uuid' => $rincian->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -306,27 +309,27 @@ class TransaksiController extends Controller
     public function destroy(Request $request, $uuid)
     {
         $theme = 'dore';
-        $transaksi = TransaksiModel::find($uuid);
+        $rincian = RincianModel::find($uuid);
 
-        $result = $transaksi->delete();
+        $result = $rincian->delete();
         if ($request->ajax()) {
-            $currentpage = $this->getCurrentPageInsideSession('transaksi');
+            $currentpage = $this->getCurrentPageInsideSession('rincian');
             $data = $this->populateData($currentpage);
             if ($currentpage > $data->lastPage()) {
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-                'page_active' => 'transaksi',
-                'search' => $this->getControllerStateSession('transaksi', 'search'),
+            $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
+                'page_active' => 'rincian',
+                'search' => $this->getControllerStateSession('rincian', 'search'),
                 'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-                'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+                'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
+                'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
                 'data' => $data
             ])->render();
 
             return response()->json(['success' => true, 'datatable' => $datatable], 200);
         } else {
-            return redirect(route('transaksi.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
+            return redirect(route('rincian.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
         }
     }
 }

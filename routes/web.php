@@ -93,7 +93,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/asn/paginate/{id}', ['uses' => 'DMaster\ASNController@paginate', 'as' => 'asn.paginate']);
     Route::post('/dmaster/asn/orderby', ['uses' => 'DMaster\ASNController@orderby', 'as' => 'asn.orderby']);
 
-    //masters - mapping program ke OPD [mapping]
+    //masters - transaksi
     Route::resource('/dmaster/transaksi', 'DMaster\TransaksiController', [
         'parameters' => ['transaksi' => 'uuid'],
     ]);
@@ -102,6 +102,36 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/dmaster/transaksi/filtercreate', ['uses' => 'DMaster\TransaksiController@filtercreate', 'as' => 'transaksi.filtercreate']);
     Route::get('/dmaster/transaksi/paginate/{id}', ['uses' => 'DMaster\TransaksiController@paginate', 'as' => 'transaksi.paginate']);
     Route::post('/dmaster/transaksi/orderby', ['uses' => 'DMaster\TransaksiController@orderby', 'as' => 'transaksi.orderby']);
+
+    //masters - jenis
+    Route::resource('/dmaster/jenis', 'DMaster\JenisController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/jenis/search', ['uses' => 'DMaster\JenisController@search', 'as' => 'jenis.search']);
+    Route::post('/dmaster/jenis/filter', ['uses' => 'DMaster\JenisController@filter', 'as' => 'jenis.filter']);
+    Route::post('/dmaster/jenis/filtercreate', ['uses' => 'DMaster\JenisController@filtercreate', 'as' => 'jenis.filtercreate']);
+    Route::get('/dmaster/jenis/paginate/{id}', ['uses' => 'DMaster\JenisController@paginate', 'as' => 'jenis.paginate']);
+    Route::post('/dmaster/jenis/orderby', ['uses' => 'DMaster\JenisController@orderby', 'as' => 'jenis.orderby']);
+
+    //masters - rincian
+    Route::resource('/dmaster/rincian', 'DMaster\RincianController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/rincian/search', ['uses' => 'DMaster\RincianController@search', 'as' => 'rincian.search']);
+    Route::post('/dmaster/rincian/filter', ['uses' => 'DMaster\RincianController@filter', 'as' => 'rincian.filter']);
+    Route::post('/dmaster/rincian/filtercreate', ['uses' => 'DMaster\RincianController@filtercreate', 'as' => 'rincian.filtercreate']);
+    Route::get('/dmaster/rincian/paginate/{id}', ['uses' => 'DMaster\RincianController@paginate', 'as' => 'rincian.paginate']);
+    Route::post('/dmaster/rincian/orderby', ['uses' => 'DMaster\RincianController@orderby', 'as' => 'rincian.orderby']);
+
+    //masters - kelompok
+    Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/kelompok/search', ['uses' => 'DMaster\KelompokController@search', 'as' => 'kelompok.search']);
+    Route::post('/dmaster/kelompok/filter', ['uses' => 'DMaster\KelompokController@filter', 'as' => 'kelompok.filter']);
+    Route::post('/dmaster/kelompok/filtercreate', ['uses' => 'DMaster\KelompokController@filtercreate', 'as' => 'kelompok.filtercreate']);
+    Route::get('/dmaster/kelompok/paginate/{id}', ['uses' => 'DMaster\KelompokController@paginate', 'as' => 'kelompok.paginate']);
+    Route::post('/dmaster/kelompok/orderby', ['uses' => 'DMaster\KelompokController@orderby', 'as' => 'kelompok.orderby']);
 
     //rka - kegiatan murni [rka]
     Route::resource('/rka/rkakegiatanmurni','RKA\RKAKegiatanMurniController',['parameters'=>['rkakegiatanmurni'=>'uuid']]); 
@@ -112,7 +142,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/rka/rkakegiatanmurni/paginate/{id}',['uses'=>'RKA\RKAKegiatanMurniController@paginate','as'=>'rkakegiatanmurni.paginate']);              
     Route::post('/rka/rkakegiatanmurni/changenumberrecordperpage',['uses'=>'RKA\RKAKegiatanMurniController@changenumberrecordperpage','as'=>'rkakegiatanmurni.changenumberrecordperpage']);  
     Route::post('/rka/rkakegiatanmurni/orderby',['uses'=>'RKA\RKAKegiatanMurniController@orderby','as'=>'rkakegiatanmurni.orderby']); 
-
 
     //setting - permissions    
     Route::resource('/setting/permissions', 'Setting\PermissionsController', [

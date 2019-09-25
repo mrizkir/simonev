@@ -17,7 +17,7 @@ TRANSAKSI
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('transaksi.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{!!route('kelompok.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
@@ -43,9 +43,9 @@ TRANSAKSI
 <div class="separator mb-5"></div>
 @endsection
 @section('page_breadcrumb')
-<li class="breadcrumb-item">MASTER</li>
+<li class="breadcrumb-item">RKA</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('transaksi.index')!!}"> REKENING</a>
+    <a href="{!!route('kelompok.index')!!}"> KEGIATAN MURNI</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
@@ -55,27 +55,34 @@ TRANSAKSI
         <div class="card-body">
             <h4 class="mb-4">
                 <i class="simple-icon-note"></i>
-                TAMBAH DATA
+                UBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\TransaksiController@store','method'=>'post','class'=>'form-horizontal
+            {!!
+            Form::open(['action'=>['DMaster\KelompokController@update',$data->KlpID],'method'=>'put','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_1','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('StrID','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_1','',['class'=>'form-control','placeholder'=>'Kode Transaksi'])}}
+                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::pluck('StrNm','StrID'), $data['StrID'], ['placeholder' => 'Pilih Kode Transaksi','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('StrNm','NAMA TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_2','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('StrNm','',['class'=>'form-control','placeholder'=>'Nama Transaksi'])}}
+                    {{Form::text('Kd_Rek_2',$data['Kd_Rek_2'],['class'=>'form-control','placeholder'=>'Kode Kelompok'])}}
+                </div>
+            </div>
+            <div class="form-group row has-float-label">
+                {{Form::label('KlpNm','NAMA KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                <div class="col-sm-10">
+                    {{Form::text('KlpNm',$data['KlpNm'],['class'=>'form-control','placeholder'=>'Nama Kelompok'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
                 {{Form::label('Descr','DESKRIPSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Deskripsi','rows'=>2])}}
+                    {{Form::textarea('Descr',$data['Descr'],['class'=>'form-control','placeholder'=>'Deskripsi','rows'=>2])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
@@ -92,39 +99,43 @@ TRANSAKSI
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
     $(document).ready(function () {   
+    AutoNumeric.multiple(['#NIP_TRANSAKSI'], {
+                                            allowDecimalPadding: false,
+                                            minimumValue:0,
+                                            maximumValue:99999999999999999999, 
+                                            numericPos:true,
+                                            decimalPlaces : 0,
+                                            digitGroupSeparator : '',
+                                            showWarnings:false,
+                                            unformatOnSubmit: true,
+                                            modifyValueOnWheel:false
+                                        });
     $('#frmdata').validate({
         rules: {
-            Kd_Rek_1 : {
-                required: true,
-                minlength: 3
-            },
-            StrNm : {
+            NIP_TRANSAKSI : {
                 required: true,
                 minlength: 2
             },
-            Descr : {
-            required: true,
-            minlength: 2
+            Nm_TRANSAKSI : {
+                required: true,
+                minlength: 2
             },
         },
         messages : {
-            Kd_Rek_1 : {
+            NIP_TRANSAKSI : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            StrNm : {
+            Nm_TRANSAKSI : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            },
-            Descr : {
-            required: "Mohon untuk di isi karena ini diperlukan.",
-            minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            },
-        },      
+            }
+        }      
     });   
 });
 </script>

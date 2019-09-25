@@ -106,19 +106,19 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('kelompok.index')}}">
                                     <i class="simple-icon-puzzle"></i>
                                     <span class="d-inline-block">KELOMPOK</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('jenis.index')}}">
                                     <i class="simple-icon-layers"></i>
                                     <span class="d-inline-block">JENIS</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('rincian.index')}}">
                                     <i class="simple-icon-list"></i>
                                     <span class="d-inline-block">RINCIAN</span>
                                 </a>

@@ -5,7 +5,7 @@ namespace App\Models\DMaster;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class TransaksiModel extends Model
+class RincianModel extends Model
 {
     use LogsActivity;
     /**
@@ -13,20 +13,20 @@ class TransaksiModel extends Model
      *
      * @var string
      */
-    protected $table = 'tmStr';
+    protected $table = 'tmOby';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'StrID';
+    protected $primaryKey = 'ObyID';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'StrID', 'Kd_Rek_1', 'StrNm', 'Descr', 'TA'
+        'ObyID', 'JnsID', 'Kd_Rek_4', 'ObyNm', 'Descr', 'TA'
     ];
     /**
      * enable auto_increment.
@@ -46,11 +46,11 @@ class TransaksiModel extends Model
      *
      * @var string
      */
-    protected static $logName = 'TransaksiController';
+    protected static $logName = 'RincianController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['StrID', 'Kd_Rek_1', 'StrNm', 'Descr'];
+    protected static $logAttributes = ['ObyID', 'JnsID', 'Kd_Rek_4', 'ObyNm', 'Descr', 'TA'];
     /**
      * log changes to all the $fillable attributes of the model
      */

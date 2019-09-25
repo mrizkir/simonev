@@ -3,10 +3,10 @@
 namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
-use App\Models\DMaster\TransaksiModel;
+use App\Models\DMaster\KelompokModel;
 use Illuminate\Http\Request;
 
-class TransaksiController extends Controller
+class KelompokController extends Controller
 {
     /**
      * Membuat sebuah objek
@@ -25,22 +25,22 @@ class TransaksiController extends Controller
     public function populateData($currentpage = 1)
     {
         $columns = ['*'];
-        if (!$this->checkStateIsExistSession('transaksi', 'orderby')) {
-            $this->putControllerStateSession('transaksi', 'orderby', ['column_name' => 'StrID', 'order' => 'asc']);
+        if (!$this->checkStateIsExistSession('kelompok', 'orderby')) {
+            $this->putControllerStateSession('kelompok', 'orderby', ['column_name' => 'KlpID', 'order' => 'asc']);
         }
-        $column_order = $this->getControllerStateSession('transaksi.orderby', 'column_name');
-        $direction = $this->getControllerStateSession('transaksi.orderby', 'order');
+        $column_order = $this->getControllerStateSession('kelompok.orderby', 'column_name');
+        $direction = $this->getControllerStateSession('kelompok.orderby', 'order');
 
         if (!$this->checkStateIsExistSession('global_controller', 'numberRecordPerPage')) {
             $this->putControllerStateSession('global_controller', 'numberRecordPerPage', 10);
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = TransaksiModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = KelompokModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
-        $data->setPath(route('transaksi.index'));
+        $data->setPath(route('kelompok.index'));
         return $data;
     }
     /**
@@ -55,16 +55,16 @@ class TransaksiController extends Controller
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
 
-        $this->setCurrentPageInsideSession('transaksi', 1);
+        $this->setCurrentPageInsideSession('kelompok', 1);
         $data = $this->populateData();
 
 
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
+            'page_active' => 'kelompok',
+            'search' => $this->getControllerStateSession('kelompok', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -82,28 +82,28 @@ class TransaksiController extends Controller
         $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
         $column = $request->input('column_name');
         switch ($column) {
-            case 'col-StrID':
-                $column_name = 'StrID';
+            case 'col-KlpID':
+                $column_name = 'KlpID';
                 break;
-            case 'col-Nm_Urusan':
-                $column_name = 'Str_Nm';
+            case 'col-KlpNm':
+                $column_name = 'KlpNm';
                 break;
             default:
-                $column_name = 'StrID';
+                $column_name = 'KlpID';
         }
-        $this->putControllerStateSession('transaksi', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
+        $this->putControllerStateSession('kelompok', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
 
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transaksi');
+        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompok');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
+            'page_active' => 'kelompok',
+            'search' => $this->getControllerStateSession('kelompok', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -119,14 +119,14 @@ class TransaksiController extends Controller
     {
         $theme = 'dore';
 
-        $this->setCurrentPageInsideSession('transaksi', $id);
+        $this->setCurrentPageInsideSession('kelompok', $id);
         $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
+            'page_active' => 'kelompok',
+            'search' => $this->getControllerStateSession('kelompok', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
             'data' => $data
         ])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
@@ -143,21 +143,21 @@ class TransaksiController extends Controller
 
         $action = $request->input('action');
         if ($action == 'reset') {
-            $this->destroyControllerStateSession('transaksi', 'search');
+            $this->destroyControllerStateSession('kelompok', 'search');
         } else {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('transaksi', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
+            $this->putControllerStateSession('kelompok', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
         }
-        $this->setCurrentPageInsideSession('transaksi', 1);
+        $this->setCurrentPageInsideSession('kelompok', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
+            'page_active' => 'kelompok',
+            'search' => $this->getControllerStateSession('kelompok', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
             'data' => $data
         ])->render();
 
@@ -172,20 +172,20 @@ class TransaksiController extends Controller
     {
         $theme = 'dore';
 
-        $search = $this->getControllerStateSession('transaksi', 'search');
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transaksi');
+        $search = $this->getControllerStateSession('kelompok', 'search');
+        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompok');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
-        $this->setCurrentPageInsideSession('transaksi', $data->currentPage());
+        $this->setCurrentPageInsideSession('kelompok', $data->currentPage());
 
-        return view("pages.$theme.dmaster.transaksi.index")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
+        return view("pages.$theme.dmaster.kelompok.index")->with([
+            'page_active' => 'kelompok',
+            'search' => $this->getControllerStateSession('kelompok', 'search'),
             'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
+            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
             'data' => $data,
         ]);
     }
@@ -197,8 +197,8 @@ class TransaksiController extends Controller
     public function create()
     {
         $theme = 'dore';
-        return view("pages.$theme.dmaster.transaksi.create")->with([
-            'page_active' => 'transaksi',
+        return view("pages.$theme.dmaster.kelompok.create")->with([
+            'page_active' => 'kelompok',
 
         ]);
     }
@@ -211,15 +211,16 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
-            'StrNm' => 'required|min:5',
+            'Kd_Rek_2' => 'required|min:2',
+            'KlpNm' => 'required|min:5',
             'Descr' => 'required|min:5',
         ]);
 
-        $transaksi = TransaksiModel::create([
-            'StrID' => uniqid('uid'),
-            'Kd_Rek_1' => $request->input('Kd_Rek_1'),
-            'StrNm' => $request->input('StrNm'),
+        $kelompok = KelompokModel::create([
+            'KlpID' => uniqid('uid'),
+            'StrID' => $request->input('StrID'),
+            'Kd_Rek_2' => $request->input('Kd_Rek_2'),
+            'KlpNm' => $request->input('KlpNm'),
             'Descr' => $request->input('Descr'),
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);
@@ -230,7 +231,7 @@ class TransaksiController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('transaksi.show', ['uuid' => $transaksi->StrID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('kelompok.show', ['uuid' => $kelompok->KlpID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -243,10 +244,10 @@ class TransaksiController extends Controller
     {
         $theme = 'dore';
 
-        $data = TransaksiModel::where('StrID', $uuid)->firstOrFail();
+        $data = KelompokModel::where('KlpID', $uuid)->firstOrFail();
         if (!is_null($data)) {
-            return view("pages.$theme.dmaster.transaksi.show")->with([
-                'page_active' => 'transaksi',
+            return view("pages.$theme.dmaster.kelompok.show")->with([
+                'page_active' => 'kelompok',
                 'data' => $data,
             ]);
         }
@@ -260,9 +261,10 @@ class TransaksiController extends Controller
     public function edit($uuid)
     {
         $theme = 'dore';
-        $data = TransaksiModel::findOrFail($uuid);
+
+        $data = KelompokModel::findOrFail($uuid);
         if (!is_null($data)) {
-            return view("pages.$theme.dmaster.transaksi.edit")->with([
+            return view("pages.$theme.dmaster.kelompok.edit")->with([
                 'page_active' => 'rkakegiatanmurni',
                 'data' => $data
             ]);
@@ -276,17 +278,21 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $uuid)
     {
-        $transaksi = TransaksiModel::find($uuid);
+        $kelompok = KelompokModel::findOrFail($uuid);
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
-            'StrNm' => 'required|min:5',
+            'Kd_Rek_2' => 'required|min:2',
+            'KlpNm' => 'required|min:5',
             'Descr' => 'required|min:5',
         ]);
 
-        $transaksi->Kd_Rek_1 = $request->input('Kd_Rek_1');
-        $transaksi->StrNm = $request->input('StrNm');
-        $transaksi->Descr = $request->input('Descr');
-        $transaksi->save();
+        $kelompok->StrID = $request->input('StrID');
+        $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2 ');
+        $kelompok->KlpNm = $request->input('KlpNm');
+        $kelompok->Descr = $request->input('Descr ');
+        $kelompok->TA = \HelperKegiatan::getTahunPenyerapan();
+        $kelompok->StrID = $request->input('StrID');
+        $kelompok->save();
+
 
         if ($request->ajax()) {
             return response()->json([
@@ -294,7 +300,7 @@ class TransaksiController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('transaksi.show', ['uuid' => $transaksi->ASNID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('kelompok.show', ['uuid' => $kelompok->KlpID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -306,27 +312,27 @@ class TransaksiController extends Controller
     public function destroy(Request $request, $uuid)
     {
         $theme = 'dore';
-        $transaksi = TransaksiModel::find($uuid);
+        $kelompok = KelompokModel::find($uuid);
 
-        $result = $transaksi->delete();
+        $result = $kelompok->delete();
         if ($request->ajax()) {
-            $currentpage = $this->getCurrentPageInsideSession('transaksi');
+            $currentpage = $this->getCurrentPageInsideSession('kelompok');
             $data = $this->populateData($currentpage);
             if ($currentpage > $data->lastPage()) {
                 $data = $this->populateData($data->lastPage());
             }
-            $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-                'page_active' => 'transaksi',
-                'search' => $this->getControllerStateSession('transaksi', 'search'),
+            $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
+                'page_active' => 'kelompok',
+                'search' => $this->getControllerStateSession('kelompok', 'search'),
                 'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-                'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
+                'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
+                'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
                 'data' => $data
             ])->render();
 
             return response()->json(['success' => true, 'datatable' => $datatable], 200);
         } else {
-            return redirect(route('transaksi.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
+            return redirect(route('kelompok.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
         }
     }
 }
