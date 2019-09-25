@@ -54,83 +54,81 @@
 <link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
 @endsection
 @section('page_content')
-<div class="content">
-    <div class="card mb-4">
-        <div class="card-body">
-            <h4 class="mb-4">
-                <i class="simple-icon-note"></i>
-                TAMBAH DATA
-            </h4>
-            <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
-                <div class="form-group row">
-                    {{Form::label('PrgID','Program',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('PrgID', $daftar_program, null, ['class'=>'form-control select'])}}
-                    </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('RKPDID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('RKPDID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
-                        <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI</small>
-                    </div>
-                </div>
-                <h6>DATA KEGIATAN</h6>
+<div class="row">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body">
+                <h4 class="mb-4">
+                    <i class="simple-icon-note"></i>
+                    TAMBAH DATA
+                </h4>
                 <div class="separator mb-5"></div>
-                <div class="form-group row">
-                    {{Form::label('Kd_Keg','Kode Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::text('Kd_Keg','',['class'=>'form-control','placeholder'=>'Kode Kegiatan'])}}
+                {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@store','method'=>'post','class'=>'form-horizontal','id'=>'frmdata','name'=>'frmdata'])!!}                              
+                    <div class="form-group row">
+                        {{Form::label('PrgID','Program',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('PrgID', $daftar_program, null, ['class'=>'form-control select'])}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('KgtNm','Nama Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::text('KgtNm','',['class'=>'form-control','placeholder'=>'Nama Kegiatan'])}}
+                    <div class="form-group row">
+                        {{Form::label('RKPDID','RKPD',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('RKPDID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
+                            <small class="form-text text-muted">Daftar kegiatan ini berasal dari PEMBAHASAN RKPD MURNI. Abaikan bila kegiatan yang di inputkan tidak terdaftar di RKPD</small>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('PaguDana1','Pagu Dana:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::text('PaguDana1','',['class'=>'form-control','placeholder'=>'Pagu Dana'])}}
+                    <h6>DATA KEGIATAN</h6>
+                    <div class="separator mb-5"></div>
+                    <div class="form-group row">
+                        {{Form::label('KgtID','Kegiatan',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('KgtID', $daftar_rkpd, null, ['class'=>'form-control select'])}}
+                            <small class="form-text text-muted">Daftar kegiatan ini berasal dari Master Kegiatan (tmKgt) Atau saat RKPD dipilih berasal dari tabel trRKPD. Bila kosong, barangkali sudah di inputkan.</small>
+                        </div>
                     </div>
-                </div>
-                <h6>PENGAMPU KEGIATAN</h6>
-                <div class="separator mb-5"></div>
-                <div class="form-group row">
-                    {{Form::label('nip_pa','Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('nip_pa', $daftar_pa, null, ['class'=>'form-control'])}}
+                    <div class="form-group row">
+                        {{Form::label('PaguDana1','Pagu Dana:',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::text('PaguDana1','',['class'=>'form-control','placeholder'=>'Pagu Dana'])}}
+                            <small class="form-text text-muted">Nilai Pagu berasal dari Pembahasan RKPD Murni. Bisa diganti bila tidak sesuai dengan di E-Budgeting.</small>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('nip_kpa','Kuasa Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('nip_kpa', $daftar_kpa, null, ['class'=>'form-control'])}}
+                    <h6>PENGAMPU KEGIATAN</h6>
+                    <div class="separator mb-5"></div>
+                    <div class="form-group row">
+                        {{Form::label('nip_pa','Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('nip_pa', $daftar_pa, null, ['class'=>'form-control'])}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('nip_ppk','PPK:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('nip_ppk', $daftar_ppk, null, ['class'=>'form-control'])}}
+                    <div class="form-group row">
+                        {{Form::label('nip_kpa','Kuasa Pengguna Anggaran:',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('nip_kpa', $daftar_kpa, null, ['class'=>'form-control'])}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('nip_pptk','PPTK:',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{Form::select('nip_pptk', $daftar_pptk, null, ['class'=>'form-control'])}}
+                    <div class="form-group row">
+                        {{Form::label('nip_ppk','PPK:',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('nip_ppk', $daftar_ppk, null, ['class'=>'form-control'])}}
+                        </div>
                     </div>
-                </div>
-                <div class="form-group row">
-                    {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
-                    <div class="col-sm-10">
-                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                    <div class="form-group row">
+                        {{Form::label('nip_pptk','PPTK:',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{Form::select('nip_pptk', $daftar_pptk, null, ['class'=>'form-control'])}}
+                        </div>
                     </div>
-                </div>
-            {!! Form::close()!!}
-        </div>
-    </div>    
+                    <div class="form-group row">
+                        {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
+                        <div class="col-sm-10">
+                            {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                        </div>
+                    </div>
+                {!! Form::close()!!}
+            </div>
+        </div>    
+    </div>
 </div>   
 @endsection
 @section('page_asset_js')
@@ -142,18 +140,6 @@
 @section('page_custom_js')
 <script type="text/javascript">
 $(document).ready(function () {
-    AutoNumeric.multiple(['#Kd_Keg'], {
-                                        allowDecimalPadding: false,
-                                        minimumValue:0,
-                                        maximumValue:99999999999999999999, 
-                                        numericPos:true,
-                                        decimalPlaces : 0,
-                                        digitGroupSeparator : '',
-                                        showWarnings:false,
-                                        unformatOnSubmit: true,
-                                        modifyValueOnWheel:false
-                                    });
-
     AutoNumeric.multiple(['#PaguDana1'],{
                                         allowDecimalPadding: false,
                                         decimalCharacter: ",",
@@ -192,6 +178,41 @@ $(document).ready(function () {
                     listitems+='<option value="' + key + '">'+value+'</option>';                    
                 });
                 $('#RKPDID').html(listitems);
+
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });
+    $(document).on('change','#RKPDID',function(ev) {
+        ev.preventDefault();
+        RKPDID=$(this).val();        
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/filter',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "RKPDID": RKPDID,
+                'create':0
+            },
+            success:function(result)
+            { 
+                var daftar_kegiatan = result.daftar_kegiatan;
+                var listitems='<option></option>';
+                $.each(daftar_kegiatan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#KgtID').html(listitems);
+                AutoNumeric.getAutoNumericElement('#PaguDana1').set(result.NilaiUsulan2);
             },
             error:function(xhr, status, error)
             {   
@@ -204,10 +225,7 @@ $(document).ready(function () {
             PrgID : {
                 required: true,
             },
-            Kd_Keg : {
-                required: true,
-            },
-            KgtNm : {
+            KgtID : {
                 required: true,
             },
             PaguDana1 : {
@@ -216,13 +234,10 @@ $(document).ready(function () {
         },
         messages : {
             PrgID : {
-                required: "Mohon untuk di pilih program nama kegiatan.",                
+                required: "Mohon untuk di pilih nama program.",                
             },
-            Kd_Keg : {
-                required: "Mohon untuk di isi kode kegiatan.",                
-            },
-            KgtNm : {
-                required: "Mohon untuk di isi nama kegiatan.",                
+            KgtID : {
+                required: "Mohon untuk di pilih nama kegiatan.",                
             },
             PaguDana1 : {
                 required: "Mohon untuk di isi pagu dana kegiatan.",                

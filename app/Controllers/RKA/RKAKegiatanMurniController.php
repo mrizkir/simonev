@@ -41,7 +41,19 @@ class RKAKegiatanMurniController extends Controller
         {            
             $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
         }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
+        
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'none',
+                                                                            'SOrgID'=>'none',
+                                                                            'changetab'=>'ringkasan-tab',
+                                                                            ]);
+        }        
+        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
+
         if ($this->checkStateIsExistSession('rkakegiatanmurni','search')) 
         {
             $search=$this->getControllerStateSession('rkakegiatanmurni','search');
@@ -55,8 +67,12 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            $data = RKAKegiatanMurniModel::orderBy($column_order,$direction)->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }        
+            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+                        ->where('SOrgID',$SOrgID)                                            
+                        ->where('TA', \HelperKegiatan::getTahunPenyerapan())  
+                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        }      
         $data->setPath(route('rkakegiatanmurni.index'));
         return $data;
     }
@@ -210,20 +226,61 @@ class RKAKegiatanMurniController extends Controller
                         $query->select('RKPDID')
                                 ->from('trRKA')
                                 ->where('TA', \HelperKegiatan::getTahunPenyerapan())
-                                ->where('OrgID', $filters['OrgID']);
+                                ->where('SOrgID', $filters['SOrgID']);
                     }) 
-                    ->orderBy('Kd_Keg')
-                    ->orderBy('kode_kegiatan')
                     ->get();
             $daftar_rkpd=[];        
             foreach ($r as $k=>$v)
             {               
                 $daftar_rkpd[$v->RKPDID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->RKPDID.')';
+            }                        
+            $json_data['daftar_rkpd']=$daftar_rkpd;
+
+            $r=\DB::table('v_program_kegiatan')
+                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('PrgID',$PrgID)
+                    ->WhereNotIn('KgtID',function($query) {
+                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
+                        $query->select('KgtID')
+                                ->from('trRKA')
+                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('SOrgID', $SOrgID);
+                    }) 
+                    ->get();
+            $daftar_kegiatan=[];           
+            foreach ($r as $k=>$v)
+            {               
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
             }            
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
             $json_data['success']=true;
             $json_data['PrgID']=$PrgID;
-            $json_data['daftar_rkpd']=$daftar_rkpd;
         } 
+        //select RKPDID create 0
+        if ($request->exists('RKPDID') && $request->exists('create'))
+        {
+            $RKPDID = $request->input('RKPDID')==''?'none':$request->input('RKPDID'); 
+            $daftar_kegiatan=[];  
+            $r=\DB::table('v_rkpd')
+                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('RKPDID',$RKPDID)
+                    ->WhereNotIn('KgtID',function($query) {
+                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
+                        $query->select('KgtID')
+                                ->from('trRKA')
+                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('SOrgID', $SOrgID);
+                    }) 
+                    ->get();
+            foreach ($r as $k=>$v)
+            {               
+                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
+            }   
+            $json_data['daftar_kegiatan']=$daftar_kegiatan;
+            $json_data['NilaiUsulan2']=isset($r[0])?$r[0]->NilaiUsulan2:0;
+            $json_data['success']=true;
+            $json_data['RKPDID']=$RKPDID;
+        }
         return response()->json($json_data,200);  
     }
     /**
@@ -349,8 +406,7 @@ class RKAKegiatanMurniController extends Controller
         
         $this->validate($request, [
             'PrgID'=>'required',
-            'Kd_Keg'=>'required',
-            'KgtNm'=>'required',
+            'KgtID'=>'required',
             'PaguDana1'=>'required',
         ]);
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
@@ -359,17 +415,17 @@ class RKAKegiatanMurniController extends Controller
             'OrgID' => $filters['OrgID'],
             'SOrgID' => $filters['SOrgID'],
             'PrgID' => $request->input('PrgID'),
-            'RKPDID' => $request->input('RKPDID'),
-            'Kd_Keg' => $request->input('Kd_Keg'),
-            'KgtNm' => $request->input('KgtNm'),
+            'KgtID' => $request->input('KgtID'),
+            'RKPDID' => $request->input('RKPDID'),            
             'PaguDana1' => $request->input('PaguDana1'),
-            'PaguDana1' => 0,
+            'PaguDana2' => 0,
             'nip_pa' => $request->input('nip_pa'),
             'nip_kpa' => $request->input('nip_kpa'),
             'nip_ppk' => $request->input('nip_ppk'),
             'nip_pptk' => $request->input('nip_pptk'),
             'user_id' => $theme = \Auth::user()->id,
             'Descr' => '-',
+            'EntryLvl' => 1,
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);        
         
@@ -382,11 +438,27 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['id'=>$rkakegiatanmurni->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
-    
+    /**
+     * digunakan untuk melakukan perubahan tabulasi detail rka.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function changetab (Request $request)
+    {
+        $json_data = [];
+        $tab = $request->input('tab')==''?'none':$request->input('tab');
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']=$tab;
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
+        $json_data['success']=true;
+        $json_data['changetab']=$tab;
+        return response()->json($json_data,200);  
+    }
     /**
      * Display the specified resource.
      *
@@ -397,12 +469,49 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
-        $data = RKAKegiatanMurniModel::findOrFail($id);
-        if (!is_null($data) )  
+        $rka = RKAKegiatanMurniModel::select(\DB::raw('"trRKA"."RKAID",
+                                            "v_rka"."kode_urusan",
+                                            "v_rka"."Nm_Bidang",
+                                            "v_rka"."kode_organisasi",
+                                            "v_rka"."OrgNm",
+                                            "v_rka"."kode_suborganisasi",
+                                            "v_rka"."SOrgNm",
+                                            "v_rka"."kode_program",
+                                            "v_rka"."PrgNm",
+                                            "v_rka"."Kd_Keg",
+                                            "v_rka"."kode_kegiatan",
+                                            "v_rka"."KgtNm",
+                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."SumberDanaID",
+                                            "v_rka"."Nm_SumberDana",
+                                            "v_rka"."tk_capaian",
+                                            "v_rka"."capaian_program",
+                                            "v_rka"."masukan",
+                                            "v_rka"."tk_keluaran",
+                                            "v_rka"."keluaran",
+                                            "v_rka"."tk_hasil",
+                                            "v_rka"."hasil",
+                                            "v_rka"."ksk",
+                                            "v_rka"."sifat_kegiatan",
+                                            "v_rka"."waktu_pelaksanaan",
+                                            "v_rka"."PaguDana1",
+                                            "v_rka"."Descr",
+                                            "v_rka"."EntryLvl",
+                                            "v_rka"."created_at",
+                                            "v_rka"."updated_at"
+                                            '))
+                            ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
+                            ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                            ->findOrFail($id);
+        if (!is_null($rka) )  
         {
+            $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'filters'=>$filters,
+                                                                        'rka'=>$rka,
+                                                                        'sumber_dana'=>$sumber_dana
+                                                                    ]);
         }        
     }
 
@@ -437,10 +546,33 @@ class RKAKegiatanMurniController extends Controller
         $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
         
         $this->validate($request, [
-            'replaceit'=>'required',
+            'lokasi_kegiatan'=>'required',
+            'SumberDanaID'=>'required',
+            'capaian_program'=>'required',
+            'tk_capaian'=>'required',
+            'masukan'=>'required',
+            'keluaran'=>'required',
+            'tk_keluaran'=>'required',
+            'hasil'=>'required',
+            'tk_hasil'=>'required',
+            'ksk'=>'required',
+            'sifat_kegiatan'=>'required',
+            'waktu_pelaksanaan'=>'required'
         ]);
         
-        $rkakegiatanmurni->replaceit = $request->input('replaceit');
+        $rkakegiatanmurni->lokasi_kegiatan = $request->input('lokasi_kegiatan');
+        $rkakegiatanmurni->SumberDanaID=$request->input('SumberDanaID');
+        $rkakegiatanmurni->capaian_program=$request->input('capaian_program');
+        $rkakegiatanmurni->tk_capaian=$request->input('tk_capaian');
+        $rkakegiatanmurni->masukan=$request->input('masukan');
+        $rkakegiatanmurni->keluaran=$request->input('keluaran');
+        $rkakegiatanmurni->tk_keluaran=$request->input('tk_keluaran');
+        $rkakegiatanmurni->hasil=$request->input('hasil');
+        $rkakegiatanmurni->tk_hasil=$request->input('tk_hasil');
+        $rkakegiatanmurni->ksk=$request->input('ksk');
+        $rkakegiatanmurni->sifat_kegiatan=$request->input('sifat_kegiatan');
+        $rkakegiatanmurni->waktu_pelaksanaan=$request->input('waktu_pelaksanaan');
+        $rkakegiatanmurni->Descr=$request->input('Descr');
         $rkakegiatanmurni->save();
 
         if ($request->ajax()) 
@@ -452,7 +584,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['id'=>$rkakegiatanmurni->replaceit]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 

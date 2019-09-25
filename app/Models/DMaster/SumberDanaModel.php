@@ -1,62 +1,32 @@
 <?php
 
-namespace App\Models\RKA;
+namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKAKegiatanMurniModel extends Model 
-{
+class SumberDanaModel extends Model {
     use LogsActivity;
-
      /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'trRKA';
+    protected $table = 'tmSumberDana';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'RKAID', 
-        'OrgID', 
-        'SOrgID', 
-        'PrgID', 
-        'KgtID', 
-        'RKPDID',         
-        'SumberDanaID',  
-        'keluaran',         
-        'tk_keluaran',         
-        'hasil',         
-        'tk_hasil',         
-        'capaian_program',  
-        'tk_capaian',                
-        'masukan',         
-        'ksk',         
-        'sifat_kegiatan',   
-        'waktu_pelaksanaan',         
-        'lokasi_kegiatan',      
-        'PaguDana1', 
-        'PaguDana2',        
-        'nip_pa', 
-        'nip_kpa', 
-        'nip_ppk', 
-        'nip_pptk', 
-        'user_id', 
-        'EntryLvl', 
-        'Descr', 
-        'TA', 
-        'Locked'
+        'SumberDanaID', 'Kd_SumberDana', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKAID';
+    protected $primaryKey = 'SumberDanaID';
     /**
      * enable auto_increment.
      *
@@ -75,11 +45,13 @@ class RKAKegiatanMurniModel extends Model
      *
      * @var string
      */
-    // protected static $logName = 'RKAKegiatanMurniController';
+    // protected static $logName = 'SumberDanaController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RKAID', 'KgtNm', 'PaguDana1', 'PaguDana1'];
+    protected static $logAttributes = [
+        'SumberDanaID', 'Kd_SumberDana', 'Kd_SumberDana', 'Nm_SumberDana', 'Descr', 'TA'
+    ];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -87,4 +59,15 @@ class RKAKegiatanMurniModel extends Model
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+
+    /**
+     * digunakan untuk mendapatkan daftar sumber dana
+     */
+    public static function getDaftarSumberDana($ta,$prepend=true) 
+    {
+        $daftar_sumberdana = $prepend==true?SumberDanaModel::where('TA',$ta)->orderBy('Kd_SumberDana','asc')->get()->pluck('Nm_SumberDana', 'SumberDanaID')->prepend('DAFTAR SUMBER DANA','none')->toArray():
+                                            SumberDanaModel::where('TA',$ta)->orderBy('Kd_SumberDana','asc')->get()->pluck('Nm_SumberDana', 'SumberDanaID')->toArray();
+
+        return $daftar_sumberdana;
+    }
 }

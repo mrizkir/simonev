@@ -6,7 +6,7 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" width="55">NO</th>
-                        <th scope="col" width="190">
+                        <th scope="col" width="120">
                             <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
                                 KODE KEGIATAN
                             </a>
@@ -16,15 +16,15 @@
                                 NAMA KEGIATAN
                             </a>
                         </th>
-                        <th scope="col" width="200">
+                        <th scope="col" width="120">
                             <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
                                 PAGU KEGIATAN
                             </a>
                         </th>
-                        <th scope="col" width="70">TOTAL PAGU URAIAN</th>
+                        <th scope="col" width="120">TOTAL PAGU URAIAN</th>
                         <th scope="col" width="70">REALISASI</th>
                         <th scope="col" width="70">CAPAIAN (%)</th>
-                        <th scope="col" width="70">AKSI</th>
+                        <th scope="col" width="120">AKSI</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -33,49 +33,49 @@
                         <th scope="row">
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                             </td>
-                        <td>{{$item->Kode_Bidang}}</td>
-                        <td>{{$item->Nm_Bidang}}</td>
-                        <td>{{$item->Nm_Urusan}}</td>
-                        <td>{{$item->Descr}}</td>
-                        <td>{{$item->TA}}</td>
+                        <td>{{$item->kode_kegiatan}}</td>
+                        <td>{{$item->KgtNm}}</td>
+                        <td>{{Helper::formatUang($item->PaguDana1)}}</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
                         <td>
                             <div class="input-group-append">
-                                <a href="{{route('urusan.show',['id'=>$item->UrsID])}}"
-                                    class="btn btn-primary btn-xs mr-sm-2 default" title="Detail Data Urusan">
+                                <a href="{{route('rkakegiatanmurni.show',['uuid'=>$item->RKAID])}}" class="btn btn-primary btn-xs mr-sm-2 default"  title="Detail Data Kegiatan">
                                     <i class="simple-icon-eye"></i>
+                                </a>
+                                <a href="{{route('rkakegiatanmurni.edit',['uuid'=>$item->RKAID])}}" title="Ubah Data Kegiatan" class="btn btn-primary btn-xs mr-sm-2 default">
+                                    <i class="simple-icon-pencil"></i>
+                                </a>
+                                <a href="javascript:;" title="Hapus Data Kegiatan" data-id="{{$item->RKAID}}" class="btn btn-danger btn-xs default btnDelete" data-url="{{route('rkakegiatanmurni.index')}}">
+                                    <i class="simple-icon-trash"></i>
                                 </a>
                             </div>
                         </td>
                     </tr>
                     <tr class="text-center">
-                        <td colspan="7">
-                            <div class="card d-flex flex-row mb-0">
-                                <div class="d-flex flex-grow-2 min-width-zero">
-                                    <div class="card-body align-self-center d-flex flex-column flex-md-row justify-content-between min-width-zero align-items-md-center"
-                                        style="padding:10px">
-                                        <div class="w-15 w-xs-100">
-                                            <span class="badge badge-pill badge-secondary">
-                                                <strong>URSID:</strong>{{$item->UrsID}}
-                                            </span>
-                                        </div>
-                                        <div class="w-15 w-xs-100">
-                                            <span class="badge badge-pill badge-secondary">
-                                                <strong>KURSID:</strong>{{$item->KUrsID}}
-                                            </span>
-                                        </div>
-                                        <div class="w-15 w-xs-100">
-                                            <span class="badge badge-pill badge-secondary">
-                                                <strong>CREATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
-                                            </span>
-                                        </div>
-                                        <div class="w-15 w-xs-100">
-                                            <span class="badge badge-pill badge-secondary">
-                                                <strong>UPDATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        <td colspan="8">
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>RKAID:</strong>{{$item->RKAID}}
+                            </span>
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>KGTID:</strong>{{$item->KgtID}}
+                            </span>
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>PRGID:</strong>{{$item->PrgID}}
+                            </span>
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>TA:</strong>{{$item->TA}}
+                            </span>
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>KET:</strong>{{$item->Descr}}
+                            </span>
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>CREATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
+                            </span>
+                            <span class="badge badge-pill badge-outline-primary mb-1">
+                                <strong>UPDATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
+                            </span>
                         </td>
                     </tr>
                     @endforeach

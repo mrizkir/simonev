@@ -64,4 +64,33 @@ class HelperKegiatan {
         }
         return $pagetitle;
     }
+    /**
+     * digunakan untuk mendapatkan nama view db
+     */
+    public static function getViewName ($nameofpage)
+    {
+        switch ($nameofpage) 
+        {         
+            case 'rkakegiatanmurni' :
+                $dbViewName = 'v_rka';
+            break;            
+            default :
+                $dbViewName = null;
+        }
+        return $dbViewName;
+    }   
+    /**
+    * digunakan untuk mendapatkan entri level
+    */
+    public static function getLevelEntriByName ($level_name) {        
+        switch ($level_name) 
+        {            
+            case 'rkakegiatanmurni' :
+                $level = 1;
+            break;            
+            default :
+                $level = null;
+        }
+        return $level;
+    }
 }
