@@ -133,7 +133,8 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/kelompok/paginate/{id}', ['uses' => 'DMaster\KelompokController@paginate', 'as' => 'kelompok.paginate']);
     Route::post('/dmaster/kelompok/orderby', ['uses' => 'DMaster\KelompokController@orderby', 'as' => 'kelompok.orderby']);
 
-    // RKA Kegiatan Murni
+
+    //rka - kegiatan murni [rka]
     Route::resource('/rka/rkakegiatanmurni', 'RKA\RKAKegiatanMurniController', ['parameters' => ['rkakegiatanmurni' => 'uuid']]);
     Route::get('/rka/rkakegiatanmurni/create1/{uuid}', ['uses' => 'RKA\RKAKegiatanMurniController@create1', 'as' => 'rkakegiatanmurni.create1']);
     Route::post('/rka/rkakegiatanmurni/changetab', ['uses' => 'RKA\RKAKegiatanMurniController@changetab', 'as' => 'rkakegiatanmurni.changetab']);
@@ -142,7 +143,6 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/rka/rkakegiatanmurni/paginate/{id}', ['uses' => 'RKA\RKAKegiatanMurniController@paginate', 'as' => 'rkakegiatanmurni.paginate']);
     Route::post('/rka/rkakegiatanmurni/changenumberrecordperpage', ['uses' => 'RKA\RKAKegiatanMurniController@changenumberrecordperpage', 'as' => 'rkakegiatanmurni.changenumberrecordperpage']);
     Route::post('/rka/rkakegiatanmurni/orderby', ['uses' => 'RKA\RKAKegiatanMurniController@orderby', 'as' => 'rkakegiatanmurni.orderby']);
-
 
     //setting - permissions    
     Route::resource('/setting/permissions', 'Setting\PermissionsController', [
