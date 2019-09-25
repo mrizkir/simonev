@@ -56,7 +56,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr class="text-center">
+                    <t  r class="text-center">
                         <td colspan="6">
                             <p class="mb-3">
                                 <span class="badge badge-pill badge-outline-theme-2 mb-1">
