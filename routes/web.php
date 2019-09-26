@@ -123,6 +123,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/rincian/paginate/{id}', ['uses' => 'DMaster\RincianController@paginate', 'as' => 'rincian.paginate']);
     Route::post('/dmaster/rincian/orderby', ['uses' => 'DMaster\RincianController@orderby', 'as' => 'rincian.orderby']);
 
+    //masters - objek
+    Route::resource('/dmaster/objek', 'DMaster\ObjekController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/objek/search', ['uses' => 'DMaster\ObjekController@search', 'as' => 'objek.search']);
+    Route::post('/dmaster/objek/filter', ['uses' => 'DMaster\ObjekController@filter', 'as' => 'objek.filter']);
+    Route::post('/dmaster/objek/filtercreate', ['uses' => 'DMaster\ObjekController@filtercreate', 'as' => 'objek.filtercreate']);
+    Route::get('/dmaster/objek/paginate/{id}', ['uses' => 'DMaster\ObjekController@paginate', 'as' => 'objek.paginate']);
+    Route::post('/dmaster/objek/orderby', ['uses' => 'DMaster\ObjekController@orderby', 'as' => 'objek.orderby']);
+
     //masters - kelompok
     Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
         'parameters' => ['transaksi' => 'uuid'],
@@ -134,14 +144,14 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/dmaster/kelompok/orderby', ['uses' => 'DMaster\KelompokController@orderby', 'as' => 'kelompok.orderby']);
 
     //rka - kegiatan murni [rka]
-    Route::resource('/rka/rkakegiatanmurni','RKA\RKAKegiatanMurniController',['parameters'=>['rkakegiatanmurni'=>'uuid']]); 
-    Route::get('/rka/rkakegiatanmurni/create1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create1','as'=>'rkakegiatanmurni.create1']);                  
-    Route::post('/rka/rkakegiatanmurni/changetab',['uses'=>'RKA\RKAKegiatanMurniController@changetab','as'=>'rkakegiatanmurni.changetab']);                  
-    Route::post('/rka/rkakegiatanmurni/search',['uses'=>'RKA\RKAKegiatanMurniController@search','as'=>'rkakegiatanmurni.search']);  
-    Route::post('/rka/rkakegiatanmurni/filter',['uses'=>'RKA\RKAKegiatanMurniController@filter','as'=>'rkakegiatanmurni.filter']);              
-    Route::get('/rka/rkakegiatanmurni/paginate/{id}',['uses'=>'RKA\RKAKegiatanMurniController@paginate','as'=>'rkakegiatanmurni.paginate']);              
-    Route::post('/rka/rkakegiatanmurni/changenumberrecordperpage',['uses'=>'RKA\RKAKegiatanMurniController@changenumberrecordperpage','as'=>'rkakegiatanmurni.changenumberrecordperpage']);  
-    Route::post('/rka/rkakegiatanmurni/orderby',['uses'=>'RKA\RKAKegiatanMurniController@orderby','as'=>'rkakegiatanmurni.orderby']); 
+    Route::resource('/rka/rkakegiatanmurni', 'RKA\RKAKegiatanMurniController', ['parameters' => ['rkakegiatanmurni' => 'uuid']]);
+    Route::get('/rka/rkakegiatanmurni/create1/{uuid}', ['uses' => 'RKA\RKAKegiatanMurniController@create1', 'as' => 'rkakegiatanmurni.create1']);
+    Route::post('/rka/rkakegiatanmurni/changetab', ['uses' => 'RKA\RKAKegiatanMurniController@changetab', 'as' => 'rkakegiatanmurni.changetab']);
+    Route::post('/rka/rkakegiatanmurni/search', ['uses' => 'RKA\RKAKegiatanMurniController@search', 'as' => 'rkakegiatanmurni.search']);
+    Route::post('/rka/rkakegiatanmurni/filter', ['uses' => 'RKA\RKAKegiatanMurniController@filter', 'as' => 'rkakegiatanmurni.filter']);
+    Route::get('/rka/rkakegiatanmurni/paginate/{id}', ['uses' => 'RKA\RKAKegiatanMurniController@paginate', 'as' => 'rkakegiatanmurni.paginate']);
+    Route::post('/rka/rkakegiatanmurni/changenumberrecordperpage', ['uses' => 'RKA\RKAKegiatanMurniController@changenumberrecordperpage', 'as' => 'rkakegiatanmurni.changenumberrecordperpage']);
+    Route::post('/rka/rkakegiatanmurni/orderby', ['uses' => 'RKA\RKAKegiatanMurniController@orderby', 'as' => 'rkakegiatanmurni.orderby']);
 
     //setting - permissions    
     Route::resource('/setting/permissions', 'Setting\PermissionsController', [

@@ -124,7 +124,7 @@
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('objek.index')}}">
                                     <i class="simple-icon-credit-card"></i>
                                     <span class="d-inline-block">OBJEK</span>
                                 </a>

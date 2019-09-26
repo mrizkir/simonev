@@ -30,9 +30,8 @@
                     @foreach ($data as $key=>$item)
                     <tr>
                         <th scope="row">
-
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
-                            </td>
+                        </th>
                         <td>{{$item->StrID}}</td>
                         <td>{{$item->Kd_Rek_2}}</td>
                         <td>{{$item->KlpNm}}</td>

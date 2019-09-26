@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-RINCIAN
+OBJEK
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-bag"></i>
-    RINCIAN
+    OBJEK
 </h1>
 @endsection
 @section('page_header_button')
@@ -17,7 +17,7 @@ RINCIAN
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{!!route('rincian.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{!!route('objek.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
@@ -45,7 +45,7 @@ RINCIAN
 @section('page_breadcrumb')
 <li class="breadcrumb-item">MASTER</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('rincian.index')!!}"> REKENING</a>
+    <a href="{!!route('objek.index')!!}"> REKENING</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
@@ -58,24 +58,24 @@ RINCIAN
                 TAMBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\RincianController@store','method'=>'post','class'=>'form-horizontal
+            {!! Form::open(['action'=>'DMaster\ObjekController@store','method'=>'post','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('JnsID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('ObyID','KODE RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('JnsID', \App\Models\DMaster\JenisModel::pluck('JnsNm','JnsID'),'', ['placeholder' => 'Pilih Kode Jenis','class'=>'form-control'])}}
+                    {{Form::select('ObyID', \App\Models\DMaster\RincianModel::pluck('ObyNm','ObyID'), '', ['placeholder' => 'Pilih Kode Rincian','class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Kd_Rek_4','KODE RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Kd_Rek_5','KODE OBJEK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('Kd_Rek_4','',['class'=>'form-control','placeholder'=>'Kode Rincian'])}}
+                    {{Form::text('Kd_Rek_5','',['class'=>'form-control','placeholder'=>'Kode Objek'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('ObyNm','NAMA RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('RObyNm','NAMA OBJEK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::text('ObyNm','',['class'=>'form-control','placeholder'=>'Nama Jenis'])}}
+                    {{Form::text('RObyNm','',['class'=>'form-control','placeholder'=>'Nama Objek'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
@@ -104,29 +104,37 @@ RINCIAN
     $(document).ready(function () {   
     $('#frmdata').validate({
         rules: {
-            JnsID : {
+            ObyID : {
                 required: true,
                 minlength: 1
             },
-            Kd_Rek_4 : {
+            Kd_Rek_5 : {
                 required: true,
                 minlength: 2
             },
-            ObyNm : {
+            RObyNm : {
+                required: true,
+                minlength: 2
+            },
+            Descr : {   
                 required: true,
                 minlength: 2
             },
         },
         messages : {
-            JnsID : {
+            ObyID : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            Kd_Rek_4 : {
+            Kd_Rek_5 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            ObyNm : {
+            RObyNm : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            },
+            Descr : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
