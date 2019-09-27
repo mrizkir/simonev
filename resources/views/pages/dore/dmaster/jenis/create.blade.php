@@ -122,7 +122,7 @@ JENIS
             },
             Kd_Rek_3 : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
             JnsNm : {
                 required: true,
@@ -130,13 +130,10 @@ JENIS
             },
         },
         messages : {
-            KlpID : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            },
+          
             Kd_Rek_3 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
             },
             JnsNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

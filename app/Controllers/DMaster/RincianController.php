@@ -210,8 +210,7 @@ class RincianController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'JnsID' => 'required|min:2',
-            'Kd_Rek_4' => 'required|min:2',
+            'Kd_Rek_4' => 'required|min:1',
             'ObyNm' => 'required|min:5',
         ]);
 

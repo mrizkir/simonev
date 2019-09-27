@@ -211,7 +211,7 @@ class KelompokController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:2',
+            'Kd_Rek_2' => 'required|min:1',
             'KlpNm' => 'required|min:5',
         ]);
 
@@ -279,7 +279,7 @@ class KelompokController extends Controller
     {
         $kelompok = KelompokModel::findOrFail($uuid);
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:2',
+            'Kd_Rek_2' => 'required|min:1',
             'KlpNm' => 'required|min:5',
         ]);
 
