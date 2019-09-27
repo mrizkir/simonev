@@ -118,10 +118,6 @@ TRANSAKSI
                 required: true,
                 minlength: 2
             },
-            Descr : {
-            required: true,
-            minlength: 2
-            },
         },
         messages : {
             Kd_Rek_1 : {
@@ -131,10 +127,6 @@ TRANSAKSI
             StrNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            },
-            Descr : {
-            required: "Mohon untuk di isi karena ini diperlukan.",
-            minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
         },      
     });   

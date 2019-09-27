@@ -213,7 +213,6 @@ class TransaksiController extends Controller
         $this->validate($request, [
             'Kd_Rek_1' => 'required|min:2',
             'StrNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
         ]);
 
         $transaksi = TransaksiModel::create([
@@ -280,7 +279,6 @@ class TransaksiController extends Controller
         $this->validate($request, [
             'Kd_Rek_1' => 'required|min:2',
             'StrNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
         ]);
 
         $transaksi->Kd_Rek_1 = $request->input('Kd_Rek_1');
