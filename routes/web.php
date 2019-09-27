@@ -123,6 +123,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/rincian/paginate/{id}', ['uses' => 'DMaster\RincianController@paginate', 'as' => 'rincian.paginate']);
     Route::post('/dmaster/rincian/orderby', ['uses' => 'DMaster\RincianController@orderby', 'as' => 'rincian.orderby']);
 
+    //masters - objek
+    Route::resource('/dmaster/objek', 'DMaster\ObjekController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/objek/search', ['uses' => 'DMaster\ObjekController@search', 'as' => 'objek.search']);
+    Route::post('/dmaster/objek/filter', ['uses' => 'DMaster\ObjekController@filter', 'as' => 'objek.filter']);
+    Route::post('/dmaster/objek/filtercreate', ['uses' => 'DMaster\ObjekController@filtercreate', 'as' => 'objek.filtercreate']);
+    Route::get('/dmaster/objek/paginate/{id}', ['uses' => 'DMaster\ObjekController@paginate', 'as' => 'objek.paginate']);
+    Route::post('/dmaster/objek/orderby', ['uses' => 'DMaster\ObjekController@orderby', 'as' => 'objek.orderby']);
+
     //masters - kelompok
     Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
         'parameters' => ['transaksi' => 'uuid'],
@@ -144,7 +154,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/rka/rkakegiatanmurni/changenumberrecordperpage',['uses'=>'RKA\RKAKegiatanMurniController@changenumberrecordperpage','as'=>'rkakegiatanmurni.changenumberrecordperpage']);  
     Route::post('/rka/rkakegiatanmurni/orderby',['uses'=>'RKA\RKAKegiatanMurniController@orderby','as'=>'rkakegiatanmurni.orderby']); 
 
-    //setting - permissions    
+  //setting - permissions    
     Route::resource('/setting/permissions', 'Setting\PermissionsController', [
         'parameters' => ['permissions' => 'id'],
         'only' => ['index', 'show', 'create', 'store', 'destroy']
