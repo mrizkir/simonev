@@ -54,7 +54,7 @@ ASN
     <div class="card mb-4">
         <div class="card-body">
             <h4 class="mb-4">
-                <i class="simple-icon-note"></i>
+                <i class="simple-icon-plus"></i>
                 TAMBAH DATA
             </h4>
             <div class="separator mb-5"></div>
