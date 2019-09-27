@@ -63,9 +63,9 @@
 @section('page_content')
 <div class="tab-content">
     <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">        
-        <div class="row">
-            <div class="col-12">                
-                <div class="card">
+        <div class="row">            
+            <div class="col-12">
+                <div class="card mb-4">
                     <div class="card-body">
                         <h2 class="mb-2">
                             <i class="simple-icon-screen-tablet"></i>
@@ -86,11 +86,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <br>
-        <div class="row">
-            <div class="col-12">
                 <div class="card">
                     <div class="card-body">
                         <h2 class="mb-2">
@@ -129,11 +124,10 @@
                                     {{Form::select('RObyID', [], null, ['class'=>'form-control select'])}}
                                 </div>
                             </div>                            
-                        {!! Form::close()!!}  
-                        </div>
+                        {!! Form::close()!!} 
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>
     </div>
 </div>    
