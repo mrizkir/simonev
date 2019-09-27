@@ -211,7 +211,7 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
+            'Kd_Rek_1' => 'required|min:1',
             'StrNm' => 'required|min:5',
         ]);
 
@@ -277,7 +277,7 @@ class TransaksiController extends Controller
     {
         $transaksi = TransaksiModel::find($uuid);
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:2',
+            'Kd_Rek_1' => 'required|min:1',
             'StrNm' => 'required|min:5',
         ]);
 

@@ -116,26 +116,26 @@ TRANSAKSI
                                     modifyValueOnWheel:false
                                 });
     $('#frmdata').validate({
-        rules: {
-            NIP_TRANSAKSI : {
+         rules: {
+            Kd_Rek_2 : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
-            Nm_TRANSAKSI : {
+            KlpNm : {
                 required: true,
                 minlength: 2
             },
         },
         messages : {
-            NIP_TRANSAKSI : {
+            Kd_Rek_2 : {
+                required: "Mohon untuk di isi karena ini diperlukan.",
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
+            },
+            KlpNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
-            Nm_TRANSAKSI : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            }
-        }      
+        },     
     });   
 });
 </script>

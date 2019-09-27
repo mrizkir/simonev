@@ -118,7 +118,7 @@ KELOMPOK
         rules: {
             Kd_Rek_2 : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
             KlpNm : {
                 required: true,
@@ -128,7 +128,7 @@ KELOMPOK
         messages : {
             Kd_Rek_2 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
             },
             KlpNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

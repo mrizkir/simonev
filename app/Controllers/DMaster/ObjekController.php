@@ -279,8 +279,7 @@ class ObjekController extends Controller
         $objek = ObjekModel::find($uuid);
 
         $this->validate($request, [
-            'ObyID' => 'required|min:2',
-            'Kd_Rek_5' => 'required|min:2',
+            'Kd_Rek_5' => 'required|min:1',
             'RObyNm' => 'required|min:5',
         ]);
 

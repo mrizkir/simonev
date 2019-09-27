@@ -116,13 +116,9 @@ OBJEK
                                 });
     $('#frmdata').validate({
         rules: {
-            ObyID : {
-                required: true,
-                minlength: 1
-            },
             Kd_Rek_5 : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
             RObyNm : {
                 required: true,
@@ -130,13 +126,9 @@ OBJEK
             },
         },
         messages : {
-            ObyID : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            },
             Kd_Rek_5 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
             },
             RObyNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

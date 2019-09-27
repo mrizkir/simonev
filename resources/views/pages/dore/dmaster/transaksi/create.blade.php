@@ -112,7 +112,7 @@ TRANSAKSI
         rules: {
             Kd_Rek_1 : {
                 required: true,
-                minlength: 3
+                minlength: 1
             },
             StrNm : {
                 required: true,
@@ -122,7 +122,7 @@ TRANSAKSI
         messages : {
             Kd_Rek_1 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
             },
             StrNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

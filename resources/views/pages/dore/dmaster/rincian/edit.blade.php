@@ -119,11 +119,11 @@ RINCIAN
         rules: {
             JnsID : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
             Kd_Rek_4 : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
             ObyNm : {
                 required: true,
@@ -133,11 +133,11 @@ RINCIAN
         messages : {
             JnsID : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
             },
             Kd_Rek_4 : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+                minlength: "Mohon di isi minimal 1 karakter atau lebih."
             }
             ObyNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",

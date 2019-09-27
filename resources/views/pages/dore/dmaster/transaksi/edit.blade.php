@@ -111,11 +111,11 @@ TRANSAKSI
                                 });
     $('#frmdata').validate({
         rules: {
-            NIP_TRANSAKSI : {
+            Kd_Rek_1 : {
                 required: true,
-                minlength: 2
+                minlength: 1
             },
-            Nm_TRANSAKSI : {
+            StrNm : {
                 required: true,
                 minlength: 2
             },
