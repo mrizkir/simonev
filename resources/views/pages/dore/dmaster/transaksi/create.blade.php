@@ -92,10 +92,22 @@ TRANSAKSI
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
     $(document).ready(function () {   
+                                    AutoNumeric.multiple(['#Kd_Rek_1'], {
+                                    allowDecimalPadding: false,
+                                    minimumValue:0,
+                                    maximumValue:99999999999999999999,
+                                    numericPos:true,
+                                    decimalPlaces : 0,
+                                    digitGroupSeparator : '',
+                                    showWarnings:false,
+                                    unformatOnSubmit: true,
+                                    modifyValueOnWheel:false
+                                });
     $('#frmdata').validate({
         rules: {
             Kd_Rek_1 : {

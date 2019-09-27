@@ -104,17 +104,17 @@ TRANSAKSI
 @section('page_custom_js')
 <script type="text/javascript">
     $(document).ready(function () {   
-    AutoNumeric.multiple(['#NIP_TRANSAKSI'], {
-                                            allowDecimalPadding: false,
-                                            minimumValue:0,
-                                            maximumValue:99999999999999999999, 
-                                            numericPos:true,
-                                            decimalPlaces : 0,
-                                            digitGroupSeparator : '',
-                                            showWarnings:false,
-                                            unformatOnSubmit: true,
-                                            modifyValueOnWheel:false
-                                        });
+                                    AutoNumeric.multiple(['#Kd_Rek_2'], {
+                                    allowDecimalPadding: false,
+                                    minimumValue:0,
+                                    maximumValue:99999999999999999999,
+                                    numericPos:true,
+                                    decimalPlaces : 0,
+                                    digitGroupSeparator : '',
+                                    showWarnings:false,
+                                    unformatOnSubmit: true,
+                                    modifyValueOnWheel:false
+                                });
     $('#frmdata').validate({
         rules: {
             NIP_TRANSAKSI : {
