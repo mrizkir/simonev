@@ -334,4 +334,23 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     });    
+    $(document).on('click','#data-uraian-tab',function(ev) {
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changetab',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "tab": 'data-uraian-tab',
+            },
+            success:function(result)
+            { 
+                console.log(result.success);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });    
 });
