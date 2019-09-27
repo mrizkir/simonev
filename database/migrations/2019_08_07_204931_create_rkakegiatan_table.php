@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateRkakegiatanmurniTable extends Migration
+class CreateRkakegiatanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -89,7 +89,7 @@ class CreateRkakegiatanmurniTable extends Migration
                     ->onDelete('set null')
                     ->onUpdate('cascade');
 
-        });
+        });       
     }
 
     /**
@@ -98,7 +98,7 @@ class CreateRkakegiatanmurniTable extends Migration
      * @return void
      */
     public function down()
-    {
+    {        
         Schema::dropIfExists('trRKA');
     }
 }
