@@ -81,7 +81,7 @@ OBJEK
             <div class="form-group row has-float-label">
                 {{Form::label('Descr','KETERANGAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Deskripsi','rows'=>2])}}
+                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Keterangan','rows'=>2])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
