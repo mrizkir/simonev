@@ -22,6 +22,54 @@ class RKAKegiatanMurniController extends Controller
         //set nama halaman saat ini
         $this->NameOfPage = \Helper::getNameOfPage();
     }
+    private function getDataRKA ($id)
+    {
+        $rka = RKAKegiatanMurniModel::select(\DB::raw('"trRKA"."RKAID",
+                                            "v_rka"."kode_urusan",
+                                            "v_rka"."Nm_Bidang",
+                                            "v_rka"."kode_organisasi",
+                                            "v_rka"."OrgNm",
+                                            "v_rka"."kode_suborganisasi",
+                                            "v_rka"."SOrgNm",
+                                            "v_rka"."kode_program",
+                                            "v_rka"."PrgNm",
+                                            "v_rka"."Kd_Keg",
+                                            "v_rka"."kode_kegiatan",
+                                            "v_rka"."KgtNm",
+                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."SumberDanaID",
+                                            "v_rka"."Nm_SumberDana",
+                                            "v_rka"."tk_capaian",
+                                            "v_rka"."capaian_program",
+                                            "v_rka"."masukan",
+                                            "v_rka"."tk_keluaran",
+                                            "v_rka"."keluaran",
+                                            "v_rka"."tk_hasil",
+                                            "v_rka"."hasil",
+                                            "v_rka"."ksk",
+                                            "v_rka"."sifat_kegiatan",
+                                            "v_rka"."waktu_pelaksanaan",
+                                            "v_rka"."PaguDana1",
+                                            "v_rka"."Descr",
+                                            "v_rka"."EntryLvl",
+                                            "v_rka"."created_at",
+                                            "v_rka"."updated_at"
+                                            '))
+                            ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
+                            ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                            ->findOrFail($id);
+
+        return $rka;
+    }
+    /**
+     * collect data from resources for datauraian view
+     *
+     * @return resources
+     */
+    public function populateDataUraian ($currentpage=1)
+    {
+        return [];
+    }
     /**
      * collect data from resources for index view
      *
@@ -394,7 +442,40 @@ class RKAKegiatanMurniController extends Controller
                                                                 ]);  
         }  
     }
-    
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create1(Request $request,$id)
+    {        
+        $theme = 'dore';
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $locked=false;
+        $rka=$this->getDataRKA($id);
+        try
+        {
+            if ($filters['SOrgID'] == 'none'&&$filters['SOrgID'] == ''&&$filters['SOrgID'] == null)
+            {
+                throw new \Exception ('Mohon unit kerja untuk di pilih terlebih dahulu.');
+            }
+            if ($locked)
+            {   
+                throw new \Exception ('Tidak diperkenankan menambah uraian kegiatan karena telah dikunci.');
+            }
+            return view("pages.$theme.rka.rkakegiatanmurni.create1")->with(['page_active'=>'rkakegiatanmurni',
+                                                                        'filters'=>$filters,
+                                                                        'rka'=>$rka,
+                                                                    ]);
+        }
+        catch (\Exception $e)
+        {
+            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>$e->getMessage()
+                                                                ]);  
+        }        
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -469,48 +550,17 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
-        $rka = RKAKegiatanMurniModel::select(\DB::raw('"trRKA"."RKAID",
-                                            "v_rka"."kode_urusan",
-                                            "v_rka"."Nm_Bidang",
-                                            "v_rka"."kode_organisasi",
-                                            "v_rka"."OrgNm",
-                                            "v_rka"."kode_suborganisasi",
-                                            "v_rka"."SOrgNm",
-                                            "v_rka"."kode_program",
-                                            "v_rka"."PrgNm",
-                                            "v_rka"."Kd_Keg",
-                                            "v_rka"."kode_kegiatan",
-                                            "v_rka"."KgtNm",
-                                            "v_rka"."lokasi_kegiatan",
-                                            "v_rka"."SumberDanaID",
-                                            "v_rka"."Nm_SumberDana",
-                                            "v_rka"."tk_capaian",
-                                            "v_rka"."capaian_program",
-                                            "v_rka"."masukan",
-                                            "v_rka"."tk_keluaran",
-                                            "v_rka"."keluaran",
-                                            "v_rka"."tk_hasil",
-                                            "v_rka"."hasil",
-                                            "v_rka"."ksk",
-                                            "v_rka"."sifat_kegiatan",
-                                            "v_rka"."waktu_pelaksanaan",
-                                            "v_rka"."PaguDana1",
-                                            "v_rka"."Descr",
-                                            "v_rka"."EntryLvl",
-                                            "v_rka"."created_at",
-                                            "v_rka"."updated_at"
-                                            '))
-                            ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
-                            ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
-                            ->findOrFail($id);
+        $rka = $this->getDataRKA($id);
         if (!is_null($rka) )  
         {
             $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
+            $datauraian=$this->populateDataUraian();
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
-                                                                        'sumber_dana'=>$sumber_dana
+                                                                        'sumber_dana'=>$sumber_dana,
+                                                                        'datauraian'=>$datauraian
                                                                     ]);
         }        
     }

@@ -22,6 +22,9 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
+                <i class="simple-icon-plus"></i> TAMBAH URAIAN
+            </a> 
             <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
@@ -272,7 +275,7 @@
         </div>
     </div>
     <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">
-        test
+        @include('pages.dore.rka.rkakegiatanmurni.datatableuraian')
     </div>
 </div>    
 @endsection
@@ -283,6 +286,7 @@
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
+<script src="{!!asset('js/vendor/rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
     $("#SumberDanaID.select").select({
