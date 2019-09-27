@@ -213,7 +213,6 @@ class KelompokController extends Controller
         $this->validate($request, [
             'Kd_Rek_2' => 'required|min:2',
             'KlpNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
         ]);
 
         $kelompok = KelompokModel::create([
@@ -282,7 +281,6 @@ class KelompokController extends Controller
         $this->validate($request, [
             'Kd_Rek_2' => 'required|min:2',
             'KlpNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
         ]);
 
         $kelompok->StrID = $request->input('StrID');

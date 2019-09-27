@@ -73,7 +73,7 @@ TRANSAKSI
                 </div>
             </div>
             <div class="form-group row has-float-label">
-                {{Form::label('Descr','DESKRIPSI:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('Descr','KETERANGAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
                     {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Deskripsi','rows'=>2])}}
                 </div>
@@ -92,10 +92,22 @@ TRANSAKSI
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
     $(document).ready(function () {   
+                                    AutoNumeric.multiple(['#Kd_Rek_1'], {
+                                    allowDecimalPadding: false,
+                                    minimumValue:0,
+                                    maximumValue:99999999999999999999,
+                                    numericPos:true,
+                                    decimalPlaces : 0,
+                                    digitGroupSeparator : '',
+                                    showWarnings:false,
+                                    unformatOnSubmit: true,
+                                    modifyValueOnWheel:false
+                                });
     $('#frmdata').validate({
         rules: {
             Kd_Rek_1 : {
@@ -106,10 +118,6 @@ TRANSAKSI
                 required: true,
                 minlength: 2
             },
-            Descr : {
-            required: true,
-            minlength: 2
-            },
         },
         messages : {
             Kd_Rek_1 : {
@@ -119,10 +127,6 @@ TRANSAKSI
             StrNm : {
                 required: "Mohon untuk di isi karena ini diperlukan.",
                 minlength: "Mohon di isi minimal 2 karakter atau lebih."
-            },
-            Descr : {
-            required: "Mohon untuk di isi karena ini diperlukan.",
-            minlength: "Mohon di isi minimal 2 karakter atau lebih."
             },
         },      
     });   
