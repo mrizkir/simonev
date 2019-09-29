@@ -65,12 +65,12 @@ class RincianModel extends Model
     {
         $r=\DB::table('tmOby')
                 ->select(\DB::raw('"tmOby"."ObyID",
-                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "Kd_Rek_4","ObyNm"'))
+                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3",\'.\',"tmOby"."Kd_Rek_4") AS "Kd_Rek_4","ObyNm"'))
                 ->join('tmJns','tmOby.JnsID','tmJns.JnsID')
                 ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                 ->join('tmStr','tmKlp.StrID','tmStr.StrID')
                 ->where('tmKlp.TA',$ta)
-                ->orderBy('Kd_Rek_2')->get();
+                ->orderBy('Kd_Rek_4')->get();
         
         $daftar_jenis=($prepend==true)?['none'=>'DAFTAR RINCIAN']:[];        
         foreach ($r as $k=>$v)
@@ -82,15 +82,15 @@ class RincianModel extends Model
      /**
      * digunakan untuk mendapatkan daftar rekening transaksi
      */    
-    public static function getDaftarRincianByParent ($ta,$JnsID,$prepend=true) 
+    public static function getDaftarRincianByParent ($JnsID,$prepend=true) 
     {
         $r=\DB::table('tmOby')
                 ->select(\DB::raw('"tmOby"."ObyID",
-                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "Kd_Rek_4","ObyNm"'))
+                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3",\'.\',"tmOby"."Kd_Rek_4") AS "Kd_Rek_4","ObyNm"'))
                 ->join('tmJns','tmOby.JnsID','tmJns.JnsID')
                 ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                 ->join('tmStr','tmKlp.StrID','tmStr.StrID')
-                ->where('tmKlp.JnsID',$JnsID)
+                ->where('tmOby.JnsID',$JnsID)
                 ->orderBy('Kd_Rek_4')->get();
         
         $daftar_rincian=($prepend==true)?['none'=>'DAFTAR RINCIAN']:[];        

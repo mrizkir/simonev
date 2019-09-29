@@ -80,7 +80,7 @@ class KelompokModel extends Model
     /**
      * digunakan untuk mendapatkan daftar rekening transaksi
      */    
-    public static function getDaftarKelompokByParent ($ta,$StrID,$prepend=true) 
+    public static function getDaftarKelompokByParent ($StrID,$prepend=true) 
     {
         $r=\DB::table('tmKlp')
                 ->select(\DB::raw('"tmKlp"."KlpID",

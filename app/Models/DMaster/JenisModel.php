@@ -69,7 +69,7 @@ class JenisModel extends Model
                 ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                 ->join('tmStr','tmKlp.StrID','tmStr.StrID')
                 ->where('tmKlp.TA',$ta)
-                ->orderBy('Kd_Rek_2')->get();
+                ->orderBy('Kd_Rek_3')->get();
         
         $daftar_jenis=($prepend==true)?['none'=>'DAFTAR JENIS']:[];        
         foreach ($r as $k=>$v)
@@ -81,7 +81,7 @@ class JenisModel extends Model
     /**
      * digunakan untuk mendapatkan daftar rekening transaksi
      */    
-    public static function getDaftarJenisByParent ($ta,$KlpID,$prepend=true) 
+    public static function getDaftarJenisByParent ($KlpID,$prepend=true) 
     {
         $r=\DB::table('tmJns')
                 ->select(\DB::raw('"tmJns"."JnsID",
