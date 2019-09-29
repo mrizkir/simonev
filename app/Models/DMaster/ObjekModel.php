@@ -51,7 +51,5 @@ class ObjekModel extends Model
      * log the changed attributes for all these events 
      */
     protected static $logAttributes = ['ObyID', 'RObyID', 'Kd_Rek_5', 'RObyNm', 'Descr', 'TA'];
-    /**
-     * log changes to all the $fillable attributes of the model
-     */
+    
 }

@@ -286,7 +286,7 @@
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
-<script src="{!!asset('js/vendor/rkakegiatan.js')!!}"></script>
+<script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
     $("#SumberDanaID.select").select({

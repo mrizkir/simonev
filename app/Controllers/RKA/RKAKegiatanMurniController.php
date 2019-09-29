@@ -447,6 +447,34 @@ class RKAKegiatanMurniController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+    public function changerekening(Request $request)
+    {
+        $json_data = [];
+        $pid = $request->input('pid')==''?'none':$request->input('pid');
+        switch ($pid)
+        {
+            case 'transaksi' :
+                $StrID = $request->input('StrID')==''?'none':$request->input('StrID');
+                $json_data['StrID']=$StrID;
+                $json_data['daftar_kelompok']=\App\Models\DMaster\KelompokModel::getDaftarKelompokByParent($StrID,false);
+            break;
+            case 'kelompok' :
+                $KlpID = $request->input('KlpID')==''?'none':$request->input('KlpID');
+                $json_data['daftar_jenis']=\App\Models\DMaster\JenisModel::getDaftarJenisByParent($KlpID,false);
+            break;
+            case 'jenis' :
+                $JnsID = $request->input('JnsID')==''?'none':$request->input('JnsID');
+                $json_data['daftar_rincian']=\App\Models\DMaster\RincianModel::getDaftarRincianByParent($JnsID,false);
+            break;
+        }
+        $json_data['success']=true;
+        return response()->json($json_data,200);
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function create1(Request $request,$id)
     {        
         $theme = 'dore';
@@ -454,22 +482,24 @@ class RKAKegiatanMurniController extends Controller
         $locked=false;
         $rka=$this->getDataRKA($id);
         try
-        {
+        {            
             if ($filters['SOrgID'] == 'none'&&$filters['SOrgID'] == ''&&$filters['SOrgID'] == null)
             {
                 throw new \Exception ('Mohon unit kerja untuk di pilih terlebih dahulu.');
-            }
+            }            
             if ($locked)
             {   
                 throw new \Exception ('Tidak diperkenankan menambah uraian kegiatan karena telah dikunci.');
-            }
+            }            
+            $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunPenyerapan(),false);            
             return view("pages.$theme.rka.rkakegiatanmurni.create1")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
+                                                                        'daftar_transaksi'=>$daftar_transaksi
                                                                     ]);
         }
         catch (\Exception $e)
-        {
+        {            
             return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>$e->getMessage()

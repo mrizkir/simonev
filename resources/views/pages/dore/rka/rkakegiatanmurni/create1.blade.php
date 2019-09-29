@@ -62,47 +62,84 @@
 @endsection
 @section('page_content')
 <div class="tab-content">
-    <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">
-        <div class="row">
-                <div class="col-12">
-                    <div class="card">
-                        <div class="card-body">
-                            {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store1',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frminformasitambahan','name'=>'frminformasitambahan'])!!}                              
-                                <div class="form-group row">
-                                    {{Form::label('StrID','Transaksi',['class'=>'col-sm-2 col-form-label'])}}
-                                    <div class="col-sm-10">
-                                        {{Form::select('StrID', [], null, ['class'=>'form-control select'])}}
+    <div class="tab-pane fade show active" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">        
+        <div class="row">            
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h2 class="mb-2">
+                            <i class="simple-icon-screen-tablet"></i>
+                            DATA KEGIATAN
+                        </h2>
+                        <div class="separator mb-3"></div>
+                        <div class="row">                     
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>RKAID: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$rka->RKAID}}</p>
+                                        </div>                            
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    {{Form::label('KlpID','Kelompok',['class'=>'col-sm-2 col-form-label'])}}
-                                    <div class="col-sm-10">
-                                        {{Form::select('KlpID', [], null, ['class'=>'form-control select'])}}
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>KEGIATAN: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$rka->KgtNm}}</p>
+                                        </div>                            
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    {{Form::label('JnsID','Jenis',['class'=>'col-sm-2 col-form-label'])}}
-                                    <div class="col-sm-10">
-                                        {{Form::select('JnsID', [], null, ['class'=>'form-control select'])}}
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>PAGU DANA: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{Helper::formatUang($rka->PaguDana1)}}</p>
+                                        </div>                            
                                     </div>
-                                </div>
-                                <div class="form-group row">
-                                    {{Form::label('JnsID','Rincian',['class'=>'col-sm-2 col-form-label'])}}
-                                    <div class="col-sm-10">
-                                        {{Form::select('JnsID', [], null, ['class'=>'form-control select'])}}
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    {{Form::label('RObyID','Objek',['class'=>'col-sm-2 col-form-label'])}}
-                                    <div class="col-sm-10">
-                                        {{Form::select('RObyID', [], null, ['class'=>'form-control select'])}}
-                                    </div>
-                                </div>                            
-                            {!! Form::close()!!}  
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mb-2">
+                            <i class="simple-icon-plus"></i>
+                            TAMBAH URAIAN
+                        </h2>
+                        <div class="separator mb-3"></div>
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store1',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frminformasitambahan','name'=>'frminformasitambahan'])!!}                              
+                            <div class="form-group row">
+                                {{Form::label('StrID','Transaksi',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::select('StrID', $daftar_transaksi, 'none', ['class'=>'form-control select'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('KlpID','Kelompok',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::select('KlpID', [], null, ['class'=>'form-control select'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('JnsID','Jenis',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::select('JnsID', [], null, ['class'=>'form-control select'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('ObyID','Rincian',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::select('ObyID', [], null, ['class'=>'form-control select'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('RObyID','Objek',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::select('RObyID', [], null, ['class'=>'form-control select'])}}
+                                </div>
+                            </div>                            
+                        {!! Form::close()!!} 
+                    </div>
+                </div>
+            </div>            
         </div>
     </div>
 </div>    
@@ -111,10 +148,34 @@
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
-<script src="{!!asset('js/vendor/rkakegiatan.js')!!}"></script>
+<script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    
+    $('#StrID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING TRANSAKSI",
+        allowClear:true
+    });
+    $('#KlpID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING KELOMPOK",
+        allowClear:true
+    });
+    $('#JnsID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING JENIS",
+        allowClear:true
+    });
+    $('#ObyID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING RINCIAN",
+        allowClear:true
+    });
+    $('#RObyID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING OBYEK",
+        allowClear:true
+    });
 });
 </script>
 @endsection
