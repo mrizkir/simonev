@@ -469,9 +469,9 @@ class RKAKegiatanMurniController extends Controller
                 $json_data['daftar_rincian']=\App\Models\DMaster\RincianModel::getDaftarRincianByParent($JnsID,false);
             break;
             case 'rincian' :
-                $JnsID = $request->input('JnsID')==''?'none':$request->input('JnsID');
-                $json_data['JnsID']=$JnsID;
-                $json_data['daftar_rincian']=\App\Models\DMaster\RincianModel::getDaftarRincianByParent($JnsID,false);
+                $ObyID = $request->input('ObyID')==''?'none':$request->input('ObyID');
+                $json_data['ObyID']=$ObyID;
+                $json_data['daftar_obyek']=\App\Models\DMaster\ObjekModel::getDaftarObyekByParent($ObyID,false);
             break;
         }
         $json_data['success']=true;

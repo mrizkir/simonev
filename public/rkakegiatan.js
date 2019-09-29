@@ -141,7 +141,31 @@ document.addEventListener('DOMContentLoaded', function() {
         }); 
     });  
     $(document).on('change','#ObyID',function(ev) {
-        alert('test');
+        ev.preventDefault(); 
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changerekening',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "ObyID": $('#ObyID').val(),
+                "pid": 'rincian',
+            },
+            success:function(result)
+            { 
+                var daftar_obyek = result.daftar_obyek;
+                var listitems='<option></option>';
+                $.each(daftar_obyek,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                
+                $('#RObyID').html(listitems);
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        }); 
     });  
     $(document).on('change','#RObyID',function(ev) {
         alert('test');

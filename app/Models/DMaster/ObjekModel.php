@@ -93,13 +93,13 @@ class ObjekModel extends Model
                     ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
                     ->join('tmStr','tmKlp.StrID','tmStr.StrID')
                     ->where('tmROby.ObyID',$ObyID)
-                    ->orderBy('Kd_Rek_4')->get();
+                    ->orderBy('Kd_Rek_5')->get();
         
-        $daftar_robyek=($prepend==true)?['none'=>'DAFTAR OBYEK']:[];        
+        $daftar_obyek=($prepend==true)?['none'=>'DAFTAR OBYEK']:[];        
         foreach ($r as $k=>$v)
         {
-            $daftar_robyek[$v->RObyID]='['.$v->Kd_Rek_5.']. '.$v->RObyNm;
+            $daftar_obyek[$v->RObyID]='['.$v->Kd_Rek_5.']. '.$v->RObyNm;
         } 
-        return $daftar_robyek;
+        return $daftar_obyek;
     }
 }
