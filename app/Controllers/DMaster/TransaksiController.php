@@ -5,6 +5,9 @@ namespace App\Controllers\DMaster;
 use App\Controllers\Controller;
 use App\Models\DMaster\TransaksiModel;
 use Illuminate\Http\Request;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
+
 
 class TransaksiController extends Controller
 {
@@ -211,7 +214,12 @@ class TransaksiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:1',
+            'Kd_Rek_1' => [
+                new CheckRecordIsExistValidation('tmStr', ['where' => ['TA', '=', \HelperKegiatan::getTahunPenyerapan()]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'StrNm' => 'required|min:5',
         ]);
 
@@ -277,7 +285,12 @@ class TransaksiController extends Controller
     {
         $transaksi = TransaksiModel::find($uuid);
         $this->validate($request, [
-            'Kd_Rek_1' => 'required|min:1',
+            'Kd_Rek_1' => [
+                new IgnoreIfDataIsEqualValidation('tmStr', $transaksi->Kd_Rek_1, ['where' => ['TA', '=', \HelperKegiatan::getTahunPenyerapan()]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'StrNm' => 'required|min:5',
         ]);
 
@@ -292,7 +305,7 @@ class TransaksiController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('transaksi.show', ['uuid' => $transaksi->ASNID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('transaksi.show', ['uuid' => $transaksi->StrID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
