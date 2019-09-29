@@ -6,11 +6,6 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" width="55">NO</th>
-                        <th scope="col" width="150">
-                            <a class="column-sort" id="col-NIP_KELOMPOK" data-order="{{$direction}}" href="#">
-                                KODE TRANSAKSI
-                            </a>
-                        </th>
                         <th scope="col">
                             <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
                                 KODE KELOMPOK
@@ -32,7 +27,6 @@
                         <th scope="row">
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                         </th>
-                        <td>{{$item->StrID}}</td>
                         <td>{{$item->Kd_Rek_2}}</td>
                         <td>{{$item->KlpNm}}</td>
                         <td>{{$item->Descr}}</td>
@@ -59,7 +53,10 @@
                         <td colspan="6">
                             <p class="mb-3">
                                 <span class="badge badge-pill badge-outline-theme-2 mb-1">
-                                    <strong>KELOMPOKID:</strong>{{$item->KlpID}}
+                                    <strong>KLPID:</strong>{{$item->KlpID}}
+                                </span>
+                                <span class="badge badge-pill badge-outline-theme-2 mb-1">
+                                    <strong>STRID:</strong>{{$item->StrID}}
                                 </span>
                                 <span class="badge badge-pill badge-outline-theme-2 mb-1">
                                     <strong>CREATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
