@@ -463,9 +463,11 @@ class RKAKegiatanMurniController extends Controller
             {   
                 throw new \Exception ('Tidak diperkenankan menambah uraian kegiatan karena telah dikunci.');
             }
+            $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunPenyerapan());
             return view("pages.$theme.rka.rkakegiatanmurni.create1")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
+                                                                        'daftar_transaksi'=>$daftar_transaksi
                                                                     ]);
         }
         catch (\Exception $e)

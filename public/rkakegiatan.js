@@ -59,4 +59,19 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     });    
+    $(document).on('change','#StrID',function(ev) {
+        
+    });  
+    $(document).on('change','#KlpID',function(ev) {
+        alert('test');
+    });  
+    $(document).on('change','#JnsID',function(ev) {
+        alert('test');
+    });  
+    $(document).on('change','#ObyID',function(ev) {
+        alert('test');
+    });  
+    $(document).on('change','#RObyID',function(ev) {
+        alert('test');
+    });  
 });

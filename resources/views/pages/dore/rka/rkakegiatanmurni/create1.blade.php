@@ -81,6 +81,18 @@
                                             <p class="form-control-static">{{$rka->RKAID}}</p>
                                         </div>                            
                                     </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>KEGIATAN: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$rka->KgtNm}}</p>
+                                        </div>                            
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>PAGU DANA: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{Helper::formatUang($rka->PaguDana1)}}</p>
+                                        </div>                            
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -97,7 +109,7 @@
                             <div class="form-group row">
                                 {{Form::label('StrID','Transaksi',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('StrID', [], null, ['class'=>'form-control select'])}}
+                                    {{Form::select('StrID', $daftar_transaksi, 'none', ['class'=>'form-control select'])}}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -113,9 +125,9 @@
                                 </div>
                             </div>
                             <div class="form-group row">
-                                {{Form::label('JnsID','Rincian',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('ObyID','Rincian',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('JnsID', [], null, ['class'=>'form-control select'])}}
+                                    {{Form::select('ObyID', [], null, ['class'=>'form-control select'])}}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -136,7 +148,7 @@
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
-<script src="{!!asset('js/vendor/rkakegiatan.js')!!}"></script>
+<script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
     
