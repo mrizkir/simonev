@@ -26,7 +26,7 @@ class JenisModel extends Model
      * @var array
      */
     protected $fillable = [
-        'KlpID', 'JnsID', 'Kd_Rek_3', 'JnsNm', 'Descr', 'TA'
+        'JnsID', 'KlpID', 'Kd_Rek_3', 'JnsNm', 'Descr', 'TA'
     ];
     /**
      * enable auto_increment.
@@ -54,4 +54,48 @@ class JenisModel extends Model
     /**
      * log changes to all the $fillable attributes of the model
      */
+    // protected static $logFillable = true;
+
+    //only the `deleted` event will get logged automatically
+    // protected static $recordEvents = ['deleted'];
+    /**
+     * digunakan untuk mendapatkan daftar rekening transaksi
+     */    
+    public static function getDaftarJenis ($ta,$prepend=true) 
+    {
+        $r=\DB::table('tmJns')
+                ->select(\DB::raw('"tmJns"."JnsID",
+                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3") AS "Kd_Rek_3","JnsNm"'))
+                ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                ->join('tmStr','tmKlp.StrID','tmStr.StrID')
+                ->where('tmKlp.TA',$ta)
+                ->orderBy('Kd_Rek_2')->get();
+        
+        $daftar_jenis=($prepend==true)?['none'=>'DAFTAR JENIS']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_jenis[$v->JnsID]='['.$v->Kd_Rek_3.']. '.$v->JnsNm;
+        } 
+        return $daftar_jenis;
+    }
+    /**
+     * digunakan untuk mendapatkan daftar rekening transaksi
+     */    
+    public static function getDaftarJenisByParent ($ta,$KlpID,$prepend=true) 
+    {
+        $r=\DB::table('tmJns')
+                ->select(\DB::raw('"tmJns"."JnsID",
+                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3") AS "Kd_Rek_3","JnsNm"'))
+                ->join('tmKlp','tmJns.KlpID','tmKlp.KlpID')
+                ->join('tmStr','tmKlp.StrID','tmStr.StrID')
+                ->where('tmKlp.KlpID',$KlpID)
+                ->orderBy('Kd_Rek_3')->get();
+        
+        $daftar_jenis=($prepend==true)?['none'=>'DAFTAR JENIS']:[];        
+        foreach ($r as $k=>$v)
+        {
+            $daftar_jenis[$v->JnsID]='['.$v->Kd_Rek_3.']. '.$v->JnsNm;
+        } 
+        return $daftar_jenis;
+    }
 }

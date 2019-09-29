@@ -52,6 +52,13 @@ class TransaksiModel extends Model
      */
     protected static $logAttributes = ['StrID', 'Kd_Rek_1', 'StrNm', 'Descr'];
     /**
+     * log changes to all the $fillable attributes of the model
+     */
+    // protected static $logFillable = true;
+
+    //only the `deleted` event will get logged automatically
+    // protected static $recordEvents = ['deleted'];
+    /**
      * digunakan untuk mendapatkan daftar rekening transaksi
      */    
     public static function getDaftarTransaksi ($ta,$prepend=true) 
@@ -63,7 +70,7 @@ class TransaksiModel extends Model
         $daftar_transaksi=($prepend==true)?['none'=>'DAFTAR TRANSAKSI']:[];        
         foreach ($r as $k=>$v)
         {
-            $daftar_transaksi[$v->StrID]=$v->Kd_Rek_1.'. '.$v->StrNm;
+            $daftar_transaksi[$v->StrID]='['.$v->Kd_Rek_1.']. '.$v->StrNm;
         } 
         return $daftar_transaksi;
     }

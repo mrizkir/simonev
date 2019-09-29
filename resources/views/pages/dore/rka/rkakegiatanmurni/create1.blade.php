@@ -62,7 +62,7 @@
 @endsection
 @section('page_content')
 <div class="tab-content">
-    <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">        
+    <div class="tab-pane fade show active" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">        
         <div class="row">            
             <div class="col-12">
                 <div class="card mb-4">
@@ -151,7 +151,31 @@
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    
+    $('#StrID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING TRANSAKSI",
+        allowClear:true
+    });
+    $('#KlpID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING KELOMPOK",
+        allowClear:true
+    });
+    $('#JnsID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING JENIS",
+        allowClear:true
+    });
+    $('#ObyID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING RINCIAN",
+        allowClear:true
+    });
+    $('#RObyID.select').select2({
+        theme: "bootstrap",
+        placeholder: "PILIH REKENING OBYEK",
+        allowClear:true
+    });
 });
 </script>
 @endsection
