@@ -62,9 +62,9 @@ OBJEK
             Form::open(['action'=>['DMaster\ObjekController@update',$data->RObyID],'method'=>'put','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('JnsID','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('JnsID','KODE RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('ObyID', \App\Models\DMaster\RincianModel::pluck('ObyNm','ObyID'), $data['ObyID'], ['placeholder' => 'Pilih Kode Rincian','class'=>'form-control'])}}
+                    {{Form::select('ObyID', \App\Models\DMaster\ObjekModel::getDaftarObyek(HelperKegiatan::getTahunPenyerapan()), $data['ObyID'], ['class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
