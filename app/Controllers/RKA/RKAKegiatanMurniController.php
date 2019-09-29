@@ -460,10 +460,17 @@ class RKAKegiatanMurniController extends Controller
             break;
             case 'kelompok' :
                 $KlpID = $request->input('KlpID')==''?'none':$request->input('KlpID');
+                $json_data['KlpID']=$KlpID;
                 $json_data['daftar_jenis']=\App\Models\DMaster\JenisModel::getDaftarJenisByParent($KlpID,false);
             break;
             case 'jenis' :
                 $JnsID = $request->input('JnsID')==''?'none':$request->input('JnsID');
+                $json_data['JnsID']=$JnsID;
+                $json_data['daftar_rincian']=\App\Models\DMaster\RincianModel::getDaftarRincianByParent($JnsID,false);
+            break;
+            case 'rincian' :
+                $JnsID = $request->input('JnsID')==''?'none':$request->input('JnsID');
+                $json_data['JnsID']=$JnsID;
                 $json_data['daftar_rincian']=\App\Models\DMaster\RincianModel::getDaftarRincianByParent($JnsID,false);
             break;
         }
