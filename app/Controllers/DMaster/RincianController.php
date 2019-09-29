@@ -4,6 +4,8 @@ namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
 use App\Models\DMaster\RincianModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 use Illuminate\Http\Request;
 
 class RincianController extends Controller
@@ -210,7 +212,12 @@ class RincianController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_4' => 'required|min:1',
+            'Kd_Rek_4' => [
+                new CheckRecordIsExistValidation('tmOby', ['where' => ['JnsID', '=', $request->input('JnsID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'ObyNm' => 'required|min:5',
         ]);
 
@@ -279,8 +286,12 @@ class RincianController extends Controller
         $rincian = RincianModel::find($uuid);
 
         $this->validate($request, [
-            'JnsID' => 'required|min:2',
-            'Kd_Rek_4' => 'required|min:2',
+            'Kd_Rek_4' => [
+                new IgnoreIfDataIsEqualValidation('tmOby', $rincian->Kd_Rek_4, ['where' => ['JnsID', '=', $request->input('JnsID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'ObyNm' => 'required|min:5',
         ]);
 

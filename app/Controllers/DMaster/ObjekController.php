@@ -4,6 +4,8 @@ namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
 use App\Models\DMaster\ObjekModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 use Illuminate\Http\Request;
 
 class ObjekController extends Controller
@@ -209,8 +211,12 @@ class ObjekController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'ObyID' => 'required|min:2',
-            'Kd_Rek_5' => 'required|min:2',
+            'Kd_Rek_5' => [
+                new CheckRecordIsExistValidation('tmROby', ['where' => ['ObyID', '=', $request->input('ObyID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'RObyNm' => 'required|min:5',
         ]);
 
@@ -279,7 +285,12 @@ class ObjekController extends Controller
         $objek = ObjekModel::find($uuid);
 
         $this->validate($request, [
-            'Kd_Rek_5' => 'required|min:1',
+            'Kd_Rek_5' => [
+                new IgnoreIfDataIsEqualValidation('tmOby', $objek->Kd_Rek_5, ['where' => ['ObyID', '=', $request->input('ObyID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'RObyNm' => 'required|min:5',
         ]);
 

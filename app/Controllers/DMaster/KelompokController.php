@@ -5,6 +5,8 @@ namespace App\Controllers\DMaster;
 use App\Controllers\Controller;
 use App\Models\DMaster\KelompokModel;
 use Illuminate\Http\Request;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 
 class KelompokController extends Controller
 {
@@ -211,7 +213,12 @@ class KelompokController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:1',
+            'Kd_Rek_2' => [
+                new CheckRecordIsExistValidation('tmKlp', ['where' => ['StrID', '=', $request->input('StrID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'KlpNm' => 'required|min:5',
         ]);
 
@@ -279,12 +286,17 @@ class KelompokController extends Controller
     {
         $kelompok = KelompokModel::findOrFail($uuid);
         $this->validate($request, [
-            'Kd_Rek_2' => 'required|min:1',
+            'Kd_Rek_2' => [
+                new IgnoreIfDataIsEqualValidation('tmKlp', $kelompok->Kd_Rek_2, ['where' => ['StrID', '=', $request->input('StrID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'KlpNm' => 'required|min:5',
         ]);
 
         $kelompok->StrID = $request->input('StrID');
-        $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2 ');
+        $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2');
         $kelompok->KlpNm = $request->input('KlpNm');
         $kelompok->Descr = $request->input('Descr ');
         $kelompok->TA = \HelperKegiatan::getTahunPenyerapan();

@@ -4,6 +4,8 @@ namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
 use App\Models\DMaster\JenisModel;
+use App\Rules\CheckRecordIsExistValidation;
+use App\Rules\IgnoreIfDataIsEqualValidation;
 use Illuminate\Http\Request;
 
 class JenisController extends Controller
@@ -211,10 +213,13 @@ class JenisController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'KlpID' => 'required|min:2',
-            'Kd_Rek_3' => 'required|min:2',
+            'Kd_Rek_3' => [
+                new CheckRecordIsExistValidation('tmJns', ['where' => ['KlpID', '=', $request->input('KlpID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'JnsNm' => 'required|min:5',
-            'Descr' => 'required|min:5',
         ]);
 
         $jenis = JenisModel::create([
@@ -281,7 +286,12 @@ class JenisController extends Controller
     {
         $jenis = JenisModel::find($uuid);
         $this->validate($request, [
-            'Kd_Rek_3' => 'required|min:2',
+            'Kd_Rek_3' => [
+                new IgnoreIfDataIsEqualValidation('tmJns', $jenis->Kd_Rek_3, ['where' => ['KlpID', '=', $request->input('KlpID')]]),
+                'required',
+                'min:1',
+                'regex:/^[0-9]+$/'
+            ],
             'JnsNm' => 'required|min:5',
         ]);
 
