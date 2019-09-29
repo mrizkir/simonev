@@ -307,7 +307,7 @@ class RincianController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('rincian.show', ['uuid' => $rincian->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('rincian.show', ['uuid' => $rincian->ObyID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**

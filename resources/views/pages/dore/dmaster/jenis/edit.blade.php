@@ -64,7 +64,7 @@ JENIS
             <div class="form-group row has-float-label">
                 {{Form::label('KlpID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('KlpID', \App\Models\DMaster\JenisModel::getDaftarJenis(HelperKegiatan::getTahunPenyerapan()),$data['KlpID'], ['class'=>'form-control'])}}
+                    {{Form::select('KlpID', \App\Models\DMaster\KelompokModel::getDaftarKelompok(HelperKegiatan::getTahunPenyerapan()),$data['KlpID'], ['class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
