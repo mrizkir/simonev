@@ -236,7 +236,7 @@ class RincianController extends Controller
                 'message' => 'Data ini telah berhasil disimpan.'
             ]);
         } else {
-            return redirect(route('rincian.show', ['uuid' => $rincian->JnsID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return redirect(route('rincian.show', ['uuid' => $rincian->ObyID]))->with('success', 'Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -249,7 +249,7 @@ class RincianController extends Controller
     {
         $theme = 'dore';
 
-        $data = RincianModel::where('JnsID', $uuid)->firstOrFail();
+        $data = RincianModel::where('ObyID', $uuid)->firstOrFail();
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.rincian.show")->with([
                 'page_active' => 'rincian',

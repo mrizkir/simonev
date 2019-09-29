@@ -14,8 +14,8 @@ PROFIL PENGGUNA
 @section('page_header_button')
 <div class="text-zero top-right-button-container">
     <button type="button"
-            class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
+        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <i class="simple-icon-menu"></i>
     </button>
     <div class="dropdown-menu dropdown-menu-right">
@@ -29,7 +29,7 @@ PROFIL PENGGUNA
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab" aria-controls="first"
-           aria-selected="true">DETAILS
+            aria-selected="true">DETAILS
         </a>
     </li>
 </ul>
@@ -172,8 +172,8 @@ PROFIL PENGGUNA
             <div class="col-12 col-md-6 col-lg-4">
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
-                        <img alt="Profile" src="img/profile-pic-l-8.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                        <img alt="Profile" src="img/profile-pic-l-8.jpg" width="270"
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
@@ -194,7 +194,7 @@ PROFIL PENGGUNA
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
                         <img alt="Profile" src="img/profile-pic-l-2.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
@@ -215,7 +215,7 @@ PROFIL PENGGUNA
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
                         <img alt="Profile" src="img/profile-pic-l-3.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
@@ -236,7 +236,7 @@ PROFIL PENGGUNA
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
                         <img alt="Profile" src="img/profile-pic-l-4.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
@@ -257,7 +257,7 @@ PROFIL PENGGUNA
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
                         <img alt="Profile" src="img/profile-pic-l-5.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
@@ -278,7 +278,7 @@ PROFIL PENGGUNA
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
                         <img alt="Profile" src="img/profile-pic-l-6.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
@@ -299,7 +299,7 @@ PROFIL PENGGUNA
                 <div class="card d-flex flex-row mb-4">
                     <a class="d-flex" href="#">
                         <img alt="Profile" src="img/profile-pic-l-7.jpg"
-                             class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
+                            class="img-thumbnail border-0 rounded-circle m-4 list-thumbnail align-self-center">
                     </a>
                     <div class=" d-flex flex-grow-1 min-width-zero">
                         <div
