@@ -63,7 +63,8 @@ OBJEK
             <div class="form-group row has-float-label">
                 {{Form::label('ObyID','KODE RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('ObyID', \App\Models\DMaster\RincianModel::pluck('ObyNm','ObyID'), '', ['placeholder' => 'Pilih Kode Rincian','class'=>'form-control'])}}
+                    {{Form::select('ObyID', \App\Models\DMaster\ObjekModel::pluck('ObyNm','ObyID'), '', ['placeholder' => 'Pilih Kode Rincian','class'=>'form-control'])}}
+                    {{Form::select('JnsID', \App\Models\DMaster\RincianModel::getDaftarRincian(HelperKegiatan::getTahunPenyerapan()), 'none', ['class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
