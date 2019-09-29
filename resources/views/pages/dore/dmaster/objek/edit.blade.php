@@ -64,7 +64,7 @@ OBJEK
             <div class="form-group row has-float-label">
                 {{Form::label('JnsID','KODE RINCIAN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('ObyID', \App\Models\DMaster\ObjekModel::getDaftarObyek(HelperKegiatan::getTahunPenyerapan()), $data['ObyID'], ['class'=>'form-control'])}}
+                    {{Form::select('ObyID', \App\Models\DMaster\RincianModel::getDaftarRincian(HelperKegiatan::getTahunPenyerapan()), $data['ObyID'], ['class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">

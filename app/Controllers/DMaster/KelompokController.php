@@ -38,7 +38,16 @@ class KelompokController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = KelompokModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = KelompokModel::select(\DB::raw('
+                                                "tmKlp"."KlpID",
+                                                "tmKlp"."StrID",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2") AS "Kd_Rek_2",
+                                                "tmKlp"."KlpNm",
+                                                "tmKlp"."created_at",
+                                                "tmKlp"."updated_at"
+                                            '))
+            ->join('tmStr', 'tmStr.StrID', 'tmKlp.StrID')
+            ->where('tmKlp.TA', \HelperKegiatan::getTahunPenyerapan())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
