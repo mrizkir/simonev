@@ -61,9 +61,9 @@ RINCIAN
             {!! Form::open(['action'=>'DMaster\RincianController@store','method'=>'post','class'=>'form-horizontal
             tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
-                {{Form::label('JnsID','KODE KELOMPOK:',['class'=>'col-sm-2 col-form-label'])}}
+                {{Form::label('JnsID','KODE JENIS:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('JnsID', \App\Models\DMaster\JenisModel::pluck('JnsNm','JnsID'),'', ['placeholder' => 'Pilih Kode Jenis','class'=>'form-control'])}}
+                    {{Form::select('JnsID', \App\Models\DMaster\RincianModel::getDaftarRincian(HelperKegiatan::getTahunPenyerapan()), 'none', ['class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">
