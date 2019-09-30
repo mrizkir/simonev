@@ -514,6 +514,33 @@ class RKAKegiatanMurniController extends Controller
         }        
     }
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create2(Request $request,$id)
+    {        
+        $theme = 'dore';
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $locked=false;
+        $rka=$this->getDataRKA($id);
+        try
+        {            
+            
+            return view("pages.$theme.rka.rkakegiatanmurni.create2")->with(['page_active'=>'rkakegiatanmurni',
+                                                                        'filters'=>$filters,
+                                                                        'rka'=>$rka,
+                                                                    ]);
+        }
+        catch (\Exception $e)
+        {            
+            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>$e->getMessage()
+                                                                ]);  
+        }        
+    }
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

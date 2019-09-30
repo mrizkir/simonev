@@ -15,8 +15,7 @@
         DETAIL KEGIATAN MURNI
     </a>    
 </li>
-<li class="breadcrumb-item" aria-current="page">TAMBAH URAIAN</li>
-<li class="breadcrumb-item active" aria-current="page">PILIH REKENING</li>
+<li class="breadcrumb-item active" aria-current="page">TAMBAH URAIAN</li>
 @endsection
 @section('page_header_button')
 <div class="text-zero top-right-button-container">    
@@ -102,44 +101,52 @@
                     <div class="card-body">
                         <h2 class="mb-2">
                             <i class="simple-icon-plus"></i>
-                            TAMBAH URAIAN [PILIH REKENING]
+                            TAMBAH URAIAN
                         </h2>
                         <div class="separator mb-3"></div>
                         {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@create2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmpilihrekening','name'=>'frmpilihrekening'])!!}                              
                             <div class="form-group row">
-                                {{Form::label('StrID','Transaksi',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('nama_uraian','RINCIAN KEGIATAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('StrID', $daftar_transaksi, 'none', ['class'=>'form-control select'])}}
+                                    {{Form::text('nama_uraian', '', ['class'=>'form-control'])}}
                                 </div>
                             </div>
                             <div class="form-group row">
-                                {{Form::label('KlpID','Kelompok',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('volume','VOLUME',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('KlpID', [], null, ['class'=>'form-control select'])}}
+                                    {{Form::text('volume', '', ['class'=>'form-control'])}}
                                 </div>
-                            </div>
+                            </div>	
                             <div class="form-group row">
-                                {{Form::label('JnsID','Jenis',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('satuan','SATUAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('JnsID', [], null, ['class'=>'form-control select'])}}
+                                    {{Form::text('satuan', '', ['class'=>'form-control'])}}
                                 </div>
-                            </div>
+                            </div>	
                             <div class="form-group row">
-                                {{Form::label('ObyID','Rincian',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('harga_satuan','HARGA SATUAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('ObyID', [], null, ['class'=>'form-control select'])}}
+                                    {{Form::text('harga_satuan', '', ['class'=>'form-control'])}}
                                 </div>
-                            </div>
+                            </div>	
                             <div class="form-group row">
-                                {{Form::label('RObyID','Objek',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('pagu_uraian','PAGU URAIAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('RObyID', [], null, ['class'=>'form-control select'])}}
-                                </div>
-                            </div>    
+                                    {{Form::text('pagu_uraian', '', ['class'=>'form-control'])}}
+                                    <span class="form-text text-muted">(Harga Satuan * Volume)</span>
+                                </div>                                
+                            </div>                            
+                            <div class="form-group row">
+                                {{Form::label('JenisPelaksanaanID','JENIS PELAKSANAAN',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::select('JenisPelaksanaanID', [], null, ['class'=>'form-control'])}}
+                                    <span class="form-text text-muted">Bila uraian adalah belanja pegawai, wajib di kosongkan.</span>
+                                </div>                                
+                            </div>    		
                             <div class="form-group row">
                                 {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{ Form::button('GO', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                                    {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
                                 </div>
                             </div>
                         {!! Form::close()!!} 

@@ -203,7 +203,4 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         }); 
     });  
-    $(document).on('change','#RObyID',function(ev) {
-        alert('test');
-    });  
 });

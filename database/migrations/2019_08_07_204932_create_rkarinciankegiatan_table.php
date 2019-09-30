@@ -20,9 +20,9 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->string('JenisPelaksanaanID',19)->nullable();
             $table->text('nama_uraian')->nullable();
             $table->string('volume')->nullable();
-            $table->text('satuan')->nullable();            
+            $table->string('satuan',50)->nullable();            
             $table->decimal('harga_satuan',15,2);
-            $table->decimal('pagu_uraian',15,2)->nullable();            
+            $table->decimal('pagu_uraian',15,2);            
             $table->tinyInteger('EntryLvl')->default(0);
             $table->string('Descr')->nullable();            
             $table->year('TA'); 
