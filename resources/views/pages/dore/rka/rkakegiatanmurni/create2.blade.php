@@ -104,8 +104,8 @@
                             TAMBAH URAIAN
                         </h2>
                         <div class="separator mb-3"></div>
-                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@create2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                              
-                            {{Form::hidden('RObyID', $data_rekening->RObyID)}}                            
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                              
+                            {{Form::hidden('RObyID', $RObyID)}}                            
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">NAMA REKENING: </label>
                                 <div class="col-md-10">
@@ -115,7 +115,7 @@
                             <div class="form-group row">
                                 {{Form::label('nama_uraian','RINCIAN KEGIATAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::text('nama_uraian', '', ['class'=>'form-control'])}}
+                                    {{Form::text('nama_uraian', $data_rekening->RObyNm, ['class'=>'form-control'])}}
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -151,6 +151,12 @@
                                 </div>                                
                             </div>    		
                             <div class="form-group row">
+                                {{Form::label('Descr','Keterangan:',['class'=>'col-sm-2 col-form-label'])}}
+                                <div class="col-sm-10">
+                                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Keterangan','rows'=>3])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
                                 {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
                                     {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
@@ -173,7 +179,14 @@
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {  
-
+    AutoNumeric.multiple(['#harga_satuan','#pagu_uraian'],{
+                                        allowDecimalPadding: false,
+                                        decimalCharacter: ",",
+                                        digitGroupSeparator: ".",
+                                        unformatOnSubmit: true,
+                                        showWarnings:false,
+                                        modifyValueOnWheel:false
+                                    });
     $('#frmuraian').validate({
         rules: {
             nama_uraian : {

@@ -148,7 +148,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/rka/rkakegiatanmurni/changetab',['uses'=>'RKA\RKAKegiatanMurniController@changetab','as'=>'rkakegiatanmurni.changetab']);                  
     Route::post('/rka/rkakegiatanmurni/changerekening',['uses'=>'RKA\RKAKegiatanMurniController@changerekening','as'=>'rkakegiatanmurni.changerekening']);                  
     Route::get('/rka/rkakegiatanmurni/create1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create1','as'=>'rkakegiatanmurni.create1']);                  
-    Route::post('/rka/rkakegiatanmurni/create2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create2','as'=>'rkakegiatanmurni.create2']);                      
+    Route::get('/rka/rkakegiatanmurni/create2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create2','as'=>'rkakegiatanmurni.create2']);                      
+    Route::post('/rka/rkakegiatanmurni/store1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store1','as'=>'rkakegiatanmurni.store1']);                      
+    Route::post('/rka/rkakegiatanmurni/store2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store2','as'=>'rkakegiatanmurni.store2']);                      
     Route::post('/rka/rkakegiatanmurni/search',['uses'=>'RKA\RKAKegiatanMurniController@search','as'=>'rkakegiatanmurni.search']);  
     Route::post('/rka/rkakegiatanmurni/filter',['uses'=>'RKA\RKAKegiatanMurniController@filter','as'=>'rkakegiatanmurni.filter']);              
     Route::get('/rka/rkakegiatanmurni/paginate/{id}',['uses'=>'RKA\RKAKegiatanMurniController@paginate','as'=>'rkakegiatanmurni.paginate']);              

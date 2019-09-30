@@ -5,7 +5,7 @@ namespace App\Models\RKA;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKAKRincianegiatanMurniModel extends Model 
+class RKARincianKegiatanMurniModel extends Model 
 {
     use LogsActivity;
 

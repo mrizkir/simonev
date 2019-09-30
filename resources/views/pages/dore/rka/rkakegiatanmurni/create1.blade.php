@@ -105,7 +105,7 @@
                             TAMBAH URAIAN [PILIH REKENING]
                         </h2>
                         <div class="separator mb-3"></div>
-                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@create2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmpilihrekening','name'=>'frmpilihrekening'])!!}                              
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store1',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmpilihrekening','name'=>'frmpilihrekening'])!!}                              
                             <div class="form-group row">
                                 {{Form::label('StrID','Transaksi',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
