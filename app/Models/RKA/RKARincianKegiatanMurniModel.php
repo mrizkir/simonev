@@ -5,7 +5,7 @@ namespace App\Models\RKA;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKAKegiatanMurniModel extends Model 
+class RKAKRincianegiatanMurniModel extends Model 
 {
     use LogsActivity;
 
@@ -14,49 +14,34 @@ class RKAKegiatanMurniModel extends Model
      *
      * @var string
      */
-    protected $table = 'trRKA';
+    protected $table = 'trRKARinc';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'RKARincID', 
         'RKAID', 
-        'OrgID', 
-        'SOrgID', 
-        'PrgID', 
-        'KgtID', 
-        'RKPDID',         
-        'SumberDanaID',  
-        'keluaran',         
-        'tk_keluaran',         
-        'hasil',         
-        'tk_hasil',         
-        'capaian_program',  
-        'tk_capaian',                
-        'masukan',         
-        'ksk',         
-        'sifat_kegiatan',   
-        'waktu_pelaksanaan',         
-        'lokasi_kegiatan',      
-        'PaguDana1', 
-        'PaguDana2',        
-        'nip_pa', 
-        'nip_kpa', 
-        'nip_ppk', 
-        'nip_pptk', 
-        'user_id', 
-        'EntryLvl', 
-        'Descr', 
-        'TA', 
-        'Locked'
+        'RObyID', 
+        'JenisPelaksanaanID', 
+        'nama_uraian', 
+        'volume', 
+        'satuan',         
+        'harga_satuan',  
+        'pagu_uraian',         
+        'EntryLvl',         
+        'Descr',         
+        'TA',         
+        'Locked',  
+        'RKARincIDSrc',                       
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKAID';
+    protected $primaryKey = 'RKARincID';
     /**
      * enable auto_increment.
      *
@@ -75,11 +60,11 @@ class RKAKegiatanMurniModel extends Model
      *
      * @var string
      */
-    protected static $logName = 'RKAKegiatanMurniController';
+    protected static $logName = 'RKARincianKegiatanMurniController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RKAID', 'KgtNm', 'PaguDana1', 'PaguDana1'];
+    protected static $logAttributes = ['RKARincID', 'nama_uraian', 'pagu_uraian'];
     /**
      * log changes to all the $fillable attributes of the model
      */

@@ -104,7 +104,14 @@
                             TAMBAH URAIAN
                         </h2>
                         <div class="separator mb-3"></div>
-                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@create2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmpilihrekening','name'=>'frmpilihrekening'])!!}                              
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@create2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                              
+                            {{Form::hidden('RObyID', $data_rekening->RObyID)}}                            
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">NAMA REKENING: </label>
+                                <div class="col-md-10">
+                                    <p class="form-control-static">[{{$data_rekening->Kd_Rek_5}}] {{$data_rekening->RObyNm}}</p>
+                                </div>                            
+                            </div>
                             <div class="form-group row">
                                 {{Form::label('nama_uraian','RINCIAN KEGIATAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
@@ -160,46 +167,46 @@
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
+<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
-$(document).ready(function () {
-    $('#StrID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH REKENING TRANSAKSI",
-        allowClear:true
-    });
-    $('#KlpID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH REKENING KELOMPOK",
-        allowClear:true
-    });
-    $('#JnsID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH REKENING JENIS",
-        allowClear:true
-    });
-    $('#ObyID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH REKENING RINCIAN",
-        allowClear:true
-    });
-    $('#RObyID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH REKENING OBYEK",
-        allowClear:true
-    });
-    $('#frmpilihrekening').validate({
+$(document).ready(function () {  
+
+    $('#frmuraian').validate({
         rules: {
-            RObyID : {
+            nama_uraian : {
                 required: true,
             },            
+            volume : {
+                required: true,
+            },            
+            satuan : {
+                required: true,
+            },            
+            harga_satuan : {
+                required: true,
+            },            
+            pagu_uraian : {
+                required: true,
+            }         
         },
         messages : {
-            RObyID : {
-                required: "Mohon untuk di pilih Rekening Objek.",                
+            nama_uraian : {
+                required: "Mohon untuk di isi Nama Uraian.",                
+            },
+            volume : {
+                required: "Mohon untuk di isi volume Uraian.",                
+            },
+            satuan : {
+                required: "Mohon untuk di isi satuan Uraian.",                
+            },
+            harga_satuan : {
+                required: "Mohon untuk di isi harga satu Uraian.",                
+            },
+            pagu_uraian : {
+                required: "Mohon untuk di isi pagu Uraian.",                
             }
         }      
     });   

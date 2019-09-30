@@ -525,10 +525,12 @@ class RKAKegiatanMurniController extends Controller
         $locked=false;
         $rka=$this->getDataRKA($id);
         try
-        {            
-            
+        {   
+            $RObyID=$request->input('RObyID');
+            $data_rekening=\App\Models\DMaster\RekeningModel::find($RObyID);            
             return view("pages.$theme.rka.rkakegiatanmurni.create2")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
+                                                                        'data_rekening'=>$data_rekening,
                                                                         'rka'=>$rka,
                                                                     ]);
         }

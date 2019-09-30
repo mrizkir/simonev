@@ -27,13 +27,12 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->string('Descr')->nullable();            
             $table->year('TA'); 
             $table->boolean('Locked')->default(0);
-            $table->string('RKARincIDSrc',19)->nullable();
+            $table->string('RKARincID_Src',19)->nullable();
             $table->timestamps();
 
             $table->primary('RKARincID');
             $table->index('RKAID');
             $table->index('RObyID');
-            $table->index('RKARincIDSrc');
             $table->index('JenisPelaksanaanID');
             $table->index('RKARincID_Src');
 
