@@ -70,7 +70,7 @@ class RKAKegiatanMurniController extends Controller
     public function populateDataUraian ($RKAID)
     {
         $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."Kd_Rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."Kd_Rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
                     ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                     ->where('RKAID',$RKAID)
                     ->get();
@@ -640,7 +640,7 @@ class RKAKegiatanMurniController extends Controller
             'volume'=>'required',
             'satuan'=>'required',
             'harga_satuan'=>'required',
-            'pagu_uraian'=>'required',
+            'pagu_uraian1'=>'required',
         ]);
         $rinciankegiatan = RKARincianKegiatanMurniModel::create([
             'RKARincID' => uniqid ('uid'),
@@ -651,7 +651,8 @@ class RKAKegiatanMurniController extends Controller
             'volume' => $request->input('volume'),
             'satuan' => $request->input('satuan'),            
             'harga_satuan' => $request->input('harga_satuan'),
-            'pagu_uraian' => $request->input('pagu_uraian'),            
+            'pagu_uraian1' => $request->input('pagu_uraian1'),            
+            'pagu_uraian2' => 0,            
             'Descr' => $request->input('Descr'),
             'EntryLvl' => 1,
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
@@ -793,24 +794,48 @@ class RKAKegiatanMurniController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $theme = 'dore';
+        $theme = 'dore';       
         
-        $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
-        $result=$rkakegiatanmurni->delete();
         if ($request->ajax()) 
         {
-            $currentpage=$this->getCurrentPageInsideSession('rkakegiatanmurni'); 
-            $data=$this->populateData($currentpage);
-            if ($currentpage > $data->lastPage())
-            {            
-                $data = $this->populateData($data->lastPage());
+            $pid=$request->input('pid');
+            switch ($pid)
+            {
+                case 'datakegiatan' :
+                    $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
+                    $result=$rkakegiatanmurni->delete();
+
+                    $currentpage=$this->getCurrentPageInsideSession('rkakegiatanmurni'); 
+                    $data=$this->populateData($currentpage);
+                    if ($currentpage > $data->lastPage())
+                    {            
+                        $data = $this->populateData($data->lastPage());
+                    }
+                    $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
+                                                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                                                                            'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
+                                                                                            'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                                            'data'=>$data])->render();    
+                break;
+                case 'datauraian' :
+                    $rinciankegiatan = RKARincianKegiatanMurniModel::find($id);
+                    $rkaid=$rinciankegiatan->RKAID;
+                    $result=$rinciankegiatan->delete();
+
+                    $rka = $this->getDataRKA($rkaid);                    
+                    
+                    $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+                    $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
+                    $datauraian=$this->populateDataUraian($rkaid);
+                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatableuraian")->with([
+                                                                                                'datauraian'=>$datauraian,
+                                                                                                'rka'=>$rka
+                                                                                            ])->render();
+                        
+                break;
             }
-            $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                            'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                            'data'=>$data])->render();      
+              
             
             return response()->json(['success'=>true,'datatable'=>$datatable],200); 
         }

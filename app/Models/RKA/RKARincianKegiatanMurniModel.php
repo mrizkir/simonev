@@ -29,7 +29,8 @@ class RKARincianKegiatanMurniModel extends Model
         'volume', 
         'satuan',         
         'harga_satuan',  
-        'pagu_uraian',         
+        'pagu_uraian1',         
+        'pagu_uraian2',         
         'EntryLvl',         
         'Descr',         
         'TA',         
@@ -64,7 +65,7 @@ class RKARincianKegiatanMurniModel extends Model
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RKARincID', 'nama_uraian', 'pagu_uraian'];
+    protected static $logAttributes = ['RKARincID', 'nama_uraian', 'pagu_uraian1'];
     /**
      * log changes to all the $fillable attributes of the model
      */

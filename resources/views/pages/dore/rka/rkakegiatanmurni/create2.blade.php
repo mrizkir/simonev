@@ -137,9 +137,9 @@
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('pagu_uraian','PAGU URAIAN',['class'=>'col-sm-2 col-form-label'])}}
+                                {{Form::label('pagu_uraian1','PAGU URAIAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::text('pagu_uraian', '', ['class'=>'form-control'])}}
+                                    {{Form::text('pagu_uraian1', '', ['class'=>'form-control'])}}
                                     <span class="form-text text-muted">(Harga Satuan * Volume)</span>
                                 </div>                                
                             </div>                            
@@ -179,7 +179,7 @@
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {  
-    AutoNumeric.multiple(['#harga_satuan','#pagu_uraian'],{
+    AutoNumeric.multiple(['#harga_satuan','#pagu_uraian1'],{
                                         allowDecimalPadding: false,
                                         decimalCharacter: ",",
                                         digitGroupSeparator: ".",

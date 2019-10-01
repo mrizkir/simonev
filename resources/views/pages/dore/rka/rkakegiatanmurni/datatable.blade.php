@@ -36,7 +36,7 @@
                         <td>{{$item->kode_kegiatan}}</td>
                         <td>{{$item->KgtNm}}</td>
                         <td>{{Helper::formatUang($item->PaguDana1)}}</td>
-                        <td>0</td>
+                        <td>{{Helper::formatUang(DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian1'))}}</td>
                         <td>0</td>
                         <td>0</td>
                         <td>

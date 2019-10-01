@@ -22,7 +22,8 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->string('volume')->nullable();
             $table->string('satuan',50)->nullable();            
             $table->decimal('harga_satuan',15,2);
-            $table->decimal('pagu_uraian',15,2);            
+            $table->decimal('pagu_uraian1',15,2);            
+            $table->decimal('pagu_uraian2',15,2);            
             $table->tinyInteger('EntryLvl')->default(0);
             $table->string('Descr')->nullable();            
             $table->year('TA'); 

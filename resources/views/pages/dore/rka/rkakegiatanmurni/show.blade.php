@@ -54,6 +54,7 @@
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
 <link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
+<link rel="stylesheet" href="{!!asset('js/vendor/sweetalert2/sweetalert2.min.css')!!}" />
 @endsection
 @section('page_content')
 <div class="tab-content">
@@ -284,6 +285,7 @@
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
+<script src="{!!asset('js/vendor/sweetalert2/sweetalert2.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
@@ -366,6 +368,7 @@ $(document).ready(function () {
             }
         }      
     });   
+    
 });
 </script>
 @endsection

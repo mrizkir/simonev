@@ -203,4 +203,44 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         }); 
     });  
+    $("#data-uraian").on("click",".btnDeleteUraian", function(){
+        swal.fire ({
+            title:'Hapus Data',
+            text:'Apakah ingin menghapus data Uraian ini ?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'YA, Hapus!',
+            cancelButtonText: 'TIDAK!',
+        }).then((result)=>{
+            if (result.value)
+            {
+                let url_ = $(this).attr("data-url");
+                let id = $(this).attr("data-id");
+                $.ajax({            
+                    type:'post',
+                    url:url_+'/'+id,
+                    dataType: 'json',
+                    data: {
+                        "_method": 'DELETE',
+                        "_token": token,
+                        "pid": 'datauraian',
+                        "id": id,
+                    },
+                    success:function(result){ 
+                        if (result.success==1){
+                            $('#data-uraian').html(result.datatable);  
+                        }else{
+                            console.log("Gagal menghapus data Uraian dengan id "+id);
+                        }                    
+                    },
+                    error:function(xhr, status, error){
+                        console.log('ERROR');
+                        console.log(parseMessageAjaxEror(xhr, status, error));                           
+                    },
+                });
+            }
+        }); 
+    });
 });
