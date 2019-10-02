@@ -45,7 +45,7 @@
                 <td class="text-center">{{Helper::formatAngka($fisik)}}</td>                
                 <td>
                     <div class="input-group-append">
-                        <a href="{{route('rkakegiatanmurni.edit',['uuid'=>$item->RKARincID])}}" title="Ubah Data Uraian" class="btn btn-primary btn-xs mr-sm-2 default">
+                        <a href="{{route('rkakegiatanmurni.edit2',['uuid'=>$item->RKARincID])}}" title="Ubah Data Uraian" class="btn btn-primary btn-xs mr-sm-2 default">
                             <i class="simple-icon-pencil"></i>
                         </a>
                         <a href="javascript:;" title="Hapus Data Uraian" data-id="{{$item->RKARincID}}" class="btn btn-danger btn-xs default btnDeleteUraian" data-url="{{route('rkakegiatanmurni.index')}}">

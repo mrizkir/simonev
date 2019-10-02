@@ -658,6 +658,9 @@ class RKAKegiatanMurniController extends Controller
             'TA' => \HelperKegiatan::getTahunPenyerapan(),
         ]);        
         $this->destroyControllerStateSession('filters','RObyID');
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']='data-uraian-tab';
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
         if ($request->ajax()) 
         {
             return response()->json([
@@ -733,6 +736,27 @@ class RKAKegiatanMurniController extends Controller
     }
 
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit2($id)
+    {
+        $theme = 'dore';
+        
+        $data = RKARincianKegiatanMurniModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                                            ->findOrFail($id);
+        if (!is_null($data) ) 
+        {            
+            return view("pages.$theme.rka.rkakegiatanmurni.edit2")->with(['page_active'=>'rkakegiatanmurni',
+                                                                        'rka'=>$rka = $this->getDataRKA($data->RKAID),
+                                                                        'data'=>$data
+                                                                    ]);
+        }        
+    }
+    
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -785,8 +809,52 @@ class RKAKegiatanMurniController extends Controller
             return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
+/**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update2(Request $request, $id)
+    {
+        $rinciankegiatan = RKARincianKegiatanMurniModel::find($id);
+        
+        $this->validate($request, [
+            'nama_uraian'=>'required',
+            'volume'=>'required',
+            'satuan'=>'required',
+            'harga_satuan'=>'required',
+            'pagu_uraian1'=>'required',
+        ]);   
 
-     /**
+        $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');
+        $rinciankegiatan->nama_uraian = $request->input('nama_uraian');
+        $rinciankegiatan->volume=$request->input('volume');
+        $rinciankegiatan->satuan=$request->input('satuan');
+        $rinciankegiatan->harga_satuan=$request->input('harga_satuan');
+        $rinciankegiatan->pagu_uraian1=$request->input('pagu_uraian1');
+        $rinciankegiatan->Descr=$request->input('Descr');
+        
+        $rinciankegiatan->save();
+
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']='data-uraian-tab';
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
+
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil diubah.'
+            ],200);
+        }
+        else
+        {
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+    }
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id

@@ -73,4 +73,8 @@ class RKARincianKegiatanMurniModel extends Model
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    public function rka()
+    {
+        return $this->belongsTo('\App\Models\RKA\RKAKegiatanMurniModel','RKAID');
+    }
 }
