@@ -37,17 +37,7 @@
 </div>
 @endsection
 @section('page_header_display')   
-<ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link" id="rincian-ringkasan-tab" href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" role="tab" aria-controls="ringkasan" aria-selected="false">
-            RINGKASAN
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="data-rinciankegiatan-tab" href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" role="tab" aria-controls="data-kegiatan" aria-selected="false">
-            DATA KEGIATAN
-        </a>
-    </li>
+<ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">  
     <li class="nav-item">
         <a class="nav-link active" id="data-uraian-tab" data-toggle="tab" href="#data-uraian" role="tab" aria-controls="data-uraian" aria-selected="true">
             URAIAN

@@ -40,16 +40,6 @@
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
     <li class="nav-item">
-        <a class="nav-link" id="rincian-ringkasan-tab" href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" role="tab" aria-controls="ringkasan" aria-selected="false">
-            RINGKASAN
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" id="data-rinciankegiatan-tab" href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" role="tab" aria-controls="data-kegiatan" aria-selected="false">
-            DATA KEGIATAN
-        </a>
-    </li>
-    <li class="nav-item">
         <a class="nav-link active" id="data-uraian-tab" data-toggle="tab" href="#data-uraian" role="tab" aria-controls="data-uraian" aria-selected="true">
             URAIAN
         </a>
@@ -139,7 +129,10 @@
                             <div class="form-group row">
                                 {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{ Form::button('GO', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                                    {{ Form::button('GO', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}                                    
+                                    <a href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" class="btn btn-light default" role="button" aria-pressed="true">
+                                        KEMBALI
+                                    </a>
                                 </div>
                             </div>
                         {!! Form::close()!!} 

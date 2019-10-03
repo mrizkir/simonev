@@ -49,6 +49,11 @@
             URAIAN
         </a>
     </li>
+    <li class="nav-item">
+        <a class="nav-link{!!($filters['changetab']=='data-realisasi-tab')?' active':''!!}" id="data-realisasi-tab" data-toggle="tab" href="#data-realisasi" role="tab" aria-controls="data-uraian" aria-selected="false">
+            REALISASI
+        </a>
+    </li>
 </ul>
 @endsection
 @section('page_asset_css')
@@ -278,6 +283,31 @@
     <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">
         @include('pages.dore.rka.rkakegiatanmurni.datatableuraian')
     </div>
+    <div class="tab-pane fade{!!($filters['changetab']=='data-realisasi-tab')?' show active':''!!}" id="data-realisasi" role="tabpanel" aria-labelledby="data-realisasi-tab">
+        <div class="row">
+            <div class="col-12 mb-3" id="divfilter">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-4">
+                            <i class="iconsminds-filter-2"></i>
+                            FILTER
+                        </h4>
+                        {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">RINCIAN KEGIATAN :</label> 
+                                <div class="col-md-10">
+                                    {{Form::select('RKARincID', [],null,['class'=>'form-control select','id'=>'RKARincID'])}}
+                                </div>
+                            </div>                           
+                        {!! Form::close()!!}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="datatablerealisasi">
+            @include('pages.dore.rka.rkakegiatanmurni.datatablerealisasi')
+        </div>
+    </div>
 </div>    
 @endsection
 @section('page_asset_js')
@@ -291,9 +321,14 @@
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {
-    $("#SumberDanaID.select").select({
+    $("#SumberDanaID.select").select2({
         theme: "bootstrap",
         placeholder: "PILIH SUMBER DANA",
+        allowClear:true        
+    });
+    $("#RKARincID.select").select2({
+        theme: "bootstrap",
+        placeholder: "PILIH RINCIAN KEGIATAN",
         allowClear:true        
     });
     $('#frminformasitambahan').validate({

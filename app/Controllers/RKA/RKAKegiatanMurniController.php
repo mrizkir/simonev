@@ -77,6 +77,21 @@ class RKAKegiatanMurniController extends Controller
         return $data;
     }
     /**
+     * collect data from resources for datauraian view
+     *
+     * @return resources
+     */
+    public function populateDataRealisasi ($RKAID)
+    {
+        // $data = \DB::table('trRKARealisasiRinc')
+        //             ->select(\DB::raw('"RKARincID","RKAID",v_rekening."Kd_Rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+        //             ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+        //             ->where('RKAID',$RKAID)
+        //             ->get();
+        $data=[];
+        return $data;
+    }
+    /**
      * collect data from resources for index view
      *
      * @return resources
@@ -707,11 +722,13 @@ class RKAKegiatanMurniController extends Controller
             $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
             $datauraian=$this->populateDataUraian($id);
+            $datarealisasi=$this->populateDataRealisasi($id);
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
                                                                         'sumber_dana'=>$sumber_dana,
-                                                                        'datauraian'=>$datauraian
+                                                                        'datauraian'=>$datauraian,
+                                                                        'datarealisasi'=>$datarealisasi
                                                                     ]);
         }        
     }
