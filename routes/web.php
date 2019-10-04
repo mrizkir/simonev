@@ -149,6 +149,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/rka/rkakegiatanmurni/changerekening',['uses'=>'RKA\RKAKegiatanMurniController@changerekening','as'=>'rkakegiatanmurni.changerekening']);                  
     Route::get('/rka/rkakegiatanmurni/create1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create1','as'=>'rkakegiatanmurni.create1']);                  
     Route::get('/rka/rkakegiatanmurni/create2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create2','as'=>'rkakegiatanmurni.create2']);                      
+    Route::get('/rka/rkakegiatanmurni/create3/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create3','as'=>'rkakegiatanmurni.create3']);                      
     Route::post('/rka/rkakegiatanmurni/store1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store1','as'=>'rkakegiatanmurni.store1']);                      
     Route::post('/rka/rkakegiatanmurni/store2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store2','as'=>'rkakegiatanmurni.store2']);                      
     Route::get('/rka/rkakegiatanmurni/{uuid}/edit2',['uses'=>'RKA\RKAKegiatanMurniController@edit2','as'=>'rkakegiatanmurni.edit2']);                      

@@ -25,6 +25,9 @@
             <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
                 <i class="simple-icon-plus"></i> TAMBAH URAIAN
             </a> 
+            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create3',['uuid'=>$rka->RKAID])}}" title="Tambah Realisasi">
+                <i class="simple-icon-plus"></i> TAMBAH REALISASI
+            </a> 
             <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
@@ -296,7 +299,7 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">RINCIAN KEGIATAN :</label> 
                                 <div class="col-md-10">
-                                    {{Form::select('RKARincID', [],null,['class'=>'form-control select','id'=>'RKARincID'])}}
+                                    {{Form::select('RKARincID', $daftar_uraian,null,['class'=>'form-control select','id'=>'RKARincID'])}}
                                 </div>
                             </div>                           
                         {!! Form::close()!!}

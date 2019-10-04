@@ -564,6 +564,35 @@ class RKAKegiatanMurniController extends Controller
         }        
     }
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create3(Request $request,$id)
+    {        
+        $theme = 'dore';
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $locked=false;
+        $rka=$this->getDataRKA($id);
+        try
+        {   
+            // $data_rekening=\App\Models\DMaster\RekeningModel::find($filters['RObyID']);                        
+            // return view("pages.$theme.rka.rkakegiatanmurni.create2")->with(['page_active'=>'rkakegiatanmurni',
+            //                                                             'filters'=>$filters,
+            //                                                             'data_rekening'=>$data_rekening,
+            //                                                             'RObyID'=>$filters['RObyID'],
+            //                                                             'rka'=>$rka,
+            //                                                         ]);
+        }
+        catch (\Exception $e)
+        {            
+            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>$e->getMessage()
+                                                                ]);  
+        }        
+    }
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -722,12 +751,18 @@ class RKAKegiatanMurniController extends Controller
             $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
             $datauraian=$this->populateDataUraian($id);
+            $daftar_uraian=[''=>''];
+            foreach ($datauraian as $v)
+            {
+                $daftar_uraian[$v->RKARincID]='['.$v->Kd_Rek_5.']'.$v->nama_uraian;
+            }
             $datarealisasi=$this->populateDataRealisasi($id);
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
                                                                         'sumber_dana'=>$sumber_dana,
                                                                         'datauraian'=>$datauraian,
+                                                                        'daftar_uraian'=>$daftar_uraian,
                                                                         'datarealisasi'=>$datarealisasi
                                                                     ]);
         }        
