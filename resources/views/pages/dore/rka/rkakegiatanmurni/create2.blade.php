@@ -18,23 +18,7 @@
 <li class="breadcrumb-item active" aria-current="page">TAMBAH URAIAN</li>
 @endsection
 @section('page_header_button')
-<div class="text-zero top-right-button-container">    
-    <div class="btn-group">
-        <button type="button"
-            class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="simple-icon-menu"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
-                <i class="simple-icon-plus"></i> TAMBAH URAIAN
-            </a> 
-            <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
-                <i class="simple-icon-close"></i> CLOSE
-            </a>
-        </div>
-    </div>
-</div>
+@include('pages.dore.rka.rkakegiatanmurni.toprightbutton')
 @endsection
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">  
@@ -150,6 +134,9 @@
                                 {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
                                     {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                                    <a href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" class="btn btn-light default" role="button" aria-pressed="true">
+                                        KEMBALI
+                                    </a>
                                 </div>
                             </div>
                         {!! Form::close()!!} 

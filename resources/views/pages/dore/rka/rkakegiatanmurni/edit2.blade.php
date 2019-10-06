@@ -18,23 +18,7 @@
 <li class="breadcrumb-item active" aria-current="page">UBAH URAIAN</li>
 @endsection
 @section('page_header_button')
-<div class="text-zero top-right-button-container">    
-    <div class="btn-group">
-        <button type="button"
-            class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="simple-icon-menu"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
-                <i class="simple-icon-plus"></i> TAMBAH URAIAN
-            </a> 
-            <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
-                <i class="simple-icon-close"></i> CLOSE
-            </a>
-        </div>
-    </div>
-</div>
+@include('pages.dore.rka.rkakegiatanmurni.toprightbutton')
 @endsection
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">

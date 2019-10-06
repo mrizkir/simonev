@@ -18,23 +18,7 @@
 <li class="breadcrumb-item active" aria-current="page">TAMBAH REALISASI</li>
 @endsection
 @section('page_header_button')
-<div class="text-zero top-right-button-container">    
-    <div class="btn-group">
-        <button type="button"
-            class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="simple-icon-menu"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
-                <i class="simple-icon-plus"></i> TAMBAH REALISASI
-            </a> 
-            <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
-                <i class="simple-icon-close"></i> CLOSE
-            </a>
-        </div>
-    </div>
-</div>
+@include('pages.dore.rka.rkakegiatanmurni.toprightbutton')
 @endsection
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">  
@@ -102,13 +86,25 @@
                                 </div>
                             </div>   
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">RENCANA ANGGGARAN KAS:</label>
+                                <label class="col-md-3 col-form-label">PAGU RINCIAN:</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">0</p>  
+                                    <p class="form-control-static" id="pPaguRincian">0</p>  
                                 </div>                            
                             </div>	
                             <div class="form-group row">
-                                <label class="col-md-3 col-form-label">RENCANA TARGET FISIK:</label>
+                                <label class="col-md-3 col-form-label">SISA PAGU RINCIAN:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static" id="pSisaPaguRincian">0</p>  
+                                </div>                            
+                            </div>	
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">RENCANA ANGGGARAN KAS:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static" id="pRencanaAnggaranKas">0</p>  
+                                </div>                            
+                            </div>	
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label" id="pRencanaTargetFisik">RENCANA TARGET FISIK:</label>
                                 <div class="col-md-9">
                                     <p class="form-control-static">0</p>
                                 </div>                            
@@ -141,6 +137,9 @@
                                 {{Form::label('','',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
                                     {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                                    <a href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" class="btn btn-light default" role="button" aria-pressed="true">
+                                        KEMBALI
+                                    </a>
                                 </div>
                             </div>
                         {!! Form::close()!!} 
