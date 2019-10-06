@@ -75,7 +75,7 @@
                     <div class="card-body">
                         <h2 class="mb-2">
                             <i class="simple-icon-plus"></i>
-                            TAMBAH REALIASI BULAN SEPTEMBER 2019
+                            TAMBAH REALIASI
                         </h2>
                         <div class="separator mb-3"></div>
                         {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                                                          
@@ -85,6 +85,12 @@
                                     {{Form::select('RKARincID', $daftar_uraian,null,['class'=>'form-control select','id'=>'RKARincID'])}}
                                 </div>
                             </div>   
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">BULAN REALISASI :</label> 
+                                <div class="col-md-9">
+                                    {{Form::select('bulan', helper::getBulanM(),'none',['class'=>'form-control select'])}}
+                                </div>
+                            </div> 	
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">PAGU RINCIAN:</label>
                                 <div class="col-md-9">
@@ -110,9 +116,9 @@
                                 </div>                            
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('harga_satuan','REALISASI / SP2D:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('realisasi1','REALISASI / SP2D:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('harga_satuan', '', ['class'=>'form-control'])}}
+                                    {{Form::text('realisasi1', '', ['class'=>'form-control'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
@@ -122,9 +128,9 @@
                                 </div>                            
                             </div>                         
                             <div class="form-group row">
-                                {{Form::label('harga_satuan','FISIK:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('fisik1','FISIK:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('harga_satuan', '', ['class'=>'form-control'])}}
+                                    {{Form::text('fisik1', '', ['class'=>'form-control'])}}
                                 </div>
                             </div>   		
                             <div class="form-group row">
@@ -159,7 +165,7 @@
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {  
-    AutoNumeric.multiple(['#harga_satuan','#pagu_uraian1'],{
+    AutoNumeric.multiple(['#realisasi1'],{
                                         allowDecimalPadding: false,
                                         decimalCharacter: ",",
                                         digitGroupSeparator: ".",
@@ -167,39 +173,39 @@ $(document).ready(function () {
                                         showWarnings:false,
                                         modifyValueOnWheel:false
                                     });
+
+    AutoNumeric.multiple(['#fisik1'], {
+                                        allowDecimalPadding: false,
+                                        minimumValue:0.00,
+                                        maximumValue:100.00,
+                                        numericPos:true,
+                                        decimalPlaces : 2,
+                                        digitGroupSeparator : '',
+                                        showWarnings:false,
+                                        unformatOnSubmit: true,
+                                        modifyValueOnWheel:false
+                                    });
     $('#frmuraian').validate({
         rules: {
-            nama_uraian : {
+            RKARincID : {
                 required: true,
             },            
-            volume : {
+            realisasi1 : {
                 required: true,
             },            
-            satuan : {
+            fisik1 : {
                 required: true,
-            },            
-            harga_satuan : {
-                required: true,
-            },            
-            pagu_uraian : {
-                required: true,
-            }         
+            }
         },
         messages : {
-            nama_uraian : {
-                required: "Mohon untuk di isi Nama Uraian.",                
+            RKARincID : {
+                required: "Mohon untuk di pilih rincian kegiatan Nama Uraian.",                
             },
-            volume : {
-                required: "Mohon untuk di isi volume Uraian.",                
+            realisasi1 : {
+                required: "Mohon untuk di isi realisasi Rincian Uraian bulan ini.",                
             },
-            satuan : {
-                required: "Mohon untuk di isi satuan Uraian.",                
-            },
-            harga_satuan : {
-                required: "Mohon untuk di isi harga satu Uraian.",                
-            },
-            pagu_uraian : {
-                required: "Mohon untuk di isi pagu Uraian.",                
+            fisik1 : {
+                required: "Mohon untuk di isi fisik.",                
             }
         }      
     });   

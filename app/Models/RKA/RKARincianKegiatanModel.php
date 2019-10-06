@@ -5,7 +5,7 @@ namespace App\Models\RKA;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKARincianKegiatanMurniModel extends Model 
+class RKARincianKegiatanModel extends Model 
 {
     use LogsActivity;
 
@@ -75,6 +75,6 @@ class RKARincianKegiatanMurniModel extends Model
     // protected static $recordEvents = ['deleted'];
     public function rka()
     {
-        return $this->belongsTo('\App\Models\RKA\RKAKegiatanMurniModel','RKAID');
+        return $this->belongsTo('\App\Models\RKA\RKAKegiatanModel','RKAID');
     }
 }

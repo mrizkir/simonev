@@ -4,6 +4,52 @@ namespace App\Helpers;
 use Carbon\Carbon;
 use URL;
 class Helper {
+    /*
+     * nama bulan dalam bahasa indonesia
+     */
+    private static $Bulan = array('none'=>' ',1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember');
+    
+    /*
+     * nama bulan dalam bahasa indonesia
+     */
+    private static $BulanM = ['none'=>' ',1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September'];
+    
+    /*
+     * nama bulan dalam bahasa indonesia
+     */
+    private static $BulanP = array('none'=>' ', 10=>'Oktober', 11=>'November', 12=>'Desember');
+    /**
+     * digunakan untuk mendapatkan bulan
+     */
+    public static function getBulan($idx=null) {
+        if ($idx === null) {
+            return Helper::$Bulan;
+        }else{
+            return Helper::$Bulan[$idx];
+        }
+    }
+    
+    /**
+     * digunakan untuk mendapatkan bulan
+     */
+    public static function getBulanM($idx=null) {
+        if ($idx === null) {
+            return Helper::$BulanM;
+        }else{
+            return Helper::$BulanM[$idx];
+        }
+    }
+    
+    /**
+     * digunakan untuk mendapatkan bulan
+     */
+    public static function getBulanP($idx=null) {
+        if ($idx === null) {
+            return Helper::$BulanP;
+        }else{
+            return Helper::$BulanP[$idx];
+        }
+    }
     /**
      * digunakan untuk mendapatkan nama halaman yang sedang diakses
      */

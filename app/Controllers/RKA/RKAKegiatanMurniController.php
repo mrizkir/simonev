@@ -4,8 +4,8 @@ namespace App\Controllers\RKA;
 
 use Illuminate\Http\Request;
 use App\Controllers\Controller;
-use App\Models\RKA\RKAKegiatanMurniModel;
-use App\Models\RKA\RKARincianKegiatanMurniModel;
+use App\Models\RKA\RKAKegiatanModel;
+use App\Models\RKA\RKARincianKegiatanModel;
 
 class RKAKegiatanMurniController extends Controller 
 {
@@ -25,7 +25,7 @@ class RKAKegiatanMurniController extends Controller
     }
     private function getDataRKA ($id)
     {
-        $rka = RKAKegiatanMurniModel::select(\DB::raw('"trRKA"."RKAID",
+        $rka = RKAKegiatanModel::select(\DB::raw('"trRKA"."RKAID",
                                             "v_rka"."kode_urusan",
                                             "v_rka"."Nm_Bidang",
                                             "v_rka"."kode_organisasi",
@@ -129,7 +129,7 @@ class RKAKegiatanMurniController extends Controller
             switch ($search['kriteria']) 
             {
                 case 'KgtNm' :
-                    $data = RKAKegiatanMurniModel::where(['KgtNm'=>$search['isikriteria']])->orderBy($column_order,$direction); 
+                    $data = RKAKegiatanModel::where(['KgtNm'=>$search['isikriteria']])->orderBy($column_order,$direction); 
                 break;                
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -498,6 +498,11 @@ class RKAKegiatanMurniController extends Controller
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
                 $json_data['RKARincID']=$RKARincID;
             break;
+            case 'tambahrealisasi' :
+                $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
+                
+                $json_data['RKARincID']=$RKARincID;
+            break;
         }
         $json_data['success']=true;
         return response()->json($json_data,200);
@@ -580,6 +585,7 @@ class RKAKegiatanMurniController extends Controller
         $rka=$this->getDataRKA($id);
         try
         {   
+
             $datauraian=$this->populateDataUraian($id);
             $daftar_uraian=[''=>''];
             foreach ($datauraian as $v)
@@ -615,7 +621,7 @@ class RKAKegiatanMurniController extends Controller
             'PaguDana1'=>'required',
         ]);
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $rkakegiatanmurni = RKAKegiatanMurniModel::create([
+        $rkakegiatanmurni = RKAKegiatanModel::create([
             'RKAID' => uniqid ('uid'),
             'OrgID' => $filters['OrgID'],
             'SOrgID' => $filters['SOrgID'],
@@ -694,7 +700,7 @@ class RKAKegiatanMurniController extends Controller
             'harga_satuan'=>'required',
             'pagu_uraian1'=>'required',
         ]);
-        $rinciankegiatan = RKARincianKegiatanMurniModel::create([
+        $rinciankegiatan = RKARincianKegiatanModel::create([
             'RKARincID' => uniqid ('uid'),
             'RKAID' => $id,
             'RObyID' => $request->input('RObyID'),
@@ -786,7 +792,7 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
         
-        $data = RKAKegiatanMurniModel::findOrFail($id);
+        $data = RKAKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
             return view("pages.$theme.rka.rkakegiatanmurni.edit")->with(['page_active'=>'rkakegiatanmurni',
@@ -805,7 +811,7 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
         
-        $data = RKARincianKegiatanMurniModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+        $data = RKARincianKegiatanModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                                             ->findOrFail($id);
         if (!is_null($data) ) 
         {            
@@ -825,7 +831,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
+        $rkakegiatanmurni = RKAKegiatanModel::find($id);
         
         $this->validate($request, [
             'lokasi_kegiatan'=>'required',
@@ -878,7 +884,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function update2(Request $request, $id)
     {
-        $rinciankegiatan = RKARincianKegiatanMurniModel::find($id);
+        $rinciankegiatan = RKARincianKegiatanModel::find($id);
         
         $this->validate($request, [
             'nama_uraian'=>'required',
@@ -930,7 +936,7 @@ class RKAKegiatanMurniController extends Controller
             switch ($pid)
             {
                 case 'datakegiatan' :
-                    $rkakegiatanmurni = RKAKegiatanMurniModel::find($id);
+                    $rkakegiatanmurni = RKAKegiatanModel::find($id);
                     $result=$rkakegiatanmurni->delete();
 
                     $currentpage=$this->getCurrentPageInsideSession('rkakegiatanmurni'); 
@@ -947,7 +953,7 @@ class RKAKegiatanMurniController extends Controller
                                                                                             'data'=>$data])->render();    
                 break;
                 case 'datauraian' :
-                    $rinciankegiatan = RKARincianKegiatanMurniModel::find($id);
+                    $rinciankegiatan = RKARincianKegiatanModel::find($id);
                     $rkaid=$rinciankegiatan->RKAID;
                     $result=$rinciankegiatan->delete();
 
