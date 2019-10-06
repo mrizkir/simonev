@@ -494,6 +494,10 @@ class RKAKegiatanMurniController extends Controller
                 $json_data['ObyID']=$ObyID;
                 $json_data['daftar_obyek']=\App\Models\DMaster\ObjekModel::getDaftarObyekByParent($ObyID,false);
             break;
+            case 'realisasi' :
+                $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
+                $json_data['RKARincID']=$RKARincID;
+            break;
         }
         $json_data['success']=true;
         return response()->json($json_data,200);
@@ -576,13 +580,17 @@ class RKAKegiatanMurniController extends Controller
         $rka=$this->getDataRKA($id);
         try
         {   
-            // $data_rekening=\App\Models\DMaster\RekeningModel::find($filters['RObyID']);                        
-            // return view("pages.$theme.rka.rkakegiatanmurni.create2")->with(['page_active'=>'rkakegiatanmurni',
-            //                                                             'filters'=>$filters,
-            //                                                             'data_rekening'=>$data_rekening,
-            //                                                             'RObyID'=>$filters['RObyID'],
-            //                                                             'rka'=>$rka,
-            //                                                         ]);
+            $datauraian=$this->populateDataUraian($id);
+            $daftar_uraian=[''=>''];
+            foreach ($datauraian as $v)
+            {
+                $daftar_uraian[$v->RKARincID]='['.$v->Kd_Rek_5.']'.$v->nama_uraian;
+            }
+            return view("pages.$theme.rka.rkakegiatanmurni.create3")->with(['page_active'=>'rkakegiatanmurni',
+                                                                        'filters'=>$filters,
+                                                                        'daftar_uraian'=>$daftar_uraian,
+                                                                        'rka'=>$rka,
+                                                                    ]);
         }
         catch (\Exception $e)
         {            

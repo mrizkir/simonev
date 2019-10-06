@@ -221,7 +221,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         }); 
-    });  
+    });      
     $("#data-uraian").on("click",".btnDeleteUraian", function(){
         swal.fire ({
             title:'Hapus Data',
@@ -261,5 +261,5 @@ document.addEventListener('DOMContentLoaded', function() {
                 });
             }
         }); 
-    });
+    });    
 });

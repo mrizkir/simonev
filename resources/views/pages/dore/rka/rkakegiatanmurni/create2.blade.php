@@ -62,23 +62,23 @@
                         </h2>
                         <div class="separator mb-3"></div>
                         <div class="row">                     
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <form>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>RKAID: </strong></label>
-                                        <div class="col-md-8">
+                                        <label class="col-md-2 col-form-label"><strong>RKAID: </strong></label>
+                                        <div class="col-md-10">
                                             <p class="form-control-static">{{$rka->RKAID}}</p>
                                         </div>                            
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>KEGIATAN: </strong></label>
-                                        <div class="col-md-8">
+                                        <label class="col-md-2 col-form-label"><strong>KEGIATAN: </strong></label>
+                                        <div class="col-md-10">
                                             <p class="form-control-static">{{$rka->KgtNm}}</p>
                                         </div>                            
                                     </div>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>PAGU DANA: </strong></label>
-                                        <div class="col-md-8">
+                                        <label class="col-md-2 col-form-label"><strong>PAGU DANA: </strong></label>
+                                        <div class="col-md-10">
                                             <p class="form-control-static">{{Helper::formatUang($rka->PaguDana1)}}</p>
                                         </div>                            
                                     </div>

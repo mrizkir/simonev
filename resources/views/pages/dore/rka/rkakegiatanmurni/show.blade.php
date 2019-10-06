@@ -406,7 +406,28 @@ $(document).ready(function () {
             }
         }      
     });   
-    
+    $(document).on("change","#RKARincID", function(ev){
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changerekening',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "RKARincID": $('#RKARincID').val(),
+                "pid": 'realisasi',
+            },
+            success:function(result)
+            { 
+                console.log(result);
+                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        }); 
+    });    
 });
 </script>
 @endsection

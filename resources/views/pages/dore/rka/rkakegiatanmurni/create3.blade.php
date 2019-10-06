@@ -15,7 +15,7 @@
         DETAIL KEGIATAN MURNI
     </a>    
 </li>
-<li class="breadcrumb-item active" aria-current="page">UBAH URAIAN</li>
+<li class="breadcrumb-item active" aria-current="page">TAMBAH REALISASI</li>
 @endsection
 @section('page_header_button')
 <div class="text-zero top-right-button-container">    
@@ -27,7 +27,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
-                <i class="simple-icon-plus"></i> TAMBAH URAIAN
+                <i class="simple-icon-plus"></i> TAMBAH REALISASI
             </a> 
             <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
@@ -37,10 +37,10 @@
 </div>
 @endsection
 @section('page_header_display')   
-<ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
+<ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">  
     <li class="nav-item">
         <a class="nav-link active" id="data-uraian-tab" data-toggle="tab" href="#data-uraian" role="tab" aria-controls="data-uraian" aria-selected="true">
-            URAIAN
+            REALISASI
         </a>
     </li>
 </ul>
@@ -62,7 +62,7 @@
                         </h2>
                         <div class="separator mb-3"></div>
                         <div class="row">                     
-                            <div class="col-md-6">
+                            <div class="col-12">
                                 <form>
                                     <div class="form-group row">
                                         <label class="col-md-2 col-form-label"><strong>RKAID: </strong></label>
@@ -90,68 +90,57 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="mb-2">
-                            <i class="iconsminds-pen"></i>
-                            UBAH URAIAN
+                            <i class="simple-icon-plus"></i>
+                            TAMBAH REALIASI BULAN SEPTEMBER 2019
                         </h2>
                         <div class="separator mb-3"></div>
-                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@update2',$data->RKARincID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                              
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                                                          
                             <div class="form-group row">
-                                <label class="col-md-2 col-form-label">NAMA REKENING: </label>
-                                <div class="col-md-10">
-                                    <p class="form-control-static">[{{$data->Kd_Rek_5}}] {{$data->RObyNm}}</p>
+                                <label class="col-md-3 col-form-label">RINCIAN KEGIATAN :</label> 
+                                <div class="col-md-9">
+                                    {{Form::select('RKARincID', $daftar_uraian,null,['class'=>'form-control select','id'=>'RKARincID'])}}
+                                </div>
+                            </div>   
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">RENCANA ANGGGARAN KAS:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">0</p>  
                                 </div>                            
-                            </div>
+                            </div>	
                             <div class="form-group row">
-                                {{Form::label('nama_uraian','RINCIAN KEGIATAN',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::text('nama_uraian', $data->nama_uraian, ['class'=>'form-control'])}}
-                                </div>
-                            </div>
+                                <label class="col-md-3 col-form-label">RENCANA TARGET FISIK:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">0</p>
+                                </div>                            
+                            </div>	
                             <div class="form-group row">
-                                {{Form::label('volume','VOLUME',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::text('volume', $data->volume, ['class'=>'form-control'])}}
+                                {{Form::label('harga_satuan','REALISASI / SP2D:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('harga_satuan', '', ['class'=>'form-control'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('satuan','SATUAN',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::text('satuan', $data->satuan, ['class'=>'form-control'])}}
+                                <label class="col-md-3 col-form-label">SISA FISIK:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">0</p>
+                                </div>                            
+                            </div>                         
+                            <div class="form-group row">
+                                {{Form::label('harga_satuan','FISIK:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('harga_satuan', '', ['class'=>'form-control'])}}
                                 </div>
-                            </div>	
+                            </div>   		
                             <div class="form-group row">
-                                {{Form::label('harga_satuan','HARGA SATUAN',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::text('harga_satuan', $data->harga_satuan, ['class'=>'form-control'])}}
-                                </div>
-                            </div>	
-                            <div class="form-group row">
-                                {{Form::label('pagu_uraian1','PAGU URAIAN',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::text('pagu_uraian1', $data->pagu_uraian1, ['class'=>'form-control'])}}
-                                    <span class="form-text text-muted">(Harga Satuan * Volume)</span>
-                                </div>                                
-                            </div>                            
-                            <div class="form-group row">
-                                {{Form::label('JenisPelaksanaanID','JENIS PELAKSANAAN',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::select('JenisPelaksanaanID', [], $data->JenisPelaksanaanID, ['class'=>'form-control'])}}
-                                    <span class="form-text text-muted">Bila uraian adalah belanja pegawai, wajib di kosongkan.</span>
-                                </div>                                
-                            </div>    		
-                            <div class="form-group row">
-                                {{Form::label('Descr','Keterangan:',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
-                                    {{Form::textarea('Descr',$data->Descr,['class'=>'form-control','placeholder'=>'Keterangan','rows'=>3])}}
+                                {{Form::label('Descr','Keterangan:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Keterangan','rows'=>3])}}
                                 </div>
                             </div>
                             <div class="form-group row">
-                                {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
-                                <div class="col-sm-10">
+                                {{Form::label('','',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
                                     {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
-                                    <a href="{!!route('rkakegiatanmurni.show',['uuid'=>$rka->RKAID])!!}" class="btn btn-light default" role="button" aria-pressed="true">
-                                        KEMBALI
-                                    </a>
                                 </div>
                             </div>
                         {!! Form::close()!!} 
@@ -215,6 +204,28 @@ $(document).ready(function () {
             }
         }      
     });   
+    $(document).on("change","#RKARincID", function(ev){
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changerekening',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "RKARincID": $('#RKARincID').val(),
+                "pid": 'tambahrealisasi',
+            },
+            success:function(result)
+            { 
+                console.log(result);
+                
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        }); 
+    });    
 });
 </script>
 @endsection
