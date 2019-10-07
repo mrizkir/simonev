@@ -5,7 +5,7 @@ namespace App\Models\RKA;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKARincianKegiatanModel extends Model 
+class RKARealisasiRincianKegiatanModel extends Model 
 {
     use LogsActivity;
 
@@ -14,35 +14,36 @@ class RKARincianKegiatanModel extends Model
      *
      * @var string
      */
-    protected $table = 'trRKARinc';
+    protected $table = 'trRKARealisasiRinc';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'RKARincID', 
+        'RKARealisasiRincID', 
         'RKAID', 
-        'RObyID', 
-        'JenisPelaksanaanID', 
-        'nama_uraian', 
-        'volume', 
-        'satuan',         
-        'harga_satuan',  
-        'pagu_uraian1',         
-        'pagu_uraian2',         
+        'RKARincID', 
+        'bulan', 
+        'tahun', 
+        'target1', 
+        'target2',         
+        'realisasi1',  
+        'realisasi2',         
+        'fisik1',         
+        'fisik2',         
         'EntryLvl',         
         'Descr',         
         'TA',         
         'Locked',  
-        'RKARincIDSrc',                       
+        'RKARealisasiRincID_Src',                       
     ];
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'RKARincID';
+    protected $primaryKey = 'RKARealisasiRincID';
     /**
      * enable auto_increment.
      *
@@ -61,11 +62,11 @@ class RKARincianKegiatanModel extends Model
      *
      * @var string
      */
-    protected static $logName = 'RKARincianKegiatanMurniController';
+    protected static $logName = 'RKAKegiatanMurniController';
     /**
      * log the changed attributes for all these events 
      */
-    protected static $logAttributes = ['RKARincID', 'nama_uraian', 'pagu_uraian1'];
+    protected static $logAttributes = ['RKARincID', 'RKARincID', 'realisasi1', 'realisasi2'];
     /**
      * log changes to all the $fillable attributes of the model
      */
@@ -73,6 +74,7 @@ class RKARincianKegiatanModel extends Model
 
     //only the `deleted` event will get logged automatically
     // protected static $recordEvents = ['deleted'];
+    
     public function rka()
     {
         return $this->belongsTo('\App\Models\RKA\RKAKegiatanModel','RKAID');

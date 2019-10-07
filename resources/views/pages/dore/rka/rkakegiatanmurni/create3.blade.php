@@ -223,7 +223,15 @@ $(document).ready(function () {
             success:function(result)
             { 
                 console.log(result);
-                
+                if (result.RKARincID=='none')
+                {
+                    $('#pPaguRincian').html(0);
+                }
+                else
+                {
+                    $('#pPaguRincian').html(result.data_uraian.harga_satuan);         
+                    new AutoNumeric ('#pPaguRincian'); 
+                }                    
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

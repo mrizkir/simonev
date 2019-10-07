@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RKA\RKAKegiatanModel;
 use App\Models\RKA\RKARincianKegiatanModel;
+use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
 class RKAKegiatanMurniController extends Controller 
 {
@@ -500,7 +501,8 @@ class RKAKegiatanMurniController extends Controller
             break;
             case 'tambahrealisasi' :
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
-                
+                $data_uraian=RKARincianKegiatanModel::find($RKARincID);
+                $json_data['data_uraian']=$data_uraian;                
                 $json_data['RKARincID']=$RKARincID;
             break;
         }
