@@ -280,7 +280,7 @@
                             <div class="form-group row">
                                 <label class="col-md-2 col-form-label">RINCIAN KEGIATAN :</label> 
                                 <div class="col-md-10">
-                                    {{Form::select('RKARincID', $daftar_uraian,null,['class'=>'form-control select','id'=>'RKARincID'])}}
+                                    {{Form::select('RKARincID', $daftar_uraian,$filters['RKARincID'],['class'=>'form-control select','id'=>'RKARincID'])}}
                                 </div>
                             </div>                           
                         {!! Form::close()!!}

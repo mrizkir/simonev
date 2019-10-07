@@ -78,7 +78,7 @@
                             TAMBAH REALIASI
                         </h2>
                         <div class="separator mb-3"></div>
-                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store2',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                                                          
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store3',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                                                          
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">RINCIAN KEGIATAN :</label> 
                                 <div class="col-md-9">
@@ -188,7 +188,10 @@ $(document).ready(function () {
     $('#frmuraian').validate({
         rules: {
             RKARincID : {
-                required: true,
+                required : true
+            },            
+            bulan : {
+                valueNotEquals : 'none'
             },            
             realisasi1 : {
                 required: true,
@@ -200,6 +203,9 @@ $(document).ready(function () {
         messages : {
             RKARincID : {
                 required: "Mohon untuk di pilih rincian kegiatan Nama Uraian.",                
+            },
+            bulan : {
+                valueNotEquals: "Mohon untuk di pilih bulan realisasi.",                
             },
             realisasi1 : {
                 required: "Mohon untuk di isi realisasi Rincian Uraian bulan ini.",                
@@ -222,16 +228,11 @@ $(document).ready(function () {
             },
             success:function(result)
             { 
-                console.log(result);
-                if (result.RKARincID=='none')
-                {
-                    $('#pPaguRincian').html(0);
-                }
-                else
-                {
-                    $('#pPaguRincian').html(result.data_uraian.harga_satuan);         
-                    new AutoNumeric ('#pPaguRincian'); 
-                }                    
+                console.log(result);              
+                $('#pPaguRincian').html(result.pagu_uraian1);         
+                $('#pSisaPaguRincian').html(result.sisa_pagu_rincian);         
+                new AutoNumeric ('#pPaguRincian'); 
+                new AutoNumeric ('#pSisaPaguRincian');                                 
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

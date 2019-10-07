@@ -82,14 +82,12 @@ class RKAKegiatanMurniController extends Controller
      *
      * @return resources
      */
-    public function populateDataRealisasi ($RKAID)
+    public function populateDataRealisasi ($RKARincID)
     {
-        // $data = \DB::table('trRKARealisasiRinc')
-        //             ->select(\DB::raw('"RKARincID","RKAID",v_rekening."Kd_Rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
-        //             ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
-        //             ->where('RKAID',$RKAID)
-        //             ->get();
-        $data=[];
+        $data = \DB::table('trRKARealisasiRinc')
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan","target1","realisasi1",fisik1,"TA","created_at","updated_at"'))
+                    ->where('RKARincID',$RKARincID)
+                    ->get();
         return $data;
     }
     /**
@@ -120,6 +118,7 @@ class RKAKegiatanMurniController extends Controller
                                                                             'OrgID'=>'none',
                                                                             'SOrgID'=>'none',
                                                                             'changetab'=>'ringkasan-tab',
+                                                                            'RKARincID'=>'none',
                                                                             ]);
         }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
@@ -497,12 +496,32 @@ class RKAKegiatanMurniController extends Controller
             break;
             case 'realisasi' :
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
+                $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+                $filters['RKARincID']=$RKARincID;
+                $this->putControllerStateSession($this->SessionName,'filters',$filters);
                 $json_data['RKARincID']=$RKARincID;
             break;
             case 'tambahrealisasi' :
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
-                $data_uraian=RKARincianKegiatanModel::find($RKARincID);
-                $json_data['data_uraian']=$data_uraian;                
+                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
+                                                    ->find($RKARincID);
+                if (is_null($data_uraian))
+                {
+                    $json_data['pagu_uraian1']=0;                
+                    $json_data['sisa_pagu_rincian']=0;
+                }
+                else
+                {
+                    $jumlah_realisasi=\DB::table('trRKARealisasiRinc')
+                                            ->where('RKARincID',$RKARincID)
+                                            ->sum('realisasi1');
+
+                    $pagu_uraian1=$data_uraian->pagu_uraian1;
+                    $json_data['pagu_uraian1']=$pagu_uraian1;                
+                    $json_data['sisa_pagu_rincian']=$pagu_uraian1-$jumlah_realisasi;
+                }
+                
+                
                 $json_data['RKARincID']=$RKARincID;
             break;
         }
@@ -735,6 +754,53 @@ class RKAKegiatanMurniController extends Controller
 
     }
     /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store3(Request $request,$id)
+    {
+        
+        $this->validate($request, [
+            'RKARincID'=>'required',
+            'bulan'=>'required',
+            'realisasi1'=>'required',
+            'fisik1'=>'required',            
+        ]);
+        $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::create([
+            'RKARealisasiRincID' => uniqid ('uid'),
+            'RKAID' => $id,
+            'RKARincID' => $request->input('RKARincID'),            
+            'bulan' => $request->input('bulan'),
+            'target1' => 0,            
+            'target2' => 0,            
+            'realisasi1' => $request->input('realisasi1'),            
+            'realisasi2' => 0,            
+            'fisik1' => $request->input('fisik1'),           
+            'fisik2' => 0,           
+            'EntryLvl' => 1,
+            'Descr' => $request->input('Descr'),            
+            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+        ]);        
+        $this->destroyControllerStateSession('filters','RKARincID');
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']='data-realisasi-tab';
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ],200);
+        }
+        else
+        {
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+
+    }
+    /**
      * digunakan untuk melakukan perubahan tabulasi detail rka.
      *
      * @param  int  $id
@@ -772,7 +838,7 @@ class RKAKegiatanMurniController extends Controller
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->Kd_Rek_5.']'.$v->nama_uraian;
             }
-            $datarealisasi=$this->populateDataRealisasi($id);
+            $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']);            
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
@@ -966,6 +1032,22 @@ class RKAKegiatanMurniController extends Controller
                     $datauraian=$this->populateDataUraian($rkaid);
                     $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatableuraian")->with([
                                                                                                 'datauraian'=>$datauraian,
+                                                                                                'rka'=>$rka
+                                                                                            ])->render();
+                        
+                break;
+                case 'datauraian' :
+                    $realisasirinciankegiatan = trRKARealisasiRinc::find($id);
+                    $rkaid=$realisasirinciankegiatan->RKAID;
+                    $result=$realisasirinciankegiatan->delete();
+
+                    $rka = $this->getDataRKA($rkaid);                    
+                    
+                    $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+                    $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
+                    $datarealisasi=$this->populateDataRealisasi($rkaid);
+                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerealisasi")->with([
+                                                                                                'datarealisasi'=>$datarealisasi,
                                                                                                 'rka'=>$rka
                                                                                             ])->render();
                         
