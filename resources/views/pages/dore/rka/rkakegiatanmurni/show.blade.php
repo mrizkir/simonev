@@ -401,7 +401,7 @@ $(document).ready(function () {
             success:function(result)
             { 
                 console.log(result);
-                
+                $('#datatablerealisasi').html(result.datatable);
             },
             error:function(xhr, status, error){
                 console.log('ERROR');

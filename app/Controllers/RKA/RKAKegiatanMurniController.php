@@ -470,6 +470,8 @@ class RKAKegiatanMurniController extends Controller
      */
     public function changerekening(Request $request)
     {
+        $theme = 'dore';
+        
         $json_data = [];
         $pid = $request->input('pid')==''?'none':$request->input('pid');
         switch ($pid)
@@ -499,7 +501,20 @@ class RKAKegiatanMurniController extends Controller
                 $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
                 $filters['RKARincID']=$RKARincID;
                 $this->putControllerStateSession($this->SessionName,'filters',$filters);
+                
+                $rka=[];
+                $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']);            
+                if (count($datarealisasi) > 0)
+                {
+                    $rinciankegiatan = RKARincianKegiatanModel::find($RKARincID);
+                    $rkaid=$rinciankegiatan->RKAID;
+                    $rka = $this->getDataRKA($rkaid);                                        
+                }
+                $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerealisasi")->with(['page_active'=>'rkakegiatanmurni',                                                                            
+                                                                                            'datarealisasi'=>$datarealisasi
+                                                                                        ])->render();
                 $json_data['RKARincID']=$RKARincID;
+                $json_data['datatable']=$datatable;
             break;
             case 'tambahrealisasi' :
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
@@ -520,7 +535,6 @@ class RKAKegiatanMurniController extends Controller
                     $json_data['pagu_uraian1']=$pagu_uraian1;                
                     $json_data['sisa_pagu_rincian']=$pagu_uraian1-$jumlah_realisasi;
                 }
-                
                 
                 $json_data['RKARincID']=$RKARincID;
             break;
