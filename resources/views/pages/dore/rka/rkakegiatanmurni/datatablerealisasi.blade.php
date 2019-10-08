@@ -12,12 +12,20 @@
                 </th>
                 <th scope="col" class="text-right">REALISASI/SP2D</th>
                 <th scope="col" class="text-right">RENCANA TARGET FISIK (%)</th>
-                <th scope="col" width="80">FISIK</th>
+                <th scope="col" width="120">FISIK (%)</th>
                 <th scope="col" width="80">AKSI</th>
             </tr>
         </thead>
         <tbody>
+            @php
+                $totalAllFisik=0;
+                $totalRealisasi=0;
+            @endphp
             @foreach ($datarealisasi as $key=>$item)
+            @php
+                $totalAllFisik+=$item->fisik1;
+                $totalRealisasi+=$item->realisasi1;
+            @endphp
             <tr>
                 <th scope="row">{{ $key + 1 }}</td>
                 <td>{{helper::getBulan($item->bulan)}} {{$item->TA}}</td>
@@ -49,22 +57,13 @@
         </tbody>
         <tfoot style="background-color:orange">           
             <tr>
-                <td colspan="3" class="text-right"><strong>TOTAL URAIAN</strong></td>
+                <td colspan="2" class="text-right"><strong>JUMLAH AKHIR</strong></td>
                 <td class="text-right"><strong>{{Helper::formatUang(0)}}</strong></td>
+                <td class="text-right"><strong>{{Helper::formatUang($totalRealisasi)}}</strong></td>
                 <td class="text-right"><strong>{{Helper::formatUang(0)}}</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang(0)}}</strong></td>
+                <td class="text-center"><strong>{{Helper::formatUang($totalAllFisik)}}</strong></td>
                 <td></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right"><strong>PAGU KEGIATAN</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang(0)}}</strong></td>                
-                <td colspan="4"></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right"><strong>SISA PAGU KEGIATAN</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang(0)}}</strong></td>                
-                <td colspan="4"></td>
-            </tr>
+            </tr>           
         </tfoot>
     </table>
 </div>    

@@ -87,6 +87,7 @@ class RKAKegiatanMurniController extends Controller
         $data = \DB::table('trRKARealisasiRinc')
                     ->select(\DB::raw('"RKARealisasiRincID","bulan","target1","realisasi1",fisik1,"TA","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
+                    ->orderBy('bulan','ASC')
                     ->get();
         return $data;
     }
@@ -564,6 +565,7 @@ class RKAKegiatanMurniController extends Controller
                 throw new \Exception ('Tidak diperkenankan menambah uraian kegiatan karena telah dikunci.');
             }            
             $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunPenyerapan(),false);            
+            $daftar_transaksi['']='';            
             return view("pages.$theme.rka.rkakegiatanmurni.create1")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
@@ -1050,19 +1052,15 @@ class RKAKegiatanMurniController extends Controller
                                                                                             ])->render();
                         
                 break;
-                case 'datauraian' :
-                    $realisasirinciankegiatan = trRKARealisasiRinc::find($id);
-                    $rkaid=$realisasirinciankegiatan->RKAID;
+                case 'datarealisasi' :
+                    $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::find($id);
+                    $RKARincID=$realisasirinciankegiatan->RKARincID;
                     $result=$realisasirinciankegiatan->delete();
-
-                    $rka = $this->getDataRKA($rkaid);                    
                     
                     $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
-                    $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
-                    $datarealisasi=$this->populateDataRealisasi($rkaid);
+                    $datarealisasi=$this->populateDataRealisasi($RKARincID);
                     $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerealisasi")->with([
                                                                                                 'datarealisasi'=>$datarealisasi,
-                                                                                                'rka'=>$rka
                                                                                             ])->render();
                         
                 break;

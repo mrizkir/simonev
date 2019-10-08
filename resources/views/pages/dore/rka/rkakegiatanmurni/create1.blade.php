@@ -83,7 +83,7 @@
                             <div class="form-group row">
                                 {{Form::label('StrID','Transaksi',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('StrID', $daftar_transaksi, 'none', ['class'=>'form-control select'])}}
+                                    {{Form::select('StrID', $daftar_transaksi, '', ['class'=>'form-control select'])}}
                                 </div>
                             </div>
                             <div class="form-group row">

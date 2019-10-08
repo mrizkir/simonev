@@ -262,7 +262,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }); 
     });    
-    $("#data-uraian").on("click",".btnDeleteRealisasi", function(){
+    $("#datatablerealisasi").on("click",".btnDeleteRealisasi", function(){
         swal.fire ({
             title:'Hapus Data',
             text:'Apakah ingin menghapus data Realisasi ini ?',
