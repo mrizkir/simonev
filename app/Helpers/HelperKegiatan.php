@@ -52,12 +52,15 @@ class HelperKegiatan {
     {
         return request()->session()->get("global_controller.tahun_penyerapan");
     }   
-    public static function getPageTitle($nameofpage)
+    public static function getPageTitle()
     {
-        switch ($nameofpage) 
+        switch (\Helper::getNameOfPage()) 
         {            
             case 'rkakegiatanmurni' :
                 $pagetitle = 'RENCANA KERJA DAN ANGGARAN (RKA) MURNI';
+            break;            
+            case 'formamurni' :
+                $pagetitle = 'FORM A MURNI';
             break;            
             default :
                 $pagetitle = 'WORKFLOW';
@@ -72,8 +75,9 @@ class HelperKegiatan {
         switch ($nameofpage) 
         {         
             case 'rkakegiatanmurni' :
+            case 'formamurni' :
                 $dbViewName = 'v_rka';
-            break;            
+            break;                      
             default :
                 $dbViewName = null;
         }
@@ -86,6 +90,7 @@ class HelperKegiatan {
         switch ($level_name) 
         {            
             case 'rkakegiatanmurni' :
+            case 'formamurni' :
                 $level = 1;
             break;            
             default :

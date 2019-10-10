@@ -160,8 +160,26 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/rka/rkakegiatanmurni/paginate/{id}',['uses'=>'RKA\RKAKegiatanMurniController@paginate','as'=>'rkakegiatanmurni.paginate']);              
     Route::post('/rka/rkakegiatanmurni/changenumberrecordperpage',['uses'=>'RKA\RKAKegiatanMurniController@changenumberrecordperpage','as'=>'rkakegiatanmurni.changenumberrecordperpage']);  
     Route::post('/rka/rkakegiatanmurni/orderby',['uses'=>'RKA\RKAKegiatanMurniController@orderby','as'=>'rkakegiatanmurni.orderby']); 
+    
+    //report - form a murni [rka]
+    Route::resource('/report/formamurni','Report\FormAController',['parameters'=>['formamurni'=>'uuid']]); 
+    Route::post('/report/formamurni/changetab',['uses'=>'Report\FormAController@changetab','as'=>'formamurni.changetab']);                  
+    Route::post('/report/formamurni/changerekening',['uses'=>'Report\FormAController@changerekening','as'=>'formamurni.changerekening']);                  
+    Route::get('/report/formamurni/create1/{uuid}',['uses'=>'Report\FormAController@create1','as'=>'formamurni.create1']);                  
+    Route::get('/report/formamurni/create2/{uuid}',['uses'=>'Report\FormAController@create2','as'=>'formamurni.create2']);                      
+    Route::get('/report/formamurni/create3/{uuid}',['uses'=>'Report\FormAController@create3','as'=>'formamurni.create3']);                      
+    Route::post('/report/formamurni/store1/{uuid}',['uses'=>'Report\FormAController@store1','as'=>'formamurni.store1']);                      
+    Route::post('/report/formamurni/store2/{uuid}',['uses'=>'Report\FormAController@store2','as'=>'formamurni.store2']);                      
+    Route::post('/report/formamurni/store3/{uuid}',['uses'=>'Report\FormAController@store3','as'=>'formamurni.store3']);                      
+    Route::get('/report/formamurni/{uuid}/edit2',['uses'=>'Report\FormAController@edit2','as'=>'formamurni.edit2']);                      
+    Route::post('/report/formamurni/update2/{uuid}',['uses'=>'Report\FormAController@update2','as'=>'formamurni.update2']);                      
+    Route::post('/report/formamurni/search',['uses'=>'Report\FormAController@search','as'=>'formamurni.search']);  
+    Route::post('/report/formamurni/filter',['uses'=>'Report\FormAController@filter','as'=>'formamurni.filter']);              
+    Route::get('/report/formamurni/paginate/{id}',['uses'=>'Report\FormAController@paginate','as'=>'formamurni.paginate']);              
+    Route::post('/report/formamurni/changenumberrecordperpage',['uses'=>'Report\FormAController@changenumberrecordperpage','as'=>'formamurni.changenumberrecordperpage']);  
+    Route::post('/report/formamurni/orderby',['uses'=>'Report\FormAController@orderby','as'=>'formamurni.orderby']);  
 
-  //setting - permissions    
+    //setting - permissions    
     Route::resource('/setting/permissions', 'Setting\PermissionsController', [
         'parameters' => ['permissions' => 'id'],
         'only' => ['index', 'show', 'create', 'store', 'destroy']

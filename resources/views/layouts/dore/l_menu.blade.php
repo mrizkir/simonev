@@ -18,6 +18,11 @@
                         <i class="iconsminds-air-balloon-1"></i> RKA
                     </a>
                 </li>
+                <li>
+                    <a href="#report">
+                        <i class="iconsminds-air-balloon-1"></i> LAPORAN
+                    </a>
+                </li>
                 @hasrole('superadmin|bapelitbang')
                 <li>
                     <a href="#setting">
@@ -28,7 +33,6 @@
             </ul>
         </div>
     </div>
-
     <div class="sub-menu">
         <div class="scroll">
             <ul class="list-unstyled" data-link="dashboard">
@@ -174,6 +178,14 @@
                     <a href="{{route('rkakegiatanmurni.index')}}">
                         <i class="simple-icon-picture"></i>
                         <span class="d-inline-block">KEGIATAN MURNI</span>
+                    </a>
+                </li>
+            </ul>
+            <ul class="list-unstyled" data-link="report">
+                <li>
+                    <a href="{{route('formamurni.index')}}">
+                        <i class="simple-icon-picture"></i>
+                        <span class="d-inline-block">FORM A MURNI</span>
                     </a>
                 </li>
             </ul>
