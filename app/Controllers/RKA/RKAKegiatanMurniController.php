@@ -77,6 +77,16 @@ class RKAKegiatanMurniController extends Controller
                     ->get();
         return $data;
     }
+    public function getDataTotalKegiatan($OrgID,$SOrgID)
+    {        
+        $datatotalkegiatan['pagu_kegiatan']=0;
+        $datatotalkegiatan['pagu_uraian']=0;
+        $datatotalkegiatan['total_realisasi']=0;
+        $datatotalkegiatan['total_fisik']=0;
+        $datatotalkegiatan['pagu_opd']=0;
+
+        return $datatotalkegiatan;
+    }
     /**
      * collect data from resources for datauraian view
      *
@@ -155,6 +165,7 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
+        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
         $numberRecordPerPage = $request->input('numberRecordPerPage');
         $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
         
@@ -162,6 +173,7 @@ class RKAKegiatanMurniController extends Controller
         $data=$this->populateData();
 
         $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
+                                                                                'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
                                                                                 'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
@@ -178,6 +190,7 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
+        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
         $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
         $column=$request->input('column_name');
         switch($column) 
@@ -198,11 +211,12 @@ class RKAKegiatanMurniController extends Controller
         }
         
         $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                            'data'=>$data])->render();     
+                                                                                'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
+                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                                'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -220,11 +234,11 @@ class RKAKegiatanMurniController extends Controller
         $this->setCurrentPageInsideSession('rkakegiatanmurni',$id);
         $data=$this->populateData($id);
         $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                                            'data'=>$data])->render(); 
+                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                                'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
     }
@@ -256,11 +270,12 @@ class RKAKegiatanMurniController extends Controller
             $data = [];
 
             $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',   
-                                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                            'data'=>$data])->render();
+                                                                                    'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),    
+                                                                                    'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                    'data'=>$data])->render();
 
           
             $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
@@ -275,11 +290,12 @@ class RKAKegiatanMurniController extends Controller
 
             $data = $this->populateData();            
             $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',   
-                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                                'data'=>$data])->render();                                                                                       
+                                                                                    'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),                                                           
+                                                                                    'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
+                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+                                                                                    'data'=>$data])->render();                                                                                       
             
             $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
@@ -363,6 +379,7 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
+        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
         $action = $request->input('action');
         if ($action == 'reset') 
         {
@@ -377,7 +394,8 @@ class RKAKegiatanMurniController extends Controller
         $this->setCurrentPageInsideSession('rkakegiatanmurni',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',                                                            
+        $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni', 
+                                                                                'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),                                                           
                                                                                 'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                 'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
@@ -415,6 +433,7 @@ class RKAKegiatanMurniController extends Controller
         return view("pages.$theme.rka.rkakegiatanmurni.index")->with(['page_active'=>'rkakegiatanmurni',
                                                                     'daftar_opd'=>$daftar_opd,
                                                                     'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                    'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
                                                                     'filters'=>$filters,
                                                                     'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    

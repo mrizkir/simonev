@@ -125,10 +125,10 @@ class Helper {
     /**
 	* digunakan untuk mem-format persentase
 	*/
-	public function formatPersen ($pembilang,$penyebut=0,$dec_sep=2) {
+	public static function formatPersen ($pembilang,$penyebut=0,$dec_sep=2) {
         $result=0.00;
 		if ($pembilang > 0) {
-            $temp=number_format((float)($pembilang/$penyebut)*100,$dec_sep);
+            $temp=number_format(((float)$pembilang/$penyebut)*100,$dec_sep);
             $result = $temp > 100 ? 100.00 : $temp;
         }
         return $result;
@@ -136,10 +136,10 @@ class Helper {
     /**
 	* digunakan untuk mem-format pecahan
 	*/
-	public function formatPecahan ($pembilang,$penyebut=0,$dec_sep=2) {
+	public static function formatPecahan ($pembilang,$penyebut=0,$dec_sep=2) {
         $result=0;
 		if ($pembilang > 0) {
-            $result=number_format((float)($pembilang/$penyebut),$dec_sep);
+            $result=number_format(((float)$pembilang/$penyebut),$dec_sep);
         }
         return $result;
 	}    
