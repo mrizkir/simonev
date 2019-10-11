@@ -9,7 +9,20 @@
     </h1>    
 @endsection
 @section('page_header_button')
-@include('pages.dore.rka.rkakegiatanmurni.toprightbutton')
+<div class="text-zero top-right-button-container">    
+        <div class="btn-group">
+            <button type="button"
+                class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="simple-icon-menu"></i>
+            </button>
+            <div class="dropdown-menu dropdown-menu-right">                
+                <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
+                    <i class="simple-icon-close"></i> CLOSE
+                </a>
+            </div>
+        </div>
+    </div>
 @endsection
 @section('page_header_display')
 <div class="mb-2">
