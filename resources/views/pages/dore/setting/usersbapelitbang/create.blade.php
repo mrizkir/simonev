@@ -30,7 +30,7 @@
 @section('page_breadcrumb')
     <li class="breadcrumb-item">SETTING</li>
     <li class="breadcrumb-item" aria-current="page">
-        <a href="{!!route('rkakegiatanmurni.index')!!}"> USERS BAPELITBANG</a>
+        <a href="{!!route('usersbapelitbang.index')!!}"> USERS BAPELITBANG</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection
