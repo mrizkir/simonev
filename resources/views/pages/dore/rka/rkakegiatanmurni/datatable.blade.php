@@ -88,22 +88,24 @@
                 </tbody>
                 <tfoot style="background-color:orange">           
                     <tr>
-                        <td colspan="3" class="text-right"><strong>TOTAL</strong></td>
-                        <td class="text-right" id="tdTotalPaguUraian"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_kegiatan'])}}</strong></td>
-                        <td class="text-right" id="tdTotalPaguUraian"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_uraian'])}}</strong></td>
-                        <td class="text-right" id="tdTotalRealisasi"><strong>{{Helper::formatUang($datatotalkegiatan['total_realisasi'])}}</strong></td>
-                        <td class="text-center"><strong>{{Helper::formatAngka($datatotalkegiatan['total_fisik'])}}</strong></td>
+                        <td colspan="3" class="text-right"><strong>TOTAL UNIT KERJA</strong></td>
+                        <td class="text-right" id="tdTotalPaguUraianUnitKerja"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_kegiatan'])}}</strong></td>
+                        <td class="text-right" id="tdTotalPaguUraianUnitKerja"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_uraian'])}}</strong></td>
+                        <td class="text-right" id="tdTotalRealisasiUnitKerja"><strong>{{Helper::formatUang($datatotalkegiatan['total_realisasi'])}}</strong></td>
+                        <td class="text-center" id="tdTotalFisikUnitKerja"><strong>{{Helper::formatAngka($datatotalkegiatan['total_fisik'])}}</strong></td>
                         <td></td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="text-right"><strong>PAGU OPD/SKPD</strong></td>
-                        <td class="text-right"><strong>{{$datatotalkegiatan['pagu_opd']}}</strong></td>                
-                        <td colspan="4"></td>
+                        <td colspan="3" class="text-right"><strong>TOTAL OPD / SKPD</strong></td>
+                        <td class="text-right" id="tdTotalPaguUraianUnitKerja"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_kegiatan'])}}</strong></td>
+                        <td class="text-right" id="tdTotalPaguUraianUnitKerja"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_uraian'])}}</strong></td>
+                        <td class="text-right" id="tdTotalRealisasiUnitKerja"><strong>{{Helper::formatUang($datatotalkegiatan['total_realisasi'])}}</strong></td>
+                        <td class="text-center" id="tdTotalFisikUnitKerja"><strong>{{Helper::formatAngka($datatotalkegiatan['total_fisik'])}}</strong></td>
+                        <td></td>
                     </tr>
                     <tr>
                         <td colspan="3" class="text-right"><strong>SISA PAGU OPD/SKPD</strong></td>
-                        <td class="text-right"><strong>{{Helper::formatUang($datatotalkegiatan['pagu_opd']-$datatotalkegiatan['pagu_kegiatan'])}}</strong></td>                
-                        <td colspan="4"></td>
+                        <td class="text-left" colspan="5"><strong>({{Helper::formatUang($datatotalkegiatan['pagu_opd'])}}-{{Helper::formatUang($datatotalkegiatan['pagu_kegiatan'])}}) = {{Helper::formatUang($datatotalkegiatan['pagu_opd']-$datatotalkegiatan['pagu_kegiatan'])}}</strong></td>                
                     </tr>
                 </tfoot>
             </table>
