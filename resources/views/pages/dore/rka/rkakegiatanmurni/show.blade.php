@@ -297,7 +297,7 @@
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/autoNumeric.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 <script src="{!!asset('js/vendor/sweetalert2/sweetalert2.min.js')!!}"></script>
 @endsection

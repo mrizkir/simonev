@@ -99,7 +99,7 @@ RINCIAN
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/AutoNumeric.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/autoNumeric.min.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
