@@ -41,7 +41,7 @@
                         <td>0</td>
                         <td>
                             <div class="input-group-append">
-                                <a href="{{route('rkakegiatanmurni.show',['uuid'=>$item->RKAID])}}" class="btn btn-primary btn-xs mr-sm-2 default"  title="Detail Data Kegiatan">
+                                <a href="{{route(Helper::getNameOfPage('show'),['uuid'=>$item->RKAID])}}" class="btn btn-primary btn-xs mr-sm-2 default"  title="Detail Data Kegiatan">
                                     <i class="simple-icon-eye"></i>
                                 </a>                               
                             </div>

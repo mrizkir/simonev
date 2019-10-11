@@ -163,16 +163,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     
     //report - form a murni [rka]
     Route::resource('/report/formamurni','Report\FormAController',['parameters'=>['formamurni'=>'uuid']]); 
+    Route::post('/report/formamurni/printtoexcel',['uses'=>'Report\FormAController@printtoexcel','as'=>'formamurni.printtoexcel']);                  
     Route::post('/report/formamurni/changetab',['uses'=>'Report\FormAController@changetab','as'=>'formamurni.changetab']);                  
-    Route::post('/report/formamurni/changerekening',['uses'=>'Report\FormAController@changerekening','as'=>'formamurni.changerekening']);                  
-    Route::get('/report/formamurni/create1/{uuid}',['uses'=>'Report\FormAController@create1','as'=>'formamurni.create1']);                  
-    Route::get('/report/formamurni/create2/{uuid}',['uses'=>'Report\FormAController@create2','as'=>'formamurni.create2']);                      
-    Route::get('/report/formamurni/create3/{uuid}',['uses'=>'Report\FormAController@create3','as'=>'formamurni.create3']);                      
-    Route::post('/report/formamurni/store1/{uuid}',['uses'=>'Report\FormAController@store1','as'=>'formamurni.store1']);                      
-    Route::post('/report/formamurni/store2/{uuid}',['uses'=>'Report\FormAController@store2','as'=>'formamurni.store2']);                      
-    Route::post('/report/formamurni/store3/{uuid}',['uses'=>'Report\FormAController@store3','as'=>'formamurni.store3']);                      
-    Route::get('/report/formamurni/{uuid}/edit2',['uses'=>'Report\FormAController@edit2','as'=>'formamurni.edit2']);                      
-    Route::post('/report/formamurni/update2/{uuid}',['uses'=>'Report\FormAController@update2','as'=>'formamurni.update2']);                      
+    Route::post('/report/formamurni/changerekening',['uses'=>'Report\FormAController@changerekening','as'=>'formamurni.changerekening']);                          
     Route::post('/report/formamurni/search',['uses'=>'Report\FormAController@search','as'=>'formamurni.search']);  
     Route::post('/report/formamurni/filter',['uses'=>'Report\FormAController@filter','as'=>'formamurni.filter']);              
     Route::get('/report/formamurni/paginate/{id}',['uses'=>'Report\FormAController@paginate','as'=>'formamurni.paginate']);              

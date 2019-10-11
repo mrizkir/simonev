@@ -20,7 +20,7 @@
                 </li>
                 <li>
                     <a href="#report">
-                        <i class="iconsminds-air-balloon-1"></i> LAPORAN
+                        <i class="iconsminds-file-clipboard-file---text"></i> LAPORAN
                     </a>
                 </li>
                 @hasrole('superadmin|bapelitbang')
@@ -184,7 +184,7 @@
             <ul class="list-unstyled" data-link="report">
                 <li>
                     <a href="{{route('formamurni.index')}}">
-                        <i class="simple-icon-picture"></i>
+                        <i class="iconsminds-file"></i>
                         <span class="d-inline-block">FORM A MURNI</span>
                     </a>
                 </li>

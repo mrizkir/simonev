@@ -6,13 +6,10 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create1',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
-                <i class="simple-icon-plus"></i> TAMBAH URAIAN
-            </a> 
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create3',['uuid'=>$rka->RKAID])}}" title="Tambah Realisasi">
-                <i class="simple-icon-plus"></i> TAMBAH REALISASI
-            </a> 
-            <a class="dropdown-item" href="{!!route('rkakegiatanmurni.index')!!}" title="Tutup Halaman ini">
+            <a class="dropdown-item" href="{{route(Helper::getNameOfPage('printtoexcel'))}}" title="Tambah Kegiatan">
+                <i class="simple-icon-plus"></i> CETAK KE EXCEL
+            </a>            
+            <a class="dropdown-item" href="{!!route(Helper::getNameOfPage('index'))!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE
             </a>
         </div>
