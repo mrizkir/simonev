@@ -3,7 +3,7 @@
 namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
-use App\Models\DMaster\urusanModel;
+use App\Models\DMaster\UrusanModel;
 use Illuminate\Http\Request;
 
 class urusanController extends Controller
@@ -210,7 +210,7 @@ class urusanController extends Controller
     public function show($id)
     {
         $theme = 'dore';
-        $data = urusanModel::where('UrsID', $id)
+        $data = UrusanModel::where('UrsID', $id)
             ->firstOrFail();
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.urusan.show")->with(['page_active' => 'urusan',
