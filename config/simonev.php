@@ -3,7 +3,7 @@
 return [
     //setting general
     'nama_institusi'=>env('SIMONEV_NAMA_INSTITUSI'),    
-    'tahun_penyerapan'=>env('SIMONEV_TAHUN_PENYERAPAN'),
+    'tahun_anggaran'=>env('SIMONEV_TAHUN_ANGGARAN'),
     'default_provinsi'=>env('SIMONEV_DEFAULT_PROVINSI'),
     'defaul_kota_atau_kab'=>env('SIMONEV_DEFAULT_KOTA_KAB'),    
 

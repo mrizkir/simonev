@@ -38,7 +38,7 @@ class JenisController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = JenisModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = JenisModel::where('TA', \HelperKegiatan::getTahunAnggaran())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
@@ -228,7 +228,7 @@ class JenisController extends Controller
             'Kd_Rek_3' => $request->input('Kd_Rek_3'),
             'JnsNm' => $request->input('JnsNm'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);
 
         if ($request->ajax()) {
@@ -299,7 +299,7 @@ class JenisController extends Controller
         $jenis->Kd_Rek_3 = $request->input('Kd_Rek_3');
         $jenis->JnsNm = $request->input('JnsNm');
         $jenis->Descr = $request->input('Descr');
-        $jenis->TA = \HelperKegiatan::getTahunPenyerapan();
+        $jenis->TA = \HelperKegiatan::getTahunAnggaran();
         $jenis->save();
 
         if ($request->ajax()) {

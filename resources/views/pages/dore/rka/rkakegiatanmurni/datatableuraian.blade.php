@@ -63,7 +63,7 @@
                         <strong>RKAID:</strong>{{$item->RKAID}}
                     </span>                           
                     <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>Rekening:</strong>[{{$item->Kd_Rek_5}}] {{$item->RObyNm}}
+                        <strong>Rekening:</strong>[{{$item->kode_rek_5}}] {{$item->RObyNm}}
                     </span>                           
                     <span class="badge badge-pill badge-outline-primary mb-1">
                         <strong>Volume:</strong>{{$item->volume}} {{$item->satuan}}

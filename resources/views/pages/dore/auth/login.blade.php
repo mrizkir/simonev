@@ -36,8 +36,8 @@ LOGIN
                         </div>
 
                         <div class="form-group">
-                            <label for="username">TAHUN PENYERAPAN</label>
-                            {{Form::select('TACd', \App\Models\DMaster\TAModel::pluck('TACd','TACd'), config('simonev.tahun_penyerapan'), ['placeholder' => 'PILIH TAHUN PENYERAPAN','class'=>'form-control'])}}
+                            <label for="username">TAHUN ANGGARAN</label>
+                            {{Form::select('TACd', \App\Models\DMaster\TAModel::pluck('TACd','TACd'), config('simonev.tahun_anggaran'), ['placeholder' => 'PILIH TAHUN ANGGARAN','class'=>'form-control'])}}
                         </div>
                         <div class="d-flex justify-content-between align-items-center">
                             <a href="#">&nbsp;</a>

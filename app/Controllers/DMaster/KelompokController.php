@@ -47,7 +47,7 @@ class KelompokController extends Controller
                                                 "tmKlp"."updated_at"
                                             '))
             ->join('tmStr', 'tmStr.StrID', 'tmKlp.StrID')
-            ->where('tmKlp.TA', \HelperKegiatan::getTahunPenyerapan())
+            ->where('tmKlp.TA', \HelperKegiatan::getTahunAnggaran())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
@@ -237,7 +237,7 @@ class KelompokController extends Controller
             'Kd_Rek_2' => $request->input('Kd_Rek_2'),
             'KlpNm' => $request->input('KlpNm'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);
 
         if ($request->ajax()) {
@@ -308,7 +308,7 @@ class KelompokController extends Controller
         $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2');
         $kelompok->KlpNm = $request->input('KlpNm');
         $kelompok->Descr = $request->input('Descr ');
-        $kelompok->TA = \HelperKegiatan::getTahunPenyerapan();
+        $kelompok->TA = \HelperKegiatan::getTahunAnggaran();
         $kelompok->StrID = $request->input('StrID');
         $kelompok->save();
 

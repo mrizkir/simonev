@@ -46,11 +46,11 @@ class HelperKegiatan {
         return request()->session()->get("global_controller.tahun_perencanaan");
     }
     /**
-     * digunakan untuk mendapatkan tahun penyerapan saat user login
+     * digunakan untuk mendapatkan tahun anggaran saat user login
      */ 
-    public static function getTahunPenyerapan ()
+    public static function getTahunAnggaran ()
     {
-        return request()->session()->get("global_controller.tahun_penyerapan");
+        return request()->session()->get("global_controller.tahun_anggaran");
     }   
     public static function getPageTitle()
     {

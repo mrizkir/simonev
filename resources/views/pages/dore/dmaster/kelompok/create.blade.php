@@ -63,7 +63,7 @@ KELOMPOK
             <div class="form-group row has-float-label">
                 {{Form::label('StrID','KODE TRANSAKSI:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">
-                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::getDaftarTransaksi(HelperKegiatan::getTahunPenyerapan()),'none',  ['class'=>'form-control'])}}
+                    {{Form::select('StrID', \App\Models\DMaster\TransaksiModel::getDaftarTransaksi(HelperKegiatan::getTahunAnggaran()),'none',  ['class'=>'form-control'])}}
                 </div>
             </div>
             <div class="form-group row has-float-label">

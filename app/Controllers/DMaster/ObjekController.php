@@ -38,7 +38,7 @@ class ObjekController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = ObjekModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = ObjekModel::where('TA', \HelperKegiatan::getTahunAnggaran())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
@@ -226,7 +226,7 @@ class ObjekController extends Controller
             'Kd_Rek_5' => $request->input('Kd_Rek_5'),
             'RObyNm' => $request->input('RObyNm'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);
 
         if ($request->ajax()) {

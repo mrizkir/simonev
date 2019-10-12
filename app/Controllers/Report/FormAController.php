@@ -139,7 +139,7 @@ class FormAController extends Controller
         {
             $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
                         ->where('SOrgID',$SOrgID)                                            
-                        ->where('TA', \HelperKegiatan::getTahunPenyerapan())  
+                        ->where('TA', \HelperKegiatan::getTahunAnggaran())  
                         ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
@@ -249,7 +249,7 @@ class FormAController extends Controller
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPenyerapan(),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunAnggaran(),false,$OrgID);  
             
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
 
@@ -290,12 +290,12 @@ class FormAController extends Controller
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
             $r=\DB::table('v_rkpd')
                     ->select(\DB::raw('"RKPDID","kode_kegiatan","KgtNm"'))
-                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('RKPDID',function($query) use ($filters) {
                         $query->select('RKPDID')
                                 ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $filters['SOrgID']);
                     }) 
                     ->get();
@@ -307,13 +307,13 @@ class FormAController extends Controller
             $json_data['daftar_rkpd']=$daftar_rkpd;
 
             $r=\DB::table('v_program_kegiatan')
-                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('KgtID',function($query) {
                         $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
                                 ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $SOrgID);
                     }) 
                     ->get();
@@ -332,13 +332,13 @@ class FormAController extends Controller
             $RKPDID = $request->input('RKPDID')==''?'none':$request->input('RKPDID'); 
             $daftar_kegiatan=[];  
             $r=\DB::table('v_rkpd')
-                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('RKPDID',$RKPDID)
                     ->WhereNotIn('KgtID',function($query) {
                         $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
                                 ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $SOrgID);
                     }) 
                     ->get();
@@ -404,7 +404,7 @@ class FormAController extends Controller
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPenyerapan(),false);  
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
         $daftar_opd['']='';
         $daftar_unitkerja=[];
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
@@ -574,7 +574,7 @@ class FormAController extends Controller
         if (!is_null($rka) )  
         {
             $filters=$this->getControllerStateSession($this->SessionName,'filters');
-            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
             $datauraian=$this->populateDataUraian($id);
             $daftar_uraian=[''=>''];
             foreach ($datauraian as $v)

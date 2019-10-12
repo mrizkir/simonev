@@ -39,7 +39,7 @@ class TransaksiController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = TransaksiModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = TransaksiModel::where('TA', \HelperKegiatan::getTahunAnggaran())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
@@ -215,7 +215,7 @@ class TransaksiController extends Controller
     {
         $this->validate($request, [
             'Kd_Rek_1' => [
-                new CheckRecordIsExistValidation('tmStr', ['where' => ['TA', '=', \HelperKegiatan::getTahunPenyerapan()]]),
+                new CheckRecordIsExistValidation('tmStr', ['where' => ['TA', '=', \HelperKegiatan::getTahunAnggaran()]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
@@ -228,7 +228,7 @@ class TransaksiController extends Controller
             'Kd_Rek_1' => $request->input('Kd_Rek_1'),
             'StrNm' => $request->input('StrNm'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);
 
         if ($request->ajax()) {
@@ -286,7 +286,7 @@ class TransaksiController extends Controller
         $transaksi = TransaksiModel::find($uuid);
         $this->validate($request, [
             'Kd_Rek_1' => [
-                new IgnoreIfDataIsEqualValidation('tmStr', $transaksi->Kd_Rek_1, ['where' => ['TA', '=', \HelperKegiatan::getTahunPenyerapan()]]),
+                new IgnoreIfDataIsEqualValidation('tmStr', $transaksi->Kd_Rek_1, ['where' => ['TA', '=', \HelperKegiatan::getTahunAnggaran()]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'

@@ -36,7 +36,7 @@ class ASNController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = ASNModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = ASNModel::where('TA', \HelperKegiatan::getTahunAnggaran())
                         ->orderBy($column_order, $direction)
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
@@ -215,7 +215,7 @@ class ASNController extends Controller
             'NIP_ASN' => $request->input('NIP_ASN'),
             'Nm_ASN' => $request->input('Nm_ASN'),
             'Descr' => $request->input('Descr'),
-            'TA'=>\HelperKegiatan::getTahunPenyerapan(),
+            'TA'=>\HelperKegiatan::getTahunAnggaran(),
         ]);        
      
         if ($request->ajax()) 

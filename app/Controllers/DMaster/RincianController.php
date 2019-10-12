@@ -38,7 +38,7 @@ class RincianController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = RincianModel::where('TA', \HelperKegiatan::getTahunPenyerapan())
+        $data = RincianModel::where('TA', \HelperKegiatan::getTahunAnggaran())
             ->orderBy($column_order, $direction)
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
@@ -227,7 +227,7 @@ class RincianController extends Controller
             'Kd_Rek_4' => $request->input('Kd_Rek_4'),
             'ObyNm' => $request->input('ObyNm'),
             'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);
 
         if ($request->ajax()) {

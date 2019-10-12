@@ -5,7 +5,7 @@
 @section('page_header')
     <i class="icon-database-refresh position-left"></i>
     <span class="text-semibold">
-        RKA KEGIATAN MURNI TAHUN PENYERAPAN {{config('simonev.tahun_penyerapan')}}
+        RKA KEGIATAN MURNI TAHUN ANGGARAN {{config('simonev.tahun_anggaran')}}
     </span>
 @endsection
 @section('page_info')

@@ -71,9 +71,14 @@ class RKAKegiatanMurniController extends Controller
     public function populateDataUraian ($RKAID)
     {
         $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."Kd_Rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
                     ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                     ->where('RKAID',$RKAID)
+                    ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_2"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_3"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_4"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_5"::int ASC')                    
                     ->get();
         return $data;
     }
@@ -149,7 +154,7 @@ class RKAKegiatanMurniController extends Controller
         {
             $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
                         ->where('SOrgID',$SOrgID)                                            
-                        ->where('TA', \HelperKegiatan::getTahunPenyerapan())  
+                        ->where('TA', \HelperKegiatan::getTahunAnggaran())  
                         ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
@@ -263,7 +268,7 @@ class RKAKegiatanMurniController extends Controller
             $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
             $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPenyerapan(),false,$OrgID);  
+            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunAnggaran(),false,$OrgID);  
             
             $this->putControllerStateSession('rkakegiatanmurni','filters',$filters);
 
@@ -306,12 +311,12 @@ class RKAKegiatanMurniController extends Controller
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
             $r=\DB::table('v_rkpd')
                     ->select(\DB::raw('"RKPDID","kode_kegiatan","KgtNm"'))
-                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('RKPDID',function($query) use ($filters) {
                         $query->select('RKPDID')
                                 ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $filters['SOrgID']);
                     }) 
                     ->get();
@@ -323,13 +328,13 @@ class RKAKegiatanMurniController extends Controller
             $json_data['daftar_rkpd']=$daftar_rkpd;
 
             $r=\DB::table('v_program_kegiatan')
-                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('PrgID',$PrgID)
                     ->WhereNotIn('KgtID',function($query) {
                         $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
                                 ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $SOrgID);
                     }) 
                     ->get();
@@ -348,13 +353,13 @@ class RKAKegiatanMurniController extends Controller
             $RKPDID = $request->input('RKPDID')==''?'none':$request->input('RKPDID'); 
             $daftar_kegiatan=[];  
             $r=\DB::table('v_rkpd')
-                    ->where('TA',\HelperKegiatan::getTahunPenyerapan())
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('RKPDID',$RKPDID)
                     ->WhereNotIn('KgtID',function($query) {
                         $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
                                 ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunPenyerapan())
+                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $SOrgID);
                     }) 
                     ->get();
@@ -422,7 +427,7 @@ class RKAKegiatanMurniController extends Controller
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('rkakegiatanmurni',$data->currentPage());
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPenyerapan(),false);  
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
         $daftar_opd['']='';
         $daftar_unitkerja=[];
         if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
@@ -583,7 +588,7 @@ class RKAKegiatanMurniController extends Controller
             {   
                 throw new \Exception ('Tidak diperkenankan menambah uraian kegiatan karena telah dikunci.');
             }            
-            $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunPenyerapan(),false);            
+            $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunAnggaran(),false);            
             $daftar_transaksi['']='';            
             return view("pages.$theme.rka.rkakegiatanmurni.create1")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
@@ -646,7 +651,7 @@ class RKAKegiatanMurniController extends Controller
             $daftar_uraian=[''=>''];
             foreach ($datauraian as $v)
             {
-                $daftar_uraian[$v->RKARincID]='['.$v->Kd_Rek_5.']'.$v->nama_uraian;
+                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
             return view("pages.$theme.rka.rkakegiatanmurni.create3")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
@@ -693,7 +698,7 @@ class RKAKegiatanMurniController extends Controller
             'user_id' => $theme = \Auth::user()->id,
             'Descr' => '-',
             'EntryLvl' => 1,
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);        
         
         if ($request->ajax()) 
@@ -769,7 +774,7 @@ class RKAKegiatanMurniController extends Controller
             'pagu_uraian2' => 0,            
             'Descr' => $request->input('Descr'),
             'EntryLvl' => 1,
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);        
         $this->destroyControllerStateSession('filters','RObyID');
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
@@ -816,7 +821,7 @@ class RKAKegiatanMurniController extends Controller
             'fisik2' => 0,           
             'EntryLvl' => 1,
             'Descr' => $request->input('Descr'),            
-            'TA' => \HelperKegiatan::getTahunPenyerapan(),
+            'TA' => \HelperKegiatan::getTahunAnggaran(),
         ]);        
         $this->destroyControllerStateSession('filters','RKARincID');
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
@@ -866,12 +871,12 @@ class RKAKegiatanMurniController extends Controller
         if (!is_null($rka) )  
         {
             $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
-            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
+            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
             $datauraian=$this->populateDataUraian($id);
             $daftar_uraian=[''=>''];
             foreach ($datauraian as $v)
             {
-                $daftar_uraian[$v->RKARincID]='['.$v->Kd_Rek_5.']'.$v->nama_uraian;
+                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
             $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']);            
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
@@ -1063,7 +1068,7 @@ class RKAKegiatanMurniController extends Controller
                     $rka = $this->getDataRKA($rkaid);                    
                     
                     $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
-                    $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunPenyerapan(),false);
+                    $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
                     $datauraian=$this->populateDataUraian($rkaid);
                     $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatableuraian")->with([
                                                                                                 'datauraian'=>$datauraian,
