@@ -21,7 +21,7 @@ class Helper {
     /**
      * digunakan untuk mendapatkan bulan
      */
-    public static function getBulan($idx=null) {
+    public static function getBulan($idx=null,$prepend=false) {
         if ($idx === null) {
             return Helper::$Bulan;
         }else{

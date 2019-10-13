@@ -19,12 +19,12 @@
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
     <li class="nav-item">
-        <a class="nav-link{!!($filters['changetab']=='data-kegiatan-tab')?' active':''!!}" id="data-kegiatan-tab" data-toggle="tab" href="#data-kegiatan" role="tab" aria-controls="data-kegiatan" aria-selected="false">
-            DATA KEGIATAN
+        <a class="nav-link{!!($filters['changetab']=='data-uraian-tab')?' active':''!!}" id="data-uraian-tab" data-toggle="tab" href="#data-uraian" role="tab" aria-controls="data-uraian" aria-selected="false">
+            URAIAN KEGIATAN
         </a>
     </li>
     <li class="nav-item">
-        <a class="nav-link{!!($filters['changetab']=='ringkasan-tab')?' active':''!!}" id="ringkasan-tab" data-toggle="tab" href="#ringkasan" role="tab" aria-controls="ringkasan" aria-selected="true">
+        <a class="nav-link{!!($filters['changetab']=='data-statistik-tab')?' active':''!!}" id="data-statistik-tab" data-toggle="tab" href="#data-statistik" role="tab" aria-controls="data-statistik" aria-selected="true">
             STATISTIK
         </a>
     </li>    
@@ -39,14 +39,36 @@
 
 @endsection
 @section('page_content')
-<div class="tab-content">
-    <div class="tab-pane fade{!!($filters['changetab']=='ringkasan-tab')?' show active':''!!}" id="ringkasan" role="tabpanel" aria-labelledby="ringkasan-tab">
+<div class="tab-content">    
+    <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian">
+        <div class="row">
+                <div class="col-12 mb-3" id="divfilter">
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="mb-4">
+                                <i class="iconsminds-filter-2"></i>
+                                FILTER
+                            </h4>
+                            {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
+                                <div class="form-group row">
+                                    <label class="col-md-2 col-form-label">BULAN REALISASI :</label> 
+                                    <div class="col-md-10">
+                                        {{Form::select('bulan', Helper::getBulanM(),$filters['bulan_realisasi'],['class'=>'form-control select'])}}
+                                    </div>
+                                </div>                           
+                            {!! Form::close()!!}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="datatableuraian" class="table-responsive">
+                @include('pages.dore.report.forma.datatableuraian')
+            </div>
+    </div>
+    <div class="tab-pane fade{!!($filters['changetab']=='data-statistik-tab')?' show active':''!!}" id="data-statistik" role="tabpanel" aria-labelledby="data-statistik">
         
     </div>
-    <div class="tab-pane fade{!!($filters['changetab']=='data-kegiatan-tab')?' show active':''!!}" id="data-kegiatan" role="tabpanel" aria-labelledby="data-kegiatan-tab">
-        
-    </div>
-    <div class="tab-pane fade{!!($filters['changetab']=='data-foto-tab')?' show active':''!!}" id="data-foto" role="tabpanel" aria-labelledby="data-foto-tab">
+    <div class="tab-pane fade{!!($filters['changetab']=='data-foto-tab')?' show active':''!!}" id="data-foto" role="tabpanel" aria-labelledby="data-foto">
        
     </div>
 </div>    

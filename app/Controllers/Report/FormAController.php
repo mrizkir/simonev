@@ -60,37 +60,18 @@ class FormAController extends Controller
                             ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
                             ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                             ->findOrFail($id);
-
-        return $rka;
-    }
-    /**
-     * collect data from resources for datauraian view
-     *
-     * @return resources
-     */
-    public function populateDataUraian ($RKAID)
-    {
-        $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."Kd_Rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
-                    ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
-                    ->where('RKAID',$RKAID)
-                    ->get();
-        return $data;
-    }
-    /**
-     * collect data from resources for datauraian view
-     *
-     * @return resources
-     */
-    public function populateDataRealisasi ($RKARincID)
-    {
-        $data = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan","target1","realisasi1",fisik1,"TA","created_at","updated_at"'))
-                    ->where('RKARincID',$RKARincID)
-                    ->orderBy('bulan','ASC')
-                    ->get();
-        return $data;
-    }
+        
+        $data_rka=$rka->toArray();
+        $data_rka['total_pagu']=(float)\DB::table('trRKARinc')->where('RKAID',$rka->RKAID)->sum('pagu_uraian1');
+        $str = "SELECT rek1.no_rek1,rek1.nama_rek1,rek2.no_rek2,rek2.nama_rek2,rek3.no_rek3,rek3.nama_rek3,rek4.no_rek4,rek4.nama_rek4,rek5.no_rek5,rek5.nama_rek5,u.iduraian,u.nama_uraian,u.nilai,u.volume,u.satuan,u.harga_satuan,umd.idlok,umd.ket_lok,umd.rt,umd.rw,umd.nama_perusahaan,umd.nama_direktur FROM uraian_m u LEFT JOIN uraian_m_desc umd ON (umd.iduraian=u.iduraian) LEFT JOIN rek5 ON (u.rekening=rek5.no_rek5) LEFT JOIN rek4 ON (rek4.no_rek4=rek5.no_rek4) LEFT JOIN rek3 ON (rek3.no_rek3=rek4.no_rek3) LEFT JOIN rek2 ON (rek2.no_rek2=rek3.no_rek2) LEFT JOIN rek1 ON (rek1.no_rek1=rek2.no_rek1) WHERE idproyek=$idproyek ORDER BY u.rekening ASC";
+        
+        $this->DB->setFieldTable (array('no_rek1','nama_rek1','no_rek2','nama_rek2','no_rek3','nama_rek3','no_rek4','nama_rek4','no_rek5','nama_rek5','iduraian','nama_uraian','nilai','volume','satuan','harga_satuan','idlok','ket_lok','rt','rw','nama_perusahaan','nama_direktur'));
+        $r1=$this->DB->getRecord($str);        
+        $dataAkhir=[];		
+        dd($data_rka);
+        return $data_rka;
+        
+    }   
     /**
      * collect data from resources for index view
      *
@@ -118,8 +99,8 @@ class FormAController extends Controller
             $this->putControllerStateSession($this->SessionName,'filters',[
                                                                             'OrgID'=>'none',
                                                                             'SOrgID'=>'none',
-                                                                            'changetab'=>'ringkasan-tab',
-                                                                            'RKARincID'=>'none',
+                                                                            'changetab'=>'data-uraian-tab',
+                                                                            'bulan_realisasi'=>\HelperKegiatan::getBulanRealisasi() > 9 ? 9:HelperKegiatan::getBulanRealisasi(),
                                                                             ]);
         }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
@@ -411,7 +392,7 @@ class FormAController extends Controller
         {
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
             $daftar_unitkerja['']='';
-        }  
+        }          
         return view("pages.$theme.report.forma.index")->with(['page_active'=>$this->SessionName,
                                                                     'daftar_opd'=>$daftar_opd,
                                                                     'daftar_unitkerja'=>$daftar_unitkerja,
@@ -573,22 +554,10 @@ class FormAController extends Controller
         $rka = $this->getDataRKA($id);
         if (!is_null($rka) )  
         {
-            $filters=$this->getControllerStateSession($this->SessionName,'filters');
-            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
-            $datauraian=$this->populateDataUraian($id);
-            $daftar_uraian=[''=>''];
-            foreach ($datauraian as $v)
-            {
-                $daftar_uraian[$v->RKARincID]='['.$v->Kd_Rek_5.']'.$v->nama_uraian;
-            }
-            $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']);            
+            $filters=$this->getControllerStateSession($this->SessionName,'filters');          
             return view("pages.$theme.report.forma.show")->with(['page_active'=>$this->SessionName,
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
-                                                                        'sumber_dana'=>$sumber_dana,
-                                                                        'datauraian'=>$datauraian,
-                                                                        'daftar_uraian'=>$daftar_uraian,
-                                                                        'datarealisasi'=>$datarealisasi
                                                                     ]);
         }        
     }

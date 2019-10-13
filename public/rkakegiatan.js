@@ -78,6 +78,44 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     });   
+    $(document).on('click','#data-statistik-tab',function(ev) {
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changetab',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "tab": 'data-statistik-tab',
+            },
+            success:function(result)
+            { 
+                console.log(result.success);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });  
+    $(document).on('click','#data-foto-tab',function(ev) {
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changetab',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "tab": 'data-foto-tab',
+            },
+            success:function(result)
+            { 
+                console.log(result.success);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    });  
     $(document).on('change','#StrID',function(ev) {
         ev.preventDefault(); 
         var StrID = $('#StrID').val();

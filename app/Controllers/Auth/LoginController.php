@@ -50,8 +50,6 @@ class LoginController extends Controller
 
         $this->putControllerStateSession('global_controller','tahun_perencanaan',$tahun_perencanaan);
         $this->putControllerStateSession('global_controller','tahun_anggaran',$tahun_anggaran);
-
-        $tahun_n = $tahun_perencanaan-$data_visi->TA_Awal;
-        $this->putControllerStateSession('global_controller','tahun_N',"N$tahun_n");
+        $this->putControllerStateSession('global_controller','bulan_realisasi',date('n'));
     }
 }

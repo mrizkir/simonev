@@ -52,6 +52,13 @@ class HelperKegiatan {
     {
         return request()->session()->get("global_controller.tahun_anggaran");
     }   
+    /**
+     * digunakan untuk mendapatkan bulan realisasi saat user login
+     */ 
+    public static function getBulanRealisasi ()
+    {
+        return request()->session()->get("global_controller.bulan_realisasi");
+    }  
     public static function getPageTitle()
     {
         switch (\Helper::getNameOfPage()) 

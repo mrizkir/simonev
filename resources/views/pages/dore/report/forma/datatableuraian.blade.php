@@ -1,111 +1,52 @@
+@php
+$datauraian=[''=>''];
+@endphp
 @if (count($datauraian) > 0)
-<div class="table-responsive">
-    <table class="table" style="background:white">
-        <thead class="thead-light">
-            <tr>
-                <th scope="col" width="55">NO</th>                        
-                <th scope="col">
-                    NAMA PAKET PEKERJAAN
-                </th>
-                <th scope="col" class="text-right">                            
-                    HARGA SAT.
-                </th>
-                <th scope="col" class="text-right">
-                    PAGU URAIAN
-                </th>
-                <th scope="col" width="110" class="text-right">REALISASI</th>
-                <th scope="col" width="110" class="text-right">SISA</th>
-                <th scope="col" width="80">FISIK (%)</th>
-                <th scope="col" width="120">AKSI</th>
-            </tr>
-        </thead>
-        <tbody>
-            @php
-                $total_realisasi=0;
-                $total_fisik=0;
-                $total_pagu_uraian=0;            
-            @endphp
-            @foreach ($datauraian as $key=>$item)
-            <tr>
-                <th scope="row">{{ $key + 1 }}</td>
-                <td>{{$item->nama_uraian}}</td>
-                <td class="text-right">{{Helper::formatUang($item->harga_satuan)}}</td>
-                <td class="text-right">{{Helper::formatUang($item->pagu_uraian1)}}</td>
-                <td class="text-right">
-                    @php
-                        $total_pagu_uraian+=$item->pagu_uraian1;
-                        $realisasi=0;
-                        $fisik=0;
-                        $total_fisik+=$fisik;
-                        $total_realisasi+=$realisasi;
-                    @endphp
-                    {{Helper::formatUang($realisasi)}}
-                </td>
-                <td class="text-right">{{Helper::formatUang($item->pagu_uraian1-$realisasi)}}</td>
-                <td class="text-center">{{Helper::formatAngka($fisik)}}</td>                
-                <td>
-                    <div class="input-group-append">
-                        <a href="{{route('rkakegiatanmurni.edit2',['uuid'=>$item->RKARincID])}}" title="Ubah Data Uraian" class="btn btn-primary btn-xs mr-sm-2 default">
-                            <i class="simple-icon-pencil"></i>
-                        </a>
-                        <a href="javascript:;" title="Hapus Data Uraian" data-id="{{$item->RKARincID}}" class="btn btn-danger btn-xs default btnDeleteUraian" data-url="{{route('rkakegiatanmurni.index')}}">
-                            <i class="simple-icon-trash"></i>
-                        </a>
-                    </div>
-                </td>
-            </tr>
-            <tr class="text-center">
-                <td colspan="8">
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>RKARincID:</strong>{{$item->RKARincID}}
-                    </span>
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>RKAID:</strong>{{$item->RKAID}}
-                    </span>                           
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>Rekening:</strong>[{{$item->Kd_Rek_5}}] {{$item->RObyNm}}
-                    </span>                           
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>Volume:</strong>{{$item->volume}} {{$item->satuan}}
-                    </span>                          
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>TA:</strong>{{$item->TA}}
-                    </span>
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>KET:</strong>{{$item->Descr}}
-                    </span>
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>CREATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
-                    </span>
-                    <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>UPDATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
-                    </span>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-        <tfoot style="background-color:orange">           
-            <tr>
-                <td colspan="3" class="text-right"><strong>TOTAL URAIAN</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang($total_pagu_uraian)}}</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang($total_realisasi)}}</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang($total_pagu_uraian-$total_realisasi)}}</strong></td>
-                <td class="text-center"><strong>{{Helper::formatAngka($total_fisik)}}</strong></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right"><strong>PAGU KEGIATAN</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang($rka->PaguDana1)}}</strong></td>                
-                <td colspan="4"></td>
-            </tr>
-            <tr>
-                <td colspan="3" class="text-right"><strong>SISA PAGU KEGIATAN</strong></td>
-                <td class="text-right"><strong>{{Helper::formatUang($rka->PaguDana1-$total_pagu_uraian)}}</strong></td>                
-                <td colspan="4"></td>
-            </tr>
-        </tfoot>
-    </table>
-</div>    
+<table border="1" width="100%" style="font-size:10px">
+    <thead> 
+        <tr class="bg-teal-700">
+            <th rowspan="3" colspan="5" class="text-center" width="150">KODE <br>REKENING</th>
+            <th rowspan="3" width="400" class="text-center">URAIAN</th>
+            <th rowspan="2" width="100" class="text-center">JUMLAH</th>
+            <th rowspan="2" width="40" class="text-center">BOBOT</th>
+            <th colspan="2" class="text-center">REALISASI FISIK</th>
+            <th colspan="5" class="text-center">KEUANGAN</th>
+            <th rowspan="3" class="text-center">SISA ANGGARAN</th>
+        </tr>
+        <tr class="bg-teal-700">
+            <td rowspan="2" class="text-center">%</td>
+            <td rowspan="2" class="text-center">% TTB</td>
+            <td colspan="2" class="text-center">RENCANA TARGET</td>
+            <td colspan="3" class="text-center">REALISASI</td>
+        </tr>
+        <tr class="bg-teal-700">
+            <td class="text-center">Rp.</td>
+            <td class="text-center">%</td>
+            <td class="text-center">Rp.</td>
+            <td class="text-center">%</td>
+            <td class="text-center">Rp.</td>
+            <td class="text-center">%</td>
+            <td class="text-center">% TTB</td>
+        </tr>
+        <tr class="bg-teal-700">
+            <td colspan="5" class="text-center">1</td>
+            <td class="text-center">2</td>
+            <td class="text-center">3</td>
+            <td class="text-center">4</td>
+            <td class="text-center">5</td>
+            <td class="text-center">6a</td>
+            <td class="text-center">6b</td>
+            <td class="text-center">6c</td>
+            <td class="text-center">6d</td>
+            <td class="text-center">6e</td>
+            <td class="text-center">7</td>
+            <td class="text-center">8</td>
+        </tr>
+    </thead>
+    <tbody>
+
+    </tbody>
+</table>
 @else
 <div class="alert alert-info">
     Belum ada data yang bisa ditampilkan.

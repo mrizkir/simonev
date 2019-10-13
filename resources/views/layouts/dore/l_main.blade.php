@@ -25,7 +25,7 @@
         </div>
         <span class="navbar-logo">
             <h3 class="navbar-logo">{{config('app.name')}}</h3>
-            Tahun Anggaran {{HelperKegiatan::getTahunAnggaran()}}
+            Tahun Anggaran {{Helper::getBulan(HelperKegiatan::getBulanRealisasi())}} {{HelperKegiatan::getTahunAnggaran()}}            
         </span>
         <div class="navbar-right">
             <div class="header-icons d-inline-block align-middle">

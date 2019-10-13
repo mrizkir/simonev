@@ -7,7 +7,7 @@
         </button>
         <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{{route(Helper::getNameOfPage('printtoexcel'))}}" title="Tambah Kegiatan">
-                <i class="simple-icon-plus"></i> CETAK KE EXCEL
+                <i class="simple-icon-printer"></i> CETAK KE EXCEL
             </a>            
             <a class="dropdown-item" href="{!!route(Helper::getNameOfPage('index'))!!}" title="Tutup Halaman ini">
                 <i class="simple-icon-close"></i> CLOSE

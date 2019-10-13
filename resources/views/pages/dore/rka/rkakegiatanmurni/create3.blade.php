@@ -88,7 +88,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">BULAN REALISASI :</label> 
                                 <div class="col-md-9">
-                                    {{Form::select('bulan', helper::getBulanM(),'none',['class'=>'form-control select'])}}
+                                    {{Form::select('bulan', Helper::getBulanM(),'none',['class'=>'form-control select'])}}
                                 </div>
                             </div> 	
                             <div class="form-group row">
