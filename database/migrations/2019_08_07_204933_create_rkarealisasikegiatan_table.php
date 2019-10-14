@@ -17,7 +17,8 @@ class CreateRkarealisasikegiatanTable extends Migration
             $table->string('RKARealisasiRincID',19);
             $table->string('RKAID',19);
             $table->string('RKARincID',19);
-            $table->tinyInteger('bulan');
+            $table->tinyInteger('bulan1');
+            $table->tinyInteger('bulan2');
             $table->decimal('target1',15,2);
             $table->decimal('target2',15,2);
             $table->decimal('realisasi1',15,2);            

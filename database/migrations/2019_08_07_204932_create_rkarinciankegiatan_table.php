@@ -19,9 +19,12 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->string('RObyID',19);
             $table->string('JenisPelaksanaanID',19)->nullable();
             $table->text('nama_uraian')->nullable();
-            $table->string('volume')->nullable();
-            $table->string('satuan',50)->nullable();            
-            $table->decimal('harga_satuan',15,2);
+            $table->string('volume1')->nullable();
+            $table->string('volume2')->nullable();
+            $table->string('satuan1',50)->nullable();            
+            $table->string('satuan2',50)->nullable();            
+            $table->decimal('harga_satuan1',15,2);
+            $table->decimal('harga_satuan2',15,2);
             $table->decimal('pagu_uraian1',15,2);            
             $table->decimal('pagu_uraian2',15,2);            
             $table->tinyInteger('EntryLvl')->default(0);
