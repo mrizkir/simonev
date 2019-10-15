@@ -29,7 +29,7 @@
             <tr>
                 <th scope="row">{{ $key + 1 }}</td>
                 <td>{{$item->nama_uraian}}</td>
-                <td class="text-right">{{Helper::formatUang($item->harga_satuan)}}</td>
+                <td class="text-right">{{Helper::formatUang($item->harga_satuan1)}}</td>
                 <td class="text-right">{{Helper::formatUang($item->pagu_uraian1)}}</td>
                 <td class="text-right">
                     @php
@@ -66,7 +66,7 @@
                         <strong>Rekening:</strong>[{{$item->kode_rek_5}}] {{$item->RObyNm}}
                     </span>                           
                     <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>Volume:</strong>{{$item->volume}} {{$item->satuan}}
+                        <strong>Volume:</strong>{{$item->volume1}} {{$item->satuan1}}
                     </span>                          
                     <span class="badge badge-pill badge-outline-primary mb-1">
                         <strong>TA:</strong>{{$item->TA}}

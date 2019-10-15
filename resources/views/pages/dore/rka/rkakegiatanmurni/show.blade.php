@@ -95,7 +95,7 @@
                                         <div class="col-md-8">
                                             <p class="form-control-static">
                                                 [{{$rka->kode_kegiatan}}] {{$rka->KgtNm}} 
-                                                <span class="badge badge-pill badge-primary mb-1">[{{$rka->sifat_kegiatan}}]</span>
+                                                <span class="badge badge-pill badge-primary mb-1">[{{$rka->sifat_kegiatan1}}]</span>
                                             </p>
                                         </div>                            
                                     </div>             
@@ -118,25 +118,25 @@
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>CAPAIAN PROGRAM: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$rka->tk_capaian}} {{$rka->capaian_program}}</p>
+                                            <p class="form-control-static">{{$rka->tk_capaian1}} {{$rka->capaian_program1}}</p>
                                         </div>                            
                                     </div>                        
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>OUTPUT (KELUARAN): </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$rka->tk_keluaran}} {{$rka->keluaran}}</p>
+                                            <p class="form-control-static">{{$rka->tk_keluaran1}} {{$rka->keluaran1}}</p>
                                         </div>                            
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>OUTCOME (HASIL): </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$rka->tk_hasil}} {{$rka->hasil}}</p>
+                                            <p class="form-control-static">{{$rka->tk_hasil1}} {{$rka->hasil1}}</p>
                                         </div>                            
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-4 col-form-label"><strong>LOKASI: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$rka->lokasi_kegiatan}} {{$rka->hasil}}</p>
+                                            <p class="form-control-static">{{$rka->lokasi_kegiatan1}} {{$rka->hasil1}}</p>
                                         </div>                            
                                     </div>                                    
                                     <div class="form-group row">

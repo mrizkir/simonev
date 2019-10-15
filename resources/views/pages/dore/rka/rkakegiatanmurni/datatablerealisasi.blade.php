@@ -28,7 +28,7 @@
             @endphp
             <tr>
                 <th scope="row">{{ $key + 1 }}</td>
-                <td>{{Helper::getBulan($item->bulan)}} {{$item->TA}}</td>
+                <td>{{Helper::getBulan($item->bulan1)}} {{$item->TA}}</td>
                 <td class="text-right">{{Helper::formatUang(0)}}</td>
                 <td class="text-right">{{Helper::formatUang($item->realisasi1)}}</td>
                 <td class="text-right">                    

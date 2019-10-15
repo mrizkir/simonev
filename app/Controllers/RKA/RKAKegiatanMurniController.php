@@ -38,19 +38,19 @@ class RKAKegiatanMurniController extends Controller
                                             "v_rka"."Kd_Keg",
                                             "v_rka"."kode_kegiatan",
                                             "v_rka"."KgtNm",
-                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."lokasi_kegiatan1",
                                             "v_rka"."SumberDanaID",
                                             "v_rka"."Nm_SumberDana",
-                                            "v_rka"."tk_capaian",
-                                            "v_rka"."capaian_program",
-                                            "v_rka"."masukan",
-                                            "v_rka"."tk_keluaran",
-                                            "v_rka"."keluaran",
-                                            "v_rka"."tk_hasil",
-                                            "v_rka"."hasil",
-                                            "v_rka"."ksk",
-                                            "v_rka"."sifat_kegiatan",
-                                            "v_rka"."waktu_pelaksanaan",
+                                            "v_rka"."tk_capaian1",
+                                            "v_rka"."capaian_program1",
+                                            "v_rka"."masukan1",
+                                            "v_rka"."tk_keluaran1",
+                                            "v_rka"."keluaran1",
+                                            "v_rka"."tk_hasil1",
+                                            "v_rka"."hasil1",
+                                            "v_rka"."ksk1",
+                                            "v_rka"."sifat_kegiatan1",
+                                            "v_rka"."waktu_pelaksanaan1",
                                             "v_rka"."PaguDana1",
                                             "v_rka"."Descr",
                                             "v_rka"."EntryLvl",
@@ -71,7 +71,7 @@ class RKAKegiatanMurniController extends Controller
     public function populateDataUraian ($RKAID)
     {
         $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume,satuan,harga_satuan,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume1,satuan1,harga_satuan1,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
                     ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                     ->where('RKAID',$RKAID)
                     ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
@@ -100,9 +100,9 @@ class RKAKegiatanMurniController extends Controller
     public function populateDataRealisasi ($RKARincID)
     {
         $data = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan","target1","realisasi1",fisik1,"TA","created_at","updated_at"'))
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan1","target1","realisasi1",fisik1,"TA","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
-                    ->orderBy('bulan','ASC')
+                    ->orderBy('bulan1','ASC')
                     ->get();
         return $data;
     }
@@ -691,10 +691,10 @@ class RKAKegiatanMurniController extends Controller
             'RKPDID' => $request->input('RKPDID'),            
             'PaguDana1' => $request->input('PaguDana1'),
             'PaguDana2' => 0,
-            'nip_pa' => $request->input('nip_pa'),
-            'nip_kpa' => $request->input('nip_kpa'),
-            'nip_ppk' => $request->input('nip_ppk'),
-            'nip_pptk' => $request->input('nip_pptk'),
+            'nip_pa1' => $request->input('nip_pa'),
+            'nip_kpa1' => $request->input('nip_kpa'),
+            'nip_ppk1' => $request->input('nip_ppk'),
+            'nip_pptk1' => $request->input('nip_pptk'),
             'user_id' => $theme = \Auth::user()->id,
             'Descr' => '-',
             'EntryLvl' => 1,
@@ -767,9 +767,10 @@ class RKAKegiatanMurniController extends Controller
             'RObyID' => $request->input('RObyID'),
             'JenisPelaksanaanID' => $request->input('JenisPelaksanaanID'),
             'nama_uraian' => $request->input('nama_uraian'),
-            'volume' => $request->input('volume'),
-            'satuan' => $request->input('satuan'),            
-            'harga_satuan' => $request->input('harga_satuan'),
+            'volume1' => $request->input('volume'),
+            'satuan1' => $request->input('satuan'),            
+            'harga_satuan1' => $request->input('harga_satuan'),
+            'harga_satuan2' => 0,
             'pagu_uraian1' => $request->input('pagu_uraian1'),            
             'pagu_uraian2' => 0,            
             'Descr' => $request->input('Descr'),
@@ -812,7 +813,8 @@ class RKAKegiatanMurniController extends Controller
             'RKARealisasiRincID' => uniqid ('uid'),
             'RKAID' => $id,
             'RKARincID' => $request->input('RKARincID'),            
-            'bulan' => $request->input('bulan'),
+            'bulan1' => $request->input('bulan'),
+            'bulan2' => 0,
             'target1' => 0,            
             'target2' => 0,            
             'realisasi1' => $request->input('realisasi1'),            
@@ -956,18 +958,18 @@ class RKAKegiatanMurniController extends Controller
             'waktu_pelaksanaan'=>'required'
         ]);
         
-        $rkakegiatanmurni->lokasi_kegiatan = $request->input('lokasi_kegiatan');
+        $rkakegiatanmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
         $rkakegiatanmurni->SumberDanaID=$request->input('SumberDanaID');
-        $rkakegiatanmurni->capaian_program=$request->input('capaian_program');
-        $rkakegiatanmurni->tk_capaian=$request->input('tk_capaian');
-        $rkakegiatanmurni->masukan=$request->input('masukan');
-        $rkakegiatanmurni->keluaran=$request->input('keluaran');
-        $rkakegiatanmurni->tk_keluaran=$request->input('tk_keluaran');
-        $rkakegiatanmurni->hasil=$request->input('hasil');
-        $rkakegiatanmurni->tk_hasil=$request->input('tk_hasil');
-        $rkakegiatanmurni->ksk=$request->input('ksk');
-        $rkakegiatanmurni->sifat_kegiatan=$request->input('sifat_kegiatan');
-        $rkakegiatanmurni->waktu_pelaksanaan=$request->input('waktu_pelaksanaan');
+        $rkakegiatanmurni->capaian_program1=$request->input('capaian_program');
+        $rkakegiatanmurni->tk_capaian1=$request->input('tk_capaian');
+        $rkakegiatanmurni->masukan1=$request->input('masukan');
+        $rkakegiatanmurni->keluaran1=$request->input('keluaran');
+        $rkakegiatanmurni->tk_keluaran1=$request->input('tk_keluaran');
+        $rkakegiatanmurni->hasil1=$request->input('hasil');
+        $rkakegiatanmurni->tk_hasil1=$request->input('tk_hasil');
+        $rkakegiatanmurni->ksk1=$request->input('ksk');
+        $rkakegiatanmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
+        $rkakegiatanmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
         $rkakegiatanmurni->Descr=$request->input('Descr');
         $rkakegiatanmurni->save();
 

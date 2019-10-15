@@ -26,6 +26,7 @@ class FormAController extends Controller
     }
     private function getDataRKA ($id)
     {
+        $no_bulan=1;
         $rka = RKAKegiatanModel::select(\DB::raw('"trRKA"."RKAID",
                                             "v_rka"."kode_urusan",
                                             "v_rka"."Nm_Bidang",
@@ -38,19 +39,19 @@ class FormAController extends Controller
                                             "v_rka"."Kd_Keg",
                                             "v_rka"."kode_kegiatan",
                                             "v_rka"."KgtNm",
-                                            "v_rka"."lokasi_kegiatan",
+                                            "v_rka"."lokasi_kegiatan1",
                                             "v_rka"."SumberDanaID",
                                             "v_rka"."Nm_SumberDana",
-                                            "v_rka"."tk_capaian",
-                                            "v_rka"."capaian_program",
-                                            "v_rka"."masukan",
-                                            "v_rka"."tk_keluaran",
-                                            "v_rka"."keluaran",
-                                            "v_rka"."tk_hasil",
-                                            "v_rka"."hasil",
-                                            "v_rka"."ksk",
-                                            "v_rka"."sifat_kegiatan",
-                                            "v_rka"."waktu_pelaksanaan",
+                                            "v_rka"."tk_capaian1",
+                                            "v_rka"."capaian_program1",
+                                            "v_rka"."masukan1",
+                                            "v_rka"."tk_keluaran1",
+                                            "v_rka"."keluaran1",
+                                            "v_rka"."tk_hasil1",
+                                            "v_rka"."hasil1",
+                                            "v_rka"."ksk1",
+                                            "v_rka"."sifat_kegiatan1",
+                                            "v_rka"."waktu_pelaksanaan1",
                                             "v_rka"."PaguDana1",
                                             "v_rka"."Descr",
                                             "v_rka"."EntryLvl",
@@ -62,14 +63,56 @@ class FormAController extends Controller
                             ->findOrFail($id);
         
         $data_rka=$rka->toArray();
-        $data_rka['total_pagu']=(float)\DB::table('trRKARinc')->where('RKAID',$rka->RKAID)->sum('pagu_uraian1');
-        $str = "SELECT rek1.no_rek1,rek1.nama_rek1,rek2.no_rek2,rek2.nama_rek2,rek3.no_rek3,rek3.nama_rek3,rek4.no_rek4,rek4.nama_rek4,rek5.no_rek5,rek5.nama_rek5,u.iduraian,u.nama_uraian,u.nilai,u.volume,u.satuan,u.harga_satuan,umd.idlok,umd.ket_lok,umd.rt,umd.rw,umd.nama_perusahaan,umd.nama_direktur FROM uraian_m u LEFT JOIN uraian_m_desc umd ON (umd.iduraian=u.iduraian) LEFT JOIN rek5 ON (u.rekening=rek5.no_rek5) LEFT JOIN rek4 ON (rek4.no_rek4=rek5.no_rek4) LEFT JOIN rek3 ON (rek3.no_rek3=rek4.no_rek3) LEFT JOIN rek2 ON (rek2.no_rek2=rek3.no_rek2) LEFT JOIN rek1 ON (rek1.no_rek1=rek2.no_rek1) WHERE idproyek=$idproyek ORDER BY u.rekening ASC";
+        $totalPaguKegiatan = (float)\DB::table('trRKARinc')->where('RKAID',$rka->RKAID)->sum('pagu_uraian1');
+        $data_rka['total_pagu_kegiatan']=$totalPaguKegiatan;
+        $data_akhir = \DB::table('trRKARinc')
+                        ->select(\DB::raw('"trRKARinc"."RKARincID",
+                                "trRKARinc"."RKAID",
+                                v_rekening."Kd_Rek_1",
+                                v_rekening."StrNm",
+                                v_rekening."kode_rek_2",
+                                v_rekening."KlpNm",
+                                v_rekening."kode_rek_3",
+                                v_rekening."JnsNm",
+                                v_rekening."kode_rek_4",
+                                v_rekening."ObyNm",
+                                v_rekening."kode_rek_5",
+                                v_rekening."RObyNm",
+                                "trRKARinc"."nama_uraian",
+                                "trRKARinc"."volume1",
+                                "trRKARinc"."satuan1",
+                                "trRKARinc"."harga_satuan1",
+                                "trRKARinc"."pagu_uraian1"
+                        '))
+                        ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                        ->get();        
         
-        $this->DB->setFieldTable (array('no_rek1','nama_rek1','no_rek2','nama_rek2','no_rek3','nama_rek3','no_rek4','nama_rek4','no_rek5','nama_rek5','iduraian','nama_uraian','nilai','volume','satuan','harga_satuan','idlok','ket_lok','rt','rw','nama_perusahaan','nama_direktur'));
-        $r1=$this->DB->getRecord($str);        
-        $dataAkhir=[];		
-        dd($data_rka);
-        return $data_rka;
+        $dataAkhir=[];	
+        foreach ($data_akhir as $k=>$v)
+        {
+            $RKARincID=$v->RKARincID;                      
+            $nama_uraian=$v->nama_uraian;
+            $target=(float)\DB::table('trRKATargetRinc')
+                                ->where('RKARincID',$rka->RKARincID)
+                                ->where('bulan1','<=',$no_bulan)
+                                ->sum('target1');
+            $no_rek5=$v->kode_rek_5;
+            if (array_key_exists ($no_rek5,$dataAkhir)) 
+            {
+
+            }
+            else
+            {
+                $persenbobot=\Helper::formatPersen($v->pagu_uraian1,$totalPaguKegiatan); 
+                $dataAkhir[$no_rek5]=[
+                                        'persen_bobot'=>$persenbobot
+                                    ];
+            }
+
+        }
+       	
+        // dd($dataAkhir);
+        return $dataAkhir;
         
     }   
     /**
