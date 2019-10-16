@@ -24,7 +24,7 @@
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">  
     <li class="nav-item">
         <a class="nav-link active" id="data-uraian-tab" data-toggle="tab" href="#data-uraian" role="tab" aria-controls="data-uraian" aria-selected="true">
-            RENCANA TARGET FISIK
+            RENCANA TARGET FISIK & ANGGARAN KAS
         </a>
     </li>
 </ul>
@@ -75,10 +75,10 @@
                     <div class="card-body">
                         <h2 class="mb-2">
                             <i class="simple-icon-plus"></i>
-                            TAMBAH RENCANA TARGET FISIK
+                            TAMBAH RENCANA TARGET FISIK DAN ANGGARAN KAS
                         </h2>
                         <div class="separator mb-3"></div>
-                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store3',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmrencanatargetfisik','name'=>'frmrencanatargetfisik'])!!}                                                          
+                        {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store4',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmrencanatargetfisik','name'=>'frmrencanatargetfisik'])!!}                                                          
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">RINCIAN KEGIATAN :</label> 
                                 <div class="col-md-9">
@@ -92,75 +92,147 @@
                                 </div>                            
                             </div>                            
                             <div class="form-group row">
-                                {{Form::label('bulan1','JANUARI:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan_fisik1','RENCANA FISIK BULAN JANUARI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan1'])}}
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik1'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan2','FEBRUARI:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan1','RENCANA ANGGARAN KAS BULAN JANUARI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan2'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran1'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan3','MARET:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan_fisik2','RENCANA FISIK BULAN FEBRUARI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan3'])}}
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik2'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan4','APRIL:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan2','RENCANA ANGGARAN KAS FEBRUARI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan4'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran2'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik3','RENCANA FISIK BULAN MARET:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik3'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan5','MEI:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan3','RENCANA ANGGARAN KAS MARET:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan5'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran3'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik4','RENCANA FISIK BULAN APRIL:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik4'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan6','JUNI:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan4','RENCANA ANGGARAN KAS APRIL:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan6'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran4'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik5','RENCANA FISIK BULAN MEI:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik5'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan7','JULI:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan5','RENCANA ANGGARAN KAS MEI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan7'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran5'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik6','RENCANA FISIK BULAN JUNI:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik6'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan6','RENCANA ANGGARAN KAS JUNI:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran6'])}}
+                                </div>
+                            </div>                            
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik7','RENCANA FISIK BULAN JULI:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik7'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan8','AGUSTUS:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan7','RENCANA ANGGARAN KAS JULI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan8'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran7'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik8','RENCANA FISIK BULAN AGUSTUS:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik8'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan9','SEPTEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan8','RENCANA ANGGARAN KAS AGUSTUS:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan9'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran8'])}}
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik9','RENCANA FISIK BULAN SEPTEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik9'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan10','OKTOBER:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan9','RENCANA ANGGARAN KAS SEPTEMBER:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan10'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran9'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan11','NOVEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan_fisik10','RENCANA FISIK BULAN OKTOBER:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan11'])}}
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik10'])}}
                                 </div>
-                            </div>	                            
+                            </div>	
                             <div class="form-group row">
-                                {{Form::label('bulan12','DESEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                {{Form::label('bulan10','RENCANA ANGGARAN KAS OKTOBER:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
-                                    {{Form::text('bulan[]', 0, ['class'=>'form-control','id'=>'bulan12'])}}
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran10'])}}
+                                </div>
+                            </div>	
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik11','RENCANA FISIK BULAN NOVEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik11'])}}
+                                </div>
+                            </div>	     
+                            <div class="form-group row">
+                                {{Form::label('bulan11','RENCANA ANGGARAN KAS NOVEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran11'])}}
+                                </div>
+                            </div>                       
+                            <div class="form-group row">
+                                {{Form::label('bulan_fisik12','RENCANA FISIK BULAN DESEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik12'])}}
+                                </div>
+                            </div>	
+                            <div class="form-group row">
+                                {{Form::label('bulan12','RENCANA ANGGARAN KAS DESEMBER:',['class'=>'col-md-3 col-form-label'])}}
+                                <div class="col-md-9">
+                                    {{Form::text('bulan_anggaran[]', 0, ['class'=>'form-control','id'=>'bulan_anggaran12'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
@@ -195,7 +267,16 @@
 <script src="{!!asset('rkakegiatan.js')!!}"></script>
 <script type="text/javascript">
 $(document).ready(function () {  
-    AutoNumeric.multiple(['#bulan1','#bulan2','#bulan3','#bulan4','#bulan5','#bulan6','#bulan7','#bulan8','#bulan9','#bulan10','#bulan11','#bulan12'],{
+    AutoNumeric.multiple(['#bulan_fisik1','#bulan_fisik2','#bulan_fisik3','#bulan_fisik4','#bulan_fisik5','#bulan_fisik6','#bulan_fisik7','#bulan_fisik8','#bulan_fisik9','#bulan_fisik10','#bulan_fisik11','#bulan_fisik12'],{
+                                        allowDecimalPadding: false,
+                                        decimalCharacter: ",",
+                                        digitGroupSeparator: ".",
+                                        unformatOnSubmit: true,
+                                        showWarnings:false,
+                                        modifyValueOnWheel:false
+                                    });
+
+    AutoNumeric.multiple(['#bulan_anggaran1','#bulan_anggaran2','#bulan_anggaran3','#bulan_anggaran4','#bulan_anggaran5','#bulan_anggaran6','#bulan_anggaran7','#bulan_anggaran8','#bulan_anggaran9','#bulan_anggaran10','#bulan_anggaran11','#bulan_anggaran12'],{
                                         allowDecimalPadding: false,
                                         decimalCharacter: ",",
                                         digitGroupSeparator: ".",
@@ -209,7 +290,10 @@ $(document).ready(function () {
             RKARincID : {
                 required : true
             },                   
-            'bulan[]' : {
+            'bulan_fisik[]' : {
+                required: true,
+            },                   
+            'bulan_anggaran[]' : {
                 required: true,
             }
         },
@@ -217,8 +301,11 @@ $(document).ready(function () {
             RKARincID : {
                 required: "Mohon untuk di pilih rincian kegiatan Nama Uraian.",                
             },
-            'bulan[]' : {
+            'bulan_fisik[]' : {
                 required: "Mohon untuk di isi rencana target fisik seluruh bulan.",                
+            },
+            'bulan_anggaran[]' : {
+                required: "Mohon untuk di isi rencana target anggaran kas seluruh bulan.",                
             }
         }      
     });   

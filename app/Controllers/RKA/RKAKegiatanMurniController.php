@@ -680,10 +680,24 @@ class RKAKegiatanMurniController extends Controller
         $rka=$this->getDataRKA($id);
         try
         {   
+            $r=\DB::table('trRKARinc')
+                    ->select(\DB::raw('"RKARincID",v_rekening."kode_rek_5",nama_uraian'))
+                    ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                    ->where('RKAID',$id)
+                    ->WhereNotIn('RKARincID',function($query) use ($id) {                        
+                        $query->select('RKARincID')
+                                ->from('trRKATargetRinc')
+                                ->where('RKAID', $id);
+                    }) 
+                    ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_2"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_3"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_4"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_5"::int ASC')           
+                    ->get();
 
-            $datauraian=$this->populateDataUraian($id);
             $daftar_uraian=[''=>''];
-            foreach ($datauraian as $v)
+            foreach ($r as $v)
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
@@ -874,6 +888,52 @@ class RKAKegiatanMurniController extends Controller
         {
             return redirect(route('rkakegiatanmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
+
+    }
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store4(Request $request,$id)
+    {                
+        $this->validate($request, [
+            'RKARincID'=>'required',
+            'bulan>*'=>'required',
+        ]);
+        
+        // $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::create([
+        //     'RKARealisasiRincID' => uniqid ('uid'),
+        //     'RKAID' => $id,
+        //     'RKARincID' => $request->input('RKARincID'),            
+        //     'bulan1' => $request->input('bulan'),
+        //     'bulan2' => 0,
+        //     'target1' => 0,            
+        //     'target2' => 0,            
+        //     'realisasi1' => $request->input('realisasi1'),            
+        //     'realisasi2' => 0,            
+        //     'fisik1' => $request->input('fisik1'),           
+        //     'fisik2' => 0,           
+        //     'EntryLvl' => 1,
+        //     'Descr' => $request->input('Descr'),            
+        //     'TA' => \HelperKegiatan::getTahunAnggaran(),
+        // ]);        
+        // $this->destroyControllerStateSession('filters','RKARincID');
+        // $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        // $filters['changetab']='data-realisasi-tab';
+        // $this->putControllerStateSession($this->SessionName,'filters',$filters);
+        // if ($request->ajax()) 
+        // {
+        //     return response()->json([
+        //         'success'=>true,
+        //         'message'=>'Data ini telah berhasil disimpan.'
+        //     ],200);
+        // }
+        // else
+        // {
+        //     return redirect(route('rkakegiatanmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+        // }
 
     }
     /**
