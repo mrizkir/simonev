@@ -34,6 +34,16 @@
         </a>
     </li>
     <li class="nav-item">
+        <a class="nav-link{!!($filters['changetab']=='data-rencana-target-fisik-tab')?' active':''!!}" id="data-rencana-target-fisik-tab" data-toggle="tab" href="#data-rencana-target-fisik" role="tab" aria-controls="data-rencana-target-fisik" aria-selected="false">
+            RENCANA TARGET FISIK
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link{!!($filters['changetab']=='data-rencana-anggaran-kas-tab')?' active':''!!}" id="data-rencana-anggaran-kas-tab" data-toggle="tab" href="#data-rencana-anggaran-kas" role="tab" aria-controls="data-rencana-anggaran-kas" aria-selected="false">
+            RENCANA ANGGARAN KAS
+        </a>
+    </li>
+    <li class="nav-item">
         <a class="nav-link{!!($filters['changetab']=='data-realisasi-tab')?' active':''!!}" id="data-realisasi-tab" data-toggle="tab" href="#data-realisasi" role="tab" aria-controls="data-uraian" aria-selected="false">
             REALISASI
         </a>
@@ -266,6 +276,12 @@
     </div>
     <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian-tab">
         @include('pages.dore.rka.rkakegiatanmurni.datatableuraian')
+    </div>
+    <div class="tab-pane fade{!!($filters['changetab']=='data-rencana-target-fisik-tab')?' show active':''!!}" id="data-rencana-target-fisik" role="tabpanel" aria-labelledby="data-rencana-target-fisik-tab">
+        @include('pages.dore.rka.rkakegiatanmurni.datatablerencanatargetfisik')
+    </div>
+    <div class="tab-pane fade{!!($filters['changetab']=='data-rencana-anggaran-kas-tab')?' show active':''!!}" id="data-rencana-anggaran-kas" role="tabpanel" aria-labelledby="data-rencana-anggaran-kas-tab">
+        @include('pages.dore.rka.rkakegiatanmurni.datatablerencanaanggarankas')
     </div>
     <div class="tab-pane fade{!!($filters['changetab']=='data-realisasi-tab')?' show active':''!!}" id="data-realisasi" role="tabpanel" aria-labelledby="data-realisasi-tab">
         <div class="row">

@@ -668,6 +668,40 @@ class RKAKegiatanMurniController extends Controller
         }        
     }
     /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create4(Request $request,$id)
+    {        
+        $theme = 'dore';
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $locked=false;
+        $rka=$this->getDataRKA($id);
+        try
+        {   
+
+            $datauraian=$this->populateDataUraian($id);
+            $daftar_uraian=[''=>''];
+            foreach ($datauraian as $v)
+            {
+                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
+            }
+            return view("pages.$theme.rka.rkakegiatanmurni.create4")->with(['page_active'=>'rkakegiatanmurni',
+                                                                        'filters'=>$filters,
+                                                                        'daftar_uraian'=>$daftar_uraian,
+                                                                        'rka'=>$rka,
+                                                                    ]);
+        }
+        catch (\Exception $e)
+        {            
+            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
+                                                                    'errormessage'=>$e->getMessage()
+                                                                ]);  
+        }        
+    }
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -880,12 +914,16 @@ class RKAKegiatanMurniController extends Controller
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
-            $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']);            
+            $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
+            $datarencanatargetfisik=[];
+            $datarencanaanggarankas=[];
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
                                                                         'sumber_dana'=>$sumber_dana,
                                                                         'datauraian'=>$datauraian,
+                                                                        'datarencanatargetfisik'=>$datarencanatargetfisik,
+                                                                        'datarencanaanggarankas'=>$datarencanaanggarankas,
                                                                         'daftar_uraian'=>$daftar_uraian,
                                                                         'datarealisasi'=>$datarealisasi
                                                                     ]);

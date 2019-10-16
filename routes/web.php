@@ -150,9 +150,13 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/rka/rkakegiatanmurni/create1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create1','as'=>'rkakegiatanmurni.create1']);                  
     Route::get('/rka/rkakegiatanmurni/create2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create2','as'=>'rkakegiatanmurni.create2']);                      
     Route::get('/rka/rkakegiatanmurni/create3/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create3','as'=>'rkakegiatanmurni.create3']);                      
+    Route::get('/rka/rkakegiatanmurni/create4/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create4','as'=>'rkakegiatanmurni.create4']);                      
+    Route::get('/rka/rkakegiatanmurni/create5/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@create5','as'=>'rkakegiatanmurni.create5']);                      
     Route::post('/rka/rkakegiatanmurni/store1/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store1','as'=>'rkakegiatanmurni.store1']);                      
     Route::post('/rka/rkakegiatanmurni/store2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store2','as'=>'rkakegiatanmurni.store2']);                      
     Route::post('/rka/rkakegiatanmurni/store3/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store3','as'=>'rkakegiatanmurni.store3']);                      
+    Route::post('/rka/rkakegiatanmurni/store4/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store4','as'=>'rkakegiatanmurni.store4']);                      
+    Route::post('/rka/rkakegiatanmurni/store5/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@store5','as'=>'rkakegiatanmurni.store5']);                      
     Route::get('/rka/rkakegiatanmurni/{uuid}/edit2',['uses'=>'RKA\RKAKegiatanMurniController@edit2','as'=>'rkakegiatanmurni.edit2']);                      
     Route::post('/rka/rkakegiatanmurni/update2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@update2','as'=>'rkakegiatanmurni.update2']);                      
     Route::post('/rka/rkakegiatanmurni/search',['uses'=>'RKA\RKAKegiatanMurniController@search','as'=>'rkakegiatanmurni.search']);  

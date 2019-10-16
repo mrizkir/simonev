@@ -59,6 +59,44 @@ document.addEventListener('DOMContentLoaded', function() {
             },
         });
     }); 
+    $(document).on('click','#data-rencana-target-fisik-tab',function(ev) {
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changetab',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "tab": 'data-rencana-target-fisik-tab',
+            },
+            success:function(result)
+            { 
+                console.log(result.success);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
+    $(document).on('click','#data-rencana-anggaran-kas-tab',function(ev) {
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changetab',
+            dataType: 'json',
+            data: {
+                "_token": token,
+                "tab": 'data-rencana-anggaran-kas-tab',
+            },
+            success:function(result)
+            { 
+                console.log(result.success);
+            },
+            error:function(xhr, status, error)
+            {   
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        });
+    }); 
     $(document).on('click','#data-realisasi-tab',function(ev) {
         $.ajax({
             type:'post',
