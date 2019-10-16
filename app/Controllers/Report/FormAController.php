@@ -115,7 +115,8 @@ class FormAController extends Controller
                 $persen_realisasi=\Helper::formatPersen($realisasi,$totalPaguKegiatan);
                 $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                 $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
-                $dataAkhir[$no_rek5]['child']=[
+                $dataAkhir[$no_rek5]['child'][]=[
+                                        'RKARincID'=>$v->RKARincID,
                                         'Kd_Rek_1'=>$v->Kd_Rek_1,
                                         'StrNm'=>$v->StrNm,
                                         'kode_rek_2'=>$v->kode_rek_2,
@@ -134,6 +135,7 @@ class FormAController extends Controller
                                         'realisasi'=>$realisasi,
                                         'persen_realisasi'=>$persen_realisasi,
                                         'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
+                                        'fisik'=>$fisik,
                                         'persen_fisik'=>$persen_fisik,
                                         'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
                                         'volume'=>$v->volume1,
@@ -149,6 +151,7 @@ class FormAController extends Controller
                 $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                 $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
                 $dataAkhir[$no_rek5]=[
+                                        'RKARincID'=>$v->RKARincID,
                                         'Kd_Rek_1'=>$v->Kd_Rek_1,
                                         'StrNm'=>$v->StrNm,
                                         'kode_rek_2'=>$v->kode_rek_2,
@@ -167,6 +170,7 @@ class FormAController extends Controller
                                         'realisasi'=>$realisasi,
                                         'persen_realisasi'=>$persen_realisasi,
                                         'persen_tertimbang_realisasi'=>$persen_tertimbang_realisasi,
+                                        'fisik'=>$fisik,
                                         'persen_fisik'=>$persen_fisik,
                                         'persen_tertimbang_fisik'=>$persen_tertimbang_fisik,
                                         'volume'=>$v->volume1,
@@ -196,7 +200,7 @@ class FormAController extends Controller
 		}
 		return $tingkat;
     }
-    public function calculateEachLevel ($dataproyek,$k,$no_rek) {        
+    public static function calculateEachLevel ($dataproyek,$k,$no_rek) {        
         $totalpagu=0;
         $totaltarget=0;
         $totalrealisasi=0;        
@@ -219,8 +223,8 @@ class FormAController extends Controller
                 $totalpersentertimbangrealisasi+=$de['persen_tertimbang_realisasi'];
                 $totalpersentertimbangfisik+=$de['persen_tertimbang_fisik'];
                 $totalbaris+=1;
-                if (isset($dataproyek[$de['no_rek5']]['child'][0])) {                    
-                    $child=$dataproyek[$de['no_rek5']]['child'];                    
+                if (isset($dataproyek[$de['kode_rek_5']]['child'][0])) {                    
+                    $child=$dataproyek[$de['kode_rek_5']]['child'];                    
                     foreach ($child as $n) {                       
                         $totalbaris+=1;
                         $totalpagu+=$n['pagu_uraian'];
@@ -233,10 +237,19 @@ class FormAController extends Controller
                 }
             }
         }         
-        $totalpersentarget=$totaltarget>0?number_format(($totaltarget/$totalpagu)*100,2):'0.00';                
-        $totalpersenrealisasi=$totalrealisasi>0?number_format(($totalrealisasi/$totalpagu)*100,2):'0.00';            
+        $totalpersentarget=\Helper::formatPersen($totaltarget,$totalpagu);                
+        $totalpersenrealisasi=\Helper::formatPersen($totalrealisasi,$totalpagu);            
         $totalpersentertimbangrealisasi=number_format(($totalpersenrealisasi*$totalpersenbobot)/100,2);
-        $result=array('totalpagu'=>$totalpagu,'totaltarget'=>$totaltarget,'totalrealisasi'=>$totalrealisasi,'totalfisik'=>$totalfisik,'totalpersenbobot'=>$totalpersenbobot,'totalpersentarget'=>$totalpersentarget,'totalpersenrealisasi'=>$totalpersenrealisasi,'totalpersentertimbangrealisasi'=>$totalpersentertimbangrealisasi,'totalpersentertimbangfisik'=>$totalpersentertimbangfisik,'totalbaris'=>$totalbaris);        
+        $result=['totalpagu'=>$totalpagu,
+                'totaltarget'=>$totaltarget,
+                'totalrealisasi'=>$totalrealisasi,
+                'totalfisik'=>$totalfisik,
+                'totalpersenbobot'=>$totalpersenbobot,
+                'totalpersentarget'=>$totalpersentarget,
+                'totalpersenrealisasi'=>$totalpersenrealisasi,
+                'totalpersentertimbangrealisasi'=>$totalpersentertimbangrealisasi,
+                'totalpersentertimbangfisik'=>$totalpersentertimbangfisik,
+                'totalbaris'=>$totalbaris];        
         return $result;
     }	
     /**
@@ -721,10 +734,12 @@ class FormAController extends Controller
         $rka = $this->getDataRKA($id);
         if (!is_null($rka) )  
         {
-            $filters=$this->getControllerStateSession($this->SessionName,'filters');          
+            $filters=$this->getControllerStateSession($this->SessionName,'filters');   
+            $tingkat = $this->getRekeningProyek();       
             return view("pages.$theme.report.forma.show")->with(['page_active'=>$this->SessionName,
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
+                                                                        'tingkat'=>$tingkat,
                                                                     ]);
         }        
     }
