@@ -27,21 +27,21 @@
             <tr>
                 <td scope="row">{{ $item->kode_rek_5 }}</td>                
                 <td scope="row">{{ $item->nama_uraian }}</td>
-                <td scope="row">{{ $item->anggaran_1 }}</td>
-                <td scope="row">{{ $item->anggaran_2 }}</td>
-                <td scope="row">{{ $item->anggaran_3 }}</td>
-                <td scope="row">{{ $item->anggaran_4 }}</td>
-                <td scope="row">{{ $item->anggaran_5 }}</td>
-                <td scope="row">{{ $item->anggaran_6 }}</td>
-                <td scope="row">{{ $item->anggaran_7 }}</td>
-                <td scope="row">{{ $item->anggaran_8 }}</td>
-                <td scope="row">{{ $item->anggaran_9 }}</td>
-                <td scope="row">{{ $item->anggaran_10 }}</td>
-                <td scope="row">{{ $item->anggaran_11 }}</td>
-                <td scope="row">{{ $item->anggaran_12 }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_1) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_2) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_3) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_4) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_5) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_6) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_7) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_8) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_9) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_10) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_11) }}</td>
+                <td scope="row">{{ Helper::formatUang($item->anggaran_12) }}</td>                
                 <td>
                     <div class="input-group-append">
-                        <a href="{{route('rkakegiatanmurni.edit3',['uuid'=>$item->RKARincID])}}" title="Ubah Data Rencana" class="btn btn-primary btn-xs mr-sm-2 default">
+                        <a href="{{route('rkakegiatanmurni.edit4',['uuid'=>$item->RKARincID])}}" title="Ubah Data Rencana" class="btn btn-primary btn-xs mr-sm-2 default">
                             <i class="simple-icon-pencil"></i>
                         </a>
                         <a href="javascript:;" title="Hapus Data Rencana" data-id="{{$item->RKARincID}}" class="btn btn-danger btn-xs default btnDeleteRencanaAnggaranKas" data-url="{{route('rkakegiatanmurni.index')}}">

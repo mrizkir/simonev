@@ -1114,6 +1114,27 @@ class RKAKegiatanMurniController extends Controller
     }
     
     /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit4($id)
+    {
+        $theme = 'dore';
+        
+        $data = RKARincianKegiatanModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                                            ->findOrFail($id);
+        if (!is_null($data) ) 
+        {            
+            return view("pages.$theme.rka.rkakegiatanmurni.edit4")->with(['page_active'=>'rkakegiatanmurni',
+                                                                        'rka'=>$rka = $this->getDataRKA($data->RKAID),
+                                                                        'data'=>$data
+                                                                    ]);
+        }        
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request

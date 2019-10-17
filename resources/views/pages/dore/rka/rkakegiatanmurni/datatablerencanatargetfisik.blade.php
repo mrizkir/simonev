@@ -27,21 +27,21 @@
             <tr>
                 <td scope="row">{{ $item->kode_rek_5 }}</td>                
                 <td scope="row">{{ $item->nama_uraian }}</td>
-                <td scope="row">{{ $item->fisik_1 }}</td>
-                <td scope="row">{{ $item->fisik_2 }}</td>
-                <td scope="row">{{ $item->fisik_3 }}</td>
-                <td scope="row">{{ $item->fisik_4 }}</td>
-                <td scope="row">{{ $item->fisik_5 }}</td>
-                <td scope="row">{{ $item->fisik_6 }}</td>
-                <td scope="row">{{ $item->fisik_7 }}</td>
-                <td scope="row">{{ $item->fisik_8 }}</td>
-                <td scope="row">{{ $item->fisik_9 }}</td>
-                <td scope="row">{{ $item->fisik_10 }}</td>
-                <td scope="row">{{ $item->fisik_11 }}</td>
-                <td scope="row">{{ $item->fisik_12 }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_1) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_2) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_3) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_4) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_5) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_6) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_7) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_8) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_9) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_10) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_11) }}</td>
+                <td scope="row">{{ Helper::formatAngka($item->fisik_12) }}</td>                
                 <td>
                     <div class="input-group-append">
-                        <a href="{{route('rkakegiatanmurni.edit3',['uuid'=>$item->RKARincID])}}" title="Ubah Data Rencana" class="btn btn-primary btn-xs mr-sm-2 default">
+                        <a href="{{route('rkakegiatanmurni.edit4',['uuid'=>$item->RKARincID])}}" title="Ubah Data Rencana" class="btn btn-primary btn-xs mr-sm-2 default">
                             <i class="simple-icon-pencil"></i>
                         </a>
                         <a href="javascript:;" title="Hapus Data Rencana" data-id="{{$item->RKARincID}}" class="btn btn-danger btn-xs default btnDeleteRencanaFisik" data-url="{{route('rkakegiatanmurni.index')}}">
