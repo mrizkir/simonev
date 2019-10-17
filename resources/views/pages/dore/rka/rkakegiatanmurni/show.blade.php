@@ -180,7 +180,7 @@
                                 <div class="form-group row">
                                     {{Form::label('lokasi_kegiatan','Lokasi:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('lokasi_kegiatan',$rka['lokasi_kegiatan'],['class'=>'form-control','placeholder'=>'Lokasi Kegiatan'])}}
+                                        {{Form::text('lokasi_kegiatan',$rka['lokasi_kegiatan1'],['class'=>'form-control','placeholder'=>'Lokasi Kegiatan'])}}
                                     </div>
                                 </div>
                             </fieldset>
@@ -198,61 +198,61 @@
                                 <div class="form-group row">
                                     {{Form::label('capaian_program','Capaian Program:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('capaian_program',$rka['capaian_program'],['class'=>'form-control','placeholder'=>'Capaian Program'])}}
+                                        {{Form::text('capaian_program',$rka['capaian_program1'],['class'=>'form-control','placeholder'=>'Capaian Program'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('tk_capaian','Target Kinerja Capaian (%):',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('tk_capaian',$rka['tk_capaian'],['class'=>'form-control','placeholder'=>'Target Kinerja Capaian (%)'])}}
+                                        {{Form::text('tk_capaian',$rka['tk_capaian1'],['class'=>'form-control','placeholder'=>'Target Kinerja Capaian (%)'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('masukan','Masukan:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('masukan',$rka['masukan'],['class'=>'form-control','placeholder'=>'Masukan'])}}
+                                        {{Form::text('masukan',$rka['masukan1'],['class'=>'form-control','placeholder'=>'Masukan'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('keluaran','Keluaran:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('keluaran',$rka['keluaran'],['class'=>'form-control','placeholder'=>'Keluaran (Output)'])}}
+                                        {{Form::text('keluaran',$rka['keluaran1'],['class'=>'form-control','placeholder'=>'Keluaran (Output)'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('tk_keluaran','Target Kinerja Keluaran:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('tk_keluaran',$rka['tk_keluaran'],['class'=>'form-control','placeholder'=>'Target Kinerja Keluaran (Output)'])}}
+                                        {{Form::text('tk_keluaran',$rka['tk_keluaran1'],['class'=>'form-control','placeholder'=>'Target Kinerja Keluaran (Output)'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('hasil','Hasil:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('hasil',$rka['hasil'],['class'=>'form-control','placeholder'=>'Outcome Kegiatan (Hasil)'])}}
+                                        {{Form::text('hasil',$rka['hasil1'],['class'=>'form-control','placeholder'=>'Outcome Kegiatan (Hasil)'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('tk_hasil','Target Kinerja Hasil:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('tk_hasil',$rka['tk_hasil'],['class'=>'form-control','placeholder'=>'Target Kinerja Outcome Kegiatan (Hasil)'])}}
+                                        {{Form::text('tk_hasil',$rka['tk_hasil1'],['class'=>'form-control','placeholder'=>'Target Kinerja Outcome Kegiatan (Hasil)'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('ksk','Kelompok Sasaran Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('ksk',$rka['ksk'],['class'=>'form-control','placeholder'=>'Kelompok Sasaran Kegiatan'])}}
+                                        {{Form::text('ksk',$rka['ksk1'],['class'=>'form-control','placeholder'=>'Kelompok Sasaran Kegiatan'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('sifat_kegiatan','Sifat Kegiatan:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::select('sifat_kegiatan', ['baru'=>'BARU','lanjutan'=>'LANJUTAN'],$rka['sifat_kegiatan'],['class'=>'form-control'])}}
+                                        {{Form::select('sifat_kegiatan', ['baru'=>'BARU','lanjutan'=>'LANJUTAN'],$rka['sifat_kegiatan1'],['class'=>'form-control'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     {{Form::label('waktu_pelaksanaan','Waktu Pelaksanaan:',['class'=>'col-sm-2 col-form-label'])}}
                                     <div class="col-sm-10">
-                                        {{Form::text('waktu_pelaksanaan',$rka['waktu_pelaksanaan'],['class'=>'form-control','placeholder'=>'Waktu Pelaksanaan'])}}
+                                        {{Form::text('waktu_pelaksanaan',$rka['waktu_pelaksanaan1'],['class'=>'form-control','placeholder'=>'Waktu Pelaksanaan'])}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
