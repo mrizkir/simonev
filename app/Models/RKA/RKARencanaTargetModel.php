@@ -5,7 +5,7 @@ namespace App\Models\RKA;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\Activitylog\Traits\LogsActivity;
 
-class RKARencanaTargetFisikModel extends Model 
+class RKARencanaTargetModel extends Model 
 {
     use LogsActivity;
 
@@ -27,15 +27,9 @@ class RKARencanaTargetFisikModel extends Model
         'bulan1', 
         'bulan2', 
         'target1',         
-        'target2',  
-        'realisasi1',         
-        'realisasi2',         
+        'target2',                
         'fisik1',         
-        'fisik2',         
-        'StatusIsiKeuangan1',         
-        'hasil2StatusIsiKeuangan2',         
-        'StatusIsiFisik1',         
-        'StatusIsiFisik2',   
+        'fisik2',    
         'EntryLvl', 
         'Descr', 
         'TA', 

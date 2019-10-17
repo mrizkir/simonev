@@ -12,7 +12,7 @@
             <a class="dropdown-item" href="{{route('rkakegiatanmurni.create4',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
                 <i class="simple-icon-plus"></i> TAMBAH RENCANA TARGET FISIK
             </a> 
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create5',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
+            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create4',['uuid'=>$rka->RKAID])}}" title="Tambah Uraian">
                 <i class="simple-icon-plus"></i> TAMBAH RENCANA ANGGARAN KAS
             </a> 
             <a class="dropdown-item" href="{{route('rkakegiatanmurni.create3',['uuid'=>$rka->RKAID])}}" title="Tambah Realisasi">

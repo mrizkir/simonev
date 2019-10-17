@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Controllers\Controller;
 use App\Models\RKA\RKAKegiatanModel;
 use App\Models\RKA\RKARincianKegiatanModel;
+use App\Models\RKA\RKARencanaTargetModel;
 use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
 class RKAKegiatanMurniController extends Controller 
@@ -82,15 +83,79 @@ class RKAKegiatanMurniController extends Controller
                     ->get();
         return $data;
     }
-    public function getDataTotalKegiatan($OrgID,$SOrgID)
-    {        
-        $datatotalkegiatan['pagu_kegiatan']=0;
-        $datatotalkegiatan['pagu_uraian']=0;
-        $datatotalkegiatan['total_realisasi']=0;
-        $datatotalkegiatan['total_fisik']=0;
-        $datatotalkegiatan['pagu_opd']=0;
-
-        return $datatotalkegiatan;
+    /**
+     * collect data from resources for datauraian view
+     *
+     * @return resources
+     */
+    public function populateDataRencanaTargetFisik($RKAID)
+    {
+        $data = \DB::table('trRKARinc')
+                    ->select(\DB::raw('
+                        "trRKARinc"."RKARincID",
+                        "RKAID",
+                        v_rekening."kode_rek_5",
+                        nama_uraian,
+                        fisik_1,
+                        fisik_2,
+                        fisik_3,
+                        fisik_4,
+                        fisik_5,
+                        fisik_6,
+                        fisik_7,
+                        fisik_8,
+                        fisik_9,
+                        fisik_10,
+                        fisik_11,
+                        fisik_12
+                    '))
+                    ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                    ->join('v_rencana_fisik_anggaran_kas','v_rencana_fisik_anggaran_kas.RKARincID','trRKARinc.RKARincID')
+                    ->where('RKAID',$RKAID)
+                    ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_2"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_3"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_4"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_5"::int ASC')                    
+                    ->get();
+        return $data;
+    }
+    /**
+     * collect data from resources for datauraian view
+     *
+     * @return resources
+     */
+    public function populateDataRencanaAnggaranKas($RKAID)
+    {
+        $data = \DB::table('trRKARinc')
+                    ->select(\DB::raw('
+                        "trRKARinc"."RKARincID",
+                        "RKAID",
+                        v_rekening."kode_rek_5",
+                        nama_uraian,
+                        anggaran_1,
+                        anggaran_2,
+                        anggaran_3,
+                        anggaran_4,
+                        anggaran_5,
+                        anggaran_6,
+                        anggaran_7,
+                        anggaran_8,
+                        anggaran_9,
+                        anggaran_10,
+                        anggaran_11,
+                        anggaran_12
+                    '))
+                    ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                    ->join('v_rencana_fisik_anggaran_kas','v_rencana_fisik_anggaran_kas.RKARincID','trRKARinc.RKARincID')
+                    ->where('RKAID',$RKAID)
+                    ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_2"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_3"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_4"::int ASC')
+                    ->orderByRaw('v_rekening."Kd_Rek_5"::int ASC')                    
+                    ->get();
+        return $data;
     }
     /**
      * collect data from resources for datauraian view
@@ -105,7 +170,17 @@ class RKAKegiatanMurniController extends Controller
                     ->orderBy('bulan1','ASC')
                     ->get();
         return $data;
-    }
+    }    
+    public function getDataTotalKegiatan($OrgID,$SOrgID)
+    {        
+        $datatotalkegiatan['pagu_kegiatan']=0;
+        $datatotalkegiatan['pagu_uraian']=0;
+        $datatotalkegiatan['total_realisasi']=0;
+        $datatotalkegiatan['total_fisik']=0;
+        $datatotalkegiatan['pagu_opd']=0;
+
+        return $datatotalkegiatan;
+    }    
     /**
      * collect data from resources for index view
      *
@@ -900,40 +975,48 @@ class RKAKegiatanMurniController extends Controller
     {                
         $this->validate($request, [
             'RKARincID'=>'required',
-            'bulan>*'=>'required',
+            'bulan_fisik.*'=>'required',
+            'bulan_anggaran.*'=>'required',
         ]);
-        
-        // $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::create([
-        //     'RKARealisasiRincID' => uniqid ('uid'),
-        //     'RKAID' => $id,
-        //     'RKARincID' => $request->input('RKARincID'),            
-        //     'bulan1' => $request->input('bulan'),
-        //     'bulan2' => 0,
-        //     'target1' => 0,            
-        //     'target2' => 0,            
-        //     'realisasi1' => $request->input('realisasi1'),            
-        //     'realisasi2' => 0,            
-        //     'fisik1' => $request->input('fisik1'),           
-        //     'fisik2' => 0,           
-        //     'EntryLvl' => 1,
-        //     'Descr' => $request->input('Descr'),            
-        //     'TA' => \HelperKegiatan::getTahunAnggaran(),
-        // ]);        
-        // $this->destroyControllerStateSession('filters','RKARincID');
-        // $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        // $filters['changetab']='data-realisasi-tab';
-        // $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        // if ($request->ajax()) 
-        // {
-        //     return response()->json([
-        //         'success'=>true,
-        //         'message'=>'Data ini telah berhasil disimpan.'
-        //     ],200);
-        // }
-        // else
-        // {
-        //     return redirect(route('rkakegiatanmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
-        // }
+        $bulan_fisik= $request->input('bulan_fisik');      
+        $bulan_anggaran= $request->input('bulan_anggaran');      
+        $data = [];
+        $now = \Carbon\Carbon::now('utc')->toDateTimeString();
+        for ($i=0;$i < 12; $i+=1)
+        {
+            $data[]=[
+                'RKATargetRincID'=>uniqid ('uid'),
+                'RKAID'=>$id,
+                'RKARincID'=>$request->input('RKARincID'),
+                'bulan1'=>$i+1,
+                'target1'=>$bulan_anggaran[$i],
+                'target2'=>0,
+                'fisik1'=>$bulan_fisik[$i],
+                'fisik2'=>0,
+                'EntryLvl'=>1,
+                'Descr'=>$request->input('Descr'),
+                'TA'=>\HelperKegiatan::getTahunAnggaran(),
+                'created_at'=>$now,
+                'updated_at'=>$now,
+            ];
+        }
+        RKARencanaTargetModel::insert($data);
+      
+        $this->destroyControllerStateSession('filters','RKARincID');
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']='data-rencana-target-fisik-tab';
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ],200);
+        }
+        else
+        {
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+        }
 
     }
     /**
@@ -975,8 +1058,8 @@ class RKAKegiatanMurniController extends Controller
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
             $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
-            $datarencanatargetfisik=[];
-            $datarencanaanggarankas=[];
+            $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($id);
+            $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($id);
             return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
@@ -1173,6 +1256,28 @@ class RKAKegiatanMurniController extends Controller
                     $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatableuraian")->with([
                                                                                                 'datauraian'=>$datauraian,
                                                                                                 'rka'=>$rka
+                                                                                            ])->render();
+                        
+                break;
+                case 'datarencanafisik' :
+                    $rinciankegiatan = RKARincianKegiatanModel::find($id);
+                    $rkaid=$rinciankegiatan->RKAID;
+                    \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
+
+                    $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($rkaid);
+                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerencanatargetfisik")->with([
+                                                                                                'datarencanatargetfisik'=>$datarencanatargetfisik,
+                                                                                            ])->render();
+                        
+                break;
+                case 'datarencanaanggarankas' :
+                    $rinciankegiatan = RKARincianKegiatanModel::find($id);
+                    $rkaid=$rinciankegiatan->RKAID;
+                    \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
+
+                    $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($rkaid);
+                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerencanaanggarankas")->with([
+                                                                                                'datarencanaanggarankas'=>$datarencanaanggarankas,
                                                                                             ])->render();
                         
                 break;

@@ -15,7 +15,7 @@
         DETAIL KEGIATAN MURNI
     </a>    
 </li>
-<li class="breadcrumb-item active" aria-current="page">TAMBAH REALISASI</li>
+<li class="breadcrumb-item active" aria-current="page">TAMBAH RENCANA</li>
 @endsection
 @section('page_header_button')
 @include('pages.dore.rka.rkakegiatanmurni.toprightbutton')
