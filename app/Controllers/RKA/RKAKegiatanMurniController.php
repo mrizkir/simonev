@@ -1126,10 +1126,70 @@ class RKAKegiatanMurniController extends Controller
         $data = RKARincianKegiatanModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                                             ->findOrFail($id);
         if (!is_null($data) ) 
-        {            
+        {
+            $rencana = \DB::table('v_rencana_fisik_anggaran_kas')
+                                ->where('RKARincID',$data->RKARincID)
+                                ->get();
+            
+            $data_rencana['fisik_1']=0;
+            $data_rencana['fisik_2']=0;
+            $data_rencana['fisik_3']=0;
+            $data_rencana['fisik_4']=0;
+            $data_rencana['fisik_5']=0;
+            $data_rencana['fisik_6']=0;
+            $data_rencana['fisik_7']=0;
+            $data_rencana['fisik_8']=0;
+            $data_rencana['fisik_9']=0;
+            $data_rencana['fisik_10']=0;
+            $data_rencana['fisik_11']=0;
+            $data_rencana['fisik_12']=0;
+
+            $data_rencana['anggaran_1']=0;
+            $data_rencana['anggaran_2']=0;
+            $data_rencana['anggaran_3']=0;
+            $data_rencana['anggaran_4']=0;
+            $data_rencana['anggaran_5']=0;
+            $data_rencana['anggaran_6']=0;
+            $data_rencana['anggaran_7']=0;
+            $data_rencana['anggaran_8']=0;
+            $data_rencana['anggaran_9']=0;
+            $data_rencana['anggaran_10']=0;
+            $data_rencana['anggaran_11']=0;
+            $data_rencana['anggaran_12']=0;
+
+            if (!is_null($rencana))
+            {
+                $data_rencana['fisik_1']=$rencana[0]->fisik_1;
+                $data_rencana['fisik_2']=$rencana[0]->fisik_2;
+                $data_rencana['fisik_3']=$rencana[0]->fisik_3;
+                $data_rencana['fisik_4']=$rencana[0]->fisik_4;
+                $data_rencana['fisik_5']=$rencana[0]->fisik_5;
+                $data_rencana['fisik_6']=$rencana[0]->fisik_6;
+                $data_rencana['fisik_7']=$rencana[0]->fisik_7;
+                $data_rencana['fisik_8']=$rencana[0]->fisik_8;
+                $data_rencana['fisik_9']=$rencana[0]->fisik_9;
+                $data_rencana['fisik_10']=$rencana[0]->fisik_10;
+                $data_rencana['fisik_11']=$rencana[0]->fisik_11;
+                $data_rencana['fisik_12']=$rencana[0]->fisik_12;
+
+                $data_rencana['anggaran_1']=$rencana[0]->anggaran_1;
+                $data_rencana['anggaran_2']=$rencana[0]->anggaran_2;
+                $data_rencana['anggaran_3']=$rencana[0]->anggaran_3;
+                $data_rencana['anggaran_4']=$rencana[0]->anggaran_4;
+                $data_rencana['anggaran_5']=$rencana[0]->anggaran_5;
+                $data_rencana['anggaran_6']=$rencana[0]->anggaran_6;
+                $data_rencana['anggaran_7']=$rencana[0]->anggaran_7;
+                $data_rencana['anggaran_8']=$rencana[0]->anggaran_8;
+                $data_rencana['anggaran_9']=$rencana[0]->anggaran_9;
+                $data_rencana['anggaran_10']=$rencana[0]->anggaran_10;
+                $data_rencana['anggaran_11']=$rencana[0]->anggaran_11;
+                $data_rencana['anggaran_12']=$rencana[0]->anggaran_12;
+
+            }
             return view("pages.$theme.rka.rkakegiatanmurni.edit4")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'rka'=>$rka = $this->getDataRKA($data->RKAID),
-                                                                        'data'=>$data
+                                                                        'data'=>$data,
+                                                                        'data_rencana'=>$data_rencana,
                                                                     ]);
         }        
     }
@@ -1187,7 +1247,7 @@ class RKAKegiatanMurniController extends Controller
             return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
-/**
+    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -1230,6 +1290,64 @@ class RKAKegiatanMurniController extends Controller
         else
         {
             return redirect(route('rkakegiatanmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update4(Request $request, $id)
+    {
+        $this->validate($request, [
+            'RKARincID'=>'required',
+            'bulan_fisik.*'=>'required',
+            'bulan_anggaran.*'=>'required',
+        ]);
+
+        \DB::table('trRKATargetRinc')->where('RKARincID',$request->input('RKARincID'))->delete();
+
+        $bulan_fisik= $request->input('bulan_fisik');      
+        $bulan_anggaran= $request->input('bulan_anggaran');      
+        $data = [];
+        $now = \Carbon\Carbon::now('utc')->toDateTimeString();
+        for ($i=0;$i < 12; $i+=1)
+        {
+            $data[]=[
+                'RKATargetRincID'=>uniqid ('uid'),
+                'RKAID'=>$id,
+                'RKARincID'=>$request->input('RKARincID'),
+                'bulan1'=>$i+1,
+                'target1'=>$bulan_anggaran[$i],
+                'target2'=>0,
+                'fisik1'=>$bulan_fisik[$i],
+                'fisik2'=>0,
+                'EntryLvl'=>1,
+                'Descr'=>$request->input('Descr'),
+                'TA'=>\HelperKegiatan::getTahunAnggaran(),
+                'created_at'=>$now,
+                'updated_at'=>$now,
+            ];
+        }
+        RKARencanaTargetModel::insert($data);
+      
+        $this->destroyControllerStateSession('filters','RKARincID');
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $filters['changetab']='data-rencana-target-fisik-tab';
+        $this->putControllerStateSession($this->SessionName,'filters',$filters);
+        if ($request->ajax()) 
+        {
+            return response()->json([
+                'success'=>true,
+                'message'=>'Data ini telah berhasil disimpan.'
+            ],200);
+        }
+        else
+        {
+            return redirect(route('rkakegiatanmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**

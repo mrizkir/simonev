@@ -308,30 +308,7 @@ $(document).ready(function () {
                 required: "Mohon untuk di isi rencana target anggaran kas seluruh bulan.",                
             }
         }      
-    });   
-    $(document).on("change","#RKARincID", function(ev){
-        ev.preventDefault();
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/changerekening',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "RKARincID": $('#RKARincID').val(),
-                "pid": 'tambahrealisasi',
-            },
-            success:function(result)
-            { 
-                console.log(result);              
-                $('#pPaguRincian').html(result.pagu_uraian1);         
-                new AutoNumeric ('#pPaguRincian'); 
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        }); 
-    });    
+    });
 });
 </script>
 @endsection

@@ -59,7 +59,7 @@
                         <strong>RKAID:</strong>{{$item->RKAID}}
                     </span>                 
                     <span class="badge badge-pill badge-outline-primary mb-1">
-                        <strong>TOTAL:</strong>{{$item->anggaran_1+$item->anggaran_2+$item->anggaran_3+$item->anggaran_4+$item->anggaran_5+$item->anggaran_6+$item->anggaran_7+$item->anggaran_8+$item->anggaran_9+$item->anggaran_10+$item->anggaran_11+$item->anggaran_12}}
+                        <strong>TOTAL:</strong>{{Helper::formatUang($item->anggaran_1+$item->anggaran_2+$item->anggaran_3+$item->anggaran_4+$item->anggaran_5+$item->anggaran_6+$item->anggaran_7+$item->anggaran_8+$item->anggaran_9+$item->anggaran_10+$item->anggaran_11+$item->anggaran_12)}}
                     </span>                    
                 </td>
             </tr>

@@ -160,6 +160,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/rka/rkakegiatanmurni/{uuid}/edit2',['uses'=>'RKA\RKAKegiatanMurniController@edit2','as'=>'rkakegiatanmurni.edit2']);                      
     Route::get('/rka/rkakegiatanmurni/{uuid}/edit4',['uses'=>'RKA\RKAKegiatanMurniController@edit4','as'=>'rkakegiatanmurni.edit4']);                      
     Route::post('/rka/rkakegiatanmurni/update2/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@update2','as'=>'rkakegiatanmurni.update2']);                      
+    Route::post('/rka/rkakegiatanmurni/update4/{uuid}',['uses'=>'RKA\RKAKegiatanMurniController@update4','as'=>'rkakegiatanmurni.update4']);                      
     Route::post('/rka/rkakegiatanmurni/search',['uses'=>'RKA\RKAKegiatanMurniController@search','as'=>'rkakegiatanmurni.search']);  
     Route::post('/rka/rkakegiatanmurni/filter',['uses'=>'RKA\RKAKegiatanMurniController@filter','as'=>'rkakegiatanmurni.filter']);              
     Route::get('/rka/rkakegiatanmurni/paginate/{id}',['uses'=>'RKA\RKAKegiatanMurniController@paginate','as'=>'rkakegiatanmurni.paginate']);              
