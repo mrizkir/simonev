@@ -92,6 +92,18 @@
                                 </div>                            
                             </div>                            
                             <div class="form-group row">
+                                <label class="col-md-3 col-form-label">TOTAL TARGET FISIK:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static" id="pTotalRencanaFisik">0</p>  
+                                </div>                            
+                            </div>                            
+                            <div class="form-group row">
+                                <label class="col-md-3 col-form-label">TOTAL ANGGARAN KAS:</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static" id="pTotalRencanaAnggaran">0</p>  
+                                </div>                            
+                            </div>                            
+                            <div class="form-group row">
                                 {{Form::label('bulan_fisik1','RENCANA FISIK BULAN JANUARI:',['class'=>'col-md-3 col-form-label'])}}
                                 <div class="col-md-9">
                                     {{Form::text('bulan_fisik[]', 0, ['class'=>'form-control','id'=>'bulan_fisik1'])}}
@@ -284,7 +296,33 @@ $(document).ready(function () {
                                         showWarnings:false,
                                         modifyValueOnWheel:false
                                     });
-
+    $(document).on("change","#RKARincID", function(ev){
+        ev.preventDefault();
+        $.ajax({
+            type:'post',
+            url: url_current_page +'/changerekening',
+            dataType: 'json',
+            data: {                
+                "_token": token,
+                "RKARincID": $('#RKARincID').val(),
+                "pid": 'tambahrencana',
+            },
+            success:function(result)
+            { 
+                console.log(result);              
+                $('#pPaguRincian').html(result.pagu_uraian1);         
+                $('#pTotalRencanaFisik').html(result.total_rencana_fisik);         
+                $('#pTotalRencanaAnggaran').html(result.total_rencana_anggaran);         
+                new AutoNumeric ('#pPaguRincian'); 
+                new AutoNumeric ('#pTotalRencanaFisik'); 
+                new AutoNumeric ('#pTotalRencanaAnggaran');                                 
+            },
+            error:function(xhr, status, error){
+                console.log('ERROR');
+                console.log(parseMessageAjaxEror(xhr, status, error));                           
+            },
+        }); 
+    });    
     $('#frmrencanatargetfisik').validate({
         rules: {
             RKARincID : {

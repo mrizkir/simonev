@@ -616,6 +616,36 @@ class RKAKegiatanMurniController extends Controller
                 $json_data['RKARincID']=$RKARincID;
                 $json_data['datatable']=$datatable;
             break;
+            case 'tambahrencana' :
+                $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
+                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
+                                                    ->find($RKARincID);
+                if (is_null($data_uraian))
+                {
+                    $json_data['pagu_uraian1']=0;                
+                    $json_data['total_rencana_fisik']=0;
+                    $json_data['total_rencana_anggaran']=0;
+                }
+                else
+                {
+                    $jumlah_realisasi=\DB::table('trRKARealisasiRinc')
+                                            ->where('RKARincID',$RKARincID)
+                                            ->sum('realisasi1');
+
+                    $pagu_uraian1=$data_uraian->pagu_uraian1;
+                    $json_data['pagu_uraian1']=$pagu_uraian1;  
+
+                    $data_target=\DB::table('trRKATargetRinc')
+                                ->select(\DB::raw('COALESCE(SUM(target1),0) AS target1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                ->where('RKARincID',$RKARincID)
+                                ->get();
+
+                    $json_data['total_rencana_fisik']=$data_target[0]->fisik1;
+                    $json_data['total_rencana_anggaran']=$data_target[0]->target1;
+                }
+                
+                $json_data['RKARincID']=$RKARincID;
+            break;
             case 'tambahrealisasi' :
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
                 $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
