@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    RKA KEGIATAN MURNI
+    APBD MURNI
 @endsection
 @section('page_header')
     <h1>
         <i class="simple-icon-bag"></i>
-        RKA KEGIATAN MURNI 
+        APBD MURNI 
     </h1>    
 @endsection
 @section('page_breadcrumb')

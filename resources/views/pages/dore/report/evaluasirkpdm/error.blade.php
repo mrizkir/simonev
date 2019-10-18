@@ -1,18 +1,18 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    APBD MURNI
+    RKA KEGIATAN MURNI
 @endsection
 @section('page_header')
     <i class="icon-database-refresh position-left"></i>
     <span class="text-semibold">
-        APBD MURNI TAHUN ANGGARAN {{config('simonev.tahun_anggaran')}}
+        RKA KEGIATAN MURNI TAHUN ANGGARAN {{config('simonev.tahun_anggaran')}}
     </span>
 @endsection
 @section('page_info')
-    @include('pages.dore.rka.rkakegiatanmurni.info')
+    @include('pages.dore.report.forma.info')
 @endsection
 @section('page_breadcrumb')
-    <li><a href="{!!route('rkakegiatanmurni.index')!!}">APBD MURNI</a></li>
+    <li><a href="{!!route('rkakegiatanmurni.index')!!}">RKA KEGIATAN MURNI</a></li>
     <li class="active">ERROR</li>
 @endsection
 @section('page_content')

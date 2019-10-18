@@ -177,7 +177,7 @@
                 <li>
                     <a href="{{route('rkakegiatanmurni.index')}}">
                         <i class="simple-icon-picture"></i>
-                        <span class="d-inline-block">KEGIATAN MURNI</span>
+                        <span class="d-inline-block">APBD MURNI</span>
                     </a>
                 </li>
             </ul>
@@ -186,6 +186,12 @@
                     <a href="{{route('formamurni.index')}}">
                         <i class="iconsminds-file"></i>
                         <span class="d-inline-block">FORM A MURNI</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{route('evaluasirkpdm.index')}}">
+                        <i class="iconsminds-file"></i>
+                        <span class="d-inline-block">EVALUASI RKPD MURNI</span>
                     </a>
                 </li>
             </ul>

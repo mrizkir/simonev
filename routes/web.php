@@ -177,6 +177,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/report/formamurni/paginate/{id}',['uses'=>'Report\FormAController@paginate','as'=>'formamurni.paginate']);              
     Route::post('/report/formamurni/changenumberrecordperpage',['uses'=>'Report\FormAController@changenumberrecordperpage','as'=>'formamurni.changenumberrecordperpage']);  
     Route::post('/report/formamurni/orderby',['uses'=>'Report\FormAController@orderby','as'=>'formamurni.orderby']);  
+    
+    //report - evaluasi RKPD murni [rka]
+    Route::resource('/report/evaluasirkpdm','Report\EvaluasiRKPDMurniController',['parameters'=>['evaluasirkpdm'=>'uuid']]); 
+    Route::post('/report/evaluasirkpdm/printtoexcel',['uses'=>'Report\EvaluasiRKPDMurniController@printtoexcel','as'=>'evaluasirkpdm.printtoexcel']);                  
+    Route::post('/report/evaluasirkpdm/changetab',['uses'=>'Report\EvaluasiRKPDMurniController@changetab','as'=>'evaluasirkpdm.changetab']);                  
+    Route::post('/report/evaluasirkpdm/changerekening',['uses'=>'Report\EvaluasiRKPDMurniController@changerekening','as'=>'evaluasirkpdm.changerekening']);                          
+    Route::post('/report/evaluasirkpdm/search',['uses'=>'Report\EvaluasiRKPDMurniController@search','as'=>'evaluasirkpdm.search']);  
+    Route::post('/report/evaluasirkpdm/filter',['uses'=>'Report\EvaluasiRKPDMurniController@filter','as'=>'evaluasirkpdm.filter']);              
+    Route::get('/report/evaluasirkpdm/paginate/{id}',['uses'=>'Report\EvaluasiRKPDMurniController@paginate','as'=>'evaluasirkpdm.paginate']);              
+    Route::post('/report/evaluasirkpdm/changenumberrecordperpage',['uses'=>'Report\EvaluasiRKPDMurniController@changenumberrecordperpage','as'=>'evaluasirkpdm.changenumberrecordperpage']);  
+    Route::post('/report/evaluasirkpdm/orderby',['uses'=>'Report\EvaluasiRKPDMurniController@orderby','as'=>'evaluasirkpdm.orderby']);  
 
     //setting - permissions    
     Route::resource('/setting/permissions', 'Setting\PermissionsController', [

@@ -1,28 +1,12 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    APBD MURNI
+    {{HelperKegiatan::getPageTitle()}}
 @endsection
 @section('page_header')
     <h1>
-        <i class="simple-icon-bag"></i>
-        APBD MURNI 
+        <i class="iconsminds-file"></i>
+        {{HelperKegiatan::getPageTitle()}} 
     </h1>    
-@endsection
-@section('page_header_button')
-<div class="text-zero top-right-button-container">    
-    <div class="btn-group">
-        <button type="button"
-            class="btn btn-sm btn-outline-primary dropdown-toggle dropdown-toggle-split top-right-button top-right-button-single default"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="simple-icon-menu"></i>
-        </button>
-        <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('rkakegiatanmurni.create')}}" title="Tambah Kegiatan">
-                <i class="simple-icon-plus"></i> TAMBAH
-            </a>            
-        </div>
-    </div>
-</div>
 @endsection
 @section('page_header_display')
 <div class="mb-2">
@@ -47,8 +31,8 @@
 <div class="separator mb-5"></div>
 @endsection
 @section('page_breadcrumb')
-<li class="breadcrumb-item">RKA</li>
-<li class="breadcrumb-item active" aria-current="page">KEGIATAN MURNI</li>
+<li class="breadcrumb-item">LAPORAN</li>
+<li class="breadcrumb-item active" aria-current="page">{{HelperKegiatan::getPageTitle()}}</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
@@ -114,7 +98,7 @@
         </div>
     </div>        
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.rka.rkakegiatanmurni.datatable')
+        @include('pages.dore.report.forma.datatable')
     </div>
 </div>
 @endsection
@@ -153,7 +137,7 @@
         </div>
     </div>
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.rka.rkakegiatanmurni.datatable')
+        @include('pages.dore.report.forma.datatable')
     </div>
 </div>
 @endsection
