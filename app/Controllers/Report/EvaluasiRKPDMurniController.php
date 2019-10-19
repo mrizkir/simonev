@@ -298,10 +298,9 @@ class EvaluasiRKPDMurniController extends Controller
         }
         else
         {
-            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+            $data = \DB::table('')
                         ->where('SOrgID',$SOrgID)                                            
-                        ->where('TA', \HelperKegiatan::getTahunAnggaran())  
-                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                        ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())  
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
         $data->setPath(route('formamurni.index'));

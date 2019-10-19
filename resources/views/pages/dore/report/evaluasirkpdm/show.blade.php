@@ -14,7 +14,7 @@
 <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
 @section('page_header_button')
-@include('pages.dore.report.forma.toprightbutton')
+@include('pages.dore.report.evaluasirkpdm.toprightbutton')
 @endsection
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
@@ -62,7 +62,7 @@
                 </div>
             </div>
             <div id="datatableuraian" class="table-responsive">
-                @include('pages.dore.report.forma.datatableuraian')
+                @include('pages.dore.report.evaluasirkpdm.datatableuraian')
             </div>
     </div>
     <div class="tab-pane fade{!!($filters['changetab']=='data-statistik-tab')?' show active':''!!}" id="data-statistik" role="tabpanel" aria-labelledby="data-statistik">

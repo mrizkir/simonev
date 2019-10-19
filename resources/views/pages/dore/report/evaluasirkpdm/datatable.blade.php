@@ -6,24 +6,23 @@
                 <thead class="thead-light">
                     <tr>
                         <th scope="col" width="55">NO</th>
-                        <th scope="col" width="120">
-                            <a class="column-sort" id="col-Kd_Urusan" data-order="{{$direction}}" href="#">
-                                KODE KEGIATAN
+                        <th scope="col" width="300">
+                            <a class="column-sort" id="col-Nm_Sasaran" data-order="{{$direction}}" href="#">
+                                SASARAN
                             </a>
+                        </th>
+                        <th scope="col">                            
+                            I
                         </th>
                         <th scope="col">
-                            <a class="column-sort" id="col-Nm_Bidang" data-order="{{$direction}}" href="#">
-                                NAMA KEGIATAN
-                            </a>
+                            II
                         </th>
-                        <th scope="col" width="120">
-                            <a class="column-sort" id="col-Nm_Urusan" data-order="{{$direction}}" href="#">
-                                PAGU KEGIATAN
-                            </a>
+                        <th scope="col">
+                            III
                         </th>
-                        <th scope="col" width="120">TOTAL PAGU URAIAN</th>
-                        <th scope="col" width="70">REALISASI</th>
-                        <th scope="col" width="70">CAPAIAN (%)</th>
+                        <th scope="col">
+                            IV
+                        </th>
                         <th scope="col" width="8">AKSI</th>
                     </tr>
                 </thead>

@@ -70,7 +70,7 @@ class HelperKegiatan {
                 $pagetitle = 'FORM A MURNI';
             break;            
             case 'evaluasirkpdm' :
-                $pagetitle = 'EVALUASI RKPD MURNI';
+                $pagetitle = 'EVALUASI TERHADAP HASIL RKPD MURNI';
             break;            
             default :
                 $pagetitle = 'WORKFLOW';

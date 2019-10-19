@@ -9,7 +9,7 @@
     </span>
 @endsection
 @section('page_info')
-    @include('pages.dore.report.forma.info')
+    @include('pages.dore.report.evaluasirkpdm.info')
 @endsection
 @section('page_breadcrumb')
     <li><a href="{!!route('rkakegiatanmurni.index')!!}">RKA KEGIATAN MURNI</a></li>

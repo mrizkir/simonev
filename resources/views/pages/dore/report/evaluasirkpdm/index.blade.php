@@ -98,7 +98,7 @@
         </div>
     </div>        
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.report.forma.datatable')
+        @include('pages.dore.report.evaluasirkpdm.datatable')
     </div>
 </div>
 @endsection
@@ -137,7 +137,7 @@
         </div>
     </div>
     <div class="col-12" id="divdatatable">
-        @include('pages.dore.report.forma.datatable')
+        @include('pages.dore.report.evaluasirkpdm.datatable')
     </div>
 </div>
 @endsection
