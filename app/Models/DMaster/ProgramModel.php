@@ -131,4 +131,22 @@ class ProgramModel extends Model
         }
         return $daftar_program;
     }
+    
+    public static function getDaftarProgramByOPDComplete ($OrgIDRPJMD,$prepend=true) 
+    {    
+        $r=\DB::table('v_organisasi_program')
+                ->where('OrgIDRPJMD',$OrgIDRPJMD)                
+                ->orderByRaw('"Kd_Urusan" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Bidang" ASC NULLS FIRST')
+                ->orderByRaw('"Kd_Prog" ASC NULLS FIRST')
+                ->get();
+       
+        $daftar_program=($prepend==true)?['none'=>'DAFTAR PROGRAM']:[];        
+        foreach ($r as $k=>$v)
+        {            
+            $daftar_program[$v->PrgID]=['kode_program'=>$v->kode_organisasi.'.'.$v->kode_program,
+                                        'PrgNm'=>$v->PrgNm];
+        }
+        return $daftar_program;
+    }
 }
