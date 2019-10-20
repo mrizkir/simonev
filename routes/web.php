@@ -177,6 +177,17 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/report/formamurni/paginate/{id}',['uses'=>'Report\FormAController@paginate','as'=>'formamurni.paginate']);              
     Route::post('/report/formamurni/changenumberrecordperpage',['uses'=>'Report\FormAController@changenumberrecordperpage','as'=>'formamurni.changenumberrecordperpage']);  
     Route::post('/report/formamurni/orderby',['uses'=>'Report\FormAController@orderby','as'=>'formamurni.orderby']);  
+
+    //report - form b murni [rka]
+    Route::resource('/report/formbmurni','Report\FormBController',['parameters'=>['formbmurni'=>'uuid']]); 
+    Route::post('/report/formbmurni/printtoexcel',['uses'=>'Report\FormBController@printtoexcel','as'=>'formbmurni.printtoexcel']);                  
+    Route::post('/report/formbmurni/changetab',['uses'=>'Report\FormBController@changetab','as'=>'formbmurni.changetab']);                  
+    Route::post('/report/formbmurni/changerekening',['uses'=>'Report\FormBController@changerekening','as'=>'formbmurni.changerekening']);                          
+    Route::post('/report/formbmurni/search',['uses'=>'Report\FormBController@search','as'=>'formbmurni.search']);  
+    Route::post('/report/formbmurni/filter',['uses'=>'Report\FormBController@filter','as'=>'formbmurni.filter']);              
+    Route::get('/report/formbmurni/paginate/{id}',['uses'=>'Report\FormBController@paginate','as'=>'formbmurni.paginate']);              
+    Route::post('/report/formbmurni/changenumberrecordperpage',['uses'=>'Report\FormBController@changenumberrecordperpage','as'=>'formbmurni.changenumberrecordperpage']);  
+    Route::post('/report/formbmurni/orderby',['uses'=>'Report\FormBController@orderby','as'=>'formbmurni.orderby']);  
     
     //report - evaluasi RKPD murni [rka]
     Route::resource('/report/evaluasirkpdm','Report\EvaluasiRKPDMurniController',['parameters'=>['evaluasirkpdm'=>'uuid']]); 

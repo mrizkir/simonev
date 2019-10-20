@@ -69,6 +69,9 @@ class HelperKegiatan {
             case 'formamurni' :
                 $pagetitle = 'FORM A MURNI';
             break;            
+            case 'formbmurni' :
+                $pagetitle = 'FORM B MURNI';
+            break;            
             case 'evaluasirkpdm' :
                 $pagetitle = 'EVALUASI TERHADAP HASIL RKPD MURNI';
             break;            
@@ -86,6 +89,7 @@ class HelperKegiatan {
         {         
             case 'rkakegiatanmurni' :
             case 'formamurni' :
+            case 'formbmurni' :
             case 'evaluasirkpdm' :
                 $dbViewName = 'v_rka';
             break;                      
@@ -102,6 +106,7 @@ class HelperKegiatan {
         {            
             case 'rkakegiatanmurni' :
             case 'formamurni' :
+            case 'formbmurni' :
             case 'evaluasirkpdm' :
                 $level = 1;
             break;            

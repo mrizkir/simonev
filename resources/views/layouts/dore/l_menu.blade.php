@@ -189,6 +189,12 @@
                     </a>
                 </li>
                 <li>
+                    <a href="{{route('formbmurni.index')}}">
+                        <i class="iconsminds-file"></i>
+                        <span class="d-inline-block">FORM B MURNI</span>
+                    </a>
+                </li>
+                <li>
                     <a href="{{route('evaluasirkpdm.index')}}">
                         <i class="iconsminds-file"></i>
                         <span class="d-inline-block">EVALUASI RKPD MURNI</span>
