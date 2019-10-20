@@ -180,7 +180,6 @@ class FormAController extends Controller
             }
 
         }       	
-        // dd($dataAkhir);
         $this->dataRKA=$dataAkhir;
         return $dataAkhir;
         
@@ -264,8 +263,8 @@ class FormAController extends Controller
         {            
            $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>'KgtNm','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('formamurni.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('formamurni.orderby','order'); 
+        $column_order=$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'); 
+        $direction=$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -277,8 +276,8 @@ class FormAController extends Controller
         if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
         {            
             $this->putControllerStateSession($this->SessionName,'filters',[
-                                                                            'OrgID'=>'none',
-                                                                            'SOrgID'=>'none',
+                                                                            'OrgID'=>'',
+                                                                            'SOrgID'=>'',
                                                                             'changetab'=>'data-uraian-tab',
                                                                             'bulan_realisasi'=>\HelperKegiatan::getBulanRealisasi() > 9 ? 9:HelperKegiatan::getBulanRealisasi(),
                                                                             ]);
@@ -304,7 +303,7 @@ class FormAController extends Controller
                         ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
-        $data->setPath(route('formamurni.index'));
+        $data->setPath(route(\Helper::getNameOfPage('index')));
         return $data;
     }
     /**
@@ -325,8 +324,8 @@ class FormAController extends Controller
         $datatable = view("pages.$theme.report.forma.datatable")->with(['page_active'=>$this->SessionName,
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('formamurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('formamurni.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                 'data'=>$data])->render();      
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
     }
@@ -361,8 +360,8 @@ class FormAController extends Controller
         $datatable = view("pages.$theme.report.forma.datatable")->with(['page_active'=>$this->SessionName,
                                                             'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('formamurni.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('formamurni.orderby','order'),
+                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
@@ -383,8 +382,8 @@ class FormAController extends Controller
         $datatable = view("pages.$theme.report.forma.datatable")->with(['page_active'=>$this->SessionName,
                                                                             'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('formamurni.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('formamurni.orderby','order'),
+                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                             'data'=>$data])->render(); 
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -407,9 +406,9 @@ class FormAController extends Controller
         //index
         if ($request->exists('OrgID'))
         {
-            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $OrgID = $request->input('OrgID')==''?'':$request->input('OrgID');
             $filters['OrgID']=$OrgID;
-            $filters['SOrgID']='none';
+            $filters['SOrgID']='';
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunAnggaran(),false,$OrgID);  
             
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
@@ -429,7 +428,7 @@ class FormAController extends Controller
         //index
         if ($request->exists('SOrgID'))
         {
-            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
+            $SOrgID = $request->input('SOrgID')==''?'':$request->input('SOrgID');
             $filters['SOrgID']=$SOrgID;
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
             $this->setCurrentPageInsideSession($this->SessionName,1);
@@ -444,74 +443,6 @@ class FormAController extends Controller
             
             $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
-
-        //select prgid create 0
-        if ($request->exists('PrgID') && $request->exists('create'))
-        {
-            $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
-            $r=\DB::table('v_rkpd')
-                    ->select(\DB::raw('"RKPDID","kode_kegiatan","KgtNm"'))
-                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
-                    ->where('PrgID',$PrgID)
-                    ->WhereNotIn('RKPDID',function($query) use ($filters) {
-                        $query->select('RKPDID')
-                                ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
-                                ->where('SOrgID', $filters['SOrgID']);
-                    }) 
-                    ->get();
-            $daftar_rkpd=[];        
-            foreach ($r as $k=>$v)
-            {               
-                $daftar_rkpd[$v->RKPDID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->RKPDID.')';
-            }                        
-            $json_data['daftar_rkpd']=$daftar_rkpd;
-
-            $r=\DB::table('v_program_kegiatan')
-                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
-                    ->where('PrgID',$PrgID)
-                    ->WhereNotIn('KgtID',function($query) {
-                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
-                        $query->select('KgtID')
-                                ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
-                                ->where('SOrgID', $SOrgID);
-                    }) 
-                    ->get();
-            $daftar_kegiatan=[];           
-            foreach ($r as $k=>$v)
-            {               
-                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
-            }            
-            $json_data['daftar_kegiatan']=$daftar_kegiatan;
-            $json_data['success']=true;
-            $json_data['PrgID']=$PrgID;
-        } 
-        //select RKPDID create 0
-        if ($request->exists('RKPDID') && $request->exists('create'))
-        {
-            $RKPDID = $request->input('RKPDID')==''?'none':$request->input('RKPDID'); 
-            $daftar_kegiatan=[];  
-            $r=\DB::table('v_rkpd')
-                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
-                    ->where('RKPDID',$RKPDID)
-                    ->WhereNotIn('KgtID',function($query) {
-                        $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
-                        $query->select('KgtID')
-                                ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
-                                ->where('SOrgID', $SOrgID);
-                    }) 
-                    ->get();
-            foreach ($r as $k=>$v)
-            {               
-                $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
-            }   
-            $json_data['daftar_kegiatan']=$daftar_kegiatan;
-            $json_data['NilaiUsulan2']=isset($r[0])?$r[0]->NilaiUsulan2:0;
-            $json_data['success']=true;
-            $json_data['RKPDID']=$RKPDID;
-        }
         return response()->json($json_data,200);  
     }
     /**
@@ -541,8 +472,8 @@ class FormAController extends Controller
         $datatable = view("pages.$theme.report.forma.datatable")->with(['page_active'=>$this->SessionName,                                                            
                                                                                 'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('formamurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('formamurni.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                                 'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -579,148 +510,10 @@ class FormAController extends Controller
                                                                     'filters'=>$filters,
                                                                     'search'=>$this->getControllerStateSession($this->SessionName,'search'),
                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                    'column_order'=>$this->getControllerStateSession('formamurni.orderby','column_name'),
-                                                                    'direction'=>$this->getControllerStateSession('formamurni.orderby','order'),
+                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
                                                                     'data'=>$data]);               
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {        
-        $theme = 'dore';
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');         
-        $locked=false;
-        if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
-        {
-            $SOrgID=$filters['SOrgID'];            
-            $OrgID=$filters['OrgID'];
-
-            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
-                                                                ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
-                                                                ->find($SOrgID);  
-
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
-            $daftar_pa=[];
-            $daftar_kpa=[];
-            $daftar_ppk=[];
-            $daftar_pptk=[];
-            
-            return view("pages.$theme.report.forma.create")->with(['page_active'=>$this->SessionName,
-                                                                            'daftar_program'=>$daftar_program,                                                                                                                                                       
-                                                                            'daftar_rkpd'=>[],
-                                                                            'daftar_pa'=>$daftar_pa,
-                                                                            'daftar_kpa'=>$daftar_kpa,
-                                                                            'daftar_ppk'=>$daftar_ppk,
-                                                                            'daftar_pptk'=>$daftar_pptk,
-                                                                        ]);  
-        }
-        else
-        {
-            return view("pages.$theme.report.forma.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
-                                                                ]);  
-        }  
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function changerekening(Request $request)
-    {
-        $theme = 'dore';
-        
-        $json_data = [];
-        $pid = $request->input('pid')==''?'none':$request->input('pid');
-        switch ($pid)
-        {
-            case 'transaksi' :
-                $StrID = $request->input('StrID')==''?'none':$request->input('StrID');
-                $json_data['StrID']=$StrID;
-                $json_data['daftar_kelompok']=\App\Models\DMaster\KelompokModel::getDaftarKelompokByParent($StrID,false);
-            break;
-            case 'kelompok' :
-                $KlpID = $request->input('KlpID')==''?'none':$request->input('KlpID');
-                $json_data['KlpID']=$KlpID;
-                $json_data['daftar_jenis']=\App\Models\DMaster\JenisModel::getDaftarJenisByParent($KlpID,false);
-            break;
-            case 'jenis' :
-                $JnsID = $request->input('JnsID')==''?'none':$request->input('JnsID');
-                $json_data['JnsID']=$JnsID;
-                $json_data['daftar_rincian']=\App\Models\DMaster\RincianModel::getDaftarRincianByParent($JnsID,false);
-            break;
-            case 'rincian' :
-                $ObyID = $request->input('ObyID')==''?'none':$request->input('ObyID');
-                $json_data['ObyID']=$ObyID;
-                $json_data['daftar_obyek']=\App\Models\DMaster\ObjekModel::getDaftarObyekByParent($ObyID,false);
-            break;
-            case 'realisasi' :
-                $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
-                $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-                $filters['RKARincID']=$RKARincID;
-                $this->putControllerStateSession($this->SessionName,'filters',$filters);
-                
-                $rka=[];
-                $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']);            
-                if (count($datarealisasi) > 0)
-                {
-                    $rinciankegiatan = RKARincianKegiatanModel::find($RKARincID);
-                    $rkaid=$rinciankegiatan->RKAID;
-                    $rka = $this->getDataRKA($rkaid);                                        
-                }
-                $datatable=view("pages.$theme.report.forma.datatablerealisasi")->with(['page_active'=>$this->SessionName,                                                                            
-                                                                                            'datarealisasi'=>$datarealisasi
-                                                                                        ])->render();
-                $json_data['RKARincID']=$RKARincID;
-                $json_data['datatable']=$datatable;
-            break;
-            case 'tambahrealisasi' :
-                $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
-                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
-                                                    ->find($RKARincID);
-                if (is_null($data_uraian))
-                {
-                    $json_data['pagu_uraian1']=0;                
-                    $json_data['sisa_pagu_rincian']=0;
-                }
-                else
-                {
-                    $jumlah_realisasi=\DB::table('trRKARealisasiRinc')
-                                            ->where('RKARincID',$RKARincID)
-                                            ->sum('realisasi1');
-
-                    $pagu_uraian1=$data_uraian->pagu_uraian1;
-                    $json_data['pagu_uraian1']=$pagu_uraian1;                
-                    $json_data['sisa_pagu_rincian']=$pagu_uraian1-$jumlah_realisasi;
-                }
-                
-                $json_data['RKARincID']=$RKARincID;
-            break;
-        }
-        $json_data['success']=true;
-        return response()->json($json_data,200);
-    }    
-    /**
-     * digunakan untuk melakukan perubahan tabulasi detail rka.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function changetab (Request $request)
-    {
-        $json_data = [];
-        $tab = $request->input('tab')==''?'none':$request->input('tab');
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']=$tab;
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        $json_data['success']=true;
-        $json_data['changetab']=$tab;
-        return response()->json($json_data,200);  
-    }
+    }   
     /**
      * Display the specified resource.
      *

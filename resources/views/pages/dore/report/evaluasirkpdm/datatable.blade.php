@@ -32,21 +32,14 @@
                         <th scope="row">
                             {{ ($data->currentpage()-1) * $data->perpage() + $key + 1 }}
                             </td>
-                        <td>{{$item->kode_kegiatan}}</td>
-                        <td>{{$item->KgtNm}}</td>
-                        <td>{{Helper::formatUang($item->PaguDana1)}}</td>
-                        <td>{{Helper::formatUang(DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian1'))}}</td>
-                        <td>{{Helper::formatUang(DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('realisasi1'))}}</td>                        
-                        <td>
-                            @php
-                                $jumlah_uraian=DB::table('trRKARinc')->where('RKAID',$item->RKAID)->count('RKARincID');
-                                $total_fisik=Helper::formatUang(DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('fisik1'));
-                            @endphp
-                            {{Helper::formatPecahan($total_fisik,$jumlah_uraian)}}
-                        </td>
+                        <td>{{$item->Nm_Sasaran}}</td>
+                        <td>{{Helper::formatUang(0)}}</td>
+                        <td>{{Helper::formatUang(0)}}</td>
+                        <td>{{Helper::formatUang(0)}}</td>                        
+                        <td>{{Helper::formatUang(0)}}</td>  
                         <td>
                             <div class="input-group-append">
-                                <a href="{{route(Helper::getNameOfPage('show'),['uuid'=>$item->RKAID])}}" class="btn btn-primary btn-xs mr-sm-2 default"  title="Detail Data Kegiatan">
+                                <a href="{{route(Helper::getNameOfPage('show'),['uuid'=>$item->PrioritasSasaranKabID])}}" class="btn btn-primary btn-xs mr-sm-2 default"  title="Detail Data Kegiatan">
                                     <i class="simple-icon-eye"></i>
                                 </a>                               
                             </div>
@@ -55,26 +48,14 @@
                     <tr class="text-center">
                         <td colspan="8">
                             <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>RKAID:</strong>{{$item->RKAID}}
+                                <strong>ORGIDRPJDM:</strong>{{$item->OrgIDRPJMD}}
                             </span>
                             <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>KGTID:</strong>{{$item->KgtID}}
-                            </span>
+                                <strong>PRIORITASSASARANKABID:</strong>{{$item->PrioritasSasaranKabID}}
+                            </span>                           
                             <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>PRGID:</strong>{{$item->PrgID}}
-                            </span>
-                            <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>TA:</strong>{{$item->TA}}
-                            </span>
-                            <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>KET:</strong>{{$item->Descr}}
-                            </span>
-                            <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>CREATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->created_at)}}
-                            </span>
-                            <span class="badge badge-pill badge-outline-primary mb-1">
-                                <strong>UPDATED:</strong>{{Helper::tanggal('d/m/Y H:m',$item->updated_at)}}
-                            </span>
+                                <strong>TA RPJMD:</strong>{{$item->TA}}
+                            </span>   
                         </td>
                     </tr>
                     @endforeach

@@ -48,17 +48,11 @@
                     <i class="iconsminds-filter-2"></i>
                     FILTER
                 </h4>
-                {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
+                {!! Form::open(['action'=>'Report\EvaluasiRKPDMurniController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">OPD / SKPD :</label> 
                         <div class="col-md-10">
-                            {{Form::select('OrgID', $daftar_opd,$filters['OrgID'],['class'=>'form-control select','id'=>'OrgID'])}}
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">UNIT KERJA :</label> 
-                        <div class="col-md-10">
-                            {{Form::select('SOrgID', $daftar_unitkerja,$filters['SOrgID'],['class'=>'form-control select','id'=>'SOrgID'])}}
+                            {{Form::select('OrgIDRPJMD', $daftar_opd,$filters['OrgIDRPJMD'],['class'=>'form-control select','id'=>'OrgIDRPJMD'])}}
                         </div>
                     </div>
                 {!! Form::close()!!}
@@ -72,11 +66,11 @@
                     <i class="simple-icon-magnifier"></i>
                     PENCARIAN
                 </h4>
-                {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@search','method'=>'post','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
+                {!! Form::open(['action'=>'Report\EvaluasiRKPDMurniController@search','method'=>'post','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
                     <div class="form-group row">
                         <label class="col-md-2 col-form-label">Kriteria :</label> 
                         <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['RKAID'=>'ID KEGIATAN','kode_kegiatan'=>'KODE KEGIATAN','KgtNm'=>'NAMA KEGIATAN','nip_pptk'=>'NIP PPTK'], isset($search['kriteria'])?$search['kriteria']:'Kode_Bidang',['class'=>'form-control'])}}
+                            {{Form::select('cmbKriteria', ['Nm_Sasaran'=>'NAMA SASARAN'], isset($search['kriteria'])?$search['kriteria']:'Nm_Sasaran',['class'=>'form-control'])}}
                         </div>
                     </div>
                     <div class="form-group row" id="divKriteria">
@@ -102,45 +96,6 @@
     </div>
 </div>
 @endsection
-@section('page_content')
-<div class="row">
-    <div class="col-12 mb-3">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="mb-4">
-                    <i class="simple-icon-magnifier"></i>
-                    PENCARIAN
-                </h4>
-                {!! Form::open(['action'=>'DMaster\UrusanController@search','method'=>'post','id'=>'frmsearch','name'=>'frmsearch'])!!}                                
-                    <div class="form-group row">
-                        <label class="col-md-2 col-form-label">Kriteria :</label> 
-                        <div class="col-md-10">
-                            {{Form::select('cmbKriteria', ['Kode_Bidang'=>'KODE URUSAN','Nm_Bidang'=>'NAMA URUSAN'], isset($search['kriteria'])?$search['kriteria']:'Kode_Bidang',['class'=>'form-control'])}}
-                        </div>
-                    </div>
-                    <div class="form-group row" id="divKriteria">
-                        <label class="col-md-2 col-form-label">Isi Kriteria :</label>                                                    
-                        <div class="col-md-10">                            
-                            {{Form::text('txtKriteria',isset($search['isikriteria'])?$search['isikriteria']:'',['class'=>'form-control','placeholder'=>'Isi Kriteria Pencarian','id'=>'txtKriteria'])}}                                                                  
-                        </div>
-                    </div>                                                     
-                    <div class="form-group row">
-                        <div class="offset-md-2 col-md-10">
-                            {{ Form::button('<b><i class="icon-search4"></i></b> Cari', ['type' => 'submit', 'class' => 'btn btn-primary default', 'id'=>'btnSearch'] )  }}                            
-                            <a id="btnReset" href="javascript:;" title="Reset Pencarian" class="btn btn-dark default">
-                                <b><i class="icon-reset"></i></b> Reset
-                            </a>                           
-                        </div>
-                    </div>  
-                {!! Form::close()!!}
-            </div>
-        </div>
-    </div>
-    <div class="col-12" id="divdatatable">
-        @include('pages.dore.report.evaluasirkpdm.datatable')
-    </div>
-</div>
-@endsection
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 <script src="{!!asset('js/vendor/sweetalert2/sweetalert2.min.js')!!}"></script>
@@ -148,17 +103,12 @@
 @section('page_custom_js')
 <script type="text/javascript">  
 $(document).ready(function () {    
-    $("#OrgID.select").select2({
+    $("#OrgIDRPJMD.select").select2({
         theme: "bootstrap",
         placeholder: "PILIH OPD / SKPD",
         allowClear:true        
-    });    
-    $('#SOrgID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH UNIT KERJA",
-        allowClear:true
-    }); 
-    $(document).on('change','#OrgID',function(ev) {
+    });   
+    $(document).on('change','#OrgIDRPJMD',function(ev) {
         ev.preventDefault();   
         $.ajax({
             type:'post',
@@ -166,33 +116,7 @@ $(document).ready(function () {
             dataType: 'json',
             data: {                
                 "_token": token,
-                "OrgID": $('#OrgID').val(),
-            },
-            success:function(result)
-            { 
-                var daftar_unitkerja = result.daftar_unitkerja;
-                var listitems='<option></option>';
-                $.each(daftar_unitkerja,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                
-                $('#SOrgID').html(listitems);
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });     
-    });    
-    $(document).on('change','#SOrgID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "SOrgID": $('#SOrgID').val(),
+                "OrgIDRPJMD": $('#OrgIDRPJMD').val(),
             },
             success:function(result)
             { 
@@ -203,46 +127,6 @@ $(document).ready(function () {
                 console.log(parseMessageAjaxEror(xhr, status, error));                           
             },
         });     
-    });
-    $("#divdatatable").on("click",".btnDelete", function(){
-        swal.fire ({
-            title:'Hapus Data',
-            text:'Apakah ingin menghapus data RKA Kegiatan ini ?',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#3085d6',
-            confirmButtonText: 'YA, Hapus!',
-            cancelButtonText: 'TIDAK!',
-        }).then((result)=>{
-            if (result.value)
-            {
-                let url_ = $(this).attr("data-url");
-                let id = $(this).attr("data-id");
-                $.ajax({            
-                    type:'post',
-                    url:url_+'/'+id,
-                    dataType: 'json',
-                    data: {
-                        "_method": 'DELETE',
-                        "_token": token,
-                        "pid": 'datakegiatan',
-                        "id": id,
-                    },
-                    success:function(result){ 
-                        if (result.success==1){
-                            $('#divdatatable').html(result.datatable);  
-                        }else{
-                            console.log("Gagal menghapus data RKA Kegiatan dengan id "+id);
-                        }                    
-                    },
-                    error:function(xhr, status, error){
-                        console.log('ERROR');
-                        console.log(parseMessageAjaxEror(xhr, status, error));                           
-                    },
-                });
-            }
-        });         
     });
 });
 </script>

@@ -49,7 +49,7 @@
                                 <i class="iconsminds-filter-2"></i>
                                 FILTER
                             </h4>
-                            {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
+                            {!! Form::open(['action'=>'Report\FormAController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
                                 <div class="form-group row">
                                     <label class="col-md-2 col-form-label">BULAN REALISASI :</label> 
                                     <div class="col-md-10">

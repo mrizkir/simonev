@@ -13,65 +13,82 @@
 <li class="breadcrumb-item">{{HelperKegiatan::getPageTitle()}} </li>
 <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
-@section('page_header_button')
-@include('pages.dore.report.evaluasirkpdm.toprightbutton')
-@endsection
 @section('page_header_display')   
 <ul class="nav nav-tabs separator-tabs ml-0 mb-5" role="tablist">
     <li class="nav-item">
-        <a class="nav-link{!!($filters['changetab']=='data-uraian-tab')?' active':''!!}" id="data-uraian-tab" data-toggle="tab" href="#data-uraian" role="tab" aria-controls="data-uraian" aria-selected="false">
-            URAIAN KEGIATAN
-        </a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link{!!($filters['changetab']=='data-statistik-tab')?' active':''!!}" id="data-statistik-tab" data-toggle="tab" href="#data-statistik" role="tab" aria-controls="data-statistik" aria-selected="true">
-            STATISTIK
-        </a>
-    </li>    
-    <li class="nav-item">
-        <a class="nav-link{!!($filters['changetab']=='data-foto-tab')?' active':''!!}" id="data-foto-tab" data-toggle="tab" href="#data-foto" role="tab" aria-controls="data-foto" aria-selected="false">
-            FOTO
+        <a class="nav-link active" id="first-tab" data-toggle="tab" href="#first" role="tab"
+            aria-controls="first" aria-selected="true">DETAILS
         </a>
     </li>
 </ul>
 @endsection
-@section('page_asset_css')
-
+@section('page_header_button')
+@include('pages.dore.report.evaluasirkpdm.toprightbutton')
 @endsection
 @section('page_content')
-<div class="tab-content">    
-    <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian">
+<div class="tab-content">
+    <div class="tab-pane show active" id="first" role="tabpanel" aria-labelledby="first-tab">
         <div class="row">
-                <div class="col-12 mb-3" id="divfilter">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-4">
-                                <i class="iconsminds-filter-2"></i>
-                                FILTER
-                            </h4>
-                            {!! Form::open(['action'=>'RKA\RKAKegiatanMurniController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
-                                <div class="form-group row">
-                                    <label class="col-md-2 col-form-label">BULAN REALISASI :</label> 
-                                    <div class="col-md-10">
-                                        {{Form::select('bulan', Helper::getBulanM(),$filters['bulan_realisasi'],['class'=>'form-control select'])}}
-                                    </div>
-                                </div>                           
-                            {!! Form::close()!!}
+            <div class="col-12">                
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="mb-2">
+                            <i class="simple-icon-screen-tablet"></i>
+                            DATA SASARAN RPJMD {{HelperKegiatan::getRPJMDTahunMulai()}}-{{HelperKegiatan::getRPJMDTahunAkhir()+1}}
+                        </h2>
+                        <div class="separator mb-3"></div>
+                        <div class="row">                                      
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>PrioritasSasaranKabID: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->PrioritasSasaranKabID}}</p>
+                                        </div>                            
+                                    </div> 
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>KODE SASARAN: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->Kd_Sasaran}}</p>
+                                        </div>                            
+                                    </div>                             
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>NAMA SASARAN: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->Nm_Sasaran}}</p>
+                                        </div>                            
+                                    </div>                       
+                                </form>
+                            </div>
+                            <div class="col-md-6">
+                                <form>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-form-label"><strong>KODE TUJUAN: </strong></label>
+                                        <div class="col-md-8">
+                                            <p class="form-control-static">{{$data->Kd_Tujuan}}</p>
+                                        </div>                            
+                                    </div>        
+                                    <div class="form-group row">
+                                        <label class="col-4 control-label"><strong>NAMA TUJUAN: </strong></label>
+                                        <div class="col-8">
+                                            <p class="form-control-static">{{$data->Nm_Tujuan}}</p>
+                                        </div>                            
+                                    </div>         
+                                    <div class="form-group row">
+                                        <label class="col-4 control-label"><strong>TGL. BUAT / TGL. UBAH: </strong></label>
+                                        <div class="col-8">
+                                            <p class="form-control-static">{{Helper::tanggal('d/m/Y H:m',$data->created_at)}} / {{Helper::tanggal('d/m/Y H:m',$data->updated_at)}}</p>
+                                        </div>                            
+                                    </div>            
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="datatableuraian" class="table-responsive">
-                @include('pages.dore.report.evaluasirkpdm.datatableuraian')
-            </div>
+        </div>
     </div>
-    <div class="tab-pane fade{!!($filters['changetab']=='data-statistik-tab')?' show active':''!!}" id="data-statistik" role="tabpanel" aria-labelledby="data-statistik">
-        
-    </div>
-    <div class="tab-pane fade{!!($filters['changetab']=='data-foto-tab')?' show active':''!!}" id="data-foto" role="tabpanel" aria-labelledby="data-foto">
-       
-    </div>
-</div>    
+</div>
 @endsection
 @section('page_asset_js')
 
