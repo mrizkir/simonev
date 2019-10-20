@@ -42,28 +42,28 @@
 <div class="tab-content">    
     <div class="tab-pane fade{!!($filters['changetab']=='data-uraian-tab')?' show active':''!!}" id="data-uraian" role="tabpanel" aria-labelledby="data-uraian">
         <div class="row">
-                <div class="col-12 mb-3" id="divfilter">
-                    <div class="card">
-                        <div class="card-body">
-                            <h4 class="mb-4">
-                                <i class="iconsminds-filter-2"></i>
-                                FILTER
-                            </h4>
-                            {!! Form::open(['action'=>'Report\FormAController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
-                                <div class="form-group row">
-                                    <label class="col-md-2 col-form-label">BULAN REALISASI :</label> 
-                                    <div class="col-md-10">
-                                        {{Form::select('bulan', Helper::getBulanM(),$filters['bulan_realisasi'],['class'=>'form-control select'])}}
-                                    </div>
-                                </div>                           
-                            {!! Form::close()!!}
-                        </div>
+            <div class="col-12 mb-3" id="divfilter">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="mb-4">
+                            <i class="iconsminds-filter-2"></i>
+                            FILTER
+                        </h4>
+                        {!! Form::open(['action'=>'Report\FormAController@filter','method'=>'post','id'=>'frmfilter','name'=>'frmfilter'])!!}                                
+                            <div class="form-group row">
+                                <label class="col-md-2 col-form-label">BULAN REALISASI :</label> 
+                                <div class="col-md-10">
+                                    {{Form::select('bulan', Helper::getBulanM(),$filters['bulan_realisasi'],['class'=>'form-control select'])}}
+                                </div>
+                            </div>                           
+                        {!! Form::close()!!}
                     </div>
                 </div>
             </div>
-            <div id="datatableuraian" class="table-responsive">
-                @include('pages.dore.report.forma.datatableuraian')
-            </div>
+        </div>
+        <div id="datatableuraian" class="table-responsive">
+            @include('pages.dore.report.forma.datatableuraian')
+        </div>
     </div>
     <div class="tab-pane fade{!!($filters['changetab']=='data-statistik-tab')?' show active':''!!}" id="data-statistik" role="tabpanel" aria-labelledby="data-statistik">
         

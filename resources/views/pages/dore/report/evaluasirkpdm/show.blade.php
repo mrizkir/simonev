@@ -87,6 +87,11 @@
                 </div>
             </div>
         </div>
+        <div class="table-responsive">
+            <table border="1" width="100%" style="font-size:10px">
+                
+            </table>
+        </div>
     </div>
 </div>
 @endsection
