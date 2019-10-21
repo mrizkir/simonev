@@ -40,12 +40,6 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-md-2 col-form-label">UNIT KERJA :</label> 
-                        <div class="col-md-10">
-                            {{Form::select('SOrgID', $daftar_unitkerja,$filters['SOrgID'],['class'=>'form-control select','id'=>'SOrgID'])}}
-                        </div>
-                    </div>
-                    <div class="form-group row">
                         <label class="col-md-2 col-form-label">BULAN REALISASI:</label> 
                         <div class="col-md-10">
                             {{Form::select('bulan', Helper::getBulanM(),$filters['bulan_realisasi'],['class'=>'form-control select'])}}
@@ -71,11 +65,6 @@ $(document).ready(function () {
         theme: "bootstrap",
         placeholder: "PILIH OPD / SKPD",
         allowClear:true        
-    });    
-    $('#SOrgID.select').select2({
-        theme: "bootstrap",
-        placeholder: "PILIH UNIT KERJA",
-        allowClear:true
     }); 
     $(document).on('change','#OrgID',function(ev) {
         ev.preventDefault();   
@@ -86,32 +75,6 @@ $(document).ready(function () {
             data: {                
                 "_token": token,
                 "OrgID": $('#OrgID').val(),
-            },
-            success:function(result)
-            { 
-                var daftar_unitkerja = result.daftar_unitkerja;
-                var listitems='<option></option>';
-                $.each(daftar_unitkerja,function(key,value){
-                    listitems+='<option value="' + key + '">'+value+'</option>';                    
-                });
-                
-                $('#SOrgID').html(listitems);
-            },
-            error:function(xhr, status, error){
-                console.log('ERROR');
-                console.log(parseMessageAjaxEror(xhr, status, error));                           
-            },
-        });     
-    });    
-    $(document).on('change','#SOrgID',function(ev) {
-        ev.preventDefault();   
-        $.ajax({
-            type:'post',
-            url: url_current_page +'/filter',
-            dataType: 'json',
-            data: {                
-                "_token": token,
-                "SOrgID": $('#SOrgID').val(),
             },
             success:function(result)
             { 

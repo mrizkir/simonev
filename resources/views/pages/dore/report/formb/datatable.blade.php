@@ -205,6 +205,51 @@
         $rp_total_sisa_anggaran=Helper::formatUang($totalSisaAnggaran);
         
         $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
+
+        \DB::table('s_targetkinerja_opd')
+            ->where('OrgID',$filters['OrgID'])
+            ->where('TA',HelperKegiatan::getTahunAnggaran())
+            ->where('bulan',$no_bulan)
+            ->where('EntryLvl',1)
+            ->delete();
+
+        $pagupembanding=0;
+
+        \App\Models\Report\StatistikTargetKinerja::create([
+            'TargetKinerjaID'=> uniqid ('uid'),
+            'OrgID'=>$filters['OrgID'],
+            'OrgNm'=>$organisasi->OrgNm,
+            'jumlah_kegiatan1'=>$jumlah_kegiatan,
+            'jumlah_kegiatan2'=>0,
+            'jumlah_uraian1'=>$jumlah_uraian,
+            'jumlah_uraian2'=>0,
+            'pagudinas1'=>$totalPaguUnit,
+            'pagudinas2'=>0,
+            'pagupembanding1'=>$pagupembanding,
+            'pagupembanding2'=>0,
+            'target_fisik1'=>$totalPersenTargetFisik,
+            'target_fisik2'=>0,
+            'realisasi_fisik1'=>$totalPersenRealisasiFisik,
+            'realisasi_fisik2'=>0,
+            'persen_target_keuangan1'=>$totalPersenTargetKeuangan,
+            'persen_target_keuangan2'=>0,
+            'persen_realisasi_keuangan1'=>$totalPersenRealisasiKeuangan,
+            'persen_realisasi_keuangan2'=>0,
+            'target_keuangan1'=>$totalTargetKeuanganKeseluruhan,
+            'target_keuangan2'=>0,
+            'realisasi_keuangan1'=>$totalRealisasiKeuanganKeseluruhan,
+            'realisasi_keuangan2'=>0,
+            'sisa_pagu1'=>$totalSisaAnggaran,
+            'sisa_pagu2'=>0,
+            'persen_sisa_pagu1'=>$totalPersenSisaAnggaran,
+            'persen_sisa_pagu2'=>0,
+            'bobot1'=>$totalPersenBobot,
+            'bobot2'=>0,
+            'bulan'=>$no_bulan,
+            'TA'=>HelperKegiatan::getTahunAnggaran(),
+            'EntryLvl'=>1,
+        ]);
+
         @endphp
         <tr>
             <td colspan="3" class="text-right"><strong>Jumlah</strong></td>

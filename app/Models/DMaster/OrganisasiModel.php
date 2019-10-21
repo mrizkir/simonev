@@ -20,7 +20,7 @@ class OrganisasiModel extends Model
      * @var array
      */
     protected $fillable = [
-        'OrgID', 'UrsID', 'OrgCd', 'OrgNm', 'Alamat', 'NamaKepalaSKPD', 'NIPKepalaSKPD', 'Descr', 'TA',
+        'OrgID', 'OrgIDRPJMD', 'UrsID', 'OrgCd', 'OrgNm', 'OrgAlias', 'Alamat', 'NamaKepalaSKPD', 'NIPKepalaSKPD', 'Descr', 'TA'
     ];
     /**
      * primary key tabel ini.
