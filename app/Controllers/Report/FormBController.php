@@ -63,15 +63,16 @@ class FormBController extends Controller
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunAnggaran(),false,$OrgID);  
             
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
-
-            $data = [];
-
-            $datatable = view("pages.$theme.report.formb.datatable")->with(['page_active'=>$this->SessionName,   
-                                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                            'data'=>$data])->render();
+            $col_name='OrgID';
+            $col_value=$filters['OrgID'];
+            $daftar_program=[];
+            
+            $datatable = view("pages.$theme.report.formb.datatable")->with(['page_active'=>$this->SessionName,
+                                                                            'daftar_unitkerja'=>$daftar_unitkerja,
+                                                                            'daftar_program'=>$daftar_program,
+                                                                            'col_name'=>$col_name,
+                                                                            'col_value'=>$col_value,
+                                                                            'filters'=>$filters])->render();
 
           
             $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
@@ -83,14 +84,19 @@ class FormBController extends Controller
             $filters['SOrgID']=$SOrgID;
             $this->putControllerStateSession($this->SessionName,'filters',$filters);
             $this->setCurrentPageInsideSession($this->SessionName,1);
-
-            $data = $this->populateData();            
-            $datatable = view("pages.$theme.report.formb.datatable")->with(['page_active'=>$this->SessionName,   
-                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                                'data'=>$data])->render();                                                                                       
+            $col_name='SOrgID';
+            $col_value=$SOrgID;
+            
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                                ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                                ->find($SOrgID);
+            
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPDComplete($organisasi->OrgIDRPJMD,false);            
+            $datatable = view("pages.$theme.report.formb.datatable")->with(['page_active'=>$this->SessionName,
+                                                                            'daftar_program'=>$daftar_program,
+                                                                            'col_name'=>$col_name,
+                                                                            'col_value'=>$col_value,
+                                                                            'filters'=>$filters])->render();                                                                                       
             
             $json_data = ['success'=>true,'datatable'=>$datatable];            
         } 
@@ -104,12 +110,25 @@ class FormBController extends Controller
     public function index(Request $request)
     {                
         $theme = 'dore';
+
+        //filter
+        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
+        {            
+            $this->putControllerStateSession($this->SessionName,'filters',[
+                                                                            'OrgID'=>'',
+                                                                            'SOrgID'=>'',
+                                                                            'changetab'=>'data-uraian-tab',
+                                                                            'bulan_realisasi'=>\HelperKegiatan::getBulanRealisasi() > 9 ? 9:HelperKegiatan::getBulanRealisasi(),
+                                                                            ]);
+        }        
         $locked=false;
         $filters=$this->getControllerStateSession($this->SessionName,'filters');      
         $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
         $daftar_opd['']='';
         $daftar_unitkerja=[];
         $daftar_program=[];
+        $col_name='OrgID';
+        $col_value=$filters['OrgID'];
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
         {
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
@@ -121,7 +140,6 @@ class FormBController extends Controller
                                                                 ->find($SOrgID);
             
             $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPDComplete($organisasi->OrgIDRPJMD,false);
-            // dd($daftar_program);
             $col_name='SOrgID';
             $col_value=$filters['SOrgID'];
         }
@@ -129,9 +147,6 @@ class FormBController extends Controller
         {
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
             $daftar_unitkerja['']='';  
-            
-            $col_name='OrgID';
-            $col_value=$filters['OrgID'];
         }          
         return view("pages.$theme.report.formb.index")->with(['page_active'=>$this->SessionName,
                                                                     'daftar_opd'=>$daftar_opd,

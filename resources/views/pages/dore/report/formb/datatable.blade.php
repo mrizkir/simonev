@@ -5,6 +5,15 @@
     $no_huruf=ord('a');                                       
     $jumlah_kegiatan=0;
     $jumlah_uraian=0;
+    $totalPersenBobot=0;
+    $totalPersenTargetFisik=0;
+    $totalPersenRealisasiFisik=0;
+    $total_ttb_fisik=0;
+    $totalTargetKeuanganKeseluruhan=0;
+    $totalRealisasiKeuanganKeseluruhan=0;
+    $total_ttb_keuangan=0;
+    $totalSisaAnggaran=0;
+    $no_bulan = $filters['bulan_realisasi'];
 @endphp
 @if ($totalPaguUnit > 0)
 <table border="1" width="100%" style="font-size:10px">
@@ -64,10 +73,12 @@
             @endphp            
             @if(isset($daftar_kegiatan[0]))
             @php
+                // dd($daftar_kegiatan);
                 $totalpagueachprogram=0;
                 foreach ($daftar_kegiatan as $eachprogram) {
                     $totalpagueachprogram+=$eachprogram->PaguDana1;
-                }                
+                }        
+                $no=0;        
             @endphp
             <tr>				
                 <td class="text-center"><strong>{{chr($no_huruf)}}</strong></td>
@@ -86,10 +97,132 @@
                 <td class="text-left">&nbsp;</td>
                 <td class="text-left">&nbsp;</td>					
                 <td class="text-left">&nbsp;</td>
-            </tr>'
+            </tr>
+            @foreach ($daftar_kegiatan as $n)
+            @php
+                $RKAID=$n->RKAID;
+                $nilai_pagu_proyek=$n->PaguDana1;
+                $persen_bobot=Helper::formatPersen($nilai_pagu_proyek,$totalPaguUnit);
+                $totalPersenBobot+=$persen_bobot;
+
+                //jumlah baris uraian
+                $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
+                $jumlah_uraian+=$jumlahuraian;
+
+                $data_target=\DB::table('trRKATargetRinc')
+                                    ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                                    ->where('RKAID',$RKAID)
+                                    ->where('bulan1','<=',$no_bulan)
+                                    ->get();
+
+                $data_realisasi=\DB::table('trRKARealisasiRinc')
+                                ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                ->where('RKAID',$RKAID)
+                                ->where('bulan1','<=',$no_bulan)
+                                ->get();
+
+                //menghitung persen target fisik         
+                $target_fisik=Helper::formatPecahan($data_target[0]->jumlah_fisik,$jumlahuraian);                            
+                $persen_target_fisik= $target_fisik > 100 ?'100.00':$target_fisik;
+                $totalPersenTargetFisik+=$persen_target_fisik;               
+
+                //menghitung persen realisasi fisik                
+                $persen_realisasi_fisik=Helper::formatPecahan($data_realisasi[0]->fisik1,$jumlahuraian);
+                $totalPersenRealisasiFisik+=$persen_realisasi_fisik; 
+                
+                $persen_tertimbang_fisik=0.00;
+                if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+                {
+                    $persen_tertimbang_fisik=number_format(($persen_realisasi_fisik*$persen_bobot)/100,3);                            
+                }							
+                $total_ttb_fisik+=$persen_tertimbang_fisik;
+
+                //menghitung total target dan realisasi keuangan 
+                $totalTargetKeuangan=$data_target[0]->totaltarget;
+                $totalTargetKeuanganKeseluruhan+=$totalTargetKeuangan;
+                $persen_target_keuangan=Helper::formatPersen($totalTargetKeuangan,$nilai_pagu_proyek);                            							                                 
+              
+                $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
+                $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
+                $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
+
+                if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
+                {
+                    $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,3);                            
+                }	
+                $total_ttb_keuangan += $persen_tertimbang_keuangan;
+
+                $sisa_anggaran=$nilai_pagu_proyek-$totalRealisasiKeuangan;
+                $totalSisaAnggaran+=$sisa_anggaran; 
+                
+                $persen_sisa_anggaran=Helper::formatPersen($sisa_anggaran,$nilai_pagu_proyek);                            
+
+                $no+=1;
+                $jumlah_kegiatan+=1;
+            @endphp            
+            <tr>
+                <td class="text-center">{{$no}}</td>
+                <td class="text-center">{{$n->kode_organisasi.'.'.$n->kode_kegiatan}}</td>
+                <td class="text-left">{{$n->KgtNm}}</td>
+                <td class="text-right">{{Helper::formatUang($nilai_pagu_proyek)}}</td>            
+                <td class="text-center">{{$persen_bobot}}</td>       
+                <td class="text-center">{{$persen_target_fisik}}</td>                                                                                             
+                <td class="text-center">{{$persen_realisasi_fisik}}</td>  
+                <td class="text-center">{{$persen_tertimbang_fisik}}</td>
+                <td class="text-center">{{Helper::formatUang($totalTargetKeuangan)}}</td>         
+                <td class="text-center">{{$persen_target_keuangan}}</td>                                                   
+                <td class="text-right">{{Helper::formatUang($totalRealisasiKeuangan)}}</td>					
+                <td class="text-center">{{$persen_realisasi_keuangan}}</td>             
+                <td class="text-center">{{$persen_tertimbang_keuangan}}</td> 
+                <td class=text-right>{{$n->lokasi_kegiatan1}}</td>
+                <td class="text-right">{{Helper::formatUang($sisa_anggaran)}}</td>										
+                <td class="text-center">{{$persen_sisa_anggaran}}</td>
+            </tr>
+            @endforeach
+            @php
+                $no_huruf+=1; 
+            @endphp
             @endif
         @endforeach
     </tbody>
+    <tfoot>
+        @php
+        $rp_total_pagu_unit=Helper::formatUang($totalPaguUnit);
+        $rp_total_target_keuangan_keseluruhan=Helper::formatUang($totalTargetKeuanganKeseluruhan);
+        $rp_total_realisasi_keuangan_keseluruhan=Helper::formatUang($totalRealisasiKeuanganKeseluruhan);                                                  
+        
+        if ($totalPersenTargetFisik > 0) {            
+            $totalPersenTargetFisik = Helper::formatPecahan($totalPersenTargetFisik,$jumlah_kegiatan);
+        }
+        
+        if ($totalPersenRealisasiFisik > 0)  {
+            $totalPersenRealisasiFisik=Helper::formatPecahan($totalPersenRealisasiFisik,$jumlah_kegiatan); 
+        }
+        
+        $totalPersenTargetKeuangan=Helper::formatPersen($totalTargetKeuanganKeseluruhan,$totalPaguUnit);                
+        $totalPersenRealisasiKeuangan=Helper::formatPersen($totalRealisasiKeuanganKeseluruhan,$totalPaguUnit);
+
+        $rp_total_sisa_anggaran=Helper::formatUang($totalSisaAnggaran);
+        
+        $totalPersenSisaAnggaran=Helper::formatPersen($totalSisaAnggaran,$totalPaguUnit);
+        @endphp
+        <tr>
+            <td colspan="3" class="text-right"><strong>Jumlah</strong></td>
+            <td class="text-right">{{$rp_total_pagu_unit}}</td>                           
+            <td class="text-center">{{$totalPersenBobot}}</td>							
+            <td class="text-center">{{$totalPersenTargetFisik}}</td>
+            <td class="text-center">{{$totalPersenRealisasiFisik}}</td>	
+            <td class="text-center">{{$total_ttb_fisik}}</td>
+            <td class="text-right">{{$rp_total_target_keuangan_keseluruhan}}</td>
+            <td class="text-center">{{$totalPersenTargetKeuangan}}</td>                                                
+            <td class="text-right">{{$rp_total_realisasi_keuangan_keseluruhan}}</td>
+            <td class="text-center">{{$totalPersenRealisasiKeuangan}}</td>
+            <td class="text-center">{{$total_ttb_keuangan}}</td>
+            <td class="text-left"></td>
+            <td class="text-right">{{$rp_total_sisa_anggaran}}</td>
+            <td class="text-center">{{$totalPersenSisaAnggaran}}</td>                        
+        </tr>
+    </tfoot>
 </table>
 @endif
 </div>    
