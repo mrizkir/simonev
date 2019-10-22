@@ -25,7 +25,8 @@
             </a>
         </div>
         <a class="navbar-logo" href="{!!route('frontend.index')!!}">
-            {{config('app.name')}}
+            <h3>{{config('app.name')}}</h3>
+            Tahun Anggaran 2020
         </a>
         <div class="navbar-right">
             <div class="header-icons d-inline-block align-middle">
@@ -62,18 +63,23 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12">
-                    <h1>@yield('page_header')</h1>
-                    <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
-                        <ol class="breadcrumb pt-0">
-                            <li class="breadcrumb-item">
-                                <a href="{!!route('frontend.index')!!}">HOME</a>
-                            </li>
-                            @yield('page_breadcrumb')
-                        </ol>
-                    </nav>
-                    <div class="separator mb-5"></div>
+                    <div class="mb-2">
+                        @yield('page_header')
+                        @yield('page_header_button')
+                        <nav class="breadcrumb-container d-none d-sm-block d-lg-inline-block" aria-label="breadcrumb">
+                            <ol class="breadcrumb pt-0">
+                                <li class="breadcrumb-item">
+                                    <a href="{!!route('frontend.index')!!}">HOME</a>
+                                </li>
+                                @yield('page_breadcrumb')
+                            </ol>
+                        </nav>
+                    </div>
+                    @yield('page_header_display')
                 </div>
             </div>
+            @include('layouts.dore.l_formmessages')
+            @yield('page_content')
         </div>
     </main>
     @include('layouts.dore.l_footer')
