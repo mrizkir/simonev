@@ -215,7 +215,7 @@
 
         $pagupembanding=0;
 
-        \App\Models\Report\StatistikTargetKinerja::create([
+        \App\Models\Report\StatistikTargetKinerjaModel::create([
             'TargetKinerjaID'=> uniqid ('uid'),
             'OrgID'=>$filters['OrgID'],
             'OrgNm'=>$organisasi->OrgNm,

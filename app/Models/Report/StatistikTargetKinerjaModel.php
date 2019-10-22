@@ -4,7 +4,7 @@ namespace App\Models\Report;
 
 use Illuminate\Database\Eloquent\Model;
 
-class StatistikTargetKinerja extends Model {
+class StatistikTargetKinerjaModel extends Model {
     
      /**
      * nama tabel model ini.

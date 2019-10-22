@@ -35,36 +35,37 @@ class DashboardController extends Controller
                 $data = [];
                 return view("pages.dore.dashboard.index")->with([
                     'page_active' => 'dashboard',
+                    'bulan_realisasi'=>\HelperKegiatan::getBulanRealisasi() > 9 ? 9:HelperKegiatan::getBulanRealisasi(),
                     'data' => $data,
                 ]);
-                break;
+            break;
             case 'opd':
                 $data = [];
                 return view("pages.dore.dashboard.indexOPD")->with([
                     'page_active' => 'dashboard',
                     'data' => $data,
                 ]);
-                break;
+            break;
             case 'dewan':
                 return view("pages.dore.dashboard.indexDewan")->with([
                     'page_active' => 'dashboard',
                     'data' => $data,
                 ]);
-                break;
+            break;
             case 'kecamatan':
                 $data = [];
                 return view("pages.dore.dashboard.indexKecamatan")->with([
                     'page_active' => 'dashboard',
                     'data' => $data,
                 ]);
-                break;
+            break;
             case 'desa':
                 $data = [];
                 return view("pages.dore.dashboard.indexDesa")->with([
                     'page_active' => 'dashboard',
                     'data' => $data,
                 ]);
-                break;
+            break;
         }
     }
 }
