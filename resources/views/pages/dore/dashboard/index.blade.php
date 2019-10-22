@@ -18,30 +18,18 @@
 <link rel="stylesheet" href="{!!asset('css/vendor/owl.carousel.min.css')!!}" />
 @endsection
 @section('page_content')
-@php
-    $jumlah_kegiatan = \DB::table('s_targetkinerja_opd')
-                        ->where('TA',HelperKegiatan::getTahunAnggaran())
-                        ->where('bulan',$bulan_realisasi)
-                        ->sum('jumlah_kegiatan1');
-
-    $pagudana=\DB::table('s_targetkinerja_opd')
-                ->where('TA',HelperKegiatan::getTahunAnggaran())
-                ->where('bulan',$bulan_realisasi)
-                ->sum('pagudinas1');
-
-    $realisasi=\DB::table('s_targetkinerja_opd')
-                ->where('TA',HelperKegiatan::getTahunAnggaran())
-                ->where('bulan',$bulan_realisasi)
-                ->sum('realisasi_keuangan1');
-    
-    $sisa_anggaran=$pagudana-$realisasi;
-    
-@endphp     
 <div class="row">
     <div class="col-md-12">
         <div class="icon-cards-row">
             <div class="owl-container">
                 <div class="owl-carousel dashboard-numbers">
+                    <a href="#" class="card">
+                        <div class="card-body text-center">
+                            <i class="iconsminds-clock"></i>
+                            <p class="card-text mb-0">Jumlah OPD / SKPD</p>
+                            <p class="lead text-center">{{$jumlah_opd}}</p>
+                        </div>
+                    </a>
                     <a href="#" class="card">
                         <div class="card-body text-center">
                             <i class="iconsminds-clock"></i>
@@ -56,7 +44,6 @@
                             <p class="lead text-center">{{Helper::formatUang($pagudana)}}</p>
                         </div>
                     </a>
-
                     <a href="#" class="card">
                         <div class="card-body text-center">
                             <i class="iconsminds-arrow-refresh"></i>
@@ -64,7 +51,6 @@
                             <p class="lead text-center">{{Helper::formatUang($realisasi)}}</p>
                         </div>
                     </a>
-
                     <a href="#" class="card">
                         <div class="card-body text-center">
                             <i class="iconsminds-mail-read"></i>
@@ -128,7 +114,7 @@ var option = {
             center: ['50%', '60%'],
             radius: '100%', 
             detail: {formatter:'{value}'},
-            data: [{value: 70.5, name: ''}]
+            data: [{value: {{$persen_target_keuangan}}, name: ''}]
         }
     ]
 };
@@ -146,7 +132,7 @@ var option = {
             center: ['50%', '60%'],
             radius: '100%', 
             detail: {formatter:'{value}'},
-            data: [{value: 40.5, name: ''}]
+            data: [{value: {{$persen_realisasi_keuangan}}, name: ''}]
         }
     ]
 };
@@ -164,7 +150,7 @@ var option = {
             center: ['50%', '60%'],
             radius: '100%', 
             detail: {formatter:'{value}'},
-            data: [{value: 14.5, name: ''}]
+            data: [{value: {{$target_fisik}}, name: ''}]
         }
     ]
 };
@@ -182,7 +168,7 @@ var option = {
             center: ['50%', '60%'],
             radius: '100%', 
             detail: {formatter:'{value}'},
-            data: [{value: 54.5, name: ''}]
+            data: [{value: {{$realisasi_fisik}}, name: ''}]
         }
     ]
 };
