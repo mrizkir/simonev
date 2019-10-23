@@ -1,18 +1,18 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    RINGKASAN DATA
+    DASHBOARD
 @endsection
 @section('page_header')
 <h1>
     <i class="simple-icon-chart"></i>
-    RINGKASAN DATA
+    DASHBOARD
 </h1>
 @endsection
 @section('page_header_display')
 <div class="separator mb-5"></div>
 @endsection
 @section('page_breadcrumb')
-    <li class="breadcrumb-item active" aria-current="page">RINGKASAN DATA</li>
+    <li class="breadcrumb-item active" aria-current="page">DASHBOARD</li>
 @endsection
 @section('page_asset_css')
 <link rel="stylesheet" href="{!!asset('css/vendor/owl.carousel.min.css')!!}" />
@@ -28,6 +28,13 @@
                             <i class="iconsminds-clock"></i>
                             <p class="card-text mb-0">Jumlah OPD / SKPD</p>
                             <p class="lead text-center">{{$jumlah_opd}}</p>
+                        </div>
+                    </a>
+                    <a href="#" class="card">
+                        <div class="card-body text-center">
+                            <i class="iconsminds-clock"></i>
+                            <p class="card-text mb-0">Jumlah Program</p>
+                            <p class="lead text-center">{{$jumlah_program}}</p>
                         </div>
                     </a>
                     <a href="#" class="card">

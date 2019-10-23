@@ -36,10 +36,14 @@ class DashboardController extends Controller
                                 ->where('TA',\HelperKegiatan::getTahunAnggaran())
                                 ->count('OrgID');
 
+                $jumlah_program = \DB::table('tmPrg')
+                                    ->where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                    ->count('PrgID');
+
                 $jumlah_kegiatan = \DB::table('s_targetkinerja_opd')
-                        ->where('TA',\HelperKegiatan::getTahunAnggaran())
-                        ->where('bulan',$bulan_realisasi)
-                        ->sum('jumlah_kegiatan1');
+                                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
+                                    ->where('bulan',$bulan_realisasi)
+                                    ->sum('jumlah_kegiatan1');
 
                 $pagudana=\DB::table('s_targetkinerja_opd')
                             ->where('TA',\HelperKegiatan::getTahunAnggaran())
@@ -85,6 +89,7 @@ class DashboardController extends Controller
                                                         'bulan_realisasi'=>$bulan_realisasi,
                                                         'data' => $data,
                                                         'pagudana' => $pagudana,
+                                                        'jumlah_program' => $jumlah_program,
                                                         'jumlah_kegiatan' => $jumlah_kegiatan,
                                                         'realisasi' => $realisasi,
                                                         'sisa_anggaran' => $sisa_anggaran,

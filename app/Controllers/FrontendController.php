@@ -32,6 +32,13 @@ class FrontendController extends Controller {
                                 ->where('TA',$ta)
                                 ->count('OrgID');
 
+            $data_visi = \App\Models\RPJMD\RPJMDVisiModel::find(config('simonev.rpjmd_visi_id'));
+            $rpjmd_tahun_mulai = $data_visi->TA_Awal+1;
+
+            $jumlah_program = \DB::table('tmPrg')
+                                    ->where('TA',$rpjmd_tahun_mulai)
+                                    ->count('PrgID');
+
             $jumlah_kegiatan = \DB::table('s_targetkinerja_opd')
                     ->where('TA',$ta)
                     ->where('bulan',$bulan_realisasi)
@@ -81,6 +88,7 @@ class FrontendController extends Controller {
                                                         'bulan_realisasi'=>$bulan_realisasi,
                                                         'data' => $data,
                                                         'pagudana' => $pagudana,
+                                                        'jumlah_program' => $jumlah_program,
                                                         'jumlah_kegiatan' => $jumlah_kegiatan,
                                                         'realisasi' => $realisasi,
                                                         'sisa_anggaran' => $sisa_anggaran,
