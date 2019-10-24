@@ -17,6 +17,11 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item" href="{{route('jenispelaksanaan.create')}}" title="Tambah Jenis Pelaksanaan">
+                <i class="simple-icon-plus"></i> TAMBAH
+            </a>            
+        </div>
+        <div class="dropdown-menu dropdown-menu-right">
             <a class="dropdown-item" href="{!!route('jenispelaksanaan.index')!!}">
                 <i class="simple-icon-close"></i> CLOSE
             </a>            
