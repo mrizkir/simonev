@@ -120,7 +120,7 @@
                             <div class="form-group row">
                                 {{Form::label('JenisPelaksanaanID','JENIS PELAKSANAAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('JenisPelaksanaanID', [], null, ['class'=>'form-control'])}}
+                                    {{Form::select('JenisPelaksanaanID', $daftar_jenispelaksanaan, null, ['class'=>'form-control'])}}
                                     <span class="form-text text-muted">Bila uraian adalah belanja pegawai, wajib di kosongkan.</span>
                                 </div>                                
                             </div>    		

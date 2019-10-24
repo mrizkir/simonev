@@ -722,9 +722,11 @@ class RKAKegiatanMurniController extends Controller
         $rka=$this->getDataRKA($id);
         try
         {   
-            $data_rekening=\App\Models\DMaster\RekeningModel::find($filters['RObyID']);                        
+            $data_rekening=\App\Models\DMaster\RekeningModel::find($filters['RObyID']);           
+            $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());             
             return view("pages.$theme.rka.rkakegiatanmurni.create2")->with(['page_active'=>'rkakegiatanmurni',
                                                                         'filters'=>$filters,
+                                                                        'daftar_jenispelaksanaan'=>$daftar_jenispelaksanaan,
                                                                         'data_rekening'=>$data_rekening,
                                                                         'RObyID'=>$filters['RObyID'],
                                                                         'rka'=>$rka,
@@ -1136,8 +1138,10 @@ class RKAKegiatanMurniController extends Controller
                                             ->findOrFail($id);
         if (!is_null($data) ) 
         {            
+            $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());
             return view("pages.$theme.rka.rkakegiatanmurni.edit2")->with(['page_active'=>'rkakegiatanmurni',
-                                                                        'rka'=>$rka = $this->getDataRKA($data->RKAID),
+                                                                        'rka'=>$this->getDataRKA($data->RKAID),
+                                                                        'daftar_jenispelaksanaan'=>$daftar_jenispelaksanaan,
                                                                         'data'=>$data
                                                                     ]);
         }        
@@ -1298,9 +1302,9 @@ class RKAKegiatanMurniController extends Controller
 
         $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');
         $rinciankegiatan->nama_uraian = $request->input('nama_uraian');
-        $rinciankegiatan->volume=$request->input('volume');
-        $rinciankegiatan->satuan=$request->input('satuan');
-        $rinciankegiatan->harga_satuan=$request->input('harga_satuan');
+        $rinciankegiatan->volume1=$request->input('volume');
+        $rinciankegiatan->satuan1=$request->input('satuan');
+        $rinciankegiatan->harga_satuan1=$request->input('harga_satuan');
         $rinciankegiatan->pagu_uraian1=$request->input('pagu_uraian1');
         $rinciankegiatan->Descr=$request->input('Descr');
         

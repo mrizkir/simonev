@@ -94,19 +94,19 @@
                             <div class="form-group row">
                                 {{Form::label('volume','VOLUME',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::text('volume', $data->volume, ['class'=>'form-control'])}}
+                                    {{Form::text('volume', $data->volume1, ['class'=>'form-control'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
                                 {{Form::label('satuan','SATUAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::text('satuan', $data->satuan, ['class'=>'form-control'])}}
+                                    {{Form::text('satuan', $data->satuan1, ['class'=>'form-control'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
                                 {{Form::label('harga_satuan','HARGA SATUAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::text('harga_satuan', $data->harga_satuan, ['class'=>'form-control'])}}
+                                    {{Form::text('harga_satuan', $data->harga_satuan1, ['class'=>'form-control'])}}
                                 </div>
                             </div>	
                             <div class="form-group row">
@@ -119,7 +119,7 @@
                             <div class="form-group row">
                                 {{Form::label('JenisPelaksanaanID','JENIS PELAKSANAAN',['class'=>'col-sm-2 col-form-label'])}}
                                 <div class="col-sm-10">
-                                    {{Form::select('JenisPelaksanaanID', [], $data->JenisPelaksanaanID, ['class'=>'form-control'])}}
+                                    {{Form::select('JenisPelaksanaanID', $daftar_jenispelaksanaan, $data->JenisPelaksanaanID, ['class'=>'form-control'])}}
                                     <span class="form-text text-muted">Bila uraian adalah belanja pegawai, wajib di kosongkan.</span>
                                 </div>                                
                             </div>    		

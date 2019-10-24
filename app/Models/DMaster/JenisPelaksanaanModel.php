@@ -60,7 +60,7 @@ class JenisPelaksanaanModel extends Model {
 
     public static function getJenisPelaksanaan ($ta,$prepend=true) 
     {
-        $r=ASNModel::where('TA',$ta)->orderBy('NamaJenis')->get();
+        $r=JenisPelaksanaanModel::where('TA',$ta)->orderBy('NamaJenis')->get();
         $jenis_pelaksanaan=($prepend==true)?['none'=>'DAFTAR JENIS PELAKSANAAN']:[];        
         foreach ($r as $k=>$v)
         {
