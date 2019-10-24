@@ -163,7 +163,7 @@
                     <div id="collapseBlog" class="collapse show">
                         <ul class="list-unstyled inner-level-menu">
                             <li>
-                                <a href="{{route('rkakegiatanmurni.index')}}">
+                                <a href="{{route('jenispelaksanaan.index')}}">
                                     <i class="simple-icon-size-actual"></i>
                                     <span class="d-inline-block">JENIS PELAKSANAAN</span>
                                 </a>

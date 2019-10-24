@@ -102,6 +102,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/dmaster/transaksi/filtercreate', ['uses' => 'DMaster\TransaksiController@filtercreate', 'as' => 'transaksi.filtercreate']);
     Route::get('/dmaster/transaksi/paginate/{id}', ['uses' => 'DMaster\TransaksiController@paginate', 'as' => 'transaksi.paginate']);
     Route::post('/dmaster/transaksi/orderby', ['uses' => 'DMaster\TransaksiController@orderby', 'as' => 'transaksi.orderby']);
+    
+    //masters - kelompok
+    Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/dmaster/kelompok/search', ['uses' => 'DMaster\KelompokController@search', 'as' => 'kelompok.search']);
+    Route::post('/dmaster/kelompok/filter', ['uses' => 'DMaster\KelompokController@filter', 'as' => 'kelompok.filter']);
+    Route::post('/dmaster/kelompok/filtercreate', ['uses' => 'DMaster\KelompokController@filtercreate', 'as' => 'kelompok.filtercreate']);
+    Route::get('/dmaster/kelompok/paginate/{id}', ['uses' => 'DMaster\KelompokController@paginate', 'as' => 'kelompok.paginate']);
+    Route::post('/dmaster/kelompok/orderby', ['uses' => 'DMaster\KelompokController@orderby', 'as' => 'kelompok.orderby']);
 
     //masters - jenis
     Route::resource('/dmaster/jenis', 'DMaster\JenisController', [
@@ -133,15 +143,18 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/objek/paginate/{id}', ['uses' => 'DMaster\ObjekController@paginate', 'as' => 'objek.paginate']);
     Route::post('/dmaster/objek/orderby', ['uses' => 'DMaster\ObjekController@orderby', 'as' => 'objek.orderby']);
 
-    //masters - kelompok
-    Route::resource('/dmaster/kelompok', 'DMaster\KelompokController', [
-        'parameters' => ['transaksi' => 'uuid'],
+    
+    //masters - jenis pelaksanaan [lain-lain]
+    Route::resource('/dmaster/jenispelaksanaan', 'DMaster\JenisPelaksanaanController', [
+        'parameters' => ['jenispelaksanaan' => 'uuid'],
     ]);
-    Route::post('/dmaster/kelompok/search', ['uses' => 'DMaster\KelompokController@search', 'as' => 'kelompok.search']);
-    Route::post('/dmaster/kelompok/filter', ['uses' => 'DMaster\KelompokController@filter', 'as' => 'kelompok.filter']);
-    Route::post('/dmaster/kelompok/filtercreate', ['uses' => 'DMaster\KelompokController@filtercreate', 'as' => 'kelompok.filtercreate']);
-    Route::get('/dmaster/kelompok/paginate/{id}', ['uses' => 'DMaster\KelompokController@paginate', 'as' => 'kelompok.paginate']);
-    Route::post('/dmaster/kelompok/orderby', ['uses' => 'DMaster\KelompokController@orderby', 'as' => 'kelompok.orderby']);
+    Route::post('/dmaster/jenispelaksanaan/search', ['uses' => 'DMaster\JenisPelaksanaanController@search', 'as' => 'jenispelaksanaan.search']);
+    Route::post('/dmaster/jenispelaksanaan/filter', ['uses' => 'DMaster\JenisPelaksanaanController@filter', 'as' => 'jenispelaksanaan.filter']);
+    Route::post('/dmaster/jenispelaksanaan/filtercreate', ['uses' => 'DMaster\JenisPelaksanaanController@filtercreate', 'as' => 'jenispelaksanaan.filtercreate']);
+    Route::get('/dmaster/jenispelaksanaan/paginate/{id}', ['uses' => 'DMaster\JenisPelaksanaanController@paginate', 'as' => 'jenispelaksanaan.paginate']);
+    Route::post('/dmaster/jenispelaksanaan/orderby', ['uses' => 'DMaster\JenisPelaksanaanController@orderby', 'as' => 'jenispelaksanaan.orderby']);
+
+    
 
     //rka - kegiatan murni [rka]
     Route::resource('/rka/rkakegiatanmurni','RKA\RKAKegiatanMurniController',['parameters'=>['rkakegiatanmurni'=>'uuid']]); 
