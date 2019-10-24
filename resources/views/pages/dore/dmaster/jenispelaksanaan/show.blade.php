@@ -4,7 +4,7 @@
 @endsection
 @section('page_header')    
     <h1>
-        <i class="simple-icon-people"></i> 
+        <i class="simple-icon-share"></i> 
         JENIS PELAKSANAAN
     </h1>
 @endsection
@@ -17,11 +17,9 @@
             <i class="simple-icon-menu"></i>
         </button>
         <div class="dropdown-menu dropdown-menu-right">
-            <a class="dropdown-item" href="{{route('jenispelaksanaan.create')}}" title="Tambah Jenis Pelaksanaan">
+             <a class="dropdown-item" href="{{route('jenispelaksanaan.create')}}" title="Tambah Jenis Pelaksanaan">
                 <i class="simple-icon-plus"></i> TAMBAH
-            </a>            
-        </div>
-        <div class="dropdown-menu dropdown-menu-right">
+            </a> 
             <a class="dropdown-item" href="{!!route('jenispelaksanaan.index')!!}">
                 <i class="simple-icon-close"></i> CLOSE
             </a>            

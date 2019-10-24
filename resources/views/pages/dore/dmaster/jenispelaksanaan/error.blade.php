@@ -4,7 +4,7 @@
 @endsection
 @section('page_header')    
     <h1>
-        <i class="simple-icon-people"></i> 
+        <i class="simple-icon-share"></i> 
         JENIS PELAKSANAAN
     </h1>
 @endsection
