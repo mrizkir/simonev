@@ -16,7 +16,7 @@ class ASNController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd']);        
     }
     /**
      * collect data from resources for index view
@@ -193,9 +193,19 @@ class ASNController extends Controller
     public function create()
     {        
         $theme = 'dore';
-        return view("pages.$theme.dmaster.asn.create")->with(['page_active'=>'asn',
-                                                                    
-                                                            ]);  
+        if (\Auth()->user()->hasRole('superadmin|bapelitbang'))
+        {
+            return view("pages.$theme.dmaster.asn.create")->with(['page_active'=>'asn',
+                                                                        
+                                                                ]);  
+        }
+        else
+        {
+            return view("pages.$theme.dmaster.asn.error")->with(['page_active'=>'asn',
+                                                                    'errormessage'=>'Anda tidak berhak mengakses halama ini'
+                                                                ]);  
+        }
+            
     }
     /**
      * Store a newly created resource in storage.
@@ -260,14 +270,22 @@ class ASNController extends Controller
     public function edit($uuid)
     {
         $theme = 'dore';
-        
-        $data = ASNModel::findOrFail($uuid);
-        if (!is_null($data) ) 
+        if (\Auth()->user()->hasRole('superadmin|bapelitbang'))
         {
-            return view("pages.$theme.dmaster.asn.edit")->with(['page_active'=>'rkakegiatanmurni',
-                                                    'data'=>$data
-                                                    ]);
-        }        
+            $data = ASNModel::findOrFail($uuid);
+            if (!is_null($data) ) 
+            {
+                return view("pages.$theme.dmaster.asn.edit")->with(['page_active'=>'rkakegiatanmurni',
+                                                        'data'=>$data
+                                                        ]);
+            }   
+        }
+        else
+        {
+            return view("pages.$theme.dmaster.asn.error")->with(['page_active'=>'asn',
+                                                                    'errormessage'=>'Anda tidak berhak mengakses halama ini'
+                                                                ]);  
+        }
     }
     /**
      * Store a newly created resource in storage.
