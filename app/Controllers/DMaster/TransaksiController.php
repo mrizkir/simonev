@@ -19,6 +19,7 @@ class TransaksiController extends Controller
     public function __construct()
     {
         parent::__construct();
+        $this->middleware(['auth']);
     }
     /**
      * collect data from resources for index view

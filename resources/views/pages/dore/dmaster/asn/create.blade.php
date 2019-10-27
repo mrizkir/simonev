@@ -4,7 +4,7 @@ ASN
 @endsection
 @section('page_header')
 <h1>
-    <i class="simple-icon-bag"></i>
+    <i class="iconsminds-user"></i>
     ASN
 </h1>
 @endsection
@@ -43,9 +43,9 @@ ASN
 <div class="separator mb-5"></div>
 @endsection
 @section('page_breadcrumb')
-<li class="breadcrumb-item">RKA</li>
+<li class="breadcrumb-item">MASTER</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('asn.index')!!}"> KEGIATAN MURNI</a>
+    <a href="{!!route('asn.index')!!}"> ASN</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
 @endsection

@@ -16,6 +16,7 @@ class ASNController extends Controller
     public function __construct()
     {
         parent::__construct();
+        $this->middleware(['auth']);
     }
     /**
      * collect data from resources for index view
@@ -24,6 +25,8 @@ class ASNController extends Controller
      */
     public function populateData($currentpage = 1)
     {
+        $roles=\Auth::user()->getRoleNames();
+
         $columns = ['*'];
         if (!$this->checkStateIsExistSession('asn', 'orderby')) {
             $this->putControllerStateSession('asn', 'orderby', ['column_name' => 'NIP_ASN', 'order' => 'asc']);
@@ -204,7 +207,7 @@ class ASNController extends Controller
     public function store(Request $request)
     {        
         $this->validate($request, [            
-            'NIP_ASN'=>'required||digits:20|regex:/^[0-9]+$/',
+            'NIP_ASN'=>'required|regex:/^[0-9]+$/',
             'Nm_ASN'=>'required|min:5',
         ]);
         
@@ -278,7 +281,7 @@ class ASNController extends Controller
         $asn = ASNModel::find($uuid);
         
         $this->validate($request, [            
-            'NIP_ASN'=>'required||digits:20|regex:/^[0-9]+$/',
+            'NIP_ASN'=>'required|regex:/^[0-9]+$/',
             'Nm_ASN'=>'required|min:5',
         ]);
         

@@ -4,7 +4,7 @@
 @endsection
 @section('page_header')
 <h1>
-    <i class="simple-icon-people"></i>
+    <i class="iconsminds-user"></i>
     ASN
 </h1>
 @endsection
