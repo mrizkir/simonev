@@ -48,7 +48,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h2 class="mb-2">
-                            <i class="simple-icon-screen-tablet"></i>
+                            <i class="iconsminds-user"></i>
                             DATA ASN
                         </h2>
                         <div class="separator mb-3"></div>

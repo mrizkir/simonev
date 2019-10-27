@@ -16,7 +16,7 @@ class ASNController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
+        $this->middleware(['auth','role:superadmin|bapelitbang|opd']);
     }
     /**
      * collect data from resources for index view
@@ -25,8 +25,6 @@ class ASNController extends Controller
      */
     public function populateData($currentpage = 1)
     {
-        $roles=\Auth::user()->getRoleNames();
-
         $columns = ['*'];
         if (!$this->checkStateIsExistSession('asn', 'orderby')) {
             $this->putControllerStateSession('asn', 'orderby', ['column_name' => 'NIP_ASN', 'order' => 'asc']);
@@ -38,10 +36,11 @@ class ASNController extends Controller
             $this->putControllerStateSession('global_controller', 'numberRecordPerPage', 10);
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
-
+                            
         $data = ASNModel::where('TA', \HelperKegiatan::getTahunAnggaran())
-                        ->orderBy($column_order, $direction)
-                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+                                ->orderBy($column_order, $direction)
+                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+        
 
         $data->setPath(route('asn.index'));
         return $data;

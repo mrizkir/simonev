@@ -9,6 +9,7 @@
 </h1>
 @endsection
 @section('page_header_button')
+@hasrole('superadmin|bapelitbang')
 <div class="text-zero top-right-button-container">    
     <div class="btn-group">
         <button type="button"
@@ -23,6 +24,7 @@
         </div>
     </div>
 </div>
+@endhasrole
 @endsection
 @section('page_header_display')
 <div class="mb-2">
