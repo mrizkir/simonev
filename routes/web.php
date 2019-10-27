@@ -83,7 +83,7 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::get('/dmaster/mappingprogramtoopd/paginate/{id}', ['uses' => 'DMaster\MappingProgramToOPDController@paginate', 'as' => 'mappingprogramtoopd.paginate']);
     Route::post('/dmaster/mappingprogramtoopd/orderby', ['uses' => 'DMaster\MappingProgramToOPDController@orderby', 'as' => 'mappingprogramtoopd.orderby']);
 
-    //masters - mapping program ke OPD [mapping]
+    //masters - asn [pegawai]
     Route::resource('/dmaster/asn', 'DMaster\ASNController', [
         'parameters' => ['asn' => 'uuid'],
     ]);
@@ -92,6 +92,16 @@ Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web',
     Route::post('/dmaster/asn/filtercreate', ['uses' => 'DMaster\ASNController@filtercreate', 'as' => 'asn.filtercreate']);
     Route::get('/dmaster/asn/paginate/{id}', ['uses' => 'DMaster\ASNController@paginate', 'as' => 'asn.paginate']);
     Route::post('/dmaster/asn/orderby', ['uses' => 'DMaster\ASNController@orderby', 'as' => 'asn.orderby']);
+    
+    //masters - asn opd [pegawai]
+    Route::resource('/dmaster/asnopd', 'DMaster\ASNOPDController', [
+        'parameters' => ['asnopd' => 'uuid'],
+    ]);
+    Route::post('/dmaster/asnopd/search', ['uses' => 'DMaster\ASNOPDController@search', 'as' => 'asnopd.search']);
+    Route::post('/dmaster/asnopd/filter', ['uses' => 'DMaster\ASNOPDController@filter', 'as' => 'asnopd.filter']);
+    Route::post('/dmaster/asnopd/filtercreate', ['uses' => 'DMaster\ASNOPDController@filtercreate', 'as' => 'asnopd.filtercreate']);
+    Route::get('/dmaster/asnopd/paginate/{id}', ['uses' => 'DMaster\ASNOPDController@paginate', 'as' => 'asnopd.paginate']);
+    Route::post('/dmaster/asnopd/orderby', ['uses' => 'DMaster\ASNOPDController@orderby', 'as' => 'asnopd.orderby']);
 
     //masters - transaksi
     Route::resource('/dmaster/transaksi', 'DMaster\TransaksiController', [

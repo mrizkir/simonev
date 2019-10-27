@@ -150,6 +150,12 @@
                                     <span class="d-inline-block">ASN</span>
                                 </a>
                             </li>
+                            <li>
+                                <a href="{{route('asnopd.index')}}">
+                                    <i class="simple-icon-people"></i>
+                                    <span class="d-inline-block">ASN OPD</span>
+                                </a>
+                            </li>
                             @endhasrole
                         </ul>
                     </div>
