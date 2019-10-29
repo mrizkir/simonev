@@ -88,7 +88,7 @@
                             <div class="form-group row">
                                 <label class="col-md-3 col-form-label">BULAN REALISASI :</label> 
                                 <div class="col-md-9">
-                                    {{Form::select('bulan', Helper::getBulanM(),'none',['class'=>'form-control select'])}}
+                                    {{Form::select('bulan', [],'none',['class'=>'form-control select','id'=>'bulan'])}}
                                 </div>
                             </div> 	
                             <div class="form-group row">
@@ -230,7 +230,15 @@ $(document).ready(function () {
             { 
                 console.log(result);              
                 $('#pPaguRincian').html(result.pagu_uraian1);         
-                $('#pSisaPaguRincian').html(result.sisa_pagu_rincian);         
+                $('#pSisaPaguRincian').html(result.sisa_pagu_rincian);      
+
+                var daftar_bulan = result.bulan;
+                var listitems='';
+                $.each(daftar_bulan,function(key,value){
+                    listitems+='<option value="' + key + '">'+value+'</option>';                    
+                });
+                $('#bulan').html(listitems);
+
                 new AutoNumeric ('#pPaguRincian'); 
                 new AutoNumeric ('#pSisaPaguRincian');                                 
             },

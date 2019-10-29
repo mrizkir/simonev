@@ -662,7 +662,23 @@ class RKAKegiatanMurniController extends Controller
                                             ->sum('realisasi1');
 
                     $pagu_uraian1=$data_uraian->pagu_uraian1;
-                    $json_data['pagu_uraian1']=$pagu_uraian1;                
+                    $json_data['pagu_uraian1']=$pagu_uraian1;           
+                    $daftar_bulan = [];
+                    $bulan=\Helper::getBulan();
+                    
+                    $b1=\DB::table('trRKARealisasiRinc')
+                                            ->select(\DB::raw('bulan1'))
+                                            ->where('RKARincID',$RKARincID)
+                                            ->get();
+
+                    $bulan_realisasi = [];
+                    foreach ($b1 as $item)
+                    {
+                        $bulan_realisasi[$item->bulan1]=\Helper::getBulan($item->bulan1);
+                    }
+                    $daftar_bulan = array_diff_assoc($bulan,$bulan_realisasi);
+
+                    $json_data['bulan']=$daftar_bulan;                
                     $json_data['sisa_pagu_rincian']=$pagu_uraian1-$jumlah_realisasi;
                 }
                 
