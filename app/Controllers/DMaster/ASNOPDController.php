@@ -4,6 +4,7 @@ namespace App\Controllers\DMaster;
 
 use App\Controllers\Controller;
 use App\Models\DMaster\ASNModel;
+use App\Models\DMaster\RiwayatJabatanASNModel;
 use Illuminate\Http\Request;
 
 class ASNOPDController extends Controller
@@ -36,11 +37,21 @@ class ASNOPDController extends Controller
             $this->putControllerStateSession('global_controller', 'numberRecordPerPage', 10);
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
-                
-        $data = ASNModel::where('TA', \HelperKegiatan::getTahunAnggaran())
-                                ->orderBy($column_order, $direction)
-                                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-        
+
+        //filter
+        if (!$this->checkStateIsExistSession('asnopd','filters')) 
+        {            
+            $this->putControllerStateSession('asnopd','filters',[
+                                                                'OrgID'=>'none',
+                                                            ]);
+        }        
+        $OrgID= $this->getControllerStateSession('asnopd.filters','OrgID');
+
+        $data = RiwayatJabatanASNModel::where('TA', \HelperKegiatan::getTahunAnggaran())            
+                                        ->where('OrgID', $OrgID)            
+                                        ->orderBy($column_order, $direction)
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+
 
         $data->setPath(route('asnopd.index'));
         return $data;
@@ -84,10 +95,10 @@ class ASNOPDController extends Controller
         switch ($column) {
             case 'col-NIP_ASN':
                 $column_name = 'NIP_ASN';
-                break;
+            break;
             case 'col-Nm_Urusan':
                 $column_name = 'Nm_Urusan';
-                break;
+            break;
             default:
                 $column_name = 'NIP_ASN';
         }
@@ -120,13 +131,13 @@ class ASNOPDController extends Controller
         $this->setCurrentPageInsideSession('asnopd', $id);
         $data = $this->populateData($id);
         $datatable = view("pages.$theme.dmaster.asnopd.datatable")->with([
-                                                                                    'page_active' => 'asnopd',
-                                                                                    'search' => $this->getControllerStateSession('asnopd', 'search'),
-                                                                                    'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                    'column_order' => $this->getControllerStateSession('asnopd.orderby', 'column_name'),
-                                                                                    'direction' => $this->getControllerStateSession('asnopd.orderby', 'order'),
-                                                                                    'data' => $data
-                                                                                ])->render();
+                                                                        'page_active' => 'asnopd',
+                                                                        'search' => $this->getControllerStateSession('asnopd', 'search'),
+                                                                        'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                        'column_order' => $this->getControllerStateSession('asnopd.orderby', 'column_name'),
+                                                                        'direction' => $this->getControllerStateSession('asnopd.orderby', 'order'),
+                                                                        'data' => $data
+                                                                    ])->render();
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
     }
     /**
@@ -160,6 +171,42 @@ class ASNOPDController extends Controller
         return response()->json(['success' => true, 'datatable' => $datatable], 200);
     }
     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter(Request $request) 
+    {
+        $auth = \Auth::user();    
+        $theme = 'dore';
+
+        $filters=$this->getControllerStateSession('asnopd','filters');
+        $json_data = [];
+
+        //index
+        if ($request->exists('OrgID'))
+        {
+            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
+            $filters['OrgID']=$OrgID;
+            
+            $this->putControllerStateSession('asnopd','filters',$filters);
+
+            $data = [];
+
+            $datatable = view("pages.$theme.dmaster.asnopd.datatable")->with(['page_active' => 'asnopd',
+                                                                                'search' => $this->getControllerStateSession('asnopd', 'search'),
+                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                                'column_order' => $this->getControllerStateSession('asnopd.orderby', 'column_name'),
+                                                                                'direction' => $this->getControllerStateSession('asnopd.orderby', 'order'),
+                                                                                'data' => $data])->render();
+
+          
+            $json_data = ['success'=>true,'datatable'=>$datatable];
+        } 
+        return response()->json($json_data,200);  
+    }
+    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -167,7 +214,7 @@ class ASNOPDController extends Controller
     public function index(Request $request)
     {
         $theme = 'dore';
-
+        $filters=$this->getControllerStateSession('asnopd','filters');
         $search = $this->getControllerStateSession('asnopd', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('asnopd');
         $data = $this->populateData($currentpage);
@@ -177,13 +224,18 @@ class ASNOPDController extends Controller
         }
         $this->setCurrentPageInsideSession('asnopd', $data->currentPage());
 
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false); 
+        $daftar_opd['']=''; 
+
         return view("pages.$theme.dmaster.asnopd.index")->with(['page_active' => 'asnopd',
-                                                                        'search' => $this->getControllerStateSession('asnopd', 'search'),
-                                                                        'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                        'column_order' => $this->getControllerStateSession('asnopd.orderby', 'column_name'),
-                                                                        'direction' => $this->getControllerStateSession('asnopd.orderby', 'order'),
-                                                                        'data' => $data,
-        ]);
+                                                                'filters'=>$filters,
+                                                                'daftar_opd'=>$daftar_opd,
+                                                                'search' => $this->getControllerStateSession('asnopd', 'search'),
+                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
+                                                                'column_order' => $this->getControllerStateSession('asnopd.orderby', 'column_name'),
+                                                                'direction' => $this->getControllerStateSession('asnopd.orderby', 'order'),
+                                                                'data' => $data,
+                                                            ]);
     }
     /**
      * Show the form for creating a new resource.
@@ -265,9 +317,9 @@ class ASNOPDController extends Controller
         $data = ASNModel::findOrFail($uuid);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.dmaster.asnopd.edit")->with(['page_active'=>'rkakegiatanmurni',
-                                                    'data'=>$data
-                                                    ]);
+            return view("pages.$theme.dmaster.asnopd.edit")->with(['page_active'=>'asnopd',
+                                                                    'data'=>$data
+                                                                ]);
         }   
     
     }

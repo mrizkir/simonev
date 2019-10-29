@@ -9,7 +9,7 @@
     </h1>
 @endsection
 @section('page_info')
-    @include('pages.dore.dmasterasnopd.info')
+    @include('pages.dore.dmaster.asnopd.info')
 @endsection
 @section('page_header_button')
     <div class="text-zero top-right-button-container">
