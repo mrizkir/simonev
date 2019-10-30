@@ -58,8 +58,7 @@ ASN
                 TAMBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\ASNController@store','method'=>'post','class'=>'form-horizontal
-            tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
+            {!! Form::open(['action'=>'DMaster\ASNController@store','method'=>'post','class'=>'form-horizontal tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
             <div class="form-group row has-float-label">
                 {{Form::label('NIP_ASN','NIP ASN:',['class'=>'col-sm-2 col-form-label'])}}
                 <div class="col-sm-10">

@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-    ASN
+    ASN OPD / SKPD
 @endsection
 @section('page_header')    
     <h1>
         <i class="iconsminds-user"></i> 
-        ASN
+        ASN OPD / SKPD
     </h1>
 @endsection
 @section('page_info')
@@ -36,7 +36,7 @@
     <li class="breadcrumb-item">DATA MASTER</li>
     <li class="breadcrumb-item">PEGAWAI</li>
     <li class="breadcrumb-item">
-        <a href="{!!route('asnopd.index')!!}">ASN</a>
+        <a href="{!!route('asnopd.index')!!}">ASN OPD / SKPD</a>
     </li>
     <li class="breadcrumb-item active" aria-current="page">DETAIL</li>
 @endsection
@@ -78,9 +78,9 @@
                             <div class="col-md-6">
                                 <form>
                                     <div class="form-group row">
-                                        <label class="col-md-4 col-form-label"><strong>KETERANGAN: </strong></label>
+                                        <label class="col-md-4 col-form-label"><strong>JABATAN: </strong></label>
                                         <div class="col-md-8">
-                                            <p class="form-control-static">{{$data->Descr}}</p>
+                                            <p class="form-control-static">{{strtoupper($data->Jenis_Jabatan)}}</p>
                                         </div>                            
                                     </div>        
                                     <div class="form-group row">

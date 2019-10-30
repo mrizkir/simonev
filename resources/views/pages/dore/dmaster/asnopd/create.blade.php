@@ -1,11 +1,11 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-ASN
+    ASN OPD / SKPD
 @endsection
 @section('page_header')
 <h1>
     <i class="iconsminds-user"></i>
-    ASN
+    ASN OPD / SKPD
 </h1>
 @endsection
 @section('page_header_button')
@@ -44,10 +44,15 @@ ASN
 @endsection
 @section('page_breadcrumb')
 <li class="breadcrumb-item">MASTER</li>
+<li class="breadcrumb-item">PEGAWAI</li>
 <li class="breadcrumb-item" aria-current="page">
-    <a href="{!!route('asnopd.index')!!}"> ASN</a>
+    <a href="{!!route('asnopd.index')!!}"> ASN OPD / SKPD</a>
 </li>
 <li class="breadcrumb-item active" aria-current="page">TAMBAH DATA</li>
+@endsection
+@section('page_asset_css')
+<link rel="stylesheet" href="{!!asset('css/vendor/select2.min.css')!!}" />
+<link rel="stylesheet" href="{!!asset('css/vendor/select2-bootstrap.min.css')!!}" />
 @endsection
 @section('page_content')
 <div class="content">
@@ -58,32 +63,34 @@ ASN
                 TAMBAH DATA
             </h4>
             <div class="separator mb-5"></div>
-            {!! Form::open(['action'=>'DMaster\ASNController@store','method'=>'post','class'=>'form-horizontal
-            tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
-            <div class="form-group row has-float-label">
-                {{Form::label('NIP_ASN','NIP ASN:',['class'=>'col-sm-2 col-form-label'])}}
-                <div class="col-sm-10">
-                    {{Form::text('NIP_ASN','',['class'=>'form-control','placeholder'=>'NIP ASN'])}}
+            {!! Form::open(['action'=>'DMaster\ASNOPDController@store','method'=>'post','class'=>'form-horizontal tooltip-label-bottom','id'=>'frmdata','name'=>'frmdata','novalidate'=>true])!!}
+                <div class="form-group row">
+                    <label class="col-md-2 col-form-label"><strong>OPD / SKPD: </strong></label>
+                    <div class="col-md-10">
+                        {{Form::hidden('OrgID',$organisasi->OrgID)}}
+                        <p class="form-control-static">
+                            <strong>{{$organisasi->OrgNm}}</strong>
+                        </p>
+                    </div>                            
+                </div> 
+                <div class="form-group row has-float-label">
+                    {{Form::label('ASNID','Nama ASN:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('ASNID', $daftar_asn,'',['class'=>'form-control select','id'=>'ASNID'])}}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row has-float-label">
-                {{Form::label('Nm_ASN','Nama ASN:',['class'=>'col-sm-2 col-form-label'])}}
-                <div class="col-sm-10">
-                    {{Form::text('Nm_ASN','',['class'=>'form-control','placeholder'=>'Nama ASN'])}}
+                <div class="form-group row has-float-label">
+                    {{Form::label('Jenis_Jabatan','Jenis Jabatan:',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{Form::select('Jenis_Jabatan', [''=>'DAFTAR JENIS JABATAN','pa'=>'PENGGUNA ANGGARAN','kpa'=>'KUASA PENGGUNA ANGGARAN','ppk'=>'PEJABAT PEMBUAT KOMITMEN','pptk'=>'PPTK'],'',['class'=>'form-control select','id'=>'Jenis_Jabatan'])}}
+                    </div>
+                </div>   
+                <div class="form-group row has-float-label">
+                    {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
+                    <div class="col-sm-10">
+                        {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
+                    </div>
                 </div>
-            </div>
-            <div class="form-group row has-float-label">
-                {{Form::label('Descr','Keterangan:',['class'=>'col-sm-2 col-form-label'])}}
-                <div class="col-sm-10">
-                    {{Form::textarea('Descr','',['class'=>'form-control','placeholder'=>'Keterangan','rows'=>3])}}
-                </div>
-            </div>
-            <div class="form-group row has-float-label">
-                {{Form::label('','',['class'=>'col-sm-2 col-form-label'])}}
-                <div class="col-sm-10">
-                    {{ Form::button('SIMPAN', ['type' => 'submit', 'class' => 'btn btn-primary btn-sm default'] ) }}
-                </div>
-            </div>
             {!! Form::close()!!}
         </div>
     </div>
@@ -92,41 +99,31 @@ ASN
 @section('page_asset_js')
 <script src="{!!asset('js/vendor/jquery.validate/jquery.validate.min.js')!!}"></script>
 <script src="{!!asset('js/vendor/jquery.validate/additional-methods.min.js')!!}"></script>
-<script src="{!!asset('js/vendor/autoNumeric.min.js')!!}"></script>
+<script src="{!!asset('js/vendor/select2.full.js')!!}"></script>
 @endsection
 @section('page_custom_js')
 <script type="text/javascript">
-    $(document).ready(function () {   
-    AutoNumeric.multiple(['#NIP_ASN'], {
-                                            allowDecimalPadding: false,
-                                            minimumValue:0,
-                                            maximumValue:99999999999999999999, 
-                                            numericPos:true,
-                                            decimalPlaces : 0,
-                                            digitGroupSeparator : '',
-                                            showWarnings:false,
-                                            unformatOnSubmit: true,
-                                            modifyValueOnWheel:false
-                                        });
+$(document).ready(function () {      
+    $("#ASNID.select").select2({
+        theme: "bootstrap",
+        placeholder: "PILIH ASN",
+        allowClear:true        
+    }); 
     $('#frmdata').validate({
         rules: {
-            NIP_ASN : {
+            ASNID : {
                 required: true,
-                minlength: 2
             },
-            Nm_ASN : {
+            Jenis_Jabatan : {
                 required: true,
-                minlength: 2
             },
         },
         messages : {
-            NIP_ASN : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            ASNID : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
             },
-            Nm_ASN : {
-                required: "Mohon untuk di isi karena ini diperlukan.",
-                minlength: "Mohon di isi minimal 2 karakter atau lebih."
+            Jenis_Jabatan : {
+                required: "Mohon untuk di pilih karena ini diperlukan.",
             }
         }      
     });   

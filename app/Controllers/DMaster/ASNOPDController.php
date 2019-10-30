@@ -47,7 +47,8 @@ class ASNOPDController extends Controller
         }        
         $OrgID= $this->getControllerStateSession('asnopd.filters','OrgID');
 
-        $data = RiwayatJabatanASNModel::where('TA', \HelperKegiatan::getTahunAnggaran())            
+        $data = RiwayatJabatanASNModel::join('tmASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+                                        ->where('trRiwayatJabatanASN.TA', \HelperKegiatan::getTahunAnggaran())            
                                         ->where('OrgID', $OrgID)            
                                         ->orderBy($column_order, $direction)
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
@@ -95,10 +96,7 @@ class ASNOPDController extends Controller
         switch ($column) {
             case 'col-NIP_ASN':
                 $column_name = 'NIP_ASN';
-            break;
-            case 'col-Nm_Urusan':
-                $column_name = 'Nm_Urusan';
-            break;
+            break;           
             default:
                 $column_name = 'NIP_ASN';
         }
@@ -245,10 +243,30 @@ class ASNOPDController extends Controller
     public function create()
     {        
         $theme = 'dore';
-       
+        $filters=$this->getControllerStateSession('asnopd','filters');  
+        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        {
+            $organisasi=\App\Models\DMaster\OrganisasiModel::find($filters['OrgID']); 
+
+            $daftar_asn = \DB::table('tmASN')
+                            ->select(\DB::raw('"ASNID",CONCAT(\'[\',"NIP_ASN",\']. \',"Nm_ASN") AS "Nm_ASN"'))
+                            ->where('TA',\HelperKegiatan::getTahunAnggaran())
+                            ->get()
+                            ->pluck('Nm_ASN','ASNID')
+                            ->prepend('','');
+
             return view("pages.$theme.dmaster.asnopd.create")->with(['page_active'=>'asnopd',
-                                                                        
-                                                                ]);         
+                                                                    'organisasi'=>$organisasi,
+                                                                    'daftar_asn'=>$daftar_asn                                                                        
+                                                                ]);        
+        }
+        else
+        {
+            return view("pages.$theme.dmaster.asnopd.error")->with(['page_active'=>'asnopd',
+                                                                    'page_title'=>'ASN OPD',
+                                                                    'errormessage'=>'Mohon OPD / SKPD untuk di pilih terlebih dahulu.'
+                                                                ]);
+        } 
             
     }
     /**
@@ -260,17 +278,18 @@ class ASNOPDController extends Controller
     public function store(Request $request)
     {        
         $this->validate($request, [            
-            'NIP_ASN'=>'required|regex:/^[0-9]+$/',
-            'Nm_ASN'=>'required|min:5',
+            'ASNID'=>'required',
+            'Jenis_Jabatan'=>'required',
         ]);
         
         $jns = $request->input('Jns');
 
-        $asn = ASNModel::create ([
-            'ASNID'=> uniqid ('uid'),
+        $asn = RiwayatJabatanASNModel::create ([
+            'RiwayatJabatanASNID'=> uniqid ('uid'),
+            'OrgID'=> $request->input('OrgID'),
+            'ASNID'=> $request->input('ASNID'),
             'NIP_ASN' => $request->input('NIP_ASN'),
-            'Nm_ASN' => $request->input('Nm_ASN'),
-            'Descr' => $request->input('Descr'),
+            'Jenis_Jabatan' => $request->input('Jenis_Jabatan'),
             'TA'=>\HelperKegiatan::getTahunAnggaran(),
         ]);        
      
@@ -283,7 +302,7 @@ class ASNOPDController extends Controller
         }
         else
         {
-            return redirect(route('asnopd.show',['uuid'=>$asn->ASNID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('asnopd.show',['uuid'=>$asn->RiwayatJabatanASNID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -297,65 +316,15 @@ class ASNOPDController extends Controller
     {
         $theme = 'dore';
 
-        $data = ASNModel::where('ASNID', $uuid)
-                        ->firstOrFail();
+        $data = RiwayatJabatanASNModel::join('tmASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+                                        ->where('RiwayatJabatanASNID', $uuid)
+                                        ->firstOrFail();
         if (!is_null($data)) {
             return view("pages.$theme.dmaster.asnopd.show")->with(['page_active' => 'asnopd',
                                                                 'data' => $data,
                                                             ]);
         }
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($uuid)
-    {
-        $theme = 'dore';       
-        $data = ASNModel::findOrFail($uuid);
-        if (!is_null($data) ) 
-        {
-            return view("pages.$theme.dmaster.asnopd.edit")->with(['page_active'=>'asnopd',
-                                                                    'data'=>$data
-                                                                ]);
-        }   
-    
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request,$uuid)
-    {        
-        $asn = ASNModel::find($uuid);
-        
-        $this->validate($request, [            
-            'NIP_ASN'=>'required|regex:/^[0-9]+$/',
-            'Nm_ASN'=>'required|min:5',
-        ]);
-        
-        $asn->NIP_ASN = $request->input('NIP_ASN');
-        $asn->Nm_ASN = $request->input('Nm_ASN');
-        $asn->Descr = $request->input('Descr');
-        $asn->save();
-     
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ]);
-        }
-        else
-        {
-            return redirect(route('asnopd.show',['uuid'=>$asn->ASNID]))->with('success','Data ini telah berhasil disimpan.');
-        }
-
-    }
+    }    
     /**
      * Remove the specified resource from storage.
      *
@@ -366,8 +335,8 @@ class ASNOPDController extends Controller
     {
         $theme = 'dore';
         
-        $asn = ASNModel::find($uuid);
-        $result=$asn->delete();
+        $riwayat_asn = RiwayatJabatanASNModel::find($uuid);
+        $result=$riwayat_asn->delete();
         if ($request->ajax()) 
         {
             $currentpage=$this->getCurrentPageInsideSession('asnopd'); 
