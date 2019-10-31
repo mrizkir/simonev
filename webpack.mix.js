@@ -3,7 +3,7 @@ const mix = require('laravel-mix');
 mix.webpackConfig(webpack => {
    return {
        output: {
-           publicPath: '/simonev/public/',
+           publicPath: '/',
            chunkFilename: '[name].js',
        },
    };

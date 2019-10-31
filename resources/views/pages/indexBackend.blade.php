@@ -17,7 +17,7 @@
 				<a class="nav-link" data-widget="pushmenu" href="#"><i class="fas fa-bars"></i></a>
 			</li>
 			<li class="nav-item d-none d-sm-inline-block">
-				<a href="{{route('login')}}" class="nav-link">LOGIN</a>
+				<a href="{{route('logout')}}" class="nav-link">LOGOUT</a>
 			</li>			
     	</ul>
     	<ul class="navbar-nav ml-auto">	
@@ -28,7 +28,6 @@
 			</li>
 		</ul>
   	</nav>
-
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
 		<a href="index3.html" class="brand-link">  
 			<span class="brand-text font-weight-light">{{ config('app.name', 'SIMONEV') }}</span>
@@ -36,10 +35,10 @@
 		<div class="sidebar">
 			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 				<div class="image">
-					<img alt="Guest" src="{{asset('storage/images/users/no_photo.png')}}" />
+                    <img src="{{asset(Auth::user()->foto)}}" alt="{{Auth::user()->username}}" />
 				</div>
 				<div class="info">
-					<a href="#" class="d-block">Guest</a>
+					<a href="#" class="d-block">{{Auth::user()->username}}</a>
 				</div>
 			</div>
 			<nav class="mt-2">
@@ -55,7 +54,7 @@
 				</ul>
 			</nav>
 		</div>
-  	</aside>
+	</aside>
 	<router-view></router-view>	
 	<footer class="main-footer">
 		<div class="float-right d-none d-sm-inline">
