@@ -47,7 +47,7 @@
                     aria-expanded="false">
                     <span class="name">Guest</span>
                     <span>
-                        <img alt="Profile Picture" src="{{asset('storage/images/users/no_photo.png')}}" />
+                        <img alt="Guest" src="{{asset('storage/images/users/no_photo.png')}}" />
                     </span>
                 </button>
                 <div class="dropdown-menu dropdown-menu-right mt-3">
