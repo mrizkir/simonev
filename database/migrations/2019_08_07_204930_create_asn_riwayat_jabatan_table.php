@@ -22,7 +22,9 @@ class CreateAsnRiwayatJabatanTable extends Migration
             $table->boolean('Locked')->default(0);
             $table->timestamps();
 
-            $table->primary('ASNID');    
+            $table->primary('RiwayatJabatanASNID');    
+            $table->index('ASNID');    
+            $table->index('OrgID');    
 
             $table->foreign('OrgID')
                     ->references('OrgID')

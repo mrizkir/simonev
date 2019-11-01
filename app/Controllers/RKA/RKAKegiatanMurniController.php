@@ -539,13 +539,36 @@ class RKAKegiatanMurniController extends Controller
             $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
                                                                 ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
                                                                 ->find($SOrgID);  
-
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
-            $daftar_pa=[];
-            $daftar_kpa=[];
-            $daftar_ppk=[];
-            $daftar_pptk=[];
             
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
+            $daftar_pegawai = \App\Models\DMaster\RiwayatJabatanASNModel::join('tmASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+                                                                        ->select(\DB::raw('"trRiwayatJabatanASN"."ASNID",CONCAT(\'[\',"NIP_ASN",\']. \',"Nm_ASN") AS "Nm_ASN","Jenis_Jabatan"'))
+                                                                        ->where('OrgID',$OrgID)                                                                                                                                                
+                                                                        ->get();            
+            
+            
+            $daftar_pa=[''=>'DAFTAR PA'];
+            $daftar_kpa=[''=>'DAFTAR KPA'];
+            $daftar_ppk=[''=>'DAFTAR PPK'];
+            $daftar_pptk=[''=>'DAFTAR PPTK'];
+            foreach($daftar_pegawai as $v)
+            {
+                switch ($v->Jenis_Jabatan)
+                {
+                    case 'pa' :
+                        $daftar_pa[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                    case 'kpa' :
+                        $daftar_kpa[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                    case 'ppk' :
+                        $daftar_ppk[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                    case 'pptk' :
+                        $daftar_pptk[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                }                
+            }
             return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
                                                                             'daftar_program'=>$daftar_program,                                                                                                                                                       
                                                                             'daftar_rkpd'=>[],
@@ -1132,11 +1155,50 @@ class RKAKegiatanMurniController extends Controller
         $theme = 'dore';
         
         $data = RKAKegiatanModel::findOrFail($id);
+
         if (!is_null($data) ) 
         {
+            $SOrgID=$data->SOrgID;            
+            $OrgID=$data->OrgID;   
+            
+            $organisasi=\App\Models\DMaster\SubOrganisasiModel::select(\DB::raw('"v_suborganisasi"."OrgID","v_suborganisasi"."OrgIDRPJMD","v_suborganisasi"."UrsID","v_suborganisasi"."OrgNm","v_suborganisasi"."SOrgNm","v_suborganisasi"."kode_organisasi","v_suborganisasi"."kode_suborganisasi"'))
+                                                                ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
+                                                                ->find($SOrgID);  
+
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
+            $daftar_pegawai = \App\Models\DMaster\RiwayatJabatanASNModel::join('tmASN','trRiwayatJabatanASN.ASNID','tmASN.ASNID')
+                                                                        ->select(\DB::raw('"trRiwayatJabatanASN"."ASNID",CONCAT(\'[\',"NIP_ASN",\']. \',"Nm_ASN") AS "Nm_ASN","Jenis_Jabatan"'))
+                                                                        ->where('OrgID',$OrgID)                                                                                                                                                
+                                                                        ->get();            
+            
+            
+            foreach($daftar_pegawai as $v)
+            {
+                switch ($v->Jenis_Jabatan)
+                {
+                    case 'pa' :
+                        $daftar_pa[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                    case 'kpa' :
+                        $daftar_kpa[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                    case 'ppk' :
+                        $daftar_ppk[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                    case 'pptk' :
+                        $daftar_pptk[$v->ASNID]=$v->Nm_ASN;
+                    break;
+                }                
+            }
             return view("pages.$theme.rka.rkakegiatanmurni.edit")->with(['page_active'=>'rkakegiatanmurni',
-                                                    'data'=>$data
-                                                    ]);
+                                                                        'data'=>$data,
+                                                                        'daftar_program'=>$daftar_program,                                                                                                                                                       
+                                                                        'daftar_rkpd'=>[],
+                                                                        'daftar_pa'=>$daftar_pa,
+                                                                        'daftar_kpa'=>$daftar_kpa,
+                                                                        'daftar_ppk'=>$daftar_ppk,
+                                                                        'daftar_pptk'=>$daftar_pptk,
+                                                                    ]);
         }        
     }
 
