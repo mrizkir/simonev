@@ -44,12 +44,29 @@
 			<nav class="mt-2">
 				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">			
 					<li class="nav-item">
-						<router-link to="/" class="nav-link active">
+						<router-link to="/" class="nav-link">
 							<i class="nav-icon fas fa-tachometer-alt"></i>
 							<p>
 								DASHBOARD
 							</p>
 						</router-link>						
+					</li>
+					<li class="nav-item has-treeview">
+						<a href="#" class="nav-link">
+						  	<i class="nav-icon fas fa-tree"></i>
+						  	<p>
+								MASTER
+								<i class="fas fa-angle-left right"></i>
+						  	</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
+									<i class="far fa-circle nav-icon"></i>
+									<p>PAGU DANA</p>
+							  	</router-link>
+							</li>							
+						</ul>
 					</li>
 				</ul>
 			</nav>
@@ -64,7 +81,9 @@
 	</footer>
 </div>
 <script>
-  	window.laravel={'csrfToken':'{{csrf_token()}}'};
+  	window.laravel={'csrfToken':'{{csrf_token()}}',
+	  				'api_token':'Bearer {{Auth::user()->api_token}}'};
+	
 </script>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>

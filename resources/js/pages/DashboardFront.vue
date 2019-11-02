@@ -4,7 +4,10 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">DASHBOARD</h1>
+                    <h1 class="m-0 text-dark">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        DASHBOARD
+                    </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
@@ -92,7 +95,7 @@
                                                 {{datadashboard.persen_realisasi_keuangan | formatAngka}}%
                                             </span>
                                         </h5>
-                                        <span class="description-text">CAPAIAN KEUANGAN</span>
+                                        <span class="description-text">REALISASI KEUANGAN</span>
                                     </div>
                                 </div>
                                 <div class="col-sm-3 col-6">

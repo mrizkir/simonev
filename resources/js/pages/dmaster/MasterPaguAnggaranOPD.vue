@@ -1,0 +1,146 @@
+<template>
+<div class="content-wrapper">
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">
+                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        PAGU ANGGARAN OPD / SKPD
+                    </h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
+                        <li class="breadcrumb-item">MASTER</li>
+                        <li class="breadcrumb-item active">PAGU ANGGARAN OPD / SKPD</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </section>  
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row" v-if="pid=='create'">
+                <div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">Tambah Pagu Anggaran OPD / SKPD</h3>
+                        </div>
+                        <form class="form-horizontal">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">OPD / SKPD</label>
+                                    <div class="col-sm-10">
+                                        <select class="form-control">
+
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
+                                    <div class="col-sm-10">
+                                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="offset-sm-2 col-sm-10">
+                                        <div class="form-check">
+                                            <input type="checkbox" class="form-check-input" id="exampleCheck2">
+                                            <label class="form-check-label" for="exampleCheck2">Remember me</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-info">Simpan</button>
+                                <button type="submit" class="btn btn-default float-right" v-on:click.prevent="setProcess('default')">Batal</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>                    
+            </div>
+            <div class="row" v-if="pid=='default'">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <div class="card-tools">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
+                                        <i class="fas fa-wrench"></i>
+                                    </button>
+                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                        <a href="#" class="dropdown-item" v-on:click.prevent="setProcess('create')">
+                                            Tambah
+                                        </a>                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body table-responsive p-0" style="height: 400px;" v-if="daftar_paguanggaran.length > 0">
+
+                        </div>
+                        <div class="card-body table-responsive" v-else>
+                            
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-info"></i> Info!</h5>
+                                Belum ada data yang bisa ditampilkan.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <span v-if="api_message" class="text-danger">
+            {{api_message}} 
+        </span>
+    </section>
+</div>
+</template>
+<script>
+export default {
+    mounted()
+    {
+        this.populateData();
+    },
+    data: function ()
+    {
+        return {
+            pid:'default',
+            daftar_paguanggaran:[],
+            api_message:''
+        }
+    },
+    methods: 
+    {
+        populateData()
+        {
+            axios.get('/api/v1/master/paguanggaranopd',{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    }
+                })
+                .then(response => {                                        
+                    this.daftar_paguanggaran=response; 
+                })
+                .catch(response => {
+                    this.api_message = response;
+                }); 
+        },
+        setProcess (pid) 
+        {
+            this.pid = pid;
+            if (this.pid == 'default')
+            {
+                this.populateData();
+            }
+        }
+    }
+
+}
+</script>

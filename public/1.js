@@ -142,6 +142,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
  // refers to components/ECharts.vue in webpack
 // import ECharts modules manually to reduce bundle size
 
@@ -500,7 +503,7 @@ var render = function() {
                         ]),
                         _vm._v(" "),
                         _c("span", { staticClass: "description-text" }, [
-                          _vm._v("CAPAIAN KEUANGAN")
+                          _vm._v("REALISASI KEUANGAN")
                         ])
                       ]
                     )
@@ -584,7 +587,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-6" }, [
-      _c("h1", { staticClass: "m-0 text-dark" }, [_vm._v("DASHBOARD")])
+      _c("h1", { staticClass: "m-0 text-dark" }, [
+        _c("i", { staticClass: "nav-icon fas fa-tachometer-alt" }),
+        _vm._v("\r\n                        DASHBOARD\r\n                    ")
+      ])
     ])
   },
   function() {

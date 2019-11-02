@@ -6,6 +6,7 @@ import VueRouter from 'vue-router';
 Vue.use(VueRouter);
 
 const DashboardFront = () => import ('./pages/DashboardFront.vue');
+const MasterPaguAnggaranOPD = () => import ('./pages/dmaster/MasterPaguAnggaranOPD.vue');
 
 let routes = [
     {
@@ -14,6 +15,13 @@ let routes = [
             title: "DASHBOARD"
         },
         component: DashboardFront
+    },
+    {
+        path: '/dmaster/paguanggaranopd',
+        meta:{
+            title: "PAGU ANGGARAN OPD / SKPD"
+        },
+        component: MasterPaguAnggaranOPD
     },
 ]
 
