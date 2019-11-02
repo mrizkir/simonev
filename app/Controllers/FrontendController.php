@@ -93,6 +93,8 @@ class FrontendController extends Controller {
             $realisasi_fisik = \Helper::formatPecahan($r_fisik,$jumlah_opd);;
 
             $data = [
+                'ta'=>$ta,
+                'nama_apbd'=>'MURNI',
                 'bulan_realisasi'=>$bulan_realisasi,
                 'jumlah_opd' => $jumlah_opd,
                 'pagudana' => $pagudana,

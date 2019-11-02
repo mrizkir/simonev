@@ -6,6 +6,7 @@ try {
 
     require('bootstrap');
     require('admin-lte');
+    require('autonumeric');
 
 } catch (e) {}
 

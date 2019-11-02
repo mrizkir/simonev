@@ -34,6 +34,29 @@ const cache = new Vuex.Store({
     
 });
 
+import AutoNumeric from 'autonumeric';
+//format uang
+Vue.filter("formatUang",function (value){
+    var options = {
+                    allowDecimalPadding: false,
+                    emptyInputBehavior:'zero',
+                    decimalCharacter: ",",
+                    digitGroupSeparator: ".",
+                    showWarnings:false
+    };
+    return AutoNumeric.format(value,options);
+});
+Vue.filter("formatAngka",function (value){
+    var options = {
+                    allowDecimalPadding: false,
+                    emptyInputBehavior:'zero',
+                    decimalCharacter: ",",
+                    digitGroupSeparator: ".",
+                    showWarnings:false
+    };
+    return AutoNumeric.format(value,options);
+});
+
 const app = new Vue({
     el: '#app',
     cache,
