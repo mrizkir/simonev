@@ -27,48 +27,40 @@ class PaguAnggaranOPDController extends Controller {
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        // if (!$this->checkStateIsExistSession('paguanggaranopd','orderby')) 
-        // {            
-        //    $this->putControllerStateSession('paguanggaranopd','orderby',['column_name'=>'v_urusan_organisasi.kode_organisasi','order'=>'asc']);
-        // }
-        // $column_order=$this->getControllerStateSession('paguanggaranopd.orderby','column_name'); 
-        // $direction=$this->getControllerStateSession('paguanggaranopd.orderby','order'); 
+        if (!$this->checkStateIsExistSession('paguanggaranopd','orderby')) 
+        {            
+           $this->putControllerStateSession('paguanggaranopd','orderby',['column_name'=>'v_urusan_organisasi.kode_organisasi','order'=>'asc']);
+        }
+        $column_order=$this->getControllerStateSession('paguanggaranopd.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('paguanggaranopd.orderby','order'); 
 
-        // if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
-        // {            
-        //     $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
-        // }
-        // $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
-        // if ($this->checkStateIsExistSession('paguanggaranopd','search')) 
-        // {
-        //     $search=$this->getControllerStateSession('paguanggaranopd','search');
-        //     switch ($search['kriteria']) 
-        //     {
-        //         case 'OrgNm' :
-        //             $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-        //                                         ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
-        //                                         ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
-        //                                         ->orderBy($column_order,$direction);                                        
-        //         break;
-        //     }           
-        //     $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
-        // }
-        // else
-        // {
-        //     $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-        //                                 ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
-        //                                 ->orderBy($column_order,$direction)
-        //                                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        // } 
-        $column_order = 'OrgNm';
-        $direction='ASC';
-        $numberRecordPerPage=10;
-        $ta=2020;
-        $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-                                        ->where('tmPaguAnggaranOPD.TA',$ta)
+        if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
+        {            
+            $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
+        }
+        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');        
+        if ($this->checkStateIsExistSession('paguanggaranopd','search')) 
+        {
+            $search=$this->getControllerStateSession('paguanggaranopd','search');
+            switch ($search['kriteria']) 
+            {
+                case 'OrgNm' :
+                    $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
+                                                ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
+                                                ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->orderBy($column_order,$direction);                                        
+                break;
+            }           
+            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+        }
+        else
+        {
+            $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
+                                        ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
                                         ->orderBy($column_order,$direction)
-                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);       
-        $data->setPath(route('paguanggaranopd.index'));
+                                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
+        } 
+
         return $data;
     }
     /**
@@ -201,25 +193,22 @@ class PaguAnggaranOPDController extends Controller {
      */
     public function index(Request $request)
     {        
-        // $search=$this->getControllerStateSession('paguanggaranopd','search');
-        // $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('paguanggaranopd'); 
-        // $data = $this->populateData($currentpage);
-        // if ($currentpage > $data->lastPage())
-        // {            
-        //     $data = $this->populateData($data->lastPage());
-        // }
-        // $this->setCurrentPageInsideSession('paguanggaranopd',$data->currentPage());
-        
-        // return view("pages.$theme.dmaster.paguanggaranopd.index")->with(['page_active'=>'paguanggaranopd',
-        //                                         'search'=>$this->getControllerStateSession('paguanggaranopd','search'),
-        //                                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-        //                                         'column_order'=>$this->getControllerStateSession('paguanggaranopd.orderby','column_name'),
-        //                                         'direction'=>$this->getControllerStateSession('paguanggaranopd.orderby','order'),
-        //                                         'data'=>$data]);   
-        // dd($request);            
-        $currentpage=1;
+        $search=$this->getControllerStateSession('paguanggaranopd','search');
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('paguanggaranopd'); 
         $data = $this->populateData($currentpage);
-        return response()->json($request->all());
+        if ($currentpage > $data->lastPage())
+        {            
+            $data = $this->populateData($data->lastPage());
+        }
+        $this->setCurrentPageInsideSession('paguanggaranopd',$data->currentPage());
+        
+        return response()->json(['page_active'=>'paguanggaranopd',
+                                'search'=>$this->getControllerStateSession('paguanggaranopd','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('paguanggaranopd.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('paguanggaranopd.orderby','order'),
+                                'daftar_paguanggaran'=>$data],200);   
+        
     }
     /**
      * Show the form for creating a new resource.

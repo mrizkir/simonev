@@ -80,12 +80,65 @@
                                 </div>
                             </div>
                         </div>
-                        <!-- /.card-header -->
-                        <div class="card-body table-responsive p-0" style="height: 400px;" v-if="daftar_paguanggaran.length > 0">
-
+                        <div class="card-body table-responsive p-0" v-if="daftar_paguanggaran.length">
+                            <table class="table table-striped table-hover mb-2">
+                                <thead>
+                                    <tr>
+                                        <th width="55">NO</th>
+                                        <th width="120">
+                                            KODE OPD  
+                                        </th> 
+                                        <th>
+                                            NAMA OPD  
+                                        </th> 
+                                        <th width="100">
+                                            APBD  
+                                        </th> 
+                                        <th width="100">
+                                            APBDP  
+                                        </th> 
+                                        <th width="100">AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>  
+                                    <tr v-for="(item,index) in daftar_paguanggaran" v-bind:key="item.PaguAnggaranOPDID">
+                                        <td>{{index+1}}</td>
+                                        <td>{{item.kode_organisasi}}</td>
+                                        <td>{{item.OrgNm}}</td>    
+                                        <td>{{item.Jumlah1|formatUang}}</td>
+                                        <td>{{item.Jumlah2|formatUang}}</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-wrench"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#">Action</a>
+                                                    <a class="dropdown-item" href="#">Another action</a>
+                                                    <a class="dropdown-item" href="#">Something else here</a>
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <nav aria-label="pagination">
+                                <ul class="pagination">
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                    <li class="page-item active">
+                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                </ul>
+                            </nav>
                         </div>
-                        <div class="card-body table-responsive" v-else>
-                            
+                        <div class="card-body table-responsive" v-else>                            
                             <div class="alert alert-info alert-dismissible">
                                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
                                 <h5><i class="icon fas fa-info"></i> Info!</h5>
@@ -103,15 +156,17 @@
 </div>
 </template>
 <script>
+import Pagination from 'laravel-vue-pagination';
 export default {
     mounted()
     {
-        this.populateData();
+        this.populateData();        
     },
     data: function ()
     {
         return {
             pid:'default',
+            paguanggaranopd:[],
             daftar_paguanggaran:[],
             api_message:''
         }
@@ -121,16 +176,17 @@ export default {
         populateData()
         {
             axios.get('/api/v1/master/paguanggaranopd',{
-                    headers:{
-                        'Authorization': window.laravel.api_token,
-                    }
-                })
-                .then(response => {                                        
-                    this.daftar_paguanggaran=response; 
-                })
-                .catch(response => {
-                    this.api_message = response;
-                }); 
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {                                        
+                this.paguanggaranopd=response.data; 
+                this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran.data;
+            })
+            .catch(response => {
+                this.api_message = response;
+            }); 
         },
         setProcess (pid) 
         {
@@ -140,7 +196,11 @@ export default {
                 this.populateData();
             }
         }
+    },
+    components: {
+        'pagination': Pagination
     }
+
 
 }
 </script>
