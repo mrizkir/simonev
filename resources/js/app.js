@@ -24,6 +24,10 @@ Vue.use(Vuex);
 
 const store = new Vuex.Store(StoreData);
 
+//validate
+import Vuelidate from 'vuelidate';
+Vue.use(Vuelidate);
+
 //format uang
 import AutoNumeric from 'autonumeric';
 Vue.filter("formatUang",function (value){

@@ -196,7 +196,6 @@ class PaguAnggaranOPDController extends Controller {
      */
     public function create()
     {        
-        $theme = \Auth::user()->theme;
         $q=\DB::table('v_urusan_organisasi')
                                 ->select(\DB::raw('"v_urusan_organisasi"."OrgID","v_urusan_organisasi"."kode_organisasi","v_urusan_organisasi"."OrgNm"'))
                                 ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
@@ -209,9 +208,7 @@ class PaguAnggaranOPDController extends Controller {
         {
             $daftar_organisasi[$v->OrgID]=$v->kode_organisasi.'. '.$v->OrgNm;
         } 
-        return view("pages.$theme.dmaster.paguanggaranopd.create")->with(['page_active'=>'paguanggaranopd',
-                                                                        'daftar_opd'=>$daftar_organisasi
-                                                                        ]);  
+        return response()->json($daftar_organisasi,200);  
     }
     
     /**
@@ -222,33 +219,25 @@ class PaguAnggaranOPDController extends Controller {
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'OrgID'=> [new CheckRecordIsExistValidation('tmPaguAnggaranOPD',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
-                        'required'],
-            'Jumlah1'=>'required|numeric',
-            'Jumlah2'=>'required|numeric',
-        ]);
+        // $this->validate($request, [
+        //     'OrgID'=> [new CheckRecordIsExistValidation('tmPaguAnggaranOPD',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+        //                 'required'],
+        //     'Jumlah1'=>'required|numeric',
+        //     'Jumlah2'=>'required|numeric',
+        // ]);
         
-        $paguanggaranopd = PaguAnggaranOPDModel::create([
-            'PaguAnggaranOPDID' => uniqid ('uid'),
-            'OrgID' => $request->input('OrgID'),
-            'Jumlah1' => $request->input('Jumlah1'),
-            'Jumlah2' => $request->input('Jumlah2'),
-            'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunPerencanaan()
+        // $paguanggaranopd = PaguAnggaranOPDModel::create([
+        //     'PaguAnggaranOPDID' => uniqid ('uid'),
+        //     'OrgID' => $request->input('OrgID'),
+        //     'Jumlah1' => $request->input('Jumlah1'),
+        //     'Jumlah2' => $request->input('Jumlah2'),
+        //     'Descr' => $request->input('Descr'),
+        //     'TA' => \HelperKegiatan::getTahunPerencanaan()
+        // ]);        
+        return response()->json([
+            'success'=>true,
+            'message'=>'Data ini telah berhasil disimpan.'
         ]);        
-        
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ]);
-        }
-        else
-        {
-            return redirect(route('paguanggaranopd.show',['id'=>$paguanggaranopd->PaguAnggaranOPDID]))->with('success','Data ini telah berhasil disimpan.');
-        }
 
     }
     

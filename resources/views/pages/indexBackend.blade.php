@@ -51,6 +51,14 @@
 							</p>
 						</router-link>						
 					</li>
+					<li class="nav-item">
+						<router-link to="/formvalidation" class="nav-link">
+							<i class="nav-icon fas fa-tachometer-alt"></i>
+							<p>
+								TEST
+							</p>
+						</router-link>						
+					</li>
 					<li class="nav-item has-treeview">
 						<a href="#" class="nav-link">
 						  	<i class="nav-icon fas fa-tree"></i>

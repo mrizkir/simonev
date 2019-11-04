@@ -11,3 +11,8 @@ $fa-font-path:        "../webfonts";
 @import "~@fortawesome/fontawesome-free/scss/fontawesome.scss";
 @import "~@fortawesome/fontawesome-free/scss/solid.scss";
 @import "~@fortawesome/fontawesome-free/scss/brands.scss";
+
+.form-error-message {
+    color: red;
+    font-size: 12px; 
+}

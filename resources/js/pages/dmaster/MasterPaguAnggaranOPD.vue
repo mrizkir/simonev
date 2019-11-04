@@ -29,37 +29,52 @@
                         <div class="card-header">
                             <h3 class="card-title">Tambah Pagu Anggaran OPD / SKPD</h3>
                         </div>
-                        <form class="form-horizontal">
+                        <form class="form-horizontal" @submit.prevent="saveData">
                             <div class="card-body">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">OPD / SKPD</label>
                                     <div class="col-sm-9">
-                                        <select2 id="OrgID" name="OrgID" v-model="frmdata.OrgID" :options="daftar_opd" :settings="{placeholder:'PILIH OPD / SKPD',allowClear: true}"></select2>
+                                        <select2 id="OrgID" name="OrgID" v-model="OrgID" :options="daftar_opd" :settings="{placeholder:'PILIH OPD / SKPD',allowClear: true,theme: 'bootstrap'}" :class="{ 'is-invalid': $v.Jumlah2.$error }"></select2>
+                                        <div class="form-error-message" v-if="!$v.OrgID.required">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBD</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="Jumlah1" id="Jumlah1" v-model="frmdata.Jumlah1" class="form-control">
+                                        <vue-autonumeric v-model="Jumlah1" :options="{minimumValue: '0',decimalCharacter: ',',digitGroupSeparator: '.',unformatOnSubmit: true }" class="form-control" :class="{ 'is-invalid': $v.Jumlah1.$error }"></vue-autonumeric>
+                                        <div class="form-error-message" v-if="!$v.Jumlah1.required">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBDP</label>
                                     <div class="col-sm-9">
-                                        <input type="text" name="Jumlah2" id="Jumlah2" v-model="frmdata.Jumlah2" class="form-control">
+                                        <vue-autonumeric v-model="Jumlah2" :options="{minimumValue: '0',decimalCharacter: ',',digitGroupSeparator: '.',unformatOnSubmit: true }" class="form-control" :class="{ 'is-invalid': $v.Jumlah2.$error }"></vue-autonumeric>
+                                        <div class="form-error-message" v-if="!$v.Jumlah2.required">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">KETERANGAN</label>
                                     <div class="col-sm-9">
-                                        <textarea type="text" name="Descr" id="Descr" v-model="frmdata.Descr" class="form-control" row="4">
+                                        <textarea type="text" name="Descr" id="Descr" v-model="Descr" class="form-control" row="4">
                                         </textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="card-footer">
-                                <button type="submit" class="btn btn-info">Simpan</button>
-                                <button type="submit" class="btn btn-default float-right" v-on:click.prevent="setProcess('default')">Batal</button>
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>
+                                        <p class="typo__p" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
+                                        <p class="form-error-message" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
+                                        <p class="typo__p" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
+                                    </div>
+                                    <div class="col-sm-3">
+                                        <button type="submit" class="btn btn-default float-right" v-on:click.prevent="setProcess('default')">Batal</button>
+                                    </div>
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -153,6 +168,9 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import Select2 from 'v-select2-component';
+import { required} from 'vuelidate/lib/validators';
+import VueAutonumeric from 'vue-autonumeric';
+
 export default {
     mounted()
     {
@@ -165,22 +183,34 @@ export default {
             paguanggaranopd:{},
             daftar_paguanggaran:{
                 data:{}
-            },
-            frmdata:{
-                'OrgID':'',
-                'Jumlah1':'',
-                'Jumlah2':'',
-                'Descr':'',
-            },
+            },            
             daftar_opd: [{}],
-            api_message:''
+            api_message:'',
+
+            //field form
+            OrgID:'',
+            Jumlah1:'',
+            Jumlah2:'',
+            Descr:'',      
+            submitStatus: null  
         }
     },
+    validations: {
+        OrgID: {
+			required,
+		},
+		Jumlah1: {
+			required,
+		},
+		Jumlah2: {
+			required,
+		},
+	},
     methods: 
     {
         loadDataOPD ()
         {            
-            axios.get('/api/v1/master/organisasi/daftaropd',{
+            axios.get('/api/v1/master/paguanggaranopd/create',{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
@@ -227,11 +257,48 @@ export default {
                     this.populateData();
 
             }
+        },
+        saveData() 
+		{
+			this.$v.$touch();
+			if (this.$v.$invalid) {
+				this.submitStatus = 'ERROR';
+			} else {
+				axios.post('/api/v1/master/paguanggaranopd',{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                    '_token':window.laravel.csrfToken
+                })
+                .then(response => {                          
+                   console.log(response.data);          
+                })
+                .catch(response => {
+                    this.api_message = response;
+                });
+
+				this.submitStatus = 'PENDING';
+				setTimeout(() => {
+                    this.submitStatus = 'OK';
+                    // this.clearform();
+                    // this.setProcess('default');
+                }, 500);                
+			}
+        },
+        clearform ()
+        {
+            this.OrgID='';
+            this.Jumlah1='';
+            this.Jumlah2='';
+            this.Descr='';
+            this.submitStatus=null;
         }
     },
     components: {
         'pagination': Pagination,
-        'select2':Select2
+        'select2':Select2,
+        'vue-autonumeric':VueAutonumeric,
+
     }
 }
 </script>

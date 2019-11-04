@@ -20,7 +20,7 @@ class OrganisasiController extends Controller
     public function getdaftaropd (Request $request)
     {
         $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
-        return response()->json($daftar_opd);
+        return response()->json($daftar_opd,200);
     }
     /**
      * collect data from resources for index view
