@@ -25,8 +25,7 @@ class LoginController extends Controller
     }
     public function showLoginForm()
     {
-        $theme = 'dore';
-        return view("pages.$theme.auth.login");
+        return view("pages.login");
     }
     public function username () {
         return 'username';

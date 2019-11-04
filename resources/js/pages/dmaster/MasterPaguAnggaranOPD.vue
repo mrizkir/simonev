@@ -32,25 +32,28 @@
                         <form class="form-horizontal">
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-10">
-                                        <select class="form-control">
-
-                                        </select>
+                                    <label class="col-sm-3 col-form-label">OPD / SKPD</label>
+                                    <div class="col-sm-9">
+                                        <select2 id="OrgID" name="OrgID" v-model="frmdata.OrgID" :options="daftar_opd" :settings="{placeholder:'PILIH OPD / SKPD',allowClear: true}"></select2>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label for="inputPassword3" class="col-sm-2 col-form-label">Password</label>
-                                    <div class="col-sm-10">
-                                        <input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBD</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="Jumlah1" id="Jumlah1" v-model="frmdata.Jumlah1" class="form-control">
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <div class="offset-sm-2 col-sm-10">
-                                        <div class="form-check">
-                                            <input type="checkbox" class="form-check-input" id="exampleCheck2">
-                                            <label class="form-check-label" for="exampleCheck2">Remember me</label>
-                                        </div>
+                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBDP</label>
+                                    <div class="col-sm-9">
+                                        <input type="text" name="Jumlah2" id="Jumlah2" v-model="frmdata.Jumlah2" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">KETERANGAN</label>
+                                    <div class="col-sm-9">
+                                        <textarea type="text" name="Descr" id="Descr" v-model="frmdata.Descr" class="form-control" row="4">
+                                        </textarea>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +83,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_paguanggaran.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_paguanggaran.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
@@ -101,7 +104,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_paguanggaran" v-bind:key="item.PaguAnggaranOPDID">
+                                    <tr v-for="(item,index) in daftar_paguanggaran.data" v-bind:key="item.PaguAnggaranOPDID">
                                         <td>{{index+1}}</td>
                                         <td>{{item.kode_organisasi}}</td>
                                         <td>{{item.OrgNm}}</td>    
@@ -121,22 +124,7 @@
                                         </td>
                                     </tr>
                                 </tbody>
-                            </table>
-                            <nav aria-label="pagination">
-                                <ul class="pagination">
-                                    <li class="page-item disabled">
-                                        <a class="page-link" href="#" tabindex="-1">Previous</a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item active">
-                                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-                                    </li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#">Next</a>
-                                    </li>
-                                </ul>
-                            </nav>
+                            </table>                            
                         </div>
                         <div class="card-body table-responsive" v-else>                            
                             <div class="alert alert-info alert-dismissible">
@@ -145,44 +133,83 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
+                        <div class="card-footer" v-if="daftar_paguanggaran.data.length">                            
+                            <pagination :data="daftar_paguanggaran" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                                <span slot="prev-nav">&lt; Prev</span>
+	                            <span slot="next-nav">Next &gt;</span>
+                            </pagination>
+                        </div>
                     </div>
                 </div>
             </div>            
-        </div>
+        </div>        
         <span v-if="api_message" class="text-danger">
             {{api_message}} 
         </span>
     </section>
+    
 </div>
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
+import Select2 from 'v-select2-component';
 export default {
     mounted()
     {
-        this.populateData();        
+        this.setProcess ('default');
     },
     data: function ()
     {
         return {
             pid:'default',
-            paguanggaranopd:[],
-            daftar_paguanggaran:[],
+            paguanggaranopd:{},
+            daftar_paguanggaran:{
+                data:{}
+            },
+            frmdata:{
+                'OrgID':'',
+                'Jumlah1':'',
+                'Jumlah2':'',
+                'Descr':'',
+            },
+            daftar_opd: [{}],
             api_message:''
         }
     },
     methods: 
     {
-        populateData()
-        {
-            axios.get('/api/v1/master/paguanggaranopd',{
+        loadDataOPD ()
+        {            
+            axios.get('/api/v1/master/organisasi/daftaropd',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {          
+               
+                var daftar_opd = [];
+                $.each(response.data,function(key,value){
+                    daftar_opd.push({
+                        id:key,
+                        text:value
+                    });
+                });                
+                this.daftar_opd=daftar_opd;                 
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
+        populateData(page=1)
+        {           
+            axios.get('/api/v1/master/paguanggaranopd?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
                 this.paguanggaranopd=response.data; 
-                this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran.data;
+                this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
             })
             .catch(response => {
                 this.api_message = response;
@@ -191,16 +218,20 @@ export default {
         setProcess (pid) 
         {
             this.pid = pid;
-            if (this.pid == 'default')
+            switch (this.pid)
             {
-                this.populateData();
+                case 'create' :
+                    this.loadDataOPD();
+                break;
+                default :
+                    this.populateData();
+
             }
         }
     },
     components: {
-        'pagination': Pagination
+        'pagination': Pagination,
+        'select2':Select2
     }
-
-
 }
 </script>

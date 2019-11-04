@@ -9,12 +9,9 @@
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue_echarts__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-echarts */ "./node_modules/vue-echarts/components/ECharts.vue");
-//
-//
-//
-//
-//
+/* harmony import */ var laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js");
+/* harmony import */ var laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var v_select2_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-select2-component */ "./node_modules/v-select2-component/dist/Select2.esm.js");
 //
 //
 //
@@ -168,43 +165,80 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   mounted: function mounted() {
-    this.populateData();
+    this.setProcess('default');
   },
   data: function data() {
     return {
       pid: 'default',
-      paguanggaranopd: [],
-      daftar_paguanggaran: [],
+      paguanggaranopd: {},
+      daftar_paguanggaran: {
+        data: {}
+      },
+      frmdata: {
+        'OrgID': '',
+        'Jumlah1': '',
+        'Jumlah2': '',
+        'Descr': ''
+      },
+      daftar_opd: [{}],
       api_message: ''
     };
   },
   methods: {
-    populateData: function populateData() {
+    loadDataOPD: function loadDataOPD() {
       var _this = this;
 
-      axios.get('/api/v1/master/paguanggaranopd', {
+      axios.get('/api/v1/master/organisasi/daftaropd', {
         headers: {
           'Authorization': window.laravel.api_token
         }
       }).then(function (response) {
-        _this.paguanggaranopd = response.data;
-        _this.daftar_paguanggaran = _this.paguanggaranopd.daftar_paguanggaran.data;
+        var daftar_opd = [];
+        $.each(response.data, function (key, value) {
+          daftar_opd.push({
+            id: key,
+            text: value
+          });
+        });
+        _this.daftar_opd = daftar_opd;
       })["catch"](function (response) {
         _this.api_message = response;
+      });
+    },
+    populateData: function populateData() {
+      var _this2 = this;
+
+      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+      axios.get('/api/v1/master/paguanggaranopd?page=' + page, {
+        headers: {
+          'Authorization': window.laravel.api_token
+        }
+      }).then(function (response) {
+        _this2.paguanggaranopd = response.data;
+        _this2.daftar_paguanggaran = _this2.paguanggaranopd.daftar_paguanggaran;
+      })["catch"](function (response) {
+        _this2.api_message = response;
       });
     },
     setProcess: function setProcess(pid) {
       this.pid = pid;
 
-      if (this.pid == 'default') {
-        this.populateData();
+      switch (this.pid) {
+        case 'create':
+          this.loadDataOPD();
+          break;
+
+        default:
+          this.populateData();
       }
     }
   },
   components: {
-    'pagination': __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js")
+    'pagination': laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0___default.a,
+    'select2': v_select2_component__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -260,7 +294,162 @@ var render = function() {
                   _vm._m(1),
                   _vm._v(" "),
                   _c("form", { staticClass: "form-horizontal" }, [
-                    _vm._m(2),
+                    _c("div", { staticClass: "card-body" }, [
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-sm-3 col-form-label" },
+                          [_vm._v("OPD / SKPD")]
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          { staticClass: "col-sm-9" },
+                          [
+                            _c("select2", {
+                              attrs: {
+                                id: "OrgID",
+                                name: "OrgID",
+                                options: _vm.daftar_opd,
+                                settings: {
+                                  placeholder: "PILIH OPD / SKPD",
+                                  allowClear: true
+                                }
+                              },
+                              model: {
+                                value: _vm.frmdata.OrgID,
+                                callback: function($$v) {
+                                  _vm.$set(_vm.frmdata, "OrgID", $$v)
+                                },
+                                expression: "frmdata.OrgID"
+                              }
+                            })
+                          ],
+                          1
+                        )
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-sm-3 col-form-label" },
+                          [_vm._v("PAGU ANGGARAN APBD")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-9" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.frmdata.Jumlah1,
+                                expression: "frmdata.Jumlah1"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "Jumlah1",
+                              id: "Jumlah1"
+                            },
+                            domProps: { value: _vm.frmdata.Jumlah1 },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.frmdata,
+                                  "Jumlah1",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-sm-3 col-form-label" },
+                          [_vm._v("PAGU ANGGARAN APBDP")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-9" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.frmdata.Jumlah2,
+                                expression: "frmdata.Jumlah2"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "Jumlah2",
+                              id: "Jumlah2"
+                            },
+                            domProps: { value: _vm.frmdata.Jumlah2 },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.frmdata,
+                                  "Jumlah2",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ]),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "form-group row" }, [
+                        _c(
+                          "label",
+                          { staticClass: "col-sm-3 col-form-label" },
+                          [_vm._v("KETERANGAN")]
+                        ),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "col-sm-9" }, [
+                          _c("textarea", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: _vm.frmdata.Descr,
+                                expression: "frmdata.Descr"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            attrs: {
+                              type: "text",
+                              name: "Descr",
+                              id: "Descr",
+                              row: "4"
+                            },
+                            domProps: { value: _vm.frmdata.Descr },
+                            on: {
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(
+                                  _vm.frmdata,
+                                  "Descr",
+                                  $event.target.value
+                                )
+                              }
+                            }
+                          })
+                        ])
+                      ])
+                    ]),
                     _vm._v(" "),
                     _c("div", { staticClass: "card-footer" }, [
                       _c(
@@ -302,7 +491,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "card-tools" }, [
                       _c("div", { staticClass: "btn-group" }, [
-                        _vm._m(3),
+                        _vm._m(2),
                         _vm._v(" "),
                         _c(
                           "div",
@@ -335,7 +524,7 @@ var render = function() {
                     ])
                   ]),
                   _vm._v(" "),
-                  _vm.daftar_paguanggaran.length
+                  _vm.daftar_paguanggaran.data.length
                     ? _c(
                         "div",
                         { staticClass: "card-body table-responsive p-0" },
@@ -347,11 +536,11 @@ var render = function() {
                                 "table table-striped table-hover mb-2"
                             },
                             [
-                              _vm._m(4),
+                              _vm._m(3),
                               _vm._v(" "),
                               _c(
                                 "tbody",
-                                _vm._l(_vm.daftar_paguanggaran, function(
+                                _vm._l(_vm.daftar_paguanggaran.data, function(
                                   item,
                                   index
                                 ) {
@@ -383,21 +572,60 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      _vm._m(5, true)
+                                      _vm._m(4, true)
                                     ]
                                   )
                                 }),
                                 0
                               )
                             ]
-                          ),
-                          _vm._v(" "),
-                          _vm._m(6)
+                          )
                         ]
                       )
                     : _c("div", { staticClass: "card-body table-responsive" }, [
-                        _vm._m(7)
-                      ])
+                        _vm._m(5)
+                      ]),
+                  _vm._v(" "),
+                  _vm.daftar_paguanggaran.data.length
+                    ? _c(
+                        "div",
+                        { staticClass: "card-footer" },
+                        [
+                          _c(
+                            "pagination",
+                            {
+                              attrs: {
+                                data: _vm.daftar_paguanggaran,
+                                align: "center",
+                                "show-disabled": true,
+                                limit: 8
+                              },
+                              on: { "pagination-change-page": _vm.populateData }
+                            },
+                            [
+                              _c(
+                                "span",
+                                {
+                                  attrs: { slot: "prev-nav" },
+                                  slot: "prev-nav"
+                                },
+                                [_vm._v("< Prev")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "span",
+                                {
+                                  attrs: { slot: "next-nav" },
+                                  slot: "next-nav"
+                                },
+                                [_vm._v("Next >")]
+                              )
+                            ]
+                          )
+                        ],
+                        1
+                      )
+                    : _vm._e()
                 ])
               ])
             ])
@@ -435,64 +663,6 @@ var staticRenderFns = [
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [
         _vm._v("Tambah Pagu Anggaran OPD / SKPD")
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "card-body" }, [
-      _c("div", { staticClass: "form-group row" }, [
-        _c("label", { staticClass: "col-sm-2 col-form-label" }, [
-          _vm._v("OPD / SKPD")
-        ]),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("select", { staticClass: "form-control" })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c(
-          "label",
-          {
-            staticClass: "col-sm-2 col-form-label",
-            attrs: { for: "inputPassword3" }
-          },
-          [_vm._v("Password")]
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "col-sm-10" }, [
-          _c("input", {
-            staticClass: "form-control",
-            attrs: {
-              type: "password",
-              id: "inputPassword3",
-              placeholder: "Password"
-            }
-          })
-        ])
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "form-group row" }, [
-        _c("div", { staticClass: "offset-sm-2 col-sm-10" }, [
-          _c("div", { staticClass: "form-check" }, [
-            _c("input", {
-              staticClass: "form-check-input",
-              attrs: { type: "checkbox", id: "exampleCheck2" }
-            }),
-            _vm._v(" "),
-            _c(
-              "label",
-              {
-                staticClass: "form-check-label",
-                attrs: { for: "exampleCheck2" }
-              },
-              [_vm._v("Remember me")]
-            )
-          ])
-        ])
       ])
     ])
   },
@@ -586,47 +756,6 @@ var staticRenderFns = [
             ])
           ]
         )
-      ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("nav", { attrs: { "aria-label": "pagination" } }, [
-      _c("ul", { staticClass: "pagination" }, [
-        _c("li", { staticClass: "page-item disabled" }, [
-          _c(
-            "a",
-            { staticClass: "page-link", attrs: { href: "#", tabindex: "-1" } },
-            [_vm._v("Previous")]
-          )
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "page-item" }, [
-          _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-            _vm._v("1")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "page-item active" }, [
-          _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-            _vm._v("2 "),
-            _c("span", { staticClass: "sr-only" }, [_vm._v("(current)")])
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "page-item" }, [
-          _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-            _vm._v("3")
-          ])
-        ]),
-        _vm._v(" "),
-        _c("li", { staticClass: "page-item" }, [
-          _c("a", { staticClass: "page-link", attrs: { href: "#" } }, [
-            _vm._v("Next")
-          ])
-        ])
       ])
     ])
   },

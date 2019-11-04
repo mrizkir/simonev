@@ -3,47 +3,29 @@ window.Vue = require('vue');
 
 //vue route
 import VueRouter from 'vue-router';
+import {routes} from './routes';
 Vue.use(VueRouter);
 
-const DashboardFront = () => import ('./pages/DashboardFront.vue');
-const MasterPaguAnggaranOPD = () => import ('./pages/dmaster/MasterPaguAnggaranOPD.vue');
-
-let routes = [
-    {
-        path: '/',
-        meta:{
-            title: "DASHBOARD"
-        },
-        component: DashboardFront
-    },
-    {
-        path: '/dmaster/paguanggaranopd',
-        meta:{
-            title: "PAGU ANGGARAN OPD / SKPD"
-        },
-        component: MasterPaguAnggaranOPD
-    },
-]
-
 const router = new VueRouter({
-    routes
+    routes,
 });
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     next();
 });
+
 // vue state management
 import 'es6-promise/auto';
 import Vuex from 'vuex';
+import StoreData from './store';
+ 
 Vue.use(Vuex);
 
-const cache = new Vuex.Store({
-    
-});
+const store = new Vuex.Store(StoreData);
 
-import AutoNumeric from 'autonumeric';
 //format uang
+import AutoNumeric from 'autonumeric';
 Vue.filter("formatUang",function (value){
     var options = {
                     allowDecimalPadding: false,
@@ -67,6 +49,6 @@ Vue.filter("formatAngka",function (value){
 
 const app = new Vue({
     el: '#app',
-    cache,
+    store,
     router,
 });

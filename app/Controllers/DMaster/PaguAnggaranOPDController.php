@@ -131,28 +131,7 @@ class PaguAnggaranOPDController extends Controller {
                                                             'data'=>$data])->render();     
 
         return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate ($id) 
-    {
-        $theme = \Auth::user()->theme;
-
-        $this->setCurrentPageInsideSession('paguanggaranopd',$id);
-        $data=$this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.paguanggaranopd.datatable")->with(['page_active'=>'paguanggaranopd',
-                                                                            'search'=>$this->getControllerStateSession('paguanggaranopd','search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession('paguanggaranopd.orderby','column_name'),
-                                                                            'direction'=>$this->getControllerStateSession('paguanggaranopd.orderby','order'),
-                                                                            'data'=>$data])->render(); 
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
-    }
+    }   
     /**
      * search resource in storage.
      *
@@ -199,9 +178,9 @@ class PaguAnggaranOPDController extends Controller {
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
+            $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('paguanggaranopd',$data->currentPage());
-        
+        $this->setCurrentPageInsideSession('paguanggaranopd',$currentpage);        
         return response()->json(['page_active'=>'paguanggaranopd',
                                 'search'=>$this->getControllerStateSession('paguanggaranopd','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
