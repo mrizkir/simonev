@@ -33,11 +33,10 @@ class FrontendController extends Controller {
      */
     public function datadashboard()
     {
-        $bulan_realisasi = 12;
-        $ta=2020;
+        $bulan_realisasi = 12;        
         $auth = \Auth::user();        
         if (is_null($auth)){            
-
+            $ta=2020;
             $jumlah_opd = \DB::table('tmOrg')
                                 ->where('TA',$ta)
                                 ->count('OrgID');
@@ -52,10 +51,9 @@ class FrontendController extends Controller {
                                 ->where('TA',$ta)
                                 ->count('RKAID');
 
-            $pagudana=\DB::table('s_targetkinerja_opd')
+            $pagudana=\DB::table('tmPaguAnggaranOPD')
                         ->where('TA',$ta)
-                        ->where('bulan',$bulan_realisasi)
-                        ->sum('pagudinas1');
+                        ->sum('Jumlah1');
 
             $realisasi=\DB::table('s_targetkinerja_opd')
                         ->where('TA',$ta)
@@ -107,6 +105,7 @@ class FrontendController extends Controller {
         }
         else
         {
+            $ta=2020;
             $jumlah_opd = \DB::table('tmOrg')
                                 ->where('TA',$ta)
                                 ->count('OrgID');
@@ -121,10 +120,9 @@ class FrontendController extends Controller {
                                 ->where('TA',$ta)
                                 ->count('RKAID');
 
-            $pagudana=\DB::table('s_targetkinerja_opd')
+            $pagudana=\DB::table('tmPaguAnggaranOPD')
                         ->where('TA',$ta)
-                        ->where('bulan',$bulan_realisasi)
-                        ->sum('pagudinas1');
+                        ->sum('Jumlah1');
 
             $realisasi=\DB::table('s_targetkinerja_opd')
                         ->where('TA',$ta)

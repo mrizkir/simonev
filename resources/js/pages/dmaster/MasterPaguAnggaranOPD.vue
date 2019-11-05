@@ -5,7 +5,7 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
-                        <i class="nav-icon fas fa-tachometer-alt"></i>
+                        <i class="nav-icon fas fa-money-check-alt"></i>
                         PAGU ANGGARAN OPD / SKPD
                     </h1>
                 </div>
@@ -22,12 +22,29 @@
     <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
+            <div class="row" v-if="api_message">
+                <div class="col-md-12">
+                    <!-- /.card-header -->
+                    <div class="alert alert-danger alert-dismissible">
+                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        {{api_message}} 
+                    </div>
+                </div>
+            </div>
             <div class="row" v-if="pid=='create'">
                 <div class="col-12">
                     <!-- Horizontal Form -->
                     <div class="card card-info">
                         <div class="card-header">
-                            <h3 class="card-title">Tambah Pagu Anggaran OPD / SKPD</h3>
+                            <h3 class="card-title">
+                                <i class="fas fa-plus"></i> Tambah Pagu Anggaran OPD / SKPD
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-block bg-gradient-danger btn-xs" v-on:click.prevent="setProcess('default')">
+                                    <i class="fas fa-window-close"></i>
+                                </button>                                
+                            </div>
                         </div>
                         <form class="form-horizontal" @submit.prevent="saveData">
                             <div class="card-body">
@@ -65,15 +82,12 @@
                                     <div class="col-sm-3">
                                         &nbsp;
                                     </div>
-                                    <div class="col-sm-6">
+                                    <div class="col-sm-9">
                                         <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>
                                         <p class="typo__p" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
                                         <p class="form-error-message" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
                                         <p class="typo__p" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
-                                    </div>
-                                    <div class="col-sm-3">
-                                        <button type="submit" class="btn btn-default float-right" v-on:click.prevent="setProcess('default')">Batal</button>
-                                    </div>
+                                    </div>                                    
                                 </div>
                             </div>
                         </form>
@@ -84,18 +98,48 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"></h3>
-                            <div class="card-tools">
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-tool dropdown-toggle" data-toggle="dropdown">
-                                        <i class="fas fa-wrench"></i>
-                                    </button>
-                                    <div class="dropdown-menu dropdown-menu-right" role="menu">
-                                        <a href="#" class="dropdown-item" v-on:click.prevent="setProcess('create')">
-                                            Tambah
-                                        </a>                                        
+                            <h3 class="card-title"><i class="fas fa-search"></i> PENCARIAN</h3>                            
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="search">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KRITERIA</label>
+                                    <div class="col-sm-10">
+                                        <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
+                                            <option value="kode_organisasi" :selected="cmbKriteria=='kode_organisasi'">KODE OPD / SKPD</option>
+                                            <option value="OrgNm" :selected="cmbKriteria=='OrgNm'">NAMA OPD / SKPD</option>
+                                        </select>
                                     </div>
                                 </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">ISI KRITERIA</label>
+                                    <div class="col-sm-10">
+                                        <input name="txtKriteria" id="txtKriteria" type="text" class="form-control" v-model="txtKriteria">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">&nbsp;</div>
+                                    <div class="col-md-10">
+                                        <button type="button" class="btn bg-gradient-info btn-xs" v-on:click.prevent="search">
+                                            <i class="fas fa-search"></i> Cari
+                                        </button>      
+                                        <a id="btnReset" href="#" title="Reset Pencarian" class="btn btn-default btn-xs" v-on:click.prevent="resetpencarian">
+                                            <b><i class="icon-reset"></i></b> Reset
+                                        </a>                           
+                                    </div>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-block bg-gradient-info btn-xs" v-on:click.prevent="setProcess('create')">
+                                    <i class="fas fa-plus"></i>
+                                </button>                                
                             </div>
                         </div>
                         <div class="card-body table-responsive p-0" v-if="daftar_paguanggaran.data.length">
@@ -120,7 +164,7 @@
                                 </thead>
                                 <tbody>  
                                     <tr v-for="(item,index) in daftar_paguanggaran.data" v-bind:key="item.PaguAnggaranOPDID">
-                                        <td>{{index+1}}</td>
+                                        <td>{{daftar_paguanggaran.from+index}}</td>
                                         <td>{{item.kode_organisasi}}</td>
                                         <td>{{item.OrgNm}}</td>    
                                         <td>{{item.Jumlah1|formatUang}}</td>
@@ -131,9 +175,12 @@
                                                     <i class="fas fa-wrench"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">Action</a>
-                                                    <a class="dropdown-item" href="#">Another action</a>
-                                                    <a class="dropdown-item" href="#">Something else here</a>
+                                                    <a class="dropdown-item" href="#">
+                                                        UBAH
+                                                    </a>
+                                                    <a class="dropdown-item" v-on:click.prevent="destroy(item)" href="#">
+                                                        HAPUS
+                                                    </a>
                                                 </div>
                                             </div>
                                         </td>
@@ -157,12 +204,8 @@
                     </div>
                 </div>
             </div>            
-        </div>        
-        <span v-if="api_message" class="text-danger">
-            {{api_message}} 
-        </span>
-    </section>
-    
+        </div> 
+    </section>    
 </div>
 </template>
 <script>
@@ -174,20 +217,27 @@ import VueAutonumeric from 'vue-autonumeric';
 export default {
     mounted()
     {
-        this.setProcess ('default');
-    },
+        this.setProcess ('default');   
+    },    
     data: function ()
     {
         return {
             pid:'default',
-            paguanggaranopd:{},
+            paguanggaranopd:{
+                kriteria:'',
+                isikriteria:''
+            },
             daftar_paguanggaran:{
                 data:{}
             },            
             daftar_opd: [{}],
             api_message:'',
 
-            //field form
+            //field form search
+            cmbKriteria:'OrgNm',
+            txtKriteria:'',
+
+            //field form create / edit
             OrgID:'',
             Jumlah1:'',
             Jumlah2:'',
@@ -230,6 +280,49 @@ export default {
                 this.api_message = response;
             });
         },
+        search()
+        {
+            axios.post('/api/v1/master/paguanggaranopd/search',{
+                    'cmbKriteria':this.cmbKriteria,
+                    'txtKriteria':this.txtKriteria,
+                    'action':'search',
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.paguanggaranopd=response.data; 
+                    this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
+                    if(typeof(this.paguanggaranopd.search) !== 'undefined' && this.paguanggaranopd.search !== null)
+                    {
+                        this.cmbKriteria = this.paguanggaranopd.search.kriteria;
+                        this.txtKriteria = this.paguanggaranopd.search.isikriteria;
+                    }   
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			   
+        },
+        resetpencarian()
+        {
+            axios.post('/api/v1/master/paguanggaranopd/search',{
+                    'action':'reset',
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.paguanggaranopd=response.data; 
+                    this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;                
+                    this.cmbKriteria = 'OrgNm';
+                    this.txtKriteria = '';                       
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			   
+        },
         populateData(page=1)
         {           
             axios.get('/api/v1/master/paguanggaranopd?page='+page,{
@@ -240,6 +333,11 @@ export default {
             .then(response => {                                        
                 this.paguanggaranopd=response.data; 
                 this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
+                if(typeof(this.paguanggaranopd.search) !== 'undefined' && this.paguanggaranopd.search !== null)
+                {
+                    this.cmbKriteria = this.paguanggaranopd.search.kriteria;
+                    this.txtKriteria = this.paguanggaranopd.search.isikriteria;
+                }               
             })
             .catch(response => {
                 this.api_message = response;
@@ -248,6 +346,7 @@ export default {
         setProcess (pid) 
         {
             this.pid = pid;
+            this.$v.$reset();
             switch (this.pid)
             {
                 case 'create' :
@@ -255,7 +354,6 @@ export default {
                 break;
                 default :
                     this.populateData();
-
             }
         },
         saveData() 
@@ -265,25 +363,44 @@ export default {
 				this.submitStatus = 'ERROR';
 			} else {
 				axios.post('/api/v1/master/paguanggaranopd',{
+                    'OrgID':this.OrgID,
+                    'Jumlah1':this.Jumlah1,
+                    'Jumlah2':this.Jumlah2,
+                    'Descr':this.Descr,
+                },{
                     headers:{
                         'Authorization': window.laravel.api_token,
                     },
-                    '_token':window.laravel.csrfToken
                 })
                 .then(response => {                          
-                   console.log(response.data);          
+                    this.submitStatus = 'PENDING';
+                    setTimeout(() => {
+                        this.submitStatus = 'OK';
+                        this.clearform();
+                        this.setProcess('default');
+                    }, 500);         
                 })
-                .catch(response => {
-                    this.api_message = response;
-                });
-
-				this.submitStatus = 'PENDING';
-				setTimeout(() => {
-                    this.submitStatus = 'OK';
-                    // this.clearform();
-                    // this.setProcess('default');
-                }, 500);                
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			                              
 			}
+        },
+        destroy (item)
+        {
+            axios.post('/api/v1/master/paguanggaranopd/'+item.PaguAnggaranOPDID,{
+                '_method':'DELETE',
+            },{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                },
+            })
+            .then(response => {                          
+                console.log(response.data);          
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+            this.setProcess('default');
         },
         clearform ()
         {
@@ -298,7 +415,6 @@ export default {
         'pagination': Pagination,
         'select2':Select2,
         'vue-autonumeric':VueAutonumeric,
-
     }
 }
 </script>

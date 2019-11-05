@@ -5,307 +5,9 @@
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/pages/dmaster/MasterPaguAnggaranOPD.vue?vue&type=script&lang=js& ***!
   \***********************************************************************************************************************************************************************************/
 /*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-vue-pagination */ "./node_modules/laravel-vue-pagination/dist/laravel-vue-pagination.common.js");
-/* harmony import */ var laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var v_select2_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! v-select2-component */ "./node_modules/v-select2-component/dist/Select2.esm.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuelidate/lib/validators */ "./node_modules/vuelidate/lib/validators/index.js");
-/* harmony import */ var vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var vue_autonumeric__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-autonumeric */ "./node_modules/vue-autonumeric/dist/vue-autonumeric.min.js");
-/* harmony import */ var vue_autonumeric__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vue_autonumeric__WEBPACK_IMPORTED_MODULE_3__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-
-
-
-
-/* harmony default export */ __webpack_exports__["default"] = ({
-  mounted: function mounted() {
-    this.setProcess('default');
-  },
-  data: function data() {
-    return {
-      pid: 'default',
-      paguanggaranopd: {},
-      daftar_paguanggaran: {
-        data: {}
-      },
-      daftar_opd: [{}],
-      api_message: '',
-      //field form
-      OrgID: '',
-      Jumlah1: '',
-      Jumlah2: '',
-      Descr: '',
-      submitStatus: null
-    };
-  },
-  validations: {
-    OrgID: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"]
-    },
-    Jumlah1: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"]
-    },
-    Jumlah2: {
-      required: vuelidate_lib_validators__WEBPACK_IMPORTED_MODULE_2__["required"]
-    }
-  },
-  methods: {
-    loadDataOPD: function loadDataOPD() {
-      var _this = this;
-
-      axios.get('/api/v1/master/paguanggaranopd/create', {
-        headers: {
-          'Authorization': window.laravel.api_token
-        }
-      }).then(function (response) {
-        var daftar_opd = [];
-        $.each(response.data, function (key, value) {
-          daftar_opd.push({
-            id: key,
-            text: value
-          });
-        });
-        _this.daftar_opd = daftar_opd;
-      })["catch"](function (response) {
-        _this.api_message = response;
-      });
-    },
-    populateData: function populateData() {
-      var _this2 = this;
-
-      var page = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
-      axios.get('/api/v1/master/paguanggaranopd?page=' + page, {
-        headers: {
-          'Authorization': window.laravel.api_token
-        }
-      }).then(function (response) {
-        _this2.paguanggaranopd = response.data;
-        _this2.daftar_paguanggaran = _this2.paguanggaranopd.daftar_paguanggaran;
-      })["catch"](function (response) {
-        _this2.api_message = response;
-      });
-    },
-    setProcess: function setProcess(pid) {
-      this.pid = pid;
-
-      switch (this.pid) {
-        case 'create':
-          this.loadDataOPD();
-          break;
-
-        default:
-          this.populateData();
-      }
-    },
-    saveData: function saveData() {
-      var _this3 = this;
-
-      this.$v.$touch();
-
-      if (this.$v.$invalid) {
-        this.submitStatus = 'ERROR';
-      } else {
-        axios.post('/api/v1/master/paguanggaranopd', {
-          headers: {
-            'Authorization': window.laravel.api_token
-          },
-          '_token': window.laravel.csrfToken
-        }).then(function (response) {
-          console.log(response.data);
-        })["catch"](function (response) {
-          _this3.api_message = response;
-        });
-        this.submitStatus = 'PENDING';
-        setTimeout(function () {
-          _this3.submitStatus = 'OK'; // this.clearform();
-          // this.setProcess('default');
-        }, 500);
-      }
-    },
-    clearform: function clearform() {
-      this.OrgID = '';
-      this.Jumlah1 = '';
-      this.Jumlah2 = '';
-      this.Descr = '';
-      this.submitStatus = null;
-    }
-  },
-  components: {
-    'pagination': laravel_vue_pagination__WEBPACK_IMPORTED_MODULE_0___default.a,
-    'select2': v_select2_component__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'vue-autonumeric': vue_autonumeric__WEBPACK_IMPORTED_MODULE_3___default.a
-  }
-});
+throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: c:\\xampp\\htdocs\\simonev\\resources\\js\\pages\\dmaster\\MasterPaguAnggaranOPD.vue: Unexpected token, expected \",\" (227:27)\n\n\u001b[0m \u001b[90m 225 | \u001b[39m            pid\u001b[33m:\u001b[39m\u001b[32m'default'\u001b[39m\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 226 | \u001b[39m            paguanggaranopd\u001b[33m:\u001b[39m{\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 227 | \u001b[39m                kriteria\u001b[33m:\u001b[39m\u001b[32m''\u001b[39m\u001b[33m;\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m     | \u001b[39m                           \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 228 | \u001b[39m            }\u001b[33m,\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 229 | \u001b[39m            daftar_paguanggaran\u001b[33m:\u001b[39m{\u001b[0m\n\u001b[0m \u001b[90m 230 | \u001b[39m                data\u001b[33m:\u001b[39m{}\u001b[0m\n    at Parser.raise (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:6420:17)\n    at Parser.unexpected (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:7773:16)\n    at Parser.expect (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:7759:28)\n    at Parser.parseObj (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9305:14)\n    at Parser.parseExprAtom (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8939:28)\n    at Parser.parseExprSubscripts (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8556:23)\n    at Parser.parseMaybeUnary (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8536:21)\n    at Parser.parseExprOps (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8402:23)\n    at Parser.parseMaybeConditional (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8375:23)\n    at Parser.parseMaybeAssign (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8325:21)\n    at Parser.parseObjectProperty (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9441:101)\n    at Parser.parseObjPropValue (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9466:101)\n    at Parser.parseObjectMember (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9390:10)\n    at Parser.parseObj (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9314:25)\n    at Parser.parseExprAtom (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8939:28)\n    at Parser.parseExprSubscripts (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8556:23)\n    at Parser.parseMaybeUnary (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8536:21)\n    at Parser.parseExprOps (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8402:23)\n    at Parser.parseMaybeConditional (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8375:23)\n    at Parser.parseMaybeAssign (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8325:21)\n    at Parser.parseExpression (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8275:23)\n    at Parser.parseReturnStatement (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10378:28)\n    at Parser.parseStatementContent (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10057:21)\n    at Parser.parseStatement (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10009:17)\n    at Parser.parseBlockOrModuleBlockBody (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10585:25)\n    at Parser.parseBlockBody (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10572:10)\n    at Parser.parseBlock (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10556:10)\n    at Parser.parseFunctionBody (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9584:24)\n    at Parser.parseFunctionBodyAndFinish (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9554:10)\n    at withTopicForbiddingContext (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10717:12)\n    at Parser.withTopicForbiddingContext (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9884:14)\n    at Parser.parseFunction (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:10716:10)\n    at Parser.parseFunctionExpression (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:9032:17)\n    at Parser.parseExprAtom (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8945:21)\n    at Parser.parseExprSubscripts (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8556:23)\n    at Parser.parseMaybeUnary (c:\\xampp\\htdocs\\simonev\\node_modules\\@babel\\parser\\lib\\index.js:8536:21)");
 
 /***/ }),
 
@@ -352,11 +54,63 @@ var render = function() {
     _vm._v(" "),
     _c("section", { staticClass: "content" }, [
       _c("div", { staticClass: "container-fluid" }, [
+        _vm.api_message
+          ? _c("div", { staticClass: "row" }, [
+              _c("div", { staticClass: "col-md-12" }, [
+                _c(
+                  "div",
+                  { staticClass: "alert alert-danger alert-dismissible" },
+                  [
+                    _c(
+                      "button",
+                      {
+                        staticClass: "close",
+                        attrs: {
+                          type: "button",
+                          "data-dismiss": "alert",
+                          "aria-hidden": "true"
+                        }
+                      },
+                      [_vm._v("×")]
+                    ),
+                    _vm._v(" "),
+                    _vm._m(1),
+                    _vm._v(
+                      "\r\n                        " +
+                        _vm._s(_vm.api_message) +
+                        " \r\n                    "
+                    )
+                  ]
+                )
+              ])
+            ])
+          : _vm._e(),
+        _vm._v(" "),
         _vm.pid == "create"
           ? _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-12" }, [
                 _c("div", { staticClass: "card card-info" }, [
-                  _vm._m(1),
+                  _c("div", { staticClass: "card-header" }, [
+                    _vm._m(2),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-tools" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass:
+                            "btn btn-block bg-gradient-danger btn-xs",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.setProcess("default")
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-window-close" })]
+                      )
+                    ])
+                  ]),
                   _vm._v(" "),
                   _c(
                     "form",
@@ -547,7 +301,7 @@ var render = function() {
                             )
                           ]),
                           _vm._v(" "),
-                          _c("div", { staticClass: "col-sm-6" }, [
+                          _c("div", { staticClass: "col-sm-9" }, [
                             _c(
                               "button",
                               {
@@ -579,23 +333,6 @@ var render = function() {
                                   _vm._v("Menyimpan...")
                                 ])
                               : _vm._e()
-                          ]),
-                          _vm._v(" "),
-                          _c("div", { staticClass: "col-sm-3" }, [
-                            _c(
-                              "button",
-                              {
-                                staticClass: "btn btn-default float-right",
-                                attrs: { type: "submit" },
-                                on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.setProcess("default")
-                                  }
-                                }
-                              },
-                              [_vm._v("Batal")]
-                            )
                           ])
                         ])
                       ])
@@ -610,41 +347,167 @@ var render = function() {
           ? _c("div", { staticClass: "row" }, [
               _c("div", { staticClass: "col-12" }, [
                 _c("div", { staticClass: "card" }, [
-                  _c("div", { staticClass: "card-header" }, [
-                    _c("h3", { staticClass: "card-title" }),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "card-tools" }, [
-                      _c("div", { staticClass: "btn-group" }, [
-                        _vm._m(2),
-                        _vm._v(" "),
-                        _c(
-                          "div",
-                          {
-                            staticClass: "dropdown-menu dropdown-menu-right",
-                            attrs: { role: "menu" }
-                          },
-                          [
+                  _vm._m(3),
+                  _vm._v(" "),
+                  _c(
+                    "form",
+                    {
+                      staticClass: "form-horizontal",
+                      on: {
+                        submit: function($event) {
+                          $event.preventDefault()
+                          return _vm.search($event)
+                        }
+                      }
+                    },
+                    [
+                      _c("div", { staticClass: "card-body" }, [
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-2 col-form-label" },
+                            [_vm._v("KRITERIA")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-10" }, [
                             _c(
-                              "a",
+                              "select",
                               {
-                                staticClass: "dropdown-item",
-                                attrs: { href: "#" },
+                                directives: [
+                                  {
+                                    name: "model",
+                                    rawName: "v-model",
+                                    value: _vm.cmbKriteria,
+                                    expression: "cmbKriteria"
+                                  }
+                                ],
+                                staticClass: "form-control",
+                                attrs: {
+                                  name: "cmbKriteria",
+                                  id: "cmbKriteria"
+                                },
                                 on: {
-                                  click: function($event) {
-                                    $event.preventDefault()
-                                    return _vm.setProcess("create")
+                                  change: function($event) {
+                                    var $$selectedVal = Array.prototype.filter
+                                      .call($event.target.options, function(o) {
+                                        return o.selected
+                                      })
+                                      .map(function(o) {
+                                        var val =
+                                          "_value" in o ? o._value : o.value
+                                        return val
+                                      })
+                                    _vm.cmbKriteria = $event.target.multiple
+                                      ? $$selectedVal
+                                      : $$selectedVal[0]
                                   }
                                 }
                               },
                               [
-                                _vm._v(
-                                  "\r\n                                            Tambah\r\n                                        "
+                                _c(
+                                  "option",
+                                  {
+                                    attrs: { value: "OrgNm" },
+                                    domProps: {
+                                      selected: _vm.cmbKriteria === "OrgNm"
+                                    }
+                                  },
+                                  [_vm._v("NAMA OPD / SKPD")]
                                 )
                               ]
                             )
-                          ]
-                        )
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c(
+                            "label",
+                            { staticClass: "col-sm-2 col-form-label" },
+                            [_vm._v("ISI KRITERIA")]
+                          ),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-sm-10" }, [
+                            _c("input", {
+                              directives: [
+                                {
+                                  name: "model",
+                                  rawName: "v-model",
+                                  value: _vm.txtKriteria,
+                                  expression: "txtKriteria"
+                                }
+                              ],
+                              staticClass: "form-control",
+                              attrs: {
+                                name: "txtKriteria",
+                                id: "txtKriteria",
+                                type: "text"
+                              },
+                              domProps: { value: _vm.txtKriteria },
+                              on: {
+                                input: function($event) {
+                                  if ($event.target.composing) {
+                                    return
+                                  }
+                                  _vm.txtKriteria = $event.target.value
+                                }
+                              }
+                            })
+                          ])
+                        ]),
+                        _vm._v(" "),
+                        _c("div", { staticClass: "form-group row" }, [
+                          _c("div", { staticClass: "col-md-2" }, [_vm._v(" ")]),
+                          _vm._v(" "),
+                          _c("div", { staticClass: "col-md-10" }, [
+                            _c(
+                              "button",
+                              {
+                                staticClass: "btn bg-gradient-info btn-xs",
+                                attrs: { type: "button" },
+                                on: {
+                                  click: function($event) {
+                                    $event.preventDefault()
+                                    return _vm.search($event)
+                                  }
+                                }
+                              },
+                              [
+                                _c("i", { staticClass: "fas fa-search" }),
+                                _vm._v(
+                                  " Cari\r\n                                        "
+                                )
+                              ]
+                            ),
+                            _vm._v(" "),
+                            _vm._m(4)
+                          ])
+                        ])
                       ])
+                    ]
+                  )
+                ])
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "col-12" }, [
+                _c("div", { staticClass: "card" }, [
+                  _c("div", { staticClass: "card-header" }, [
+                    _c("h3", { staticClass: "card-title" }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "card-tools" }, [
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-block bg-gradient-info btn-xs",
+                          attrs: { type: "button" },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.setProcess("create")
+                            }
+                          }
+                        },
+                        [_c("i", { staticClass: "fas fa-plus" })]
+                      )
                     ])
                   ]),
                   _vm._v(" "),
@@ -660,7 +523,7 @@ var render = function() {
                                 "table table-striped table-hover mb-2"
                             },
                             [
-                              _vm._m(3),
+                              _vm._m(5),
                               _vm._v(" "),
                               _c(
                                 "tbody",
@@ -672,7 +535,13 @@ var render = function() {
                                     "tr",
                                     { key: item.PaguAnggaranOPDID },
                                     [
-                                      _c("td", [_vm._v(_vm._s(index + 1))]),
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(
+                                            _vm.daftar_paguanggaran.from + index
+                                          )
+                                        )
+                                      ]),
                                       _vm._v(" "),
                                       _c("td", [
                                         _vm._v(_vm._s(item.kode_organisasi))
@@ -696,7 +565,55 @@ var render = function() {
                                         )
                                       ]),
                                       _vm._v(" "),
-                                      _vm._m(4, true)
+                                      _c("td", [
+                                        _c("div", { staticClass: "dropdown" }, [
+                                          _vm._m(6, true),
+                                          _vm._v(" "),
+                                          _c(
+                                            "div",
+                                            {
+                                              staticClass: "dropdown-menu",
+                                              attrs: {
+                                                "aria-labelledby":
+                                                  "dropdownMenuButton"
+                                              }
+                                            },
+                                            [
+                                              _c(
+                                                "a",
+                                                {
+                                                  staticClass: "dropdown-item",
+                                                  attrs: { href: "#" }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                        UBAH\r\n                                                    "
+                                                  )
+                                                ]
+                                              ),
+                                              _vm._v(" "),
+                                              _c(
+                                                "a",
+                                                {
+                                                  staticClass: "dropdown-item",
+                                                  attrs: { href: "#" },
+                                                  on: {
+                                                    click: function($event) {
+                                                      $event.preventDefault()
+                                                      return _vm.destroy(item)
+                                                    }
+                                                  }
+                                                },
+                                                [
+                                                  _vm._v(
+                                                    "\r\n                                                        HAPUS\r\n                                                    "
+                                                  )
+                                                ]
+                                              )
+                                            ]
+                                          )
+                                        ])
+                                      ])
                                     ]
                                   )
                                 }),
@@ -707,7 +624,7 @@ var render = function() {
                         ]
                       )
                     : _c("div", { staticClass: "card-body table-responsive" }, [
-                        _vm._m(5)
+                        _vm._m(7)
                       ]),
                   _vm._v(" "),
                   _vm.daftar_paguanggaran.data.length
@@ -754,16 +671,9 @@ var render = function() {
               ])
             ])
           : _vm._e()
-      ]),
-      _vm._v(" "),
-      _vm.api_message
-        ? _c("span", { staticClass: "text-danger" }, [
-            _vm._v(
-              "\r\n            " + _vm._s(_vm.api_message) + " \r\n        "
-            )
-          ])
-        : _vm._e()
-    ])
+      ])
+    ]),
+    _vm._v("    \r\n    " + _vm._s(this.paguanggaranopd.search) + "\r\n")
   ])
 }
 var staticRenderFns = [
@@ -773,7 +683,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", { staticClass: "col-sm-6" }, [
       _c("h1", { staticClass: "m-0 text-dark" }, [
-        _c("i", { staticClass: "nav-icon fas fa-tachometer-alt" }),
+        _c("i", { staticClass: "nav-icon fas fa-money-check-alt" }),
         _vm._v(
           "\r\n                        PAGU ANGGARAN OPD / SKPD\r\n                    "
         )
@@ -784,9 +694,28 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("h5", [
+      _c("i", { staticClass: "icon fas fa-ban" }),
+      _vm._v(" Alert!")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("h3", { staticClass: "card-title" }, [
+      _c("i", { staticClass: "fas fa-plus" }),
+      _vm._v(" Tambah Pagu Anggaran OPD / SKPD\r\n                            ")
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "card-header" }, [
       _c("h3", { staticClass: "card-title" }, [
-        _vm._v("Tambah Pagu Anggaran OPD / SKPD")
+        _c("i", { staticClass: "fas fa-search" }),
+        _vm._v(" PENCARIAN")
       ])
     ])
   },
@@ -795,12 +724,19 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c(
-      "button",
+      "a",
       {
-        staticClass: "btn btn-tool dropdown-toggle",
-        attrs: { type: "button", "data-toggle": "dropdown" }
+        staticClass: "btn btn-default btn-xs",
+        attrs: {
+          id: "btnReset",
+          href: "javascript:;",
+          title: "Reset Pencarian"
+        }
       },
-      [_c("i", { staticClass: "fas fa-wrench" })]
+      [
+        _c("b", [_c("i", { staticClass: "icon-reset" })]),
+        _vm._v(" Reset\r\n                                        ")
+      ]
     )
   },
   function() {
@@ -843,45 +779,20 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("td", [
-      _c("div", { staticClass: "dropdown" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn btn-secondary dropdown-toggle",
-            attrs: {
-              type: "button",
-              id: "dropdownMenuButton",
-              "data-toggle": "dropdown",
-              "aria-haspopup": "true",
-              "aria-expanded": "false"
-            }
-          },
-          [_c("i", { staticClass: "fas fa-wrench" })]
-        ),
-        _vm._v(" "),
-        _c(
-          "div",
-          {
-            staticClass: "dropdown-menu",
-            attrs: { "aria-labelledby": "dropdownMenuButton" }
-          },
-          [
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Another action")
-            ]),
-            _vm._v(" "),
-            _c("a", { staticClass: "dropdown-item", attrs: { href: "#" } }, [
-              _vm._v("Something else here")
-            ])
-          ]
-        )
-      ])
-    ])
+    return _c(
+      "button",
+      {
+        staticClass: "btn btn-secondary dropdown-toggle",
+        attrs: {
+          type: "button",
+          id: "dropdownMenuButton",
+          "data-toggle": "dropdown",
+          "aria-haspopup": "true",
+          "aria-expanded": "false"
+        }
+      },
+      [_c("i", { staticClass: "fas fa-wrench" })]
+    )
   },
   function() {
     var _vm = this
@@ -913,6 +824,113 @@ var staticRenderFns = [
 ]
 render._withStripped = true
 
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js":
+/*!********************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/runtime/componentNormalizer.js ***!
+  \********************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return normalizeComponent; });
+/* globals __VUE_SSR_CONTEXT__ */
+
+// IMPORTANT: Do NOT use ES2015 features in this file (except for modules).
+// This module is a runtime utility for cleaner component module output and will
+// be included in the final webpack user bundle.
+
+function normalizeComponent (
+  scriptExports,
+  render,
+  staticRenderFns,
+  functionalTemplate,
+  injectStyles,
+  scopeId,
+  moduleIdentifier, /* server only */
+  shadowMode /* vue-cli only */
+) {
+  // Vue.extend constructor export interop
+  var options = typeof scriptExports === 'function'
+    ? scriptExports.options
+    : scriptExports
+
+  // render functions
+  if (render) {
+    options.render = render
+    options.staticRenderFns = staticRenderFns
+    options._compiled = true
+  }
+
+  // functional template
+  if (functionalTemplate) {
+    options.functional = true
+  }
+
+  // scopedId
+  if (scopeId) {
+    options._scopeId = 'data-v-' + scopeId
+  }
+
+  var hook
+  if (moduleIdentifier) { // server build
+    hook = function (context) {
+      // 2.3 injection
+      context =
+        context || // cached call
+        (this.$vnode && this.$vnode.ssrContext) || // stateful
+        (this.parent && this.parent.$vnode && this.parent.$vnode.ssrContext) // functional
+      // 2.2 with runInNewContext: true
+      if (!context && typeof __VUE_SSR_CONTEXT__ !== 'undefined') {
+        context = __VUE_SSR_CONTEXT__
+      }
+      // inject component styles
+      if (injectStyles) {
+        injectStyles.call(this, context)
+      }
+      // register component module identifier for async chunk inferrence
+      if (context && context._registeredComponents) {
+        context._registeredComponents.add(moduleIdentifier)
+      }
+    }
+    // used by ssr in case component is cached and beforeCreate
+    // never gets called
+    options._ssrRegister = hook
+  } else if (injectStyles) {
+    hook = shadowMode
+      ? function () { injectStyles.call(this, this.$root.$options.shadowRoot) }
+      : injectStyles
+  }
+
+  if (hook) {
+    if (options.functional) {
+      // for template-only hot-reload because in that case the render fn doesn't
+      // go through the normalizer
+      options._injectStyles = hook
+      // register for functioal component in vue file
+      var originalRender = options.render
+      options.render = function renderWithStyleInjection (h, context) {
+        hook.call(context)
+        return originalRender(h, context)
+      }
+    } else {
+      // inject component registration as beforeCreate hook
+      var existing = options.beforeCreate
+      options.beforeCreate = existing
+        ? [].concat(existing, hook)
+        : [hook]
+    }
+  }
+
+  return {
+    exports: scriptExports,
+    options: options
+  }
+}
 
 
 /***/ }),
