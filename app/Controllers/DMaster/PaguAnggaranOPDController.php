@@ -232,7 +232,7 @@ class PaguAnggaranOPDController extends Controller {
         if ($validator->fails())
         {
             return response()->json([            
-                'message'=>"Data ini telah gagal disimpan karena OrgID sudah tersedia pada tahun $ta."
+                'message'=>"Data ini gagal disimpan karena OrgID sudah tersedia pada tahun $ta."
             ],500);
         }
         else
@@ -304,31 +304,28 @@ class PaguAnggaranOPDController extends Controller {
     {
         $paguanggaranopd = PaguAnggaranOPDModel::find($id);
         
-        $this->validate($request, [
-            'OrgID'=> [new IgnoreIfDataIsEqualValidation('tmPaguAnggaranOPD',$paguanggaranopd->OrgID,['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
-                        'required'],
+        $validator=Validator::make($request->all(), [            
             'Jumlah1'=>'required|numeric',
             'Jumlah2'=>'required|numeric',
         ]);
-        
-        $paguanggaranopd->OrgID = $request->input('OrgID');
-        $paguanggaranopd->Jumlah1 = $request->input('Jumlah1');
-        $paguanggaranopd->Jumlah2 = $request->input('Jumlah2');
-        $paguanggaranopd->Descr = $request->input('Descr');       
-        
-        $paguanggaranopd->save();
-
-        if ($request->ajax()) 
+        if ($validator->fails())
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'
-            ]);
+            return response()->json([            
+                'message'=>"Data ini gagal diubah."
+            ],500);
         }
         else
         {
-            return redirect(route('paguanggaranopd.show',['id'=>$paguanggaranopd->PaguAnggaranOPDID]))->with('success','Data ini telah berhasil disimpan.');
-        }
+            $paguanggaranopd->Jumlah1 = $request->input('Jumlah1');
+            $paguanggaranopd->Jumlah2 = $request->input('Jumlah2');
+            $paguanggaranopd->Descr = $request->input('Descr');       
+            
+            $paguanggaranopd->save();
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil diubah.'
+            ],200); 
+        }        
     }
 
      /**

@@ -70,7 +70,7 @@
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
-									<i class="far fa-circle nav-icon"></i>
+									<i class="fas fa-circle nav-icon"></i>
 									<p>PAGU DANA</p>
 							  	</router-link>
 							</li>							

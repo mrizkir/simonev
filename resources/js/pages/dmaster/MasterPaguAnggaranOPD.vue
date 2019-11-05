@@ -84,9 +84,70 @@
                                     </div>
                                     <div class="col-sm-9">
                                         <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>
-                                        <p class="typo__p" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
-                                        <p class="form-error-message" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
-                                        <p class="typo__p" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
+                                        <p class="text-success" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
+                                        <p class="text-error" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
+                                        <p class="text-success" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>                    
+            </div>
+            <div class="row" v-if="pid=='edit'">
+                <div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card card-info">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-plus"></i> Ubah Pagu Anggaran OPD / SKPD
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-block bg-gradient-danger btn-xs" v-on:click.prevent="setProcess('default')">
+                                    <i class="fas fa-window-close"></i>
+                                </button>                                
+                            </div>
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="updateData">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">OPD / SKPD</label>
+                                    <div class="col-sm-9">
+                                        {{OrgID}}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBD</label>
+                                    <div class="col-sm-9">
+                                        <vue-autonumeric v-model="Jumlah1" :options="{minimumValue: '0',decimalCharacter: ',',digitGroupSeparator: '.',unformatOnSubmit: true }" class="form-control" :class="{ 'is-invalid': $v.Jumlah1.$error }"></vue-autonumeric>
+                                        <div class="form-error-message" v-if="!$v.Jumlah1.required">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBDP</label>
+                                    <div class="col-sm-9">
+                                        <vue-autonumeric v-model="Jumlah2" :options="{minimumValue: '0',decimalCharacter: ',',digitGroupSeparator: '.',unformatOnSubmit: true }" class="form-control" :class="{ 'is-invalid': $v.Jumlah2.$error }"></vue-autonumeric>
+                                        <div class="form-error-message" v-if="!$v.Jumlah2.required">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">KETERANGAN</label>
+                                    <div class="col-sm-9">
+                                        <textarea type="text" name="Descr" id="Descr" v-model="Descr" class="form-control" row="4">
+                                        </textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>
+                                        <p class="text-success" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
+                                        <p class="text-error" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
+                                        <p class="text-success" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
                                     </div>                                    
                                 </div>
                             </div>
@@ -175,11 +236,11 @@
                                                     <i class="fas fa-wrench"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#">
-                                                        UBAH
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="edit(item)">
+                                                        <i class="fas fa-edit"></i> UBAH
                                                     </a>
                                                     <a class="dropdown-item" v-on:click.prevent="destroy(item)" href="#">
-                                                        HAPUS
+                                                        <i class="fas fa-trash-alt"></i> HAPUS
                                                     </a>
                                                 </div>
                                             </div>
@@ -238,6 +299,7 @@ export default {
             txtKriteria:'',
 
             //field form create / edit
+            PaguAnggaranOPDID:'',
             OrgID:'',
             Jumlah1:'',
             Jumlah2:'',
@@ -385,6 +447,45 @@ export default {
                 });			                              
 			}
         },
+        edit(item)
+        {
+            this.setProcess('edit');
+            this.PaguAnggaranOPDID=item.PaguAnggaranOPDID;
+            this.OrgID=item.OrgID;
+            this.Jumlah1=item.Jumlah1;
+            this.Jumlah2=item.Jumlah2;
+            this.Descr=item.Descr;
+            this.submitStatus=null;
+        },
+        updateData() 
+		{
+			this.$v.$touch();
+			if (this.$v.$invalid) {
+				this.submitStatus = 'ERROR';
+			} else {
+				axios.post('/api/v1/master/paguanggaranopd/'+this.PaguAnggaranOPDID,{
+                    '_method':'PUT',
+                    'Jumlah1':this.Jumlah1,
+                    'Jumlah2':this.Jumlah2,
+                    'Descr':this.Descr,
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.submitStatus = 'PENDING';
+                    setTimeout(() => {
+                        this.submitStatus = 'OK';
+                        this.clearform();
+                        this.setProcess('default');
+                    }, 500);         
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			                              
+			}
+        },
         destroy (item)
         {
             axios.post('/api/v1/master/paguanggaranopd/'+item.PaguAnggaranOPDID,{
@@ -404,6 +505,7 @@ export default {
         },
         clearform ()
         {
+            this.PaguAnggaranOPDID='';
             this.OrgID='';
             this.Jumlah1='';
             this.Jumlah2='';
