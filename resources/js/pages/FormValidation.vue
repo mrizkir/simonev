@@ -55,6 +55,7 @@
 				</div>
 			</div>
 		</div>
+		<button @click="showAlert">Hello world</button>
     </section>    
  </div>
 </template>
@@ -62,6 +63,9 @@
 import { required} from 'vuelidate/lib/validators';
 
 export default {
+	created(){
+		// Vue.swal('Hello Vue world!!!');
+	},
   	data() {
     	return {
 			//form
@@ -79,6 +83,23 @@ export default {
 		},
 	},
 	methods: {
+		showAlert() {
+			// Use sweetalert2
+			this.$swal({
+				title: '<i class="far fa-spin fa-spinner"></i>',
+				text: 'lier',
+				showCancelButton: false,
+				showConfirmButton: false,
+				showCloseButton: false,
+				allowOutsideClick: false,
+				allowEscapeKey: false,
+				allowEnterKey: false,
+			});
+			setTimeout(() => {
+					this.$swal.close();
+			}, 1000);
+			
+		},
 		saveData() 
 		{
 			this.$v.$touch();

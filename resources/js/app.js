@@ -28,6 +28,10 @@ const store = new Vuex.Store(StoreData);
 import Vuelidate from 'vuelidate';
 Vue.use(Vuelidate);
 
+//sweat alert
+import VueSweetalert2 from 'vue-sweetalert2';
+Vue.use(VueSweetalert2);
+
 //format uang
 import AutoNumeric from 'autonumeric';
 Vue.filter("formatUang",function (value){

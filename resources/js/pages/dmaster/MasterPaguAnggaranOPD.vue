@@ -52,21 +52,21 @@
                                     <label class="col-sm-3 col-form-label">OPD / SKPD</label>
                                     <div class="col-sm-9">
                                         <select2 id="OrgID" name="OrgID" v-model="OrgID" :options="daftar_opd" :settings="{placeholder:'PILIH OPD / SKPD',allowClear: true,theme: 'bootstrap'}" :class="{ 'is-invalid': $v.Jumlah2.$error }"></select2>
-                                        <div class="form-error-message" v-if="!$v.OrgID.required">* wajib isi</div>
+                                        <div class="text-danger" v-if="!$v.OrgID.required">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBD</label>
                                     <div class="col-sm-9">
                                         <vue-autonumeric v-model="Jumlah1" :options="{minimumValue: '0',decimalCharacter: ',',digitGroupSeparator: '.',unformatOnSubmit: true }" class="form-control" :class="{ 'is-invalid': $v.Jumlah1.$error }"></vue-autonumeric>
-                                        <div class="form-error-message" v-if="!$v.Jumlah1.required">* wajib isi</div>
+                                        <div class="text-danger" v-if="!$v.Jumlah1.required">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBDP</label>
                                     <div class="col-sm-9">
                                         <vue-autonumeric v-model="Jumlah2" :options="{minimumValue: '0',decimalCharacter: ',',digitGroupSeparator: '.',unformatOnSubmit: true }" class="form-control" :class="{ 'is-invalid': $v.Jumlah2.$error }"></vue-autonumeric>
-                                        <div class="form-error-message" v-if="!$v.Jumlah2.required">* wajib isi</div>
+                                        <div class="text-danger" v-if="!$v.Jumlah2.required">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -83,10 +83,7 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-sm-9">
-                                        <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>
-                                        <p class="text-success" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
-                                        <p class="text-error" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
-                                        <p class="text-success" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
+                                        <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>                                        
                                     </div>                                    
                                 </div>
                             </div>
@@ -144,10 +141,7 @@
                                         &nbsp;
                                     </div>
                                     <div class="col-sm-9">
-                                        <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>
-                                        <p class="text-success" v-if="submitStatus === 'OK'">Data telah sukses disimpan!</p>
-                                        <p class="text-error" v-if="submitStatus === 'ERROR'">Form ini mohon untuk di isi dengan benar.</p>
-                                        <p class="text-success" v-if="submitStatus === 'PENDING'">Menyimpan...</p>
+                                        <button type="submit" class="btn btn-info" :disabled="submitStatus === 'PENDING'">Simpan</button>                                        
                                     </div>                                    
                                 </div>
                             </div>
@@ -198,7 +192,7 @@
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-block bg-gradient-info btn-xs" v-on:click.prevent="setProcess('create')">
+                                <button type="button" class="btn btn-block bg-gradient-success btn-xs" v-on:click.prevent="setProcess('create')">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
                             </div>
@@ -422,7 +416,12 @@ export default {
 		{
 			this.$v.$touch();
 			if (this.$v.$invalid) {
-				this.submitStatus = 'ERROR';
+                this.submitStatus = 'ERROR';
+                this.$swal({
+                    icon: 'icon fas fa-ban',
+                    title: 'Validasi Form',
+                    text: 'Terdapat kesalahan mohon diperbaiki',
+                });
 			} else {
 				axios.post('/api/v1/master/paguanggaranopd',{
                     'OrgID':this.OrgID,
@@ -436,11 +435,22 @@ export default {
                 })
                 .then(response => {                          
                     this.submitStatus = 'PENDING';
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Menyimpan Data Pagu Anggaran OPD / SKPD",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
                     setTimeout(() => {
                         this.submitStatus = 'OK';
-                        this.clearform();
-                        this.setProcess('default');
-                    }, 500);         
+                        this.clearform();              
+                        this.$swal.close();          
+                        this.setProcess('default');    
+                    }, 1500);             
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
@@ -475,11 +485,22 @@ export default {
                 })
                 .then(response => {                          
                     this.submitStatus = 'PENDING';
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Menyimpan Data Pagu Anggaran OPD / SKPD",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
                     setTimeout(() => {
                         this.submitStatus = 'OK';
-                        this.clearform();
-                        this.setProcess('default');
-                    }, 500);         
+                        this.clearform();              
+                        this.$swal.close();          
+                        this.setProcess('default');    
+                    }, 1500);                 
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
@@ -496,12 +517,25 @@ export default {
                 },
             })
             .then(response => {                          
-                console.log(response.data);          
+                console.log(response.data);  
+                this.$swal({
+                    title: '<i class="fas fa-spin fa-spinner"></i>',
+                    text: "Menghapus Data Pagu Anggaran OPD / SKPD",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    showCloseButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                });              
+                setTimeout(() => {
+                    this.$swal.close();          
+                    this.setProcess('default');    
+                }, 1500);             
             })
             .catch(response => {
                 this.api_message = response;
-            });
-            this.setProcess('default');
+            });            
         },
         clearform ()
         {
