@@ -84,7 +84,7 @@ class urusanController extends Controller
         $this->setCurrentPageInsideSession('urusan', 1);
         $data = $this->populateData();
 
-         return response()->json(['page_active'=>'urusan',
+        return response()->json(['page_active'=>'urusan',
                                 'search'=>$this->getControllerStateSession('urusan','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                 'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
@@ -123,13 +123,8 @@ class urusanController extends Controller
      */
     public function show($id)
     {
-        $theme = 'dore';
         $data = UrusanModel::where('UrsID', $id)
-            ->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.urusan.show")->with(['page_active' => 'urusan',
-                'data' => $data,
-            ]);
-        }
+                            ->firstOrFail();
+        return response()->json($data,200);
     }
 }

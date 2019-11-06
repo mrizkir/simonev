@@ -76,6 +76,14 @@
 							  	<router-link to="/dmaster/urusan" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>URUSAN</p>
+								</router-link>
+								<router-link to="/dmaster/organisasi" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>ORGANISASI</p>
+							  	</router-link>
+								<router-link to="/dmaster/unitkerja" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>UNIT KERJA</p>
 							  	</router-link>
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>

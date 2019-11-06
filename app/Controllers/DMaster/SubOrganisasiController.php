@@ -60,92 +60,7 @@ class SubOrganisasiController extends Controller
         }
         $data->setPath(route('suborganisasi.index'));
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage(Request $request)
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-    $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-    $this->setCurrentPageInsideSession('suborganisasi', 1);
-    $data = $this->populateData();
-
-    $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active' => 'suborganisasi',
-                                                                            'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-                                                                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                            'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-                                                                            'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-        'data' => $data])->render();
-    return response()->json(['success' => true, 'datatable' => $datatable], 200);
-
-    }
-    /**
-     * digunakan untuk mengurutkan record
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby(Request $request)
-    {
-        $theme = 'dore';
-
-        $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
-        $column = $request->input('column_name');
-        switch ($column) {
-            case 'kode_suborganisasi':
-                $column_name = 'kode_suborganisasi';
-                break;
-            case 'SOrgNm':
-                $column_name = 'SOrgNm';
-                break;
-            case 'Nm_Urusan':
-                $column_name = 'Nm_Urusan';
-                break;
-            default:
-                $column_name = 'kode_suborganisasi';
-        }
-        $this->putControllerStateSession('suborganisasi', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('suborganisasi');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-        }
-
-        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active' => 'suborganisasi',
-                                                                                'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-                                                                                'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-                                                                                'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate($id)
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession('suborganisasi', $id);
-        $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active' => 'suborganisasi',
-                                                                                    'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-                                                                                    'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                    'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-                                                                                    'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-                                                                                    'data' => $data])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
+    }  
     /**
      * search resource in storage.
      *
@@ -154,8 +69,6 @@ class SubOrganisasiController extends Controller
      */
     public function search(Request $request)
     {
-        $theme = 'dore';
-
         $action = $request->input('action');
         if ($action == 'reset') {
             $this->destroyControllerStateSession('suborganisasi', 'search');
@@ -183,7 +96,6 @@ class SubOrganisasiController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
         $search = $this->getControllerStateSession('suborganisasi', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('suborganisasi');
         $data = $this->populateData($currentpage);
@@ -208,15 +120,8 @@ class SubOrganisasiController extends Controller
      */
     public function show($id)
     {
-        $theme = 'dore';
-
         $data = SubOrganisasiModel::where('KUrsID', $id)
-            ->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.suborganisasi.show")->with([
-                'page_active' => 'suborganisasi',
-                'data' => $data,
-            ]);
-        }
+                                    ->firstOrFail();
+        return response()->json($data,200);
     }
 }
