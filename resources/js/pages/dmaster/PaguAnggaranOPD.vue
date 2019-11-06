@@ -110,7 +110,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">OPD / SKPD</label>
                                     <div class="col-sm-9">
-                                        {{OrgID}}
+                                        <p class="form-control-static">{{OrgNm}}</p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -295,6 +295,7 @@ export default {
             //field form create / edit
             PaguAnggaranOPDID:'',
             OrgID:'',
+            OrgNm:'',
             Jumlah1:'',
             Jumlah2:'',
             Descr:'',      
@@ -461,6 +462,17 @@ export default {
         {
             this.setProcess('edit');
             this.PaguAnggaranOPDID=item.PaguAnggaranOPDID;
+            axios.get('/api/v1/master/paguanggaranopd/'+this.PaguAnggaranOPDID,{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {                                        
+                this.OrgNm='['+response.data.kode_organisasi+'] '+response.data.OrgNm;    
+            })
+            .catch(response => {
+                this.api_message = response;
+            }); 
             this.OrgID=item.OrgID;
             this.Jumlah1=item.Jumlah1;
             this.Jumlah2=item.Jumlah2;
@@ -541,6 +553,7 @@ export default {
         {
             this.PaguAnggaranOPDID='';
             this.OrgID='';
+            this.OrgNm='';
             this.Jumlah1='';
             this.Jumlah2='';
             this.Descr='';

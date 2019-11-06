@@ -69,6 +69,14 @@
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">
+							  	<router-link to="/dmaster/kelompokurusan" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>KELOMPOK URUSAN</p>
+							  	</router-link>
+							  	<router-link to="/dmaster/urusan" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>URUSAN</p>
+							  	</router-link>
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PAGU DANA OPD</p>

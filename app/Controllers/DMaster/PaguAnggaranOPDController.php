@@ -69,76 +69,7 @@ class PaguAnggaranOPDController extends Controller {
         } 
 
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage (Request $request) 
-    {
-        $theme = \Auth::user()->theme;
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
-        
-        $this->setCurrentPageInsideSession('paguanggaranopd',1);
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.paguanggaranopd.datatable")->with(['page_active'=>'paguanggaranopd',
-                                                                                'search'=>$this->getControllerStateSession('paguanggaranopd','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('paguanggaranopd.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('paguanggaranopd.orderby','order'),
-                                                                                'data'=>$data])->render();      
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }
-    /**
-     * digunakan untuk mengurutkan record 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby (Request $request) 
-    {
-        $theme = \Auth::user()->theme;
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'col-kode_organisasi' :
-                $column_name = 'v_urusan_organisasi.kode_organisasi';
-            break; 
-            case 'col-OrgNm' :
-                $column_name = 'v_urusan_organisasi.OrgNm';
-            break;  
-            case 'col-Jumlah1' :
-                $column_name = 'tmPaguAnggaranOPD.Jumlah1';
-            break; 
-            case 'col-Jumlah2' :
-                $column_name = 'tmPaguAnggaranOPD.Jumlah2';
-            break;          
-            default :
-                $column_name = 'v_urusan_organisasi.kode_organisasi';
-        }
-        $this->putControllerStateSession('paguanggaranopd','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
-
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('paguanggaranopd');         
-        $data=$this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        
-        $datatable = view("pages.$theme.dmaster.paguanggaranopd.datatable")->with(['page_active'=>'paguanggaranopd',
-                                                            'search'=>$this->getControllerStateSession('paguanggaranopd','search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession('paguanggaranopd.orderby','column_name'),
-                                                            'direction'=>$this->getControllerStateSession('paguanggaranopd.orderby','order'),
-                                                            'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }   
+    }    
     /**
      * search resource in storage.
      *
@@ -260,39 +191,12 @@ class PaguAnggaranOPDController extends Controller {
     public function show($id)
     {
 
-        // $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-        //                             ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
-        //                             ->findOrFail($id);
-        // if (!is_null($data) )  
-        // {
-        //     return view("pages.$theme.dmaster.paguanggaranopd.show")->with(['page_active'=>'paguanggaranopd',
-        //                                             'data'=>$data
-        //                                             ]);
-        // }        
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        $theme = \Auth::user()->theme;
-        
-        $data = PaguAnggaranOPDModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
+        $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
+                                    ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
                                     ->findOrFail($id);
-        if (!is_null($data) ) 
-        {
-            $daftar_opd=OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunPerencanaan(),false,NULL,$data->OrgID);
-            return view("pages.$theme.dmaster.paguanggaranopd.edit")->with(['page_active'=>'paguanggaranopd',
-                                                                                'data'=>$data,
-                                                                                'daftar_opd'=>$daftar_opd
-                                                                            ]);
-        }        
-    }
 
+        return response()->json($data,200);   
+    }
     /**
      * Update the specified resource in storage.
      *
@@ -338,6 +242,6 @@ class PaguAnggaranOPDController extends Controller {
     {        
         $paguanggaranopd = PaguAnggaranOPDModel::find($id);
         $paguanggaranopd->delete();
-        return response()->json(['success'=>true,'message'=>"data pagu anggaran opd dengan ID ($id) Berhasil di Hapus"],200);         
+        return response()->json(['message'=>"data pagu anggaran opd dengan ID ($id) Berhasil di Hapus"],200);         
     }
 }
