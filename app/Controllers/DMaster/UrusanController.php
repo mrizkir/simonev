@@ -84,14 +84,12 @@ class urusanController extends Controller
         $this->setCurrentPageInsideSession('urusan', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.urusan.datatable")->with(['page_active' => 'urusan',
-                                                                            'search' => $this->getControllerStateSession('urusan', 'search'),
-                                                                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                            'column_order' => $this->getControllerStateSession('urusan.orderby', 'column_name'),
-                                                                            'direction' => $this->getControllerStateSession('urusan.orderby', 'order'),
-                                                                            'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+         return response()->json(['page_active'=>'urusan',
+                                'search'=>$this->getControllerStateSession('urusan','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('urusan.orderby','order'),
+                                'daftar_urusan'=>$data],200);  
     }
     /**
      * Show the form for creating a new resource.
