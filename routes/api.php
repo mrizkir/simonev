@@ -22,13 +22,13 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/master/organisasi/search',['uses'=>'DMaster\OrganisasiController@search','as'=>'organisasi.search']);  
     Route::get('master/organisasi/daftaropd',['uses'=>'DMaster\OrganisasiController@getdaftaropd','as'=>'organisasi.daftaropd']);
     
-    //master - unitkerja
-    Route::resource('/master/unitkerja', 'DMaster\SubOrganisasiController', [
-        'parameters' => ['unitkerja' => 'uuid'],
+    //master - suborganisasi
+    Route::resource('/master/suborganisasi', 'DMaster\SubOrganisasiController', [
+        'parameters' => ['suborganisasi' => 'uuid'],
         'only' => ['index', 'show']
     ]);
-    Route::post('/master/unitkerja/search',['uses'=>'DMaster\SubOrganisasiController@search','as'=>'unitkerja.search']);  
-    Route::get('master/unitkerja/daftarunitkerja',['uses'=>'DMaster\SubOrganisasiController@getdaftarunitkerja','as'=>'unitkerja.daftarunitkerja']);
+    Route::post('/master/suborganisasi/search',['uses'=>'DMaster\SubOrganisasiController@search','as'=>'suborganisasi.search']);  
+    Route::get('master/suborganisasi/daftarunitkerja',['uses'=>'DMaster\SubOrganisasiController@getdaftarunitkerja','as'=>'suborganisasi.daftarunitkerja']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

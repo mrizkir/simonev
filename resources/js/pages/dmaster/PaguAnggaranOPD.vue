@@ -348,14 +348,27 @@ export default {
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {                          
-                    this.paguanggaranopd=response.data; 
-                    this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
-                    if(typeof(this.paguanggaranopd.search) !== 'undefined' && this.paguanggaranopd.search !== null)
-                    {
-                        this.cmbKriteria = this.paguanggaranopd.search.kriteria;
-                        this.txtKriteria = this.paguanggaranopd.search.isikriteria;
-                    }   
+                .then(response => { 
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Melakukan pencarian data Pagu Dana OPD / SKPD",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.paguanggaranopd=response.data; 
+                        this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
+                        if(typeof(this.paguanggaranopd.search) !== 'undefined' && this.paguanggaranopd.search !== null)
+                        {
+                            this.cmbKriteria = this.paguanggaranopd.search.kriteria;
+                            this.txtKriteria = this.paguanggaranopd.search.isikriteria;
+                        }   
+                        this.$swal.close();
+                    }, 1500); 
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
@@ -370,11 +383,24 @@ export default {
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {                          
-                    this.paguanggaranopd=response.data; 
-                    this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;                
-                    this.cmbKriteria = 'OrgNm';
-                    this.txtKriteria = '';                       
+                .then(response => {                 
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Reset pencarian data Pagu Dana OPD / SKPD",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.paguanggaranopd=response.data; 
+                        this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;                
+                        this.cmbKriteria = 'OrgNm';
+                        this.txtKriteria = '';      
+                        this.$swal.close();
+                    }, 1500);                                              
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;

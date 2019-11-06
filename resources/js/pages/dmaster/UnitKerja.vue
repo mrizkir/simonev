@@ -44,8 +44,8 @@
                                     <label class="col-sm-2 col-form-label">KRITERIA</label>
                                     <div class="col-sm-10">
                                         <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
-                                            <option value="kode_organisasi" :selected="cmbKriteria=='kode_organisasi'">KODE UNIT KERJA</option>
-                                            <option value="OrgNm" :selected="cmbKriteria=='OrgNm'">NAMA UNIT KERJA</option>
+                                            <option value="kode_suborganisasi" :selected="cmbKriteria=='kode_suborganisasi'">KODE UNIT KERJA</option>
+                                            <option value="SOrgNm" :selected="cmbKriteria=='SOrgNm'">NAMA UNIT KERJA</option>
                                         </select>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
                 </div>
                 <div class="col-12">
                     <div class="card">                        
-                        <div class="card-body table-responsive p-0" v-if="daftar_organisasi.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_unitkerja.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
@@ -90,10 +90,10 @@
                                     </tr>
                                 </thead> 
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_organisasi.data" v-bind:key="item.OrgID">
-                                        <td>{{daftar_organisasi.from+index}}</td>
-                                        <td>{{item.kode_organisasi}}</td>
-                                        <td>{{item.OrgNm}}</td>
+                                    <tr v-for="(item,index) in daftar_unitkerja.data" v-bind:key="item.SOrgID">
+                                        <td>{{daftar_unitkerja.from+index}}</td>
+                                        <td>{{item.kode_suborganisasi}}</td>
+                                        <td>{{item.SOrgNm}}</td>
                                         <td>{{item.Nm_Urusan}}</td>
                                         <td>{{item.TA}}</td>
                                     </tr>
@@ -107,8 +107,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_organisasi.data.length">                            
-                            <pagination :data="daftar_organisasi" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_unitkerja.data.length">                            
+                            <pagination :data="daftar_unitkerja" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
 	                            <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -131,16 +131,16 @@ export default {
     {
          return {
             pid:'default',
-            organisasi:{
+            unitkerja:{
                 kriteria:'',
                 isikriteria:''
             },
-            daftar_organisasi:{
+            daftar_unitkerja:{
                 data:{}
             },
             api_message:'',   
              //field form search
-            cmbKriteria:'OrgNm',
+            cmbKriteria:'SOrgNm',
             txtKriteria:'',         
          }
     },
@@ -148,7 +148,7 @@ export default {
     { 
         search()
         {
-            axios.post('/api/v1/master/organisasi/search',{
+            axios.post('/api/v1/master/suborganisasi/search',{
                     'cmbKriteria':this.cmbKriteria,
                     'txtKriteria':this.txtKriteria,
                     'action':'search',
@@ -157,14 +157,28 @@ export default {
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {                          
-                    this.organisasi=response.data; 
-                    this.daftar_organisasi = this.organisasi.daftar_organisasi;
-                    if(typeof(this.organisasi.search) !== 'undefined' && this.organisasi.search !== null)
-                    {
-                        this.cmbKriteria = this.organisasi.search.kriteria;
-                        this.txtKriteria = this.organisasi.search.isikriteria;
-                    }   
+                .then(response => { 
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Melakukan pencarian data Unit Kerja",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.unitkerja=response.data; 
+                        this.daftar_unitkerja = this.unitkerja.daftar_unitkerja;
+                        if(typeof(this.unitkerja.search) !== 'undefined' && this.unitkerja.search !== null)
+                        {
+                            this.cmbKriteria = this.unitkerja.search.kriteria;
+                            this.txtKriteria = this.unitkerja.search.isikriteria;
+                        }             
+                        this.$swal.close();
+                    }, 1500);                           
+                   
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
@@ -172,18 +186,32 @@ export default {
         },   
         resetpencarian()
         {
-            axios.post('/api/v1/master/organisasi/search',{
+            axios.post('/api/v1/master/suborganisasi/search',{
                     'action':'reset',
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {                          
-                    this.organisasi=response.data; 
-                    this.daftar_organisasi = this.organisasi.daftar_organisasi;                
-                    this.cmbKriteria = 'OrgNm';
-                    this.txtKriteria = '';                       
+                .then(response => {     
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Reset pencarian data Unit Kerja",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.unitkerja=response.data; 
+                        this.daftar_unitkerja = this.unitkerja.daftar_unitkerja;                
+                        this.cmbKriteria = 'SOrgNm';
+                        this.txtKriteria = '';           
+                        this.$swal.close();
+                    }, 1500);                      
+                               
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
@@ -191,18 +219,18 @@ export default {
         },   
         populateData(page=1)
         {           
-            axios.get('/api/v1/master/organisasi?page='+page,{
+            axios.get('/api/v1/master/suborganisasi?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
-                this.organisasi=response.data; 
-                this.daftar_organisasi = this.organisasi.daftar_organisasi;
-                if(typeof(this.organisasi.search) !== 'undefined' && this.organisasi.search !== null)
+                this.unitkerja=response.data; 
+                this.daftar_unitkerja = this.unitkerja.daftar_unitkerja;
+                if(typeof(this.unitkerja.search) !== 'undefined' && this.unitkerja.search !== null)
                 {
-                    this.cmbKriteria = this.organisasi.search.kriteria;
-                    this.txtKriteria = this.organisasi.search.isikriteria;
+                    this.cmbKriteria = this.unitkerja.search.kriteria;
+                    this.txtKriteria = this.unitkerja.search.isikriteria;
                 }               
             })
             .catch(response => {

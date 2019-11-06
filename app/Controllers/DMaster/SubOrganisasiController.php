@@ -40,23 +40,23 @@ class SubOrganisasiController extends Controller
             switch ($search['kriteria']) {
                 case 'kode_suborganisasi':
                     $data = \DB::table('v_suborganisasi')
-                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                        ->where(['kode_suborganisasi' => $search['isikriteria']])
-                        ->orderBy($column_order, $direction);
-                    break;
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where(['kode_suborganisasi' => $search['isikriteria']])
+                                ->orderBy($column_order, $direction);
+                break;
                 case 'SOrgNm':
                     $data = \DB::table('v_suborganisasi')
-                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                        ->where('SOrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
-                        ->orderBy($column_order, $direction);
-                    break;
+                                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                                ->where('SOrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
+                                ->orderBy($column_order, $direction);
+                break;
             }
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         } else {
             $data = \DB::table('v_suborganisasi')
-                ->where('TA', \HelperKegiatan::getTahunPerencanaan())
-                ->orderBy($column_order, $direction)
-                ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+                        ->where('TA', \HelperKegiatan::getTahunPerencanaan())
+                        ->orderBy($column_order, $direction)
+                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }
         $data->setPath(route('suborganisasi.index'));
         return $data;
@@ -79,15 +79,14 @@ class SubOrganisasiController extends Controller
         }
         $this->setCurrentPageInsideSession('suborganisasi', 1);
         $data = $this->populateData();
+        
 
-        $datatable = view("pages.$theme.dmaster.suborganisasi.datatable")->with(['page_active' => 'suborganisasi',
-                            'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                            'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-                            'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-                            'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+        return response()->json(['page_active'=>'suborganisasi',
+                                'search'=>$this->getControllerStateSession('suborganisasi','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
+                                'daftar_unitkerja'=>$data],200); 
     }
     /**
      * Show the form for creating a new resource.
@@ -104,12 +103,12 @@ class SubOrganisasiController extends Controller
         }
         $this->setCurrentPageInsideSession('suborganisasi', $data->currentPage());
 
-        return view("pages.$theme.dmaster.suborganisasi.index")->with(['page_active' => 'suborganisasi',
-            'search' => $this->getControllerStateSession('suborganisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('suborganisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('suborganisasi.orderby', 'order'),
-            'data' => $data]);
+        return response()->json(['page_active'=>'suborganisasi',
+                                'search'=>$this->getControllerStateSession('suborganisasi','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('suborganisasi.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('suborganisasi.orderby','order'),
+                                'daftar_unitkerja'=>$data],200);  
 
     }
     /**
@@ -120,7 +119,7 @@ class SubOrganisasiController extends Controller
      */
     public function show($id)
     {
-        $data = SubOrganisasiModel::where('KUrsID', $id)
+        $data = SubOrganisasiModel::find($id)
                                     ->firstOrFail();
         return response()->json($data,200);
     }

@@ -87,14 +87,12 @@ class OrganisasiController extends Controller
         $this->setCurrentPageInsideSession('organisasi', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active' => 'organisasi',
-                                                'search' => $this->getControllerStateSession('organisasi', 'search'),
-                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-                                                'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-                                                'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+        return response()->json(['page_active'=>'organisasi',
+                                'search'=>$this->getControllerStateSession('organisasi','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                'daftar_organisasi'=>$data],200);  
     }
     /**
      * Show the form for creating a new resource.
@@ -103,7 +101,6 @@ class OrganisasiController extends Controller
      */
     public function index(Request $request)
     {
-
         $search = $this->getControllerStateSession('organisasi', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('organisasi');
         $data = $this->populateData($currentpage);
@@ -112,7 +109,7 @@ class OrganisasiController extends Controller
         }
         $this->setCurrentPageInsideSession('organisasi', $data->currentPage());
    
-         return response()->json(['page_active'=>'organisasi',
+        return response()->json(['page_active'=>'organisasi',
                                 'search'=>$this->getControllerStateSession('organisasi','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                 'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
