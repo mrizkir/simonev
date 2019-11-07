@@ -1,5 +1,5 @@
 <template>
-    <select :name="name" class="form-control">
+    <select :name="name" class="form-control" :placeholder="placeholder">
         <slot></slot>
     </select>
 </template>
@@ -11,7 +11,8 @@ export default {
     props: [
         'options',
         'value',
-        'name'
+        'name',
+        'placeholder'
     ],    
     mounted ()
     {
@@ -21,7 +22,7 @@ export default {
                         theme:'bootstrap',
                         data: this.options,
                         allowClear:true,
-                        placeholder :'MOHON DIPILIH'
+                        placeholder :this.placeholder
                     })
                     .val(this.value)
                     .trigger('change')
@@ -32,16 +33,14 @@ export default {
                         {
                             $(this).removeClass('is-invalid');
                         }                                               
-                    });
-        
+                    });        
     },
     watch: 
     {
         value: function (value)
         {
             //update value
-            $(this.$el).val(value)
-                        .trigger('change');
+            // $(this.$el).val(value).trigger('change');
         },
         options: function (options)
         {
@@ -49,7 +48,7 @@ export default {
                 theme:'bootstrap',
                 data: options,
                 allowClear:true,
-                placeholder :'MOHON DIPILIH'
+                placeholder : this.placeholder
             });
         }
     },

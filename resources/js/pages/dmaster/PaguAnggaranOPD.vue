@@ -51,7 +51,7 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">OPD / SKPD</label>
                                     <div class="col-sm-9" id="divUrsID">
-                                        <select2 id="OrgID" name="OrgID" v-model="OrgID" :options="daftar_opd" :settings="{placeholder:'PILIH OPD / SKPD',allowClear: true,theme: 'bootstrap'}" :class="{ 'is-invalid': $v.Jumlah2.$error }"></select2>
+                                        <select2 id="OrgID" name="OrgID" v-model="OrgID" :options="daftar_opd" placeholder="PILIH OPD / SKPD"></select2>
                                         <div class="text-danger" v-if="!$v.OrgID.required">* wajib isi</div>
                                     </div>
                                 </div>

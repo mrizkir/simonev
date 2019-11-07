@@ -36,6 +36,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
         'only' => ['index', 'show']
     ]);
     Route::post('/master/program/search',['uses'=>'DMaster\ProgramController@search','as'=>'program.search']);
+    Route::post('/master/program/filter',['uses'=>'DMaster\ProgramController@filter','as'=>'program.filter']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

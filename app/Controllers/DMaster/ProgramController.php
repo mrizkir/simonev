@@ -39,7 +39,7 @@ class programController extends Controller
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
         if (!$this->checkStateIsExistSession('program', 'filters')) {
-            $this->putControllerStateSession('program', 'filters', ['UrsID' => 'none']);
+            $this->putControllerStateSession('program', 'filters', ['UrsID' => '']);
         }
         $filter_ursid = $this->getControllerStateSession('program.filters', 'UrsID');
         if ($this->checkStateIsExistSession('program', 'search')) {
@@ -101,8 +101,39 @@ class programController extends Controller
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                 'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                 'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                'filters'=>$this->getControllerStateSession('program','filters'), 
                                 'daftar_program'=>$data],200); 
 
+    }
+     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter (Request $request) 
+    {        
+        // $UrsID = $request->input('UrsID');
+        // $this->putControllerStateSession('program','filters',['UrsID'=>$UrsID]);        
+        // $this->setCurrentPageInsideSession('program',1);
+        
+        // $data=$this->populateData();
+        
+        // return response()->json(['page_active'=>'program',
+        //                         'search'=>$this->getControllerStateSession('program','search'),
+        //                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+        //                         'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+        //                         'direction'=>$this->getControllerStateSession('program.orderby','order'),
+        //                         'filters'=>$this->getControllerStateSession('program','filters'), 
+        //                     ],200);         
+        
+        // return response()->json(['page_active'=>'program',
+        //                         'search'=>$this->getControllerStateSession('program','search'),
+        //                         'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+        //                         'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+        //                         'direction'=>$this->getControllerStateSession('program.orderby','order'),
+        //                         'filters'=>$this->getControllerStateSession('program','filters'), 
+        //                         'daftar_program'=>$data],200);     
     }
     /**
      * Show the form for creating a new resource.
@@ -127,6 +158,7 @@ class programController extends Controller
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                 'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
                                 'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                'filters'=>$this->getControllerStateSession('program','filters'), 
                                 'daftar_program'=>$data],200);  
 
     }

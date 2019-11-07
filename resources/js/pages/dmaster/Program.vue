@@ -36,14 +36,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-search"></i> FILTER</h3>                            
+                            <h3 class="card-title"><i class="fas fa-bookmark"></i> FILTER</h3>                            
                         </div>
                         <form class="form-horizontal" @submit.prevent="filter">
                             <div class="card-body">
                                 <div class="form-group row" id="divUrsID">
                                     <label class="col-sm-2 col-form-label">URUSAN</label>
                                     <div class="col-sm-10">                                        
-                                        <select2 id="UrsID" name="UrsID" v-model="UrsID" :options="daftar_urusan">
+                                        <select2 id="UrsID" name="UrsID" v-model="UrsID" :options="daftar_urusan" placeholder="PILIH URUSAN" v-on:input="filter()">
                                         </select2>
                                     </div>
                                 </div>                               
@@ -214,10 +214,6 @@ export default {
                 .catch(error => {
                     this.api_message = error.response.data.message;
                 });			   
-        },   
-        filter ()
-        {
-            console.log('filter ...');
         },       
         resetpencarian()
         {
@@ -237,6 +233,11 @@ export default {
                 .catch(error => {
                     this.api_message = error.response.data.message;
                 });			   
+        },   
+        filter ()
+        {
+            console.log(this.UrsID);
+            this.fetchUrusan();
         },   
         populateData(page=1)
         {           
