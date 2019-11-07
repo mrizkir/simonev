@@ -125,8 +125,7 @@ class OrganisasiController extends Controller
     public function show($id)
     {
         $data = OrganisasiModel::leftJoin('v_urusan_organisasi', 'v_urusan_organisasi.OrgID', 'tmOrg.OrgID')
-                                ->where('tmOrg.OrgID', $id)
-                                ->firstOrFail(['tmOrg.OrgID', 'v_urusan_organisasi.kode_organisasi', 'tmOrg.OrgNm', 'v_urusan_organisasi.Nm_Urusan', 'tmOrg.TA']);
+                ->find($id);
 
         return response()->json($data,200);
     }

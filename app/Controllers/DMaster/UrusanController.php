@@ -131,8 +131,7 @@ class urusanController extends Controller
      */
     public function show($id)
     {
-        $data = UrusanModel::where('UrsID', $id)
-                            ->firstOrFail();
+        $data = UrusanModel::find($id);
         return response()->json($data,200);
     }
 }

@@ -192,8 +192,7 @@ class PaguAnggaranOPDController extends Controller {
     {
 
         $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-                                    ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
-                                    ->findOrFail($id);
+                                    ->find($id);
 
         return response()->json($data,200);   
     }

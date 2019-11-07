@@ -64,7 +64,7 @@
                                         <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
                                             <option value="PrgID" :selected="cmbKriteria=='PrgID'">PROGRAM ID</option>
                                             <option value="kode_program" :selected="cmbKriteria=='PrgID'">KODE PROGRAM</option>
-                                            <option value="PrgNm" :selected="cmbKriteria=='PrgNm'">NAMA _Bidang</option>
+                                            <option value="PrgNm" :selected="cmbKriteria=='PrgNm'">NAMA PROGRAM</option>
                                         </select>
                                     </div>
                                 </div>
@@ -110,7 +110,7 @@
                                     </tr>
                                 </thead> 
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_program.data" v-bind:key="item.UrsID">
+                                    <tr v-for="(item,index) in daftar_program.data" v-bind:key="item.PrgID">
                                         <td>{{daftar_program.from+index}}</td>
                                         <td>{{item.kode_program}}</td>
                                         <td>{{item.PrgNm}}</td>
@@ -185,7 +185,6 @@ export default {
                         text:'['+value.Kode_Bidang+'] '+value.Nm_Bidang
                     });
                 });            
-                console.log(daftar_urusan);  
                 this.daftar_urusan=daftar_urusan;
             })
             .catch(response => {
@@ -216,6 +215,10 @@ export default {
                     this.api_message = error.response.data.message;
                 });			   
         },   
+        filter ()
+        {
+            
+        },
         resetpencarian()
         {
             axios.post('/api/v1/master/program/search',{
@@ -262,7 +265,7 @@ export default {
             {                
                 default :
                     this.fetchUrusan();
-                    // this.populateData();
+                    this.populateData();
 
             }
         },
@@ -273,19 +276,3 @@ export default {
     }
 }
 </script>
-<style>
-  .style-chooser .vs__search::placeholder,
-  .style-chooser .vs__dropdown-toggle,
-  .style-chooser .vs__dropdown-menu {
-    background: #dfe5fb;
-    border: none;
-    color: #394066;
-    text-transform: lowercase;
-    font-variant: small-caps;
-  }
-
-  .style-chooser .vs__clear,
-  .style-chooser .vs__open-indicator {
-    fill: #394066;
-  }
-</style>

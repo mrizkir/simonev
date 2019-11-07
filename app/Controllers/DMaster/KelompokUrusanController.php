@@ -73,8 +73,7 @@ class KelompokUrusanController extends Controller
      */
     public function show($id)
     {
-        $data = KelompokUrusanModel::where('KUrsID', $id)
-                                    ->firstOrFail();
+        $data = KelompokUrusanModel::find($id);
         
         return response()->json($data,200);   
     }
