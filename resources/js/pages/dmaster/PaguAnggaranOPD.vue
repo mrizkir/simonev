@@ -50,7 +50,7 @@
                             <div class="card-body">
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-9" id="divUrsID">
                                         <select2 id="OrgID" name="OrgID" v-model="OrgID" :options="daftar_opd" :settings="{placeholder:'PILIH OPD / SKPD',allowClear: true,theme: 'bootstrap'}" :class="{ 'is-invalid': $v.Jumlah2.$error }"></select2>
                                         <div class="text-danger" v-if="!$v.OrgID.required">* wajib isi</div>
                                     </div>
@@ -265,7 +265,7 @@
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
-import Select2 from 'v-select2-component';
+import Select2 from '../../components/Select2';
 import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
 
@@ -315,15 +315,14 @@ export default {
 	},
     methods: 
     {
-        loadDataOPD ()
+        fetchOPD ()
         {            
             axios.get('/api/v1/master/paguanggaranopd/create',{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
-            .then(response => {          
-               
+            .then(response => {      
                 var daftar_opd = [];
                 $.each(response.data,function(key,value){
                     daftar_opd.push({
@@ -433,7 +432,7 @@ export default {
             switch (this.pid)
             {
                 case 'create' :
-                    this.loadDataOPD();
+                    this.fetchOPD();
                 break;
                 default :
                     this.populateData();
@@ -444,8 +443,8 @@ export default {
 			this.$v.$touch();
 			if (this.$v.$invalid) {
                 this.submitStatus = 'ERROR';
+                $('#divUrsID .select2-selection').addClass('select2-hidden-accessible');
                 this.$swal({
-                    icon: 'icon fas fa-ban',
                     title: 'Validasi Form',
                     text: 'Terdapat kesalahan mohon diperbaiki',
                 });
@@ -509,7 +508,12 @@ export default {
 		{
 			this.$v.$touch();
 			if (this.$v.$invalid) {
-				this.submitStatus = 'ERROR';
+                this.submitStatus = 'ERROR';
+                $('#divUrsID .select2-selection').addClass('select2-hidden-accessible');
+                this.$swal({
+                    title: 'Validasi Form',
+                    text: 'Terdapat kesalahan mohon diperbaiki',
+                });
 			} else {
 				axios.post('/api/v1/master/paguanggaranopd/'+this.PaguAnggaranOPDID,{
                     '_method':'PUT',

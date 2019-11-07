@@ -16,6 +16,7 @@ import KelompokUrusan from './pages/dmaster/KelompokUrusan.vue';
 import Urusan from './pages/dmaster/Urusan.vue';
 import Organisasi from './pages/dmaster/Organisasi.vue';
 import UnitKerja from './pages/dmaster/UnitKerja.vue';
+import Program from './pages/dmaster/Program.vue';
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
 export const routes =  [
@@ -61,6 +62,13 @@ export const routes =  [
             title: "UNIT KERJA"
         },
         component: UnitKerja
+    }, 
+    {
+        path: '/dmaster/program',
+        meta:{
+            title: "PROGRAM"
+        },
+        component: Program
     }, 
     {
         path: '/dmaster/paguanggaranopd',

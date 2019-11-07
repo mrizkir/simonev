@@ -85,6 +85,10 @@
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>UNIT KERJA</p>
 							  	</router-link>
+								<router-link to="/dmaster/program" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>PROGRAM</p>
+							  	</router-link>
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PAGU DANA OPD</p>

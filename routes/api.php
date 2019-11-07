@@ -29,6 +29,13 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/suborganisasi/search',['uses'=>'DMaster\SubOrganisasiController@search','as'=>'suborganisasi.search']);  
     Route::get('master/suborganisasi/daftarunitkerja',['uses'=>'DMaster\SubOrganisasiController@getdaftarunitkerja','as'=>'suborganisasi.daftarunitkerja']);
+    
+    //masters - program 
+    Route::resource('/master/program', 'DMaster\ProgramController', [
+        'parameters' => ['program' => 'uuid'],
+        'only' => ['index', 'show']
+    ]);
+    Route::post('/master/program/search',['uses'=>'DMaster\ProgramController@search','as'=>'program.search']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

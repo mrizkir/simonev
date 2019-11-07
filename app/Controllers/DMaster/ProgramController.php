@@ -215,8 +215,6 @@ class programController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
-
         $daftar_urusan = UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
         $daftar_urusan['none'] = 'SELURUH URUSAN';
 
@@ -229,15 +227,12 @@ class programController extends Controller
         $this->setCurrentPageInsideSession('program', $data->currentPage());
         $filter_kode_urusan_selected = UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters', 'UrsID'));
 
-        return view("pages.$theme.dmaster.program.index")->with(['page_active' => 'program',
-                                                                'search' => $this->getControllerStateSession('program', 'search'),
-                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                'daftar_urusan' => $daftar_urusan,
-                                                                'filter_ursid_selected' => $this->getControllerStateSession('program.filters', 'UrsID'),
-                                                                'filter_kode_urusan_selected' => $filter_kode_urusan_selected,
-                                                                'data' => $data]);
+        return response()->json(['page_active'=>'urusan',
+                                'search'=>$this->getControllerStateSession('urusan','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('urusan.orderby','order'),
+                                'daftar_urusan'=>$data],200);  
 
     }
     /**

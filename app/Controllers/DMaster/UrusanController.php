@@ -100,20 +100,28 @@ class urusanController extends Controller
     {
         $search = $this->getControllerStateSession('urusan', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('urusan');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-            $currentpage = $data->currentPage();
+        if ($currentpage == 'all')
+        {
+            return \DB::table('v_urusan')
+                        ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
+                        ->get();
         }
-        $this->setCurrentPageInsideSession('urusan',$currentpage); 
-
-       
-        return response()->json(['page_active'=>'urusan',
-                                'search'=>$this->getControllerStateSession('urusan','search'),
-                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
-                                'direction'=>$this->getControllerStateSession('urusan.orderby','order'),
-                                'daftar_urusan'=>$data],200);
+        else
+        {
+            $data = $this->populateData($currentpage);
+            if ($currentpage > $data->lastPage()) {
+                $data = $this->populateData($data->lastPage());
+                $currentpage = $data->currentPage();
+            }
+            $this->setCurrentPageInsideSession('urusan',$currentpage); 
+        
+            return response()->json(['page_active'=>'urusan',
+                                    'search'=>$this->getControllerStateSession('urusan','search'),
+                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                    'column_order'=>$this->getControllerStateSession('urusan.orderby','column_name'),
+                                    'direction'=>$this->getControllerStateSession('urusan.orderby','order'),
+                                    'daftar_urusan'=>$data],200);
+        }
     }
     /**
      * Display the specified resource.
