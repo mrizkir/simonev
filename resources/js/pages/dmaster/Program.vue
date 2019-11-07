@@ -217,8 +217,8 @@ export default {
         },   
         filter ()
         {
-            
-        },
+            console.log('filter ...');
+        },       
         resetpencarian()
         {
             axios.post('/api/v1/master/program/search',{

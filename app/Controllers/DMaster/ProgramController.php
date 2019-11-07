@@ -84,11 +84,7 @@ class programController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
-    {
-        $daftar_urusan = UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
-        $daftar_urusan['none'] = 'SELURUH URUSAN';
-        $filter_kode_urusan_selected = UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters', 'UrsID'));
-
+    {       
         $action = $request->input('action');
         if ($action == 'reset') {
             $this->destroyControllerStateSession('program', 'search');
@@ -100,16 +96,12 @@ class programController extends Controller
         $this->setCurrentPageInsideSession('program', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.program.datatable")->with(['page_active' => 'program',
-                                                                        'search' => $this->getControllerStateSession('program', 'search'),
-                                                                        'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                        'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                        'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                        'daftar_urusan' => $daftar_urusan,
-                                                                        'filter_ursid_selected' => $this->getControllerStateSession('program.filters', 'UrsID'),
-                                                                        'filter_kode_urusan_selected' => $filter_kode_urusan_selected,
-                                                                        'data' => $data])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+        return response()->json(['page_active'=>'program',
+                                'search'=>$this->getControllerStateSession('program','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                'daftar_program'=>$data],200); 
 
     }
     /**

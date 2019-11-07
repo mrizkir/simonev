@@ -29,9 +29,9 @@
 		</ul>
   	</nav>
 	<aside class="main-sidebar sidebar-dark-primary elevation-4">
-		<a href="index3.html" class="brand-link">  
+		<router-link to="/" class="brand-link">  
 			<span class="brand-text font-weight-light">{{ config('app.name', 'SIMONEV') }}</span>
-		</a>
+		</router-link>
 		<div class="sidebar">
 			<div class="user-panel mt-3 pb-3 mb-3 d-flex">
 				<div class="image">
