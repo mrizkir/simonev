@@ -18,7 +18,7 @@ export default {
     {
         var vm = this;
         //init select
-        $(this.$el).select2({
+        var a=$(this.$el).select2({
                         theme:'bootstrap',
                         data: this.options,
                         allowClear:true,
@@ -27,20 +27,21 @@ export default {
                     .val(this.value)
                     .trigger('change')
                     // emit event on change
-                    .on('change', function(){
+                    .on('change', function()
+                    {
                         vm.$emit('input',this.value); 
                         if (this.value!=''&&this.value!='none'&&this.value!=null)
                         {
                             $(this).removeClass('is-invalid');
                         }                                               
-                    });        
+                    });
     },
     watch: 
     {
         value: function (value)
         {
-            //update value
-            // $(this.$el).val(value).trigger('change');
+            //update value            
+            $(this.$el).val(value).trigger('change');    
         },
         options: function (options)
         {

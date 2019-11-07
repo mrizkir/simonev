@@ -43,7 +43,7 @@
                                 <div class="form-group row" id="divUrsID">
                                     <label class="col-sm-2 col-form-label">URUSAN</label>
                                     <div class="col-sm-10">                                        
-                                        <select2 id="UrsID" name="UrsID" v-model="UrsID" :options="daftar_urusan" placeholder="PILIH URUSAN" v-on:input="filter()">
+                                        <select2 id="cmUrsID" name="cmUrsID" v-model="UrsID" :options="daftar_urusan" placeholder="PILIH URUSAN" v-on:input="filter()">
                                         </select2>
                                     </div>
                                 </div>                               
@@ -184,7 +184,7 @@ export default {
                         id:value.UrsID,
                         text:'['+value.Kode_Bidang+'] '+value.Nm_Bidang
                     });
-                });            
+                });                                            
                 this.daftar_urusan=daftar_urusan;
             })
             .catch(response => {
@@ -202,14 +202,27 @@ export default {
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {                          
-                    this.program=response.data; 
-                    this.daftar_program = this.program.daftar_program;
-                    if(typeof(this.program.search) !== 'undefined' && this.program.search !== null)
-                    {
-                        this.cmbKriteria = this.program.search.kriteria;
-                        this.txtKriteria = this.program.search.isikriteria;
-                    }   
+                .then(response => {      
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Melakukan pencarian data Program",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });   
+                    setTimeout(() => {
+                        this.program=response.data; 
+                        this.daftar_program = this.program.daftar_program;
+                        if(typeof(this.program.search) !== 'undefined' && this.program.search !== null)
+                        {
+                            this.cmbKriteria = this.program.search.kriteria;
+                            this.txtKriteria = this.program.search.isikriteria;
+                        }   
+                        this.$swal.close();
+                    }, 1500);
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
@@ -235,9 +248,34 @@ export default {
                 });			   
         },   
         filter ()
-        {
-            console.log(this.UrsID);
-            this.fetchUrusan();
+        {            
+            axios.post('/api/v1/master/program/filter',{
+                    'UrsID':this.UrsID,
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {            
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Melakukan filter data Program berdasarkan urusan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });  
+                    setTimeout(() => {
+                        this.program=response.data; 
+                        this.daftar_program = this.program.daftar_program;
+                        this.$swal.close();
+                    },1500);
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });		
         },   
         populateData(page=1)
         {           
@@ -248,6 +286,7 @@ export default {
             })
             .then(response => {                                        
                 this.program=response.data; 
+                this.UrsID=this.program.filters.UrsID;
                 this.daftar_program = this.program.daftar_program;
                 if(typeof(this.program.search) !== 'undefined' && this.program.search !== null)
                 {
@@ -265,9 +304,8 @@ export default {
             switch (this.pid)
             {                
                 default :
-                    this.fetchUrusan();
-                    this.populateData();
-
+                    this.fetchUrusan();                                    
+                    this.populateData();                                        
             }
         },
     },
