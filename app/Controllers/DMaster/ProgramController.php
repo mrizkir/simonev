@@ -118,7 +118,6 @@ class programController extends Controller
         $this->setCurrentPageInsideSession('program',1);
         
         $data=$this->populateData();
-        
         return response()->json(['page_active'=>'program',
                                 'search'=>$this->getControllerStateSession('program','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
@@ -133,8 +132,7 @@ class programController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {       
-
+    {
         $search = $this->getControllerStateSession('program', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program');
         $data = $this->populateData($currentpage);
@@ -143,8 +141,6 @@ class programController extends Controller
             $currentpage = $data->currentPage();
         }
         $this->setCurrentPageInsideSession('program', $currentpage);
-        $filter_kode_urusan_selected = UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters', 'UrsID'));
-
         return response()->json(['page_active'=>'program',
                                 'search'=>$this->getControllerStateSession('program','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    

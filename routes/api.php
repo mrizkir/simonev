@@ -37,6 +37,14 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/program/search',['uses'=>'DMaster\ProgramController@search','as'=>'program.search']);
     Route::post('/master/program/filter',['uses'=>'DMaster\ProgramController@filter','as'=>'program.filter']);
+    
+    //masters - program kegiatan
+    Route::resource('/master/programkegiatan', 'DMaster\ProgramKegiatanController', [
+        'parameters' => ['programkegiatan' => 'uuid'],
+        'only' => ['index', 'show']
+    ]);
+    Route::post('/master/programkegiatan/search',['uses'=>'DMaster\ProgramKegiatanController@search','as'=>'programkegiatan.search']);
+    Route::post('/master/programkegiatan/filter',['uses'=>'DMaster\ProgramKegiatanController@filter','as'=>'programkegiatan.filter']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

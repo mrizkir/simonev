@@ -43,7 +43,15 @@
                                 <div class="form-group row" id="divUrsID">
                                     <label class="col-sm-2 col-form-label">URUSAN</label>
                                     <div class="col-sm-10">                                        
-                                        <select2 id="cmUrsID" name="cmUrsID" v-model="UrsID" :options="daftar_urusan" placeholder="PILIH URUSAN" v-on:input="filter()">
+                                        <select2 
+                                            id="cmUrsID" 
+                                            name="cmUrsID" 
+                                            v-model="UrsID" 
+                                            :options="daftar_urusan" 
+                                            :settings="{
+                                                theme:'bootstrap',
+                                            }"
+                                            v-on:select="filter($event)">
                                         </select2>
                                     </div>
                                 </div>                               
@@ -143,7 +151,7 @@
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
-import Select2 from '../../components/Select2';
+import Select2 from 'v-select2-component';
 export default {
     mounted()
     {        
@@ -177,8 +185,12 @@ export default {
                     'Authorization': window.laravel.api_token,
                 }
             })
-            .then(response => {              
+            .then(response => { 
                 var daftar_urusan = [];
+                daftar_urusan.push({
+                    id:'',
+                    text:'SELURUH URUSAN'
+                });
                 $.each(response.data,function(key,value){
                     daftar_urusan.push({
                         id:value.UrsID,
@@ -186,6 +198,7 @@ export default {
                     });
                 });                                            
                 this.daftar_urusan=daftar_urusan;
+                console.log(daftar_urusan);
             })
             .catch(response => {
                 this.api_message = response;
@@ -247,10 +260,10 @@ export default {
                     this.api_message = error.response.data.message;
                 });			   
         },   
-        filter ()
-        {            
+        filter ({id, text})
+        {               
             axios.post('/api/v1/master/program/filter',{
-                    'UrsID':this.UrsID,
+                    'UrsID':id,
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
@@ -275,8 +288,9 @@ export default {
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
-                });		
-        },   
+                });	
+            
+        }, 
         populateData(page=1)
         {           
             axios.get('/api/v1/master/program?page='+page,{
