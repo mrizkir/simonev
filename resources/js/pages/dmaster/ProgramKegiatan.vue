@@ -6,15 +6,14 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-bars"></i>
-                        UNIT KERJA
+                        KEGIATAN
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
-                        <li class="breadcrumb-item">DATA DASAR</li>
-                        <li class="breadcrumb-item active">UNIT KERJA</li>
+                        <li class="breadcrumb-item active">KEGIATAN</li>
                     </ol>
                 </div>
             </div>
@@ -37,6 +36,32 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-bookmark"></i> FILTER</h3>                            
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="filter">
+                            <div class="card-body">
+                                <div class="form-group row" id="divPrgID">
+                                    <label class="col-sm-2 col-form-label">PROGRAM</label>
+                                    <div class="col-sm-10">                                        
+                                        <select2 
+                                            id="cmbPrgID" 
+                                            name="cmbPrgID" 
+                                            v-model="PrgID" 
+                                            :options="daftar_program" 
+                                            :settings="{
+                                                theme:'bootstrap',
+                                            }"
+                                            v-on:select="filter($event)">
+                                        </select2>
+                                    </div>
+                                </div>                               
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-search"></i> PENCARIAN</h3>                            
                         </div>
                         <form class="form-horizontal" @submit.prevent="search">
@@ -45,8 +70,9 @@
                                     <label class="col-sm-2 col-form-label">KRITERIA</label>
                                     <div class="col-sm-10">
                                         <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
-                                            <option value="kode_suborganisasi" :selected="cmbKriteria=='kode_suborganisasi'">KODE UNIT KERJA</option>
-                                            <option value="SOrgNm" :selected="cmbKriteria=='SOrgNm'">NAMA UNIT KERJA</option>
+                                            <option value="KgtID" :selected="cmbKriteria=='KgtID'">KEGIATAN ID</option>
+                                            <option value="kode_kegiatan" :selected="cmbKriteria=='kode_kegiatan'">KODE KEGIATAN</option>
+                                            <option value="KgtNm" :selected="cmbKriteria=='KgtNm'">NAMA KEGIATAN</option>
                                         </select>
                                     </div>
                                 </div>
@@ -73,29 +99,31 @@
                 </div>
                 <div class="col-12">
                     <div class="card">                        
-                        <div class="card-body table-responsive p-0" v-if="daftar_unitkerja.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_kegiatan.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
                                         <th scope="col" width="55">NO</th>
-                                        <th scope="col" width="190">
-                                            KODE UNIT KERJA
+                                        <th scope="col" width="100">
+                                            KODE KEGIATAN
                                         </th>
                                         <th scope="col">
-                                            NAMA UNIT KERJA
+                                            NAMA KEGIATAN 
                                         </th>
-                                        <th scope="col">
-                                            URUSAN
+                                        <th scope="col" width="250">
+                                            PROGRAM
                                         </th>
+                                        <th scope="col" width="70">KET.</th>
                                         <th scope="col" width="70">TA</th>
                                     </tr>
                                 </thead> 
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_unitkerja.data" v-bind:key="item.SOrgID">
-                                        <td>{{daftar_unitkerja.from+index}}</td>
-                                        <td>{{item.kode_suborganisasi}}</td>
-                                        <td>{{item.SOrgNm}}</td>
-                                        <td>{{item.Nm_Urusan}}</td>
+                                    <tr v-for="(item,index) in daftar_kegiatan.data" v-bind:key="item.KgtID">
+                                        <td>{{daftar_kegiatan.from+index}}</td>
+                                        <td>{{item.kode_kegiatan}}</td>
+                                        <td>{{item.KgtNm}}</td>
+                                        <td>{{item.PrgNm}}</td>
+                                        <td>{{item.Descr}}</td>
                                         <td>{{item.TA}}</td>
                                     </tr>
                                 </tbody>
@@ -108,8 +136,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_unitkerja.data.length">                            
-                            <pagination :data="daftar_unitkerja" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_kegiatan.data.length">                            
+                            <pagination :data="daftar_kegiatan" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
 	                            <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -123,33 +151,61 @@
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
+import Select2 from 'v-select2-component';
 export default {
     mounted()
-    {
+    {        
         this.setProcess ('default');   
     },  
     data:function()
     {
          return {
             pid:'default',
-            unitkerja:{
+            kegiatan:{
                 kriteria:'',
                 isikriteria:''
             },
-            daftar_unitkerja:{
+            daftar_kegiatan:{
                 data:{}
             },
             api_message:'',   
-             //field form search
-            cmbKriteria:'SOrgNm',
+            //field form search & filter
+            PrgID:'',
+            daftar_program: [{}],
+            cmbKriteria:'kode_kegiatan',
             txtKriteria:'',         
          }
     },
     methods: 
     { 
+        fetchProgram()
+        {
+            axios.get('/api/v1/master/program?page=all',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => { 
+                var daftar_program = [];
+                daftar_program.push({
+                    id:'',
+                    text:'SELURUH PROGRAM'
+                });
+                $.each(response.data,function(key,value){
+                    daftar_program.push({
+                        id:value.PrgID,
+                        text:'['+value.kode_program+'] '+value.PrgNm
+                    });
+                });                                            
+                this.daftar_program=daftar_program;
+            })
+            .catch(response => {
+                this.api_message = response;
+            }); 
+        },
         search()
         {
-            axios.post('/api/v1/master/suborganisasi/search',{
+            axios.post('/api/v1/master/programkegiatan/search',{
                     'cmbKriteria':this.cmbKriteria,
                     'txtKriteria':this.txtKriteria,
                     'action':'search',
@@ -158,80 +214,97 @@ export default {
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => { 
+                .then(response => {      
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Melakukan pencarian data Unit Kerja",
+                        text: "Melakukan pencarian data Kegiatan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         allowEnterKey: false,
-                    });              
+                    });   
                     setTimeout(() => {
-                        this.unitkerja=response.data; 
-                        this.daftar_unitkerja = this.unitkerja.daftar_unitkerja;
-                        if(typeof(this.unitkerja.search) !== 'undefined' && this.unitkerja.search !== null)
+                        this.kegiatan=response.data; 
+                        this.daftar_kegiatan = this.kegiatan.daftar_kegiatan;
+                        if(typeof(this.kegiatan.search) !== 'undefined' && this.kegiatan.search !== null)
                         {
-                            this.cmbKriteria = this.unitkerja.search.kriteria;
-                            this.txtKriteria = this.unitkerja.search.isikriteria;
-                        }             
+                            this.cmbKriteria = this.kegiatan.search.kriteria;
+                            this.txtKriteria = this.kegiatan.search.isikriteria;
+                        }   
                         this.$swal.close();
-                    }, 1500);                           
-                   
+                    }, 1500);
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
                 });			   
-        },   
+        },       
         resetpencarian()
         {
-            axios.post('/api/v1/master/suborganisasi/search',{
+            axios.post('/api/v1/master/programkegiatan/search',{
                     'action':'reset',
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {     
+                .then(response => {                          
+                    this.kegiatan=response.data; 
+                    this.daftar_kegiatan = this.kegiatan.daftar_kegiatan;                
+                    this.cmbKriteria = 'kode_kegiatan';
+                    this.txtKriteria = '';                       
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			   
+        },   
+        filter ({id, text})
+        {               
+            axios.post('/api/v1/master/programkegiatan/filter',{
+                    'PrgID':id,
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {            
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Reset pencarian data Unit Kerja",
+                        text: "Melakukan filter data Kegiatan berdasarkan program",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
                         allowOutsideClick: false,
                         allowEscapeKey: false,
                         allowEnterKey: false,
-                    });              
+                    });  
                     setTimeout(() => {
-                        this.unitkerja=response.data; 
-                        this.daftar_unitkerja = this.unitkerja.daftar_unitkerja;                
-                        this.cmbKriteria = 'SOrgNm';
-                        this.txtKriteria = '';           
+                        this.kegiatan=response.data; 
+                        this.daftar_kegiatan = this.kegiatan.daftar_kegiatan;
                         this.$swal.close();
-                    }, 1500);                      
-                               
+                    },1500);
                 })
                 .catch(error => {
                     this.api_message = error.response.data.message;
-                });			   
-        },   
+                });	
+            
+        }, 
         populateData(page=1)
         {           
-            axios.get('/api/v1/master/suborganisasi?page='+page,{
+            axios.get('/api/v1/master/programkegiatan?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
-                this.unitkerja=response.data; 
-                this.daftar_unitkerja = this.unitkerja.daftar_unitkerja;
-                if(typeof(this.unitkerja.search) !== 'undefined' && this.unitkerja.search !== null)
+                this.kegiatan=response.data; 
+                this.PrgID=this.kegiatan.filters.PrgID;
+                this.daftar_kegiatan = this.kegiatan.daftar_kegiatan;
+                if(typeof(this.kegiatan.search) !== 'undefined' && this.kegiatan.search !== null)
                 {
-                    this.cmbKriteria = this.unitkerja.search.kriteria;
-                    this.txtKriteria = this.unitkerja.search.isikriteria;
+                    this.cmbKriteria = this.kegiatan.search.kriteria;
+                    this.txtKriteria = this.kegiatan.search.isikriteria;
                 }               
             })
             .catch(response => {
@@ -244,12 +317,14 @@ export default {
             switch (this.pid)
             {                
                 default :
-                    this.populateData();
+                    this.fetchProgram();                                    
+                    this.populateData();                                        
             }
         },
     },
     components: {
         'pagination': Pagination,
+        'select2':Select2,
     }
 }
 </script>

@@ -68,6 +68,7 @@
 						  	</p>
 						</a>
 						<ul class="nav nav-treeview">
+							<li class="nav-header">DATA DASAR</li>
 							<li class="nav-item">
 							  	<router-link to="/dmaster/kelompokurusan" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>
@@ -89,6 +90,20 @@
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PROGRAM</p>
 							  	</router-link>
+								<router-link to="/dmaster/programkegiatan" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>KEGIATAN</p>
+								</router-link>
+							</li>
+							<li class="nav-header">REKENING</li>
+							<li class="nav-item">
+							  	<router-link to="/dmaster/transaksi" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>TRANSAKSI</p>
+							  	</router-link>
+							</li>							
+							<li class="nav-header">LAIN-LAIN</li>
+							<li class="nav-item">
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PAGU DANA OPD</p>

@@ -133,22 +133,30 @@ class programController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('program', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-            $currentpage = $data->currentPage();
+        if ($currentpage == 'all')
+        {
+            return \DB::table('v_urusan_program')
+                        ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
+                        ->get();
         }
-        $this->setCurrentPageInsideSession('program', $currentpage);
-        return response()->json(['page_active'=>'program',
-                                'search'=>$this->getControllerStateSession('program','search'),
-                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
-                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
-                                'filters'=>$this->getControllerStateSession('program','filters'), 
-                                'daftar_program'=>$data],200);  
-
+        else
+        {            
+            $search = $this->getControllerStateSession('program', 'search');        
+            $data = $this->populateData($currentpage);
+            if ($currentpage > $data->lastPage()) {
+                $data = $this->populateData($data->lastPage());
+                $currentpage = $data->currentPage();
+            }
+            $this->setCurrentPageInsideSession('program', $currentpage);
+            return response()->json(['page_active'=>'program',
+                                    'search'=>$this->getControllerStateSession('program','search'),
+                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                    'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                    'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                    'filters'=>$this->getControllerStateSession('program','filters'), 
+                                    'daftar_program'=>$data],200);  
+        }
     }
     /**
      * Display the specified resource.
@@ -160,7 +168,7 @@ class programController extends Controller
     {
 
         $data = ProgramModel::leftJoin('v_urusan_program', 'v_urusan_program.PrgID', 'tmPrg.PrgID')
-            ->find($id);
+                            ->find($id);
 
         return response()->json($data,200);
 

@@ -44,8 +44,8 @@
                                     <label class="col-sm-2 col-form-label">URUSAN</label>
                                     <div class="col-sm-10">                                        
                                         <select2 
-                                            id="cmUrsID" 
-                                            name="cmUrsID" 
+                                            id="cmbUrsID" 
+                                            name="cmbUrsID" 
                                             v-model="UrsID" 
                                             :options="daftar_urusan" 
                                             :settings="{
@@ -71,7 +71,7 @@
                                     <div class="col-sm-10">
                                         <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
                                             <option value="PrgID" :selected="cmbKriteria=='PrgID'">PROGRAM ID</option>
-                                            <option value="kode_program" :selected="cmbKriteria=='PrgID'">KODE PROGRAM</option>
+                                            <option value="kode_program" :selected="cmbKriteria=='kode_program'">KODE PROGRAM</option>
                                             <option value="PrgNm" :selected="cmbKriteria=='PrgNm'">NAMA PROGRAM</option>
                                         </select>
                                     </div>
@@ -198,7 +198,6 @@ export default {
                     });
                 });                                            
                 this.daftar_urusan=daftar_urusan;
-                console.log(daftar_urusan);
             })
             .catch(response => {
                 this.api_message = response;

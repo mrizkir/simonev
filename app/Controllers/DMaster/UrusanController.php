@@ -97,8 +97,7 @@ class urusanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {
-        $search = $this->getControllerStateSession('urusan', 'search');
+    {        
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('urusan');
         if ($currentpage == 'all')
         {
@@ -108,6 +107,7 @@ class urusanController extends Controller
         }
         else
         {
+            $search = $this->getControllerStateSession('urusan', 'search');
             $data = $this->populateData($currentpage);
             if ($currentpage > $data->lastPage()) {
                 $data = $this->populateData($data->lastPage());

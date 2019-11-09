@@ -6,6 +6,11 @@
 // const Urusan = () => import ('./pages/dmaster/Urusan.vue');
 // const Organisasi = () => import ('./pages/dmaster/Organisasi.vue');
 // const UnitKerja = () => import ('./pages/dmaster/UnitKerja.vue');
+// const Program = () => import ('./pages/dmaster/Program.vue');
+// const ProgramKegiatan = () => import ('./pages/dmaster/ProgramKegiatan.vue');
+
+// const Transaksi = () => import ('./pages/dmaster/Transaksi.vue');
+
 // const PaguAnggaranOPD = () => import ('./pages/dmaster/PaguAnggaranOPD.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
@@ -17,7 +22,14 @@ import Urusan from './pages/dmaster/Urusan.vue';
 import Organisasi from './pages/dmaster/Organisasi.vue';
 import UnitKerja from './pages/dmaster/UnitKerja.vue';
 import Program from './pages/dmaster/Program.vue';
+import ProgramKegiatan from './pages/dmaster/ProgramKegiatan.vue';
+
+import Transaksi from './pages/dmaster/Transaksi.vue';
+
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
+
+
+
 
 export const routes =  [
     {
@@ -69,6 +81,20 @@ export const routes =  [
             title: "PROGRAM"
         },
         component: Program
+    }, 
+    {
+        path: '/dmaster/programkegiatan',
+        meta:{
+            title: "PROGRAM KEGIATAN"
+        },
+        component: ProgramKegiatan
+    }, 
+    {
+        path: '/dmaster/transaksi',
+        meta:{
+            title: "TRANSAKSI"
+        },
+        component: Transaksi
     }, 
     {
         path: '/dmaster/paguanggaranopd',

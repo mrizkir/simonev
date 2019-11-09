@@ -13,6 +13,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
+                        <li class="breadcrumb-item">DATA DASAR</li>
                         <li class="breadcrumb-item active">OPD / SKPD</li>
                     </ol>
                 </div>
