@@ -55,6 +55,13 @@ Vue.filter("formatAngka",function (value){
     return AutoNumeric.format(value,options);
 });
 
+// format tanggal
+import moment from 'moment';
+
+Vue.filter('formatTanggal', function(value) {
+    return moment(String(value)).format('DD/MM/YYYY hh:mm')
+});
+
 const app = new Vue({
     el: '#app',
     store,

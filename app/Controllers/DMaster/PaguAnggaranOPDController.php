@@ -214,7 +214,8 @@ class PaguAnggaranOPDController extends Controller {
         if ($validator->fails())
         {
             return response()->json([            
-                'message'=>"Data ini gagal diubah."
+                'message'=>"Data ini gagal diubah.",
+                'payload'=>$request->all()
             ],500);
         }
         else

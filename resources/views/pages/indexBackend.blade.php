@@ -128,6 +128,8 @@
 	  				'api_token':'Bearer {{Auth::user()->api_token}}'};
 	
 </script>
+<script src="{{ asset('js/manifest.js')}}"></script>
+<script src="{{ asset('js/vendor.js') }}" defer></script>
 <script src="{{ asset('js/app.js') }}" defer></script>
 </body>
 </html>
