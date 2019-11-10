@@ -513,32 +513,36 @@ export default {
                     this.form.Descr=item.Descr;
                 break;
                 case 'destroy':
-                    axios.post('/api/v1/master/paguanggaranopd/'+item.PaguAnggaranOPDID,{
-                        '_method':'DELETE',
-                    },{
-                        headers:{
-                            'Authorization': window.laravel.api_token,
-                        },
-                    })
-                    .then(response => {                          
-                        this.$swal({
-                            title: '<i class="fas fa-spin fa-spinner"></i>',
-                            text: "Menghapus Data Pagu Anggaran OPD / SKPD",
-                            showCancelButton: false,
-                            showConfirmButton: false,
-                            showCloseButton: false,
-                            allowOutsideClick: false,
-                            allowEscapeKey: false,
-                            allowEnterKey: false,
-                        });              
-                        setTimeout(() => {
-                            this.$swal.close();          
-                            this.proc('default');    
-                        }, 1500);             
-                    })
-                    .catch(response => {
-                        this.api_message = response;
-                    });            
+                    var self = this;
+                    this.$swal({
+                        title: 'Yakin mau menghapus?',
+                        text: "Anda tidak bisa mengembalikan data ini",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus ini!',
+                        cancelButtonText: 'Tidak, Batalkan!',
+                        buttonsStyling: true
+                    }).then(function (isConfirm){
+                        if(isConfirm.value === true) 
+                        {
+                            axios.post('/api/v1/master/paguanggaranopd/'+item.PaguAnggaranOPDID,{
+                                '_method':'DELETE',
+                            },{
+                                headers:{
+                                    'Authorization': window.laravel.api_token,
+                                },
+                            })
+                            .then(response => {                                                          
+                                self.proc('default');                                                                    
+                            })
+                            .catch(response => {
+                                self.api_message = response;                               
+                            });                                  
+                        }
+                    });     
+                                 
                 break;
                 default :
                     this.pid = pid;
