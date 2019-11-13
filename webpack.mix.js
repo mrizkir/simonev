@@ -9,7 +9,7 @@ mix.webpackConfig(webpack => {
    };
 });
 
-mix.js('resources/js/app.js', 'public/js').extract(['jquery', 'vue', 'axios'])
+mix.js('resources/js/app.js', 'public/js').extract(['jquery', 'vue', 'vuex', 'vue-router', 'axios', 'admin-lte', 'autonumeric'])
    .sass('resources/sass/app.scss', 'public/css');
 
 mix.options({

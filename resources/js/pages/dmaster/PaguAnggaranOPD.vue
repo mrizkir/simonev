@@ -13,6 +13,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
+                        <li class="breadcrumb-item">DATA DASAR</li>
                         <li class="breadcrumb-item active">PAGU ANGGARAN OPD / SKPD</li>
                     </ol>
                 </div>
@@ -605,7 +606,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Menyimpan Data Pagu Anggaran OPD / SKPD",
+                        text: "Mengubah Data Pagu Anggaran OPD / SKPD",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,

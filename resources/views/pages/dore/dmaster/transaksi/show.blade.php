@@ -1,6 +1,6 @@
 @extends('layouts.dore.l_main')
 @section('page_title')
-TRANSAKSI
+    TRANSAKSI
 @endsection
 @section('page_header')
 <h1>

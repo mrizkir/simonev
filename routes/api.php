@@ -45,9 +45,18 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/programkegiatan/search',['uses'=>'DMaster\ProgramKegiatanController@search','as'=>'programkegiatan.search']);
     Route::post('/master/programkegiatan/filter',['uses'=>'DMaster\ProgramKegiatanController@filter','as'=>'programkegiatan.filter']);
+    
+    //masters - transaksi
+    Route::resource('/master/transaksi', 'DMaster\TransaksiController', [
+        'parameters' => ['transaksi' => 'uuid'],
+    ]);
+    Route::post('/master/transaksi/search', ['uses' => 'DMaster\TransaksiController@search', 'as' => 'transaksi.search']);
+    Route::post('/master/transaksi/filter', ['uses' => 'DMaster\TransaksiController@filter', 'as' => 'transaksi.filter']);
+    Route::post('/master/transaksi/filtercreate', ['uses' => 'DMaster\TransaksiController@filtercreate', 'as' => 'transaksi.filtercreate']);    
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);
     Route::post('/master/paguanggaranopd/search',['uses'=>'DMaster\PaguAnggaranOPDController@search','as'=>'paguanggaranopd.search']);  
     
+
 });
