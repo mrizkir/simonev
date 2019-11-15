@@ -2,10 +2,13 @@ const mix = require('laravel-mix');
 
 mix.webpackConfig(webpack => {
    return {
-       output: {
-           publicPath: '/',
-           chunkFilename: '[name].js',
-       },
+        output: {
+            publicPath: '/',
+            chunkFilename: '[name].js',
+        },
+        watchOptions: {
+            ignored: /node_modules/
+        }
    };
 });
 

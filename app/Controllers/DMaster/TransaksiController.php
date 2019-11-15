@@ -48,36 +48,6 @@ class TransaksiController extends Controller
         return $data;
     }
     /**
-     * search resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $action = $request->input('action');
-        if ($action == 'reset') {
-            $this->destroyControllerStateSession('transaksi', 'search');
-        } else {
-            $kriteria = $request->input('cmbKriteria');
-            $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('transaksi', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
-        }
-        $this->setCurrentPageInsideSession('transaksi', 1);
-        $data = $this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.transaksi.datatable")->with([
-            'page_active' => 'transaksi',
-            'search' => $this->getControllerStateSession('transaksi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('transaksi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('transaksi.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
@@ -122,9 +92,8 @@ class TransaksiController extends Controller
         if ($validator->fails())
         {
             return response()->json([            
-                'message'=>"Data ini gagal disimpan karena terdapat error pada inputan",
-                'errors'=>$validator->errors()
-            ],500);
+                'message'=>$validator->errors(),
+            ],422);
         }
         else
         {
@@ -181,9 +150,8 @@ class TransaksiController extends Controller
         if ($validator->fails())
         {
             return response()->json([            
-                'message'=>"Data ini gagal disimpan karena terdapat error pada inputan",
-                'errors'=>$validator->errors()
-            ],500);
+                'message'=>$validator->errors(),
+            ],422);
         }
         else
         {
@@ -193,7 +161,7 @@ class TransaksiController extends Controller
             $transaksi->save();
 
             return response()->json([            
-                'message'=>'Data transaksi telah berhasil disimpan.'
+                'message'=>'Data transaksi telah berhasil diubah.'
             ],200);
         }      
 

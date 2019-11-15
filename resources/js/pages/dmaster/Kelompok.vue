@@ -6,7 +6,7 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-money-check-alt"></i>
-                        TRANSAKSI
+                        KELOMPOK
                     </h1>
                 </div>
                 <div class="col-sm-6">
@@ -14,7 +14,7 @@
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
                         <li class="breadcrumb-item">REKENING</li>
-                        <li class="breadcrumb-item active">TRANSAKSI</li>
+                        <li class="breadcrumb-item active">KELOMPOK</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Tambah Transaksi
+                                <i class="fas fa-plus"></i> Tambah Kelompok
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -49,11 +49,27 @@
                         </div>
                         <form class="form-horizontal" @submit.prevent="saveData">
 							<div class="card-body">								
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">TRANSAKSI</label>
+                                    <div class="col-sm-9" id="divStrID">
+                                        <select2 
+                                            id="StrID" 
+                                            name="StrID" 
+                                            v-model="form.StrID" 
+                                            :options="daftar_transaksi" 
+                                            :settings="{
+                                                theme:'bootstrap',
+                                                placeholder:'PILIH TRANSAKSI'
+                                            }">
+                                        </select2>
+                                        <div class="text-danger" v-if="!$v.form.StrID.required">* wajib dipilih</div>
+                                    </div>
+                                </div>
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KODE TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">KODE KELOMPOK</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Kd_Rek_1" 
+											v-model.trim="form.Kd_Rek_2" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
@@ -67,16 +83,16 @@
                                                 modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Kd_Rek_1.$error, 'is-valid': $v.form.Kd_Rek_1.$dirty && !$v.form.Kd_Rek_1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Kd_Rek_2.$error, 'is-valid': $v.form.Kd_Rek_2.$dirty && !$v.form.Kd_Rek_2.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Kd_Rek_1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.Kd_Rek_2.$error">* wajib isi</div>
                                     </div>
 								 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">NAMA TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">NAMA KELOMPOK</label>
                                     <div class="col-sm-9">
-										<input type="text" v-model="form.StrNm" class="form-control" v-bind:class="{'is-invalid': $v.form.StrNm.$error, 'is-valid': $v.form.StrNm.$dirty && !$v.form.StrNm.$invalid}">
-										<div class="text-danger" v-if="$v.form.StrNm.$error">* wajib isi</div>
+										<input type="text" v-model="form.KlpNm" class="form-control" v-bind:class="{'is-invalid': $v.form.KlpNm.$error, 'is-valid': $v.form.KlpNm.$dirty && !$v.form.KlpNm.$invalid}">
+										<div class="text-danger" v-if="$v.form.KlpNm.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -107,7 +123,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Ubah Transaksi
+                                <i class="fas fa-plus"></i> Ubah Kelompok
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -116,12 +132,28 @@
                             </div>
                         </div>
                         <form class="form-horizontal" @submit.prevent="updateData">
-                            <div class="card-body">                                
+                            <div class="card-body">         
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KODE TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">TRANSAKSI</label>
+                                    <div class="col-sm-9" id="divStrID">
+                                        <select2 
+                                            id="StrID" 
+                                            name="StrID" 
+                                            v-model="form.StrID" 
+                                            :options="daftar_transaksi" 
+                                            :settings="{
+                                                theme:'bootstrap',
+                                                placeholder:'PILIH TRANSAKSI'
+                                            }">
+                                        </select2>
+                                        <div class="text-danger" v-if="!$v.form.StrID.required">* wajib dipilih</div>
+                                    </div>
+                                </div>                       
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">KODE KELOMPOK</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Kd_Rek_1" 
+											v-model.trim="form.Kd_Rek_2" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
@@ -135,16 +167,16 @@
                                                 modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Kd_Rek_1.$error, 'is-valid': $v.form.Kd_Rek_1.$dirty && !$v.form.Kd_Rek_1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Kd_Rek_2.$error, 'is-valid': $v.form.Kd_Rek_2.$dirty && !$v.form.Kd_Rek_2.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Kd_Rek_1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.Kd_Rek_2.$error">* wajib isi</div>
                                     </div>
 								 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">NAMA TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">NAMA KELOMPOK</label>
                                     <div class="col-sm-9">
-										<input type="text" v-model="form.StrNm" class="form-control" v-bind:class="{'is-invalid': $v.form.StrNm.$error, 'is-valid': $v.form.StrNm.$dirty && !$v.form.StrNm.$invalid}">
-										<div class="text-danger" v-if="$v.form.StrNm.$error">* wajib isi</div>
+										<input type="text" v-model="form.KlpNm" class="form-control" v-bind:class="{'is-invalid': $v.form.KlpNm.$error, 'is-valid': $v.form.KlpNm.$dirty && !$v.form.KlpNm.$invalid}">
+										<div class="text-danger" v-if="$v.form.KlpNm.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -173,15 +205,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL TRANSAKSI</h3>
+                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL KELOMPOK</h3>
                             <div class="card-tools">                                 
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',transaksi.detail)">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',kelompok.detail)">
                                     <i class="fas fa-edit"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',transaksi.detail)">
+                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',kelompok.detail)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>      
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -196,20 +228,20 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.StrID}}</p>
+                                                <p class="form-control-static">{{kelompok.detail.StrID}}</p>
                                             </div>                            
                                         </div>  
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>KODE TRANSAKSI: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>KODE KELOMPOK: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.Kd_Rek_1}}</p>
+                                                <p class="form-control-static">{{kelompok.detail.kode_rek2}}</p>
                                             </div>                            
                                         </div>                          
                                         
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>NAMA TRANSAKSI: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>NAMA KELOMPOK: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.StrNm}}</p>
+                                                <p class="form-control-static">{{kelompok.detail.KlpNm}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -219,19 +251,19 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.Descr}}</p>
+                                                <p class="form-control-static">{{kelompok.detail.Descr}}</p>
                                             </div>                            
                                         </div> 
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>DI BUAT: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.created_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{kelompok.detail.created_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>DI UBAH: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.updated_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{kelompok.detail.updated_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -252,16 +284,16 @@
                                 </button>                                
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_transaksi.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_kelompok.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>
                                         <th width="150">
-                                            KODE TRANSAKSI
+                                            KODE KELOMPOK
                                         </th> 
                                         <th>
-                                            NAMA TRANSAKSI
+                                            NAMA KELOMPOK
                                         </th> 
                                         <th width="100">
                                             KET.  
@@ -273,10 +305,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_transaksi.data" v-bind:key="item.StrID">
-                                        <td>{{daftar_transaksi.from+index}}</td>
-                                        <td>{{item.Kd_Rek_1}}</td>
-                                        <td>{{item.StrNm}}</td>    
+                                    <tr v-for="(item,index) in daftar_kelompok.data" v-bind:key="item.KlpID">
+                                        <td>{{daftar_kelompok.from+index}}</td>
+                                        <td>{{item.kode_rek2}}</td>
+                                        <td>{{item.KlpNm}}</td>    
                                         <td>{{item.Descr}}</td>
                                         <td>{{item.TA}}</td>
                                         <td>
@@ -308,8 +340,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_transaksi.data.length">                            
-                            <pagination :data="daftar_transaksi" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_kelompok.data.length">                            
+                            <pagination :data="daftar_kelompok" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
 	                            <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -324,6 +356,7 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import { required} from 'vuelidate/lib/validators';
+import Select2 from 'v-select2-component';
 import VueAutonumeric from 'vue-autonumeric';
 
 export default {
@@ -337,37 +370,60 @@ export default {
 	{
 		return {
             pid:'default',
-            transaksi:{
+            kelompok:{
                 kriteria:'',
                 isikriteria:'',
                 detail:null
             },
-            daftar_transaksi:{
+            daftar_kelompok:{
                 data:{}
             }, 
             api_message:'',           
        
             //form			
-			form: {				
-                StrID:'',
-                Kd_Rek_1: '',
-                StrNm: '',				
+            daftar_transaksi: [{id:'',text:'PILIH TRANSAKSI'}],
+			form: {		
+                KlpID:'',		
+                StrID:'',                
+                Kd_Rek_2: '',
+                KlpNm: '',				
 				Descr:'',
 			}
 		}
 	},
 	methods: 
     {	
+        fetchTransaksi ()
+        {            
+            axios.get('/api/v1/master/kelompok/create',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {             
+                var daftar_transaksi = [];
+                $.each(response.data,function(key,value){
+                    daftar_transaksi.push({
+                        id:key,
+                        text:value
+                    });
+                });                
+                this.daftar_transaksi=daftar_transaksi;                 
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
         populateData(page=1)
         {           
-            axios.get('/api/v1/master/transaksi?page='+page,{
+            axios.get('/api/v1/master/kelompok?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
-                this.transaksi=response.data; 
-                this.daftar_transaksi = this.transaksi.daftar_transaksi;                           
+                this.kelompok=response.data; 
+                this.daftar_kelompok = this.kelompok.daftar_kelompok;                           
             })
             .catch(response => {
                 this.api_message = response;
@@ -379,17 +435,20 @@ export default {
             switch (pid)
             {
                 case 'create' :
-                    this.pid = pid;                    
+                    this.pid = pid;    
+                    this.fetchTransaksi();                
                 break;
                 case 'show' :
                     this.pid = pid;
-                    this.transaksi.detail = item;
+                    this.kelompok.detail = item;
                 break;
                 case 'edit' :
                     this.pid = pid;
+                    this.fetchTransaksi();
+                    this.form.KlpID=item.KlpID;                   
                     this.form.StrID=item.StrID;                   
-                    this.form.Kd_Rek_1=item.Kd_Rek_1;
-                    this.form.StrNm=item.StrNm;
+                    this.form.Kd_Rek_2=item.Kd_Rek_2;
+                    this.form.KlpNm=item.KlpNm;
                     this.form.Descr=item.Descr;
                 break;
                 case 'destroy':
@@ -407,7 +466,7 @@ export default {
                     }).then(function (isConfirm){
                         if(isConfirm.value === true) 
                         {
-                            axios.post('/api/v1/master/transaksi/'+item.StrID,{
+                            axios.post('/api/v1/master/kelompok/'+item.KlpID,{
                                 '_method':'DELETE',
                             },{
                                 headers:{
@@ -435,9 +494,10 @@ export default {
 			this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-				axios.post('/api/v1/master/transaksi',{
-                    'Kd_Rek_1':this.form.Kd_Rek_1,
-                    'StrNm':this.form.StrNm,
+				axios.post('/api/v1/master/kelompok',{
+                    'StrID':this.form.StrID,
+                    'Kd_Rek_2':this.form.Kd_Rek_2,
+                    'KlpNm':this.form.KlpNm,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -447,7 +507,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Menyimpan Data Transaksi berhasil dilakukan",
+                        text: "Menyimpan Data Kelompok berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -471,10 +531,11 @@ export default {
             this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-                axios.post('/api/v1/master/transaksi/'+this.form.StrID,{
+                axios.post('/api/v1/master/kelompok/'+this.form.KlpID,{
                     '_method':'PUT',
-                    'Kd_Rek_1':this.form.Kd_Rek_1,
-                    'StrNm':this.form.StrNm,
+                    'StrID':this.form.StrID,
+                    'Kd_Rek_2':this.form.Kd_Rek_2,
+                    'KlpNm':this.form.KlpNm,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -484,7 +545,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Mengubah Data Transaksi berhasil dilakukan",
+                        text: "Mengubah Data Kelompok berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -505,18 +566,22 @@ export default {
         },
         clearform ()
         {
+            this.KlpID='';
             this.StrID='';
-            this.form.Kd_Rek_1='';
-            this.form.StrNm='';           
+            this.form.Kd_Rek_2='';
+            this.form.KlpNm='';           
             this.form.Descr='';           
         },
 	},
 	validations: {
 		form: {
-			Kd_Rek_1: {
+            StrID: {
 				required
 			},
-			StrNm: {
+			Kd_Rek_2: {
+				required
+			},
+			KlpNm: {
 				required
 			},			
 		}
@@ -524,6 +589,7 @@ export default {
 	components: 
 	{
         'pagination': Pagination,
+        'select2':Select2,
         'vue-autonumeric':VueAutonumeric,
     }
 }

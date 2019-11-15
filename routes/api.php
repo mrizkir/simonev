@@ -52,7 +52,13 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/transaksi/search', ['uses' => 'DMaster\TransaksiController@search', 'as' => 'transaksi.search']);
     Route::post('/master/transaksi/filter', ['uses' => 'DMaster\TransaksiController@filter', 'as' => 'transaksi.filter']);
-    Route::post('/master/transaksi/filtercreate', ['uses' => 'DMaster\TransaksiController@filtercreate', 'as' => 'transaksi.filtercreate']);    
+    
+    //masters - kelompok
+    Route::resource('/master/kelompok', 'DMaster\KelompokController', [
+        'parameters' => ['kelompok' => 'uuid'],
+    ]);
+    Route::post('/master/kelompok/search', ['uses' => 'DMaster\KelompokController@search', 'as' => 'kelompok.search']);
+    Route::post('/master/kelompok/filter', ['uses' => 'DMaster\KelompokController@filter', 'as' => 'kelompok.filter']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

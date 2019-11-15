@@ -59,8 +59,8 @@
 							</p>
 						</router-link>						
 					</li>
-					<li class="nav-item has-treeview">
-						<a href="#" class="nav-link">
+					<li class="nav-item has-treeview" id="liDMaster">
+						<a href="#" class="nav-link"  id="linkDMaster">
 						  	<i class="nav-icon fas fa-tree"></i>
 						  	<p>
 								MASTER
@@ -100,6 +100,12 @@
 							  	<router-link to="/dmaster/transaksi" class="nav-link">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>TRANSAKSI</p>
+							  	</router-link>
+							</li>							
+							<li class="nav-item">
+							  	<router-link to="/dmaster/kelompok" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>KELOMPOK</p>
 							  	</router-link>
 							</li>							
 							<li class="nav-header">LAIN-LAIN</li>

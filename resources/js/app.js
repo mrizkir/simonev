@@ -8,6 +8,7 @@ Vue.use(VueRouter);
 
 const router = new VueRouter({
     routes,
+    linkExactActiveClass: "active",
 });
 
 router.beforeEach((to, from, next) => {
