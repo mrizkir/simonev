@@ -59,6 +59,13 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/kelompok/search', ['uses' => 'DMaster\KelompokController@search', 'as' => 'kelompok.search']);
     Route::post('/master/kelompok/filter', ['uses' => 'DMaster\KelompokController@filter', 'as' => 'kelompok.filter']);
+    
+    //masters - jeis
+    Route::resource('/master/jenis', 'DMaster\JenisController', [
+        'parameters' => ['jenis' => 'uuid'],
+    ]);
+    Route::post('/master/jenis/search', ['uses' => 'DMaster\JenisController@search', 'as' => 'jenis.search']);
+    Route::post('/master/jenis/filter', ['uses' => 'DMaster\JenisController@filter', 'as' => 'jenis.filter']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

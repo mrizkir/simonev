@@ -26,6 +26,7 @@ import ProgramKegiatan from './pages/dmaster/ProgramKegiatan.vue';
 
 import Transaksi from './pages/dmaster/Transaksi.vue';
 import Kelompok from './pages/dmaster/Kelompok.vue';
+import Jenis from './pages/dmaster/Jenis.vue';
 
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
@@ -96,13 +97,20 @@ export const routes =  [
             title: "TRANSAKSI"
         },
         component: Transaksi
-    }, 
+    },    
     {
         path: '/dmaster/kelompok',
         meta:{
             title: "KELOMPOK"
         },
         component: Kelompok
+    }, 
+    {
+        path: '/dmaster/jenis',
+        meta:{
+            title: "JENIS"
+        },
+        component: Jenis
     }, 
     {
         path: '/dmaster/paguanggaranopd',

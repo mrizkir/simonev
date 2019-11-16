@@ -127,25 +127,9 @@ class KelompokController extends Controller
             ]);
 
             return response()->json([            
-                'message'=>'Data transaksi telah berhasil disimpan.'
+                'message'=>'Data kelompok telah berhasil disimpan.'
             ],200);
 
-        }
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function show($uuid)
-    {
-        $data = KelompokModel::where('KlpID', $uuid)->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.kelompok.show")->with([
-                'page_active' => 'kelompok',
-                'data' => $data,
-            ]);
         }
     }
     /**
@@ -182,7 +166,7 @@ class KelompokController extends Controller
             $kelompok->save();
 
             return response()->json([            
-                'message'=>'Data transaksi telah berhasil diubah.'
+                'message'=>'Data kelompok telah berhasil diubah.'
             ],200);
         }
     }
@@ -196,6 +180,6 @@ class KelompokController extends Controller
     {
         $kelompok = KelompokModel::find($uuid);
         $result = $kelompok->delete();
-        return response()->json(['message'=>"data transaksi dengan ID ($uuid) Berhasil di Hapus"],200);
+        return response()->json(['message'=>"data kelompok dengan ID ($uuid) Berhasil di Hapus"],200);
     }
 }
