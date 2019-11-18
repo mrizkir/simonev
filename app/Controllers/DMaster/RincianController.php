@@ -28,7 +28,7 @@ class RincianController extends Controller
     {
         $columns = ['*'];
         if (!$this->checkStateIsExistSession('rincian', 'orderby')) {
-            $this->putControllerStateSession('rincian', 'orderby', ['column_name' => 'ObyID', 'order' => 'asc']);
+            $this->putControllerStateSession('rincian', 'orderby', ['column_name' => 'ObyNm', 'order' => 'asc']);
         }
         $column_order = $this->getControllerStateSession('rincian.orderby', 'column_name');
         $direction = $this->getControllerStateSession('rincian.orderby', 'order');
@@ -38,99 +38,74 @@ class RincianController extends Controller
         }
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
-        $data = RincianModel::where('TA', \HelperKegiatan::getTahunAnggaran())
-            ->orderBy($column_order, $direction)
-            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
-
+        if ($this->checkStateIsExistSession('rincian','search')) 
+        {
+            $search=$this->getControllerStateSession('rincian','search');
+            switch ($search['kriteria']) 
+            {
+                case 'kode_rek4' :              
+                $data = RincianModel::select(\DB::raw('
+                                                "tmOby"."ObyID",
+                                                "tmOby"."JnsID",                                            
+                                                "tmOby"."Kd_Rek_4",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "kode_rek4",
+                                                "tmOby"."ObyNm",                                                
+                                                "tmOby"."Descr",
+                                                "tmOby"."TA",
+                                                "tmOby"."created_at",
+                                                "tmOby"."updated_at"
+                                            '))
+                    ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                    ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
+                    ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
+                    ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
+                    ->whereRaw('CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4")=\''.$search['isikriteria'].'\'')
+                    ->orderBy($column_order, $direction);
+                break;
+                case 'ObyNm' :                  
+                    $data = RincianModel::select(\DB::raw('
+                                                "tmOby"."ObyID",
+                                                "tmOby"."JnsID",                                            
+                                                "tmOby"."Kd_Rek_4",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "kode_rek4",
+                                                "tmOby"."ObyNm",                                                
+                                                "tmOby"."Descr",
+                                                "tmOby"."TA",
+                                                "tmOby"."created_at",
+                                                "tmOby"."updated_at"
+                                            '))
+                    ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                    ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
+                    ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
+                    ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
+                    ->where('ObyNm', 'ilike', '%' . $search['isikriteria'] . '%')
+                    ->orderBy($column_order, $direction);
+                break;
+            }           
+            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
+        }
+        else
+        {
+            $data = RincianModel::select(\DB::raw('
+                                                "tmOby"."ObyID",
+                                                "tmOby"."JnsID",                                            
+                                                "tmOby"."Kd_Rek_4",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "kode_rek4",
+                                                "tmOby"."ObyNm",                                                
+                                                "tmOby"."Descr",
+                                                "tmOby"."TA",
+                                                "tmOby"."created_at",
+                                                "tmOby"."updated_at"
+                                            '))
+                    ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                    ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
+                    ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
+                    ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
+                    ->orderBy($column_order, $direction)
+                    ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+        }
         $data->setPath(route('rincian.index'));
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage(Request $request)
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-        $this->setCurrentPageInsideSession('rincian', 1);
-        $data = $this->populateData();
-
-
-        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
-            'page_active' => 'rincian',
-            'search' => $this->getControllerStateSession('rincian', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * digunakan untuk mengurutkan record
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby(Request $request)
-    {
-        $theme = 'dore';
-
-        $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
-        $column = $request->input('column_name');
-        switch ($column) {
-            case 'col-ObyID':
-                $column_name = 'ObyID';
-                break;
-            case 'col-ObyNm':
-                $column_name = 'ObyNm';
-                break;
-            default:
-                $column_name = 'ObyID';
-        }
-        $this->putControllerStateSession('rincian', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
-
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rincian');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-        }
-        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
-            'page_active' => 'rincian',
-            'search' => $this->getControllerStateSession('rincian', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate($id)
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession('rincian', $id);
-        $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
-            'page_active' => 'rincian',
-            'search' => $this->getControllerStateSession('rincian', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
-            'data' => $data
-        ])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
     }
     /**
      * search resource in storage.
@@ -138,31 +113,28 @@ class RincianController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function search(Request $request)
+    public function search (Request $request) 
     {
-        $theme = 'dore';
-
         $action = $request->input('action');
-        if ($action == 'reset') {
-            $this->destroyControllerStateSession('rincian', 'search');
-        } else {
+        if ($action == 'reset') 
+        {
+            $this->destroyControllerStateSession('rincian','search');
+        }
+        else
+        {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('rincian', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
-        }
-        $this->setCurrentPageInsideSession('rincian', 1);
-        $data = $this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
-            'page_active' => 'rincian',
-            'search' => $this->getControllerStateSession('rincian', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+            $this->putControllerStateSession('rincian','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+        }      
+        $this->setCurrentPageInsideSession('rincian',1);
+        $data=$this->populateData();
+        
+        return response()->json(['page_active'=>'rincian',
+                                'search'=>$this->getControllerStateSession('rincian','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('rincian.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('rincian.orderby','order'),
+                                'daftar_rincian'=>$data],200);   
     }
     /**
      * Show the form for creating a new resource.
@@ -171,24 +143,21 @@ class RincianController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
-
         $search = $this->getControllerStateSession('rincian', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rincian');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
+            $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('rincian', $data->currentPage());
+        $this->setCurrentPageInsideSession('rincian', $currentpage);
 
-        return view("pages.$theme.dmaster.rincian.index")->with([
-            'page_active' => 'rincian',
-            'search' => $this->getControllerStateSession('rincian', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
-            'data' => $data,
-        ]);
+        return response()->json(['page_active'=>'rincian',
+                                'search'=>$this->getControllerStateSession('rincian','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('rincian.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('rincian.orderby','order'),
+                                'daftar_rincian'=>$data],200);  
     }
     /**
      * Show the form for creating a new resource.

@@ -60,12 +60,26 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/master/kelompok/search', ['uses' => 'DMaster\KelompokController@search', 'as' => 'kelompok.search']);
     Route::post('/master/kelompok/filter', ['uses' => 'DMaster\KelompokController@filter', 'as' => 'kelompok.filter']);
     
-    //masters - jeis
+    //masters - jenis
     Route::resource('/master/jenis', 'DMaster\JenisController', [
         'parameters' => ['jenis' => 'uuid'],
     ]);
     Route::post('/master/jenis/search', ['uses' => 'DMaster\JenisController@search', 'as' => 'jenis.search']);
     Route::post('/master/jenis/filter', ['uses' => 'DMaster\JenisController@filter', 'as' => 'jenis.filter']);
+    
+    //masters - rincian
+    Route::resource('/master/rincian', 'DMaster\RincianController', [
+        'parameters' => ['rincian' => 'uuid'],
+    ]);
+    Route::post('/master/rincian/search', ['uses' => 'DMaster\RincianController@search', 'as' => 'rincian.search']);
+    Route::post('/master/rincian/filter', ['uses' => 'DMaster\RincianController@filter', 'as' => 'rincian.filter']);
+    
+    //masters - objek
+    Route::resource('/master/objek', 'DMaster\ObjekController', [
+        'parameters' => ['objek' => 'uuid'],
+    ]);
+    Route::post('/master/objek/search', ['uses' => 'DMaster\ObjekController@search', 'as' => 'objek.search']);
+    Route::post('/master/objek/filter', ['uses' => 'DMaster\ObjekController@filter', 'as' => 'objek.filter']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

@@ -27,6 +27,7 @@ import ProgramKegiatan from './pages/dmaster/ProgramKegiatan.vue';
 import Transaksi from './pages/dmaster/Transaksi.vue';
 import Kelompok from './pages/dmaster/Kelompok.vue';
 import Jenis from './pages/dmaster/Jenis.vue';
+import Rincian from './pages/dmaster/Rincian.vue';
 
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
@@ -111,6 +112,13 @@ export const routes =  [
             title: "JENIS"
         },
         component: Jenis
+    }, 
+    {
+        path: '/dmaster/rincian',
+        meta:{
+            title: "RINCIAN"
+        },
+        component: Rincian
     }, 
     {
         path: '/dmaster/paguanggaranopd',

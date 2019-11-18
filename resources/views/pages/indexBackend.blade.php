@@ -114,6 +114,12 @@
 									<p>JENIS</p>
 							  	</router-link>
 							</li>							
+							<li class="nav-item">
+							  	<router-link to="/dmaster/rincian" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>RINCIAN</p>
+							  	</router-link>
+							</li>							
 							<li class="nav-header">LAIN-LAIN</li>
 							<li class="nav-item">
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">

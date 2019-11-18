@@ -6,15 +6,15 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-money-check-alt"></i>
-                        PAGU ANGGARAN OPD / SKPD
+                        RINCIAN
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
-                        <li class="breadcrumb-item">DATA DASAR</li>
-                        <li class="breadcrumb-item active">PAGU ANGGARAN OPD / SKPD</li>
+                        <li class="breadcrumb-item">REKENING</li>
+                        <li class="breadcrumb-item active">RINCIAN</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Tambah Pagu Anggaran OPD / SKPD
+                                <i class="fas fa-plus"></i> Tambah Rincian
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -48,59 +48,51 @@
                             </div>       
                         </div>
                         <form class="form-horizontal" @submit.prevent="saveData">
-							<div class="card-body">
-								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-9" id="divOrgID">
+							<div class="card-body">								
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">JENIS</label>
+                                    <div class="col-sm-9" id="divJnsID">
                                         <select2 
-                                            id="OrgID" 
-                                            name="OrgID" 
-                                            v-model="form.OrgID" 
-                                            :options="daftar_opd" 
+                                            id="JnsID" 
+                                            name="JnsID" 
+                                            v-model="form.JnsID" 
+                                            :options="daftar_transaksi" 
                                             :settings="{
                                                 theme:'bootstrap',
-                                                placeholder:'PILIH OPD / SKPD'
+                                                placeholder:'PILIH JENIS'
                                             }">
                                         </select2>
-                                        <div class="text-danger" v-if="!$v.form.OrgID.required">* wajib dipilih</div>
+                                        <div class="text-danger" v-if="!$v.form.JnsID.required">* wajib dipilih</div>
                                     </div>
                                 </div>
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBD</label>
+                                    <label class="col-sm-3 col-form-label">KODE RINCIAN</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Jumlah1" 
+											v-model.trim="form.Kd_Rek_4" 
 											v-on:input="$v.form.$touch"
 											:options="{
-												minimumValue: '0',
-												decimalCharacter: ',',
-												digitGroupSeparator: '.',
-												emptyInputBehavior:0,
-												unformatOnSubmit: true 
+												allowDecimalPadding: false,
+                                                minimumValue:0,
+                                                maximumValue:100,
+                                                numericPos:true,
+                                                decimalPlaces : 0,
+                                                digitGroupSeparator : '',
+                                                showWarnings:false,
+                                                unformatOnSubmit: true,
+                                                modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Jumlah1.$error, 'is-valid': $v.form.Jumlah1.$dirty && !$v.form.Jumlah1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Kd_Rek_4.$error, 'is-valid': $v.form.Kd_Rek_4.$dirty && !$v.form.Kd_Rek_4.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Jumlah1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.Kd_Rek_4.$error">* wajib isi</div>
                                     </div>
 								 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBDP</label>
+                                    <label class="col-sm-3 col-form-label">NAMA RINCIAN</label>
                                     <div class="col-sm-9">
-										<vue-autonumeric 
-											v-model.trim="form.Jumlah2" 
-											v-on:input="$v.form.$touch"
-											:options="{
-												minimumValue: '0',
-												decimalCharacter: ',',
-												digitGroupSeparator: '.',
-												emptyInputBehavior:0,
-												unformatOnSubmit: true 
-											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Jumlah2.$error, 'is-valid': $v.form.Jumlah1.$dirty && !$v.form.Jumlah1.$invalid}">
-										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Jumlah2.$error">* wajib isi</div>
+										<input type="text" v-model="form.ObyNm" class="form-control" v-bind:class="{'is-invalid': $v.form.ObyNm.$error, 'is-valid': $v.form.ObyNm.$dirty && !$v.form.ObyNm.$invalid}">
+										<div class="text-danger" v-if="$v.form.ObyNm.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -131,7 +123,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Ubah Pagu Anggaran OPD / SKPD
+                                <i class="fas fa-plus"></i> Ubah Rincian
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -140,52 +132,54 @@
                             </div>
                         </div>
                         <form class="form-horizontal" @submit.prevent="updateData">
-                            <div class="card-body">
+                            <div class="card-body">         
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-9">
-                                        <p class="form-control-static">{{form.OrgNm}}</p>
+                                    <label class="col-sm-3 col-form-label">JENIS</label>
+                                    <div class="col-sm-9" id="divJnsID">
+                                        <select2 
+                                            id="JnsID" 
+                                            name="JnsID" 
+                                            v-model="form.JnsID" 
+                                            :options="daftar_transaksi" 
+                                            :settings="{
+                                                theme:'bootstrap',
+                                                placeholder:'PILIH JENIS'
+                                            }">
+                                        </select2>
+                                        <div class="text-danger" v-if="!$v.form.JnsID.required">* wajib dipilih</div>
                                     </div>
-                                </div>
+                                </div>                       
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBD</label>
+                                    <label class="col-sm-3 col-form-label">KODE RINCIAN</label>
                                     <div class="col-sm-9">
-                                        <vue-autonumeric 
-                                            v-model.trim="form.Jumlah1" 
-                                            v-on:input="$v.form.$touch"
-                                            :options="{
-                                                minimumValue: '0',
-                                                decimalCharacter: ',',
-                                                digitGroupSeparator: '.',
-                                                emptyInputBehavior:0,
-                                                unformatOnSubmit: true 
-                                            }" 
-                                            class="form-control" 
-                                            v-bind:class="{'is-invalid': $v.form.Jumlah1.$error, 'is-valid': $v.form.Jumlah1.$dirty && !$v.form.Jumlah1.$invalid}">
-                                        </vue-autonumeric>
-                                        <div class="text-danger" v-if="$v.form.Jumlah1.$error">* wajib isi</div>
-                                    </div>
-                                </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">PAGU ANGGARAN APBDP</label>
-                                    <div class="col-sm-9">
-                                       <vue-autonumeric 
-											v-model.trim="form.Jumlah2" 
+										<vue-autonumeric 
+											v-model.trim="form.Kd_Rek_4" 
 											v-on:input="$v.form.$touch"
 											:options="{
-												minimumValue: '0',
-												decimalCharacter: ',',
-												digitGroupSeparator: '.',
-                                                emptyInputBehavior:0,
-												unformatOnSubmit: true 
+												allowDecimalPadding: false,
+                                                minimumValue:0,
+                                                maximumValue:100,
+                                                numericPos:true,
+                                                decimalPlaces : 0,
+                                                digitGroupSeparator : '',
+                                                showWarnings:false,
+                                                unformatOnSubmit: true,
+                                                modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Jumlah2.$error, 'is-valid': $v.form.Jumlah1.$dirty && !$v.form.Jumlah1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Kd_Rek_4.$error, 'is-valid': $v.form.Kd_Rek_4.$dirty && !$v.form.Kd_Rek_4.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Jumlah2.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.Kd_Rek_4.$error">* wajib isi</div>
                                     </div>
-                                </div>
-                                <div class="form-group row">
+								 </div>								
+								<div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NAMA RINCIAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.ObyNm" class="form-control" v-bind:class="{'is-invalid': $v.form.ObyNm.$error, 'is-valid': $v.form.ObyNm.$dirty && !$v.form.ObyNm.$invalid}">
+										<div class="text-danger" v-if="$v.form.ObyNm.$error">* wajib isi</div>
+                                    </div>
+								</div>
+								<div class="form-group row">
                                     <label class="col-sm-3 col-form-label">KETERANGAN</label>
                                     <div class="col-sm-9">
                                         <textarea type="text" name="Descr" id="Descr" v-model="form.Descr" class="form-control" row="4">
@@ -211,15 +205,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL PAGU ANGGARAN</h3>
+                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL RINCIAN</h3>
                             <div class="card-tools">                                 
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',paguanggaranopd.detail)">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',rincian.detail)">
                                     <i class="fas fa-edit"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',paguanggaranopd.detail)">
+                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',rincian.detail)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>      
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -234,20 +228,20 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{paguanggaranopd.detail.PaguAnggaranOPDID}}</p>
+                                                <p class="form-control-static">{{rincian.detail.JnsID}}</p>
                                             </div>                            
                                         </div>  
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>KODE OPD / SKPD: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>KODE RINCIAN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{paguanggaranopd.detail.kode_organisasi}}</p>
+                                                <p class="form-control-static">{{rincian.detail.kode_rek4}}</p>
                                             </div>                            
                                         </div>                          
                                         
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>NAMA OPD / SKPD: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>NAMA RINCIAN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{paguanggaranopd.detail.OrgNm}}</p>
+                                                <p class="form-control-static">{{rincian.detail.ObyNm}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -255,22 +249,21 @@
                                 <div class="col-md-6">
                                     <div class="form-horizontal">
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>PAGU DANA APBD: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{paguanggaranopd.detail.Jumlah1|formatUang}}</p>
+                                                <p class="form-control-static">{{rincian.detail.Descr}}</p>
                                             </div>                            
-                                        </div>  
+                                        </div> 
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>PAGU DANA APBDP: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>DI BUAT: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{paguanggaranopd.detail.Jumlah2|formatUang}}</p>
+                                                <p class="form-control-static">{{rincian.detail.created_at|formatTanggal}}</p>
                                             </div>                            
-                                        </div>                          
-                                        
+                                        </div>
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>DI BUAT / DI UBAH: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>DI UBAH: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{paguanggaranopd.detail.created_at|formatTanggal}} / {{paguanggaranopd.detail.updated_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{rincian.detail.updated_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -280,7 +273,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row" v-if="pid=='default'">
+            <div class="row" v-if="pid=='default'">      
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -292,8 +285,8 @@
                                     <label class="col-sm-2 col-form-label">KRITERIA</label>
                                     <div class="col-sm-10">
                                         <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
-                                            <option value="kode_organisasi" :selected="cmbKriteria=='kode_organisasi'">KODE OPD / SKPD</option>
-                                            <option value="OrgNm" :selected="cmbKriteria=='OrgNm'">NAMA OPD / SKPD</option>
+                                            <option value="kode_rek4" :selected="cmbKriteria=='kode_rek4'">KODE RINCIAN</option>
+                                            <option value="ObyNm" :selected="cmbKriteria=='ObyNm'">NAMA RINCIAN</option>
                                         </select>
                                     </div>
                                 </div>
@@ -317,7 +310,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div>         
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -328,33 +321,33 @@
                                 </button>                                
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_paguanggaran.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_rincian.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>
-                                        <th width="120">
-                                            KODE OPD  
+                                        <th width="150">
+                                            KODE RINCIAN
                                         </th> 
                                         <th>
-                                            NAMA OPD  
+                                            NAMA RINCIAN
                                         </th> 
                                         <th width="100">
-                                            APBD  
-                                        </th> 
+                                            KET.  
+                                        </th>                                       
                                         <th width="100">
-                                            APBDP  
-                                        </th> 
+                                            TA  
+                                        </th>                                       
                                         <th width="100">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_paguanggaran.data" v-bind:key="item.PaguAnggaranOPDID">
-                                        <td>{{daftar_paguanggaran.from+index}}</td>
-                                        <td>{{item.kode_organisasi}}</td>
-                                        <td>{{item.OrgNm}}</td>    
-                                        <td>{{item.Jumlah1|formatUang}}</td>
-                                        <td>{{item.Jumlah2|formatUang}}</td>
+                                    <tr v-for="(item,index) in daftar_rincian.data" v-bind:key="item.ObyID">
+                                        <td>{{daftar_rincian.from+index}}</td>
+                                        <td>{{item.kode_rek4}}</td>
+                                        <td>{{item.ObyNm}}</td>    
+                                        <td>{{item.Descr}}</td>
+                                        <td>{{item.TA}}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -384,8 +377,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_paguanggaran.data.length">                            
-                            <pagination :data="daftar_paguanggaran" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_rincian.data.length">                            
+                            <pagination :data="daftar_rincian" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
 	                            <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -407,57 +400,56 @@ export default {
 	mounted()
 	{
         window.$('#liDMaster').addClass('menu-open');
-        window.$('#linkDMaster').addClass('active');
+        window.$('#linkDMaster').addClass('active');        
 		this.proc ('default');   
 	},
 	data: function() 
 	{
 		return {
             pid:'default',
-            paguanggaranopd:{
+            rincian:{
                 kriteria:'',
                 isikriteria:'',
                 detail:null
             },
-            daftar_paguanggaran:{
+            daftar_rincian:{
                 data:{}
             }, 
-            api_message:'',
-            
+            api_message:'',           
+
             //field form search
-            cmbKriteria:'OrgNm',
+            cmbKriteria:'ObyNm',
             txtKriteria:'',
 
-            //form
-			daftar_opd: [{id:'',text:'PILIH OPD / SKPD'}],
-			form: {				
-                PaguAnggaranOPDID:'',
-                OrgID: '',
-                OrgNm: '',
-				Jumlah1: 0,
-				Jumlah2: 0,
+            //form			
+            daftar_transaksi: [{id:'',text:'PILIH JENIS'}],
+			form: {		
+                ObyID:'',
+                JnsID:'',		                                
+                Kd_Rek_4: '',
+                ObyNm: '',				
 				Descr:'',
 			}
 		}
 	},
 	methods: 
-    {		  
-		fetchOPD ()
+    {	
+        fetchJenis ()
         {            
-            axios.get('/api/v1/master/paguanggaranopd/create',{
+            axios.get('/api/v1/master/rincian/create',{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
-            .then(response => {      
-                var daftar_opd = [];
+            .then(response => {             
+                var daftar_transaksi = [];
                 $.each(response.data,function(key,value){
-                    daftar_opd.push({
+                    daftar_transaksi.push({
                         id:key,
                         text:value
                     });
                 });                
-                this.daftar_opd=daftar_opd;                 
+                this.daftar_transaksi=daftar_transaksi;                 
             })
             .catch(response => {
                 this.api_message = response;
@@ -465,7 +457,7 @@ export default {
         },
         search()
         {
-            axios.post('/api/v1/master/paguanggaranopd/search',{
+            axios.post('/api/v1/master/rincian/search',{
                     'cmbKriteria':this.cmbKriteria,
                     'txtKriteria':this.txtKriteria,
                     'action':'search',
@@ -475,9 +467,10 @@ export default {
                     },
                 })
                 .then(response => { 
+                    
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Melakukan pencarian data Pagu Dana OPD / SKPD",
+                        text: "Melakukan pencarian data Rekening Rincian",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -486,12 +479,12 @@ export default {
                         allowEnterKey: false,
                     });              
                     setTimeout(() => {
-                        this.paguanggaranopd=response.data; 
-                        this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
-                        if(typeof(this.paguanggaranopd.search) !== 'undefined' && this.paguanggaranopd.search !== null)
+                        this.rincian=response.data; 
+                        this.daftar_rincian = this.rincian.daftar_rincian;
+                        if(typeof(this.rincian.search) !== 'undefined' && this.rincian.search !== null)
                         {
-                            this.cmbKriteria = this.paguanggaranopd.search.kriteria;
-                            this.txtKriteria = this.paguanggaranopd.search.isikriteria;
+                            this.cmbKriteria = this.rincian.search.kriteria;
+                            this.txtKriteria = this.rincian.search.isikriteria;
                         }   
                         this.$swal.close();
                     }, 1500); 
@@ -502,7 +495,7 @@ export default {
         },
         resetpencarian()
         {
-            axios.post('/api/v1/master/paguanggaranopd/search',{
+            axios.post('/api/v1/master/rincian/search',{
                     'action':'reset',
                 },{
                     headers:{
@@ -512,7 +505,7 @@ export default {
                 .then(response => {                 
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Reset pencarian data Pagu Dana OPD / SKPD",
+                        text: "Reset pencarian data Rekening Rincian",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -521,9 +514,9 @@ export default {
                         allowEnterKey: false,
                     });              
                     setTimeout(() => {
-                        this.paguanggaranopd=response.data; 
-                        this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;                
-                        this.cmbKriteria = 'OrgNm';
+                        this.rincian=response.data; 
+                        this.daftar_rincian = this.rincian.daftar_rincian;                
+                        this.cmbKriteria = 'ObyNm';
                         this.txtKriteria = '';      
                         this.$swal.close();
                     }, 1500);                                              
@@ -534,19 +527,19 @@ export default {
         },
         populateData(page=1)
         {           
-            axios.get('/api/v1/master/paguanggaranopd?page='+page,{
+            axios.get('/api/v1/master/rincian?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
-                this.paguanggaranopd=response.data; 
-                this.daftar_paguanggaran = this.paguanggaranopd.daftar_paguanggaran;
-                if(typeof(this.paguanggaranopd.search) !== 'undefined' && this.paguanggaranopd.search !== null)
+                this.rincian=response.data; 
+                this.daftar_rincian = this.rincian.daftar_rincian;    
+                 if(typeof(this.rincian.search) !== 'undefined' && this.rincian.search !== null)
                 {
-                    this.cmbKriteria = this.paguanggaranopd.search.kriteria;
-                    this.txtKriteria = this.paguanggaranopd.search.isikriteria;
-                }               
+                    this.cmbKriteria = this.rincian.search.kriteria;
+                    this.txtKriteria = this.rincian.search.isikriteria;
+                }                          
             })
             .catch(response => {
                 this.api_message = response;
@@ -558,30 +551,20 @@ export default {
             switch (pid)
             {
                 case 'create' :
-                    this.pid = pid;
-                    this.fetchOPD();
+                    this.pid = pid;    
+                    this.fetchJenis();                
                 break;
                 case 'show' :
                     this.pid = pid;
-                    this.paguanggaranopd.detail = item;
+                    this.rincian.detail = item;
                 break;
                 case 'edit' :
                     this.pid = pid;
-                    this.form.PaguAnggaranOPDID=item.PaguAnggaranOPDID;
-                    axios.get('/api/v1/master/paguanggaranopd/'+this.form.PaguAnggaranOPDID,{
-                        headers:{
-                            'Authorization': window.laravel.api_token,
-                        }
-                    })
-                    .then(response => {                                        
-                        this.form.OrgNm='['+response.data.kode_organisasi+'] '+response.data.OrgNm;    
-                    })
-                    .catch(response => {
-                        this.api_message = response;
-                    }); 
-                    this.form.OrgID=item.OrgID;
-                    this.form.Jumlah1=item.Jumlah1;
-                    this.form.Jumlah2=item.Jumlah2;
+                    this.fetchJenis();
+                    this.form.ObyID=item.ObyID;                   
+                    this.form.JnsID=item.JnsID;                                       
+                    this.form.Kd_Rek_4=item.Kd_Rek_4;
+                    this.form.ObyNm=item.ObyNm;
                     this.form.Descr=item.Descr;
                 break;
                 case 'destroy':
@@ -599,7 +582,7 @@ export default {
                     }).then(function (isConfirm){
                         if(isConfirm.value === true) 
                         {
-                            axios.post('/api/v1/master/paguanggaranopd/'+item.PaguAnggaranOPDID,{
+                            axios.post('/api/v1/master/rincian/'+item.JnsID,{
                                 '_method':'DELETE',
                             },{
                                 headers:{
@@ -623,14 +606,14 @@ export default {
             }
         },
 		saveData() 
-		{			
+		{	
 			this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-				axios.post('/api/v1/master/paguanggaranopd',{
-                    'OrgID':this.form.OrgID,
-                    'Jumlah1':this.form.Jumlah1,
-                    'Jumlah2':this.form.Jumlah2,
+				axios.post('/api/v1/master/rincian',{
+                    'JnsID':this.form.JnsID,
+                    'Kd_Rek_4':this.form.Kd_Rek_4,
+                    'ObyNm':this.form.ObyNm,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -640,7 +623,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Menyimpan Data Pagu Anggaran OPD / SKPD",
+                        text: "Menyimpan Data Rincian berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -664,10 +647,11 @@ export default {
             this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-                axios.post('/api/v1/master/paguanggaranopd/'+this.form.PaguAnggaranOPDID,{
+                axios.post('/api/v1/master/rincian/'+this.form.JnsID,{
                     '_method':'PUT',
-                    'Jumlah1':this.form.Jumlah1,
-                    'Jumlah2':this.form.Jumlah2,
+                    'JnsID':this.form.JnsID,
+                    'Kd_Rek_4':this.form.Kd_Rek_4,
+                    'ObyNm':this.form.ObyNm,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -677,7 +661,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Mengubah Data Pagu Anggaran OPD / SKPD",
+                        text: "Mengubah Data Rincian berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -698,25 +682,24 @@ export default {
         },
         clearform ()
         {
-            this.PaguAnggaranOPDID='';
-            this.form.OrgID='';
-            this.form.OrgNm='';
-            this.form.Jumlah1=0;
-            this.form.Jumlah2=0;
-            this.form.Descr='';
+            this.ObyID='';
+            this.JnsID='';            
+            this.form.Kd_Rek_4='';
+            this.form.ObyNm='';           
+            this.form.Descr='';           
         },
 	},
 	validations: {
 		form: {
-			OrgID: {
+            JnsID: {
 				required
 			},
-			Jumlah1: {
+			Kd_Rek_4: {
 				required
 			},
-			Jumlah2: {
+			ObyNm: {
 				required
-			},
+			},			
 		}
 	},
 	components: 
