@@ -60,14 +60,14 @@
 						</router-link>						
 					</li>
 					<li class="nav-item has-treeview" id="liDMaster">
-						<a href="#" class="nav-link"  id="linkDMaster">
+						<a href="#" class="nav-link" id="linkDMaster">
 						  	<i class="nav-icon fas fa-tree"></i>
 						  	<p>
 								MASTER
 								<i class="fas fa-angle-left right"></i>
 						  	</p>
 						</a>
-						<ul class="nav nav-treeview">
+						<ul class="nav nav-treeview" id="ulDMaster">
 							<li class="nav-header">DATA DASAR</li>
 							<li class="nav-item">
 							  	<router-link to="/dmaster/kelompokurusan" class="nav-link">

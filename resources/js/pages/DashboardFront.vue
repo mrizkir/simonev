@@ -138,8 +138,10 @@ import 'echarts/lib/component/tooltip';
 export default {        
     mounted ()
     {        
-        this.populateData();
-        
+        window.$('#liDMaster').removeClass('menu-open');
+        window.$('#ulDMaster').css('display','none');                
+        window.$('#linkDMaster').removeClass('active');        
+        this.populateData();        
     },
     data: function()
     {
