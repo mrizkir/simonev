@@ -44,30 +44,33 @@ class RincianController extends Controller
             switch ($search['kriteria']) 
             {
                 case 'kode_rek4' :              
-                $data = RincianModel::select(\DB::raw('
-                                                "tmOby"."ObyID",
-                                                "tmOby"."JnsID",                                            
-                                                "tmOby"."Kd_Rek_4",
-                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "kode_rek4",
-                                                "tmOby"."ObyNm",                                                
-                                                "tmOby"."Descr",
-                                                "tmOby"."TA",
-                                                "tmOby"."created_at",
-                                                "tmOby"."updated_at"
-                                            '))
-                    ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
-                    ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
-                    ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
-                    ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
-                    ->whereRaw('CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4")=\''.$search['isikriteria'].'\'')
-                    ->orderBy($column_order, $direction);
+                    $data = RincianModel::select(\DB::raw('
+                                                    "tmOby"."ObyID",
+                                                    "tmOby"."JnsID",                                            
+                                                    "tmOby"."Kd_Rek_4",
+                                                    CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3",\'.\',"tmOby"."Kd_Rek_4") AS "kode_rek4",
+                                                    "tmOby"."ObyNm",                                                
+                                                    "tmOby"."Descr",
+                                                    "tmOby"."TA",
+                                                    "tmOby"."created_at",
+                                                    "tmOby"."updated_at"
+                                                '))
+                        ->join('tmJns', 'tmJns.JnsID', 'tmOby.JnsID')
+                        ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
+                        ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
+                        ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
+                        ->whereRaw('CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3",\'.\',"tmOby"."Kd_Rek_4")=\''.$search['isikriteria'].'\'')
+                        ->orderBy('tmStr.Kd_Rek_1', 'ASC')
+                        ->orderBy('tmKlp.Kd_Rek_2', 'ASC')
+                        ->orderBy('tmJns.Kd_Rek_3', 'ASC')
+                        ->orderBy('tmOby.Kd_Rek_4', 'ASC');
                 break;
                 case 'ObyNm' :                  
                     $data = RincianModel::select(\DB::raw('
                                                 "tmOby"."ObyID",
                                                 "tmOby"."JnsID",                                            
                                                 "tmOby"."Kd_Rek_4",
-                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "kode_rek4",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3",\'.\',"tmOby"."Kd_Rek_4") AS "kode_rek4",
                                                 "tmOby"."ObyNm",                                                
                                                 "tmOby"."Descr",
                                                 "tmOby"."TA",
@@ -79,7 +82,10 @@ class RincianController extends Controller
                     ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
                     ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
                     ->where('ObyNm', 'ilike', '%' . $search['isikriteria'] . '%')
-                    ->orderBy($column_order, $direction);
+                    ->orderBy('tmStr.Kd_Rek_1', 'ASC')
+                    ->orderBy('tmKlp.Kd_Rek_2', 'ASC')
+                    ->orderBy('tmJns.Kd_Rek_3', 'ASC')
+                    ->orderBy('tmOby.Kd_Rek_4', 'ASC');
                 break;
             }           
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
@@ -90,7 +96,7 @@ class RincianController extends Controller
                                                 "tmOby"."ObyID",
                                                 "tmOby"."JnsID",                                            
                                                 "tmOby"."Kd_Rek_4",
-                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3","tmOby"."Kd_Rek_4") AS "kode_rek4",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2",\'.\',"tmJns"."Kd_Rek_3",\'.\',"tmOby"."Kd_Rek_4") AS "kode_rek4",
                                                 "tmOby"."ObyNm",                                                
                                                 "tmOby"."Descr",
                                                 "tmOby"."TA",
@@ -101,7 +107,10 @@ class RincianController extends Controller
                     ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
                     ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
                     ->where('tmOby.TA', \HelperKegiatan::getTahunAnggaran())
-                    ->orderBy($column_order, $direction)
+                    ->orderBy('tmStr.Kd_Rek_1', 'ASC')
+                    ->orderBy('tmKlp.Kd_Rek_2', 'ASC')
+                    ->orderBy('tmJns.Kd_Rek_3', 'ASC')
+                    ->orderBy('tmOby.Kd_Rek_4', 'ASC')
                     ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         }
         $data->setPath(route('rincian.index'));
@@ -166,11 +175,8 @@ class RincianController extends Controller
      */
     public function create()
     {
-        $theme = 'dore';
-        return view("pages.$theme.dmaster.rincian.create")->with([
-            'page_active' => 'rincian',
-
-        ]);
+        $daftar_jenis=\App\Models\DMaster\JenisModel::getDaftarJenis(\HelperKegiatan::getTahunAnggaran(),false);
+        return response()->json($daftar_jenis,200);
     }
     /**
      * Store a newly created resource in storage.
@@ -180,70 +186,38 @@ class RincianController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(),[
             'Kd_Rek_4' => [
                 new CheckRecordIsExistValidation('tmOby', ['where' => ['JnsID', '=', $request->input('JnsID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
             ],
-            'ObyNm' => 'required|min:5',
+            'ObyNm' => 'required',
         ]);
-
-        $rincian = RincianModel::create([
-            'ObyID' => uniqid('uid'),
-            'JnsID' =>  $request->input('JnsID'),
-            'Kd_Rek_4' => $request->input('Kd_Rek_4'),
-            'ObyNm' => $request->input('ObyNm'),
-            'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunAnggaran(),
-        ]);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Data ini telah berhasil disimpan.'
-            ]);
-        } else {
-            return redirect(route('rincian.show', ['uuid' => $rincian->ObyID]))->with('success', 'Data ini telah berhasil disimpan.');
+        
+        if ($validator->fails())
+        {
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],422);
         }
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function show($uuid)
-    {
-        $theme = 'dore';
-
-        $data = RincianModel::where('ObyID', $uuid)->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.rincian.show")->with([
-                'page_active' => 'rincian',
-                'data' => $data,
+        else
+        {
+            $rincian = RincianModel::create([
+                'ObyID' => uniqid('uid'),
+                'JnsID' =>  $request->input('JnsID'),
+                'Kd_Rek_4' => $request->input('Kd_Rek_4'),
+                'ObyNm' => $request->input('ObyNm'),
+                'Descr' => $request->input('Descr'),
+                'TA' => \HelperKegiatan::getTahunAnggaran(),
             ]);
-        }
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($uuid)
-    {
-        $theme = 'dore';
 
-        $data = RincianModel::findOrFail($uuid);
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.rincian.edit")->with([
-                'page_active' => 'rkakegiatanmurni',
-                'data' => $data
-            ]);
+            return response()->json([            
+                'message'=>'Data rincian telah berhasil disimpan.'
+            ],200);
         }
-    }
+    } 
     /**
      * Store a newly created resource in storage.
      *
@@ -254,29 +228,33 @@ class RincianController extends Controller
     {
         $rincian = RincianModel::find($uuid);
 
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(),[
             'Kd_Rek_4' => [
                 new IgnoreIfDataIsEqualValidation('tmOby', $rincian->Kd_Rek_4, ['where' => ['JnsID', '=', $request->input('JnsID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
             ],
-            'ObyNm' => 'required|min:5',
+            'ObyNm' => 'required',
         ]);
+        
+        if ($validator->fails())
+		{
+			return response()->json([            
+                'message'=>$validator->errors(),
+            ],422);			
+		}
+		else
+		{
+            $rincian->JnsID = $request->input('JnsID');
+            $rincian->Kd_Rek_4 = $request->input('Kd_Rek_4');
+            $rincian->ObyNm = $request->input('ObyNm');
+            $rincian->Descr = $request->input('Descr');
+            $rincian->save();
 
-        $rincian->JnsID = $request->input('JnsID');
-        $rincian->Kd_Rek_4 = $request->input('Kd_Rek_4');
-        $rincian->ObyNm = $request->input('ObyNm');
-        $rincian->Descr = $request->input('Descr');
-        $rincian->save();
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Data ini telah berhasil disimpan.'
-            ]);
-        } else {
-            return redirect(route('rincian.show', ['uuid' => $rincian->ObyID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return response()->json([            
+                'message'=>'Data rincian telah berhasil diubah.',
+            ],200);
         }
     }
     /**
@@ -286,29 +264,9 @@ class RincianController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request, $uuid)
-    {
-        $theme = 'dore';
+    {       
         $rincian = RincianModel::find($uuid);
-
         $result = $rincian->delete();
-        if ($request->ajax()) {
-            $currentpage = $this->getCurrentPageInsideSession('rincian');
-            $data = $this->populateData($currentpage);
-            if ($currentpage > $data->lastPage()) {
-                $data = $this->populateData($data->lastPage());
-            }
-            $datatable = view("pages.$theme.dmaster.rincian.datatable")->with([
-                'page_active' => 'rincian',
-                'search' => $this->getControllerStateSession('rincian', 'search'),
-                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                'column_order' => $this->getControllerStateSession('rincian.orderby', 'column_name'),
-                'direction' => $this->getControllerStateSession('rincian.orderby', 'order'),
-                'data' => $data
-            ])->render();
-
-            return response()->json(['success' => true, 'datatable' => $datatable], 200);
-        } else {
-            return redirect(route('rincian.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
-        }
+        return response()->json(['message'=>"data rincian dengan ID ($uuid) Berhasil di Hapus"],200);
     }
 }

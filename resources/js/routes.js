@@ -28,6 +28,7 @@ import Transaksi from './pages/dmaster/Transaksi.vue';
 import Kelompok from './pages/dmaster/Kelompok.vue';
 import Jenis from './pages/dmaster/Jenis.vue';
 import Rincian from './pages/dmaster/Rincian.vue';
+import Objek from './pages/dmaster/Objek.vue';
 
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
@@ -119,6 +120,13 @@ export const routes =  [
             title: "RINCIAN"
         },
         component: Rincian
+    }, 
+    {
+        path: '/dmaster/objek',
+        meta:{
+            title: "OBJEK"
+        },
+        component: Objek
     }, 
     {
         path: '/dmaster/paguanggaranopd',

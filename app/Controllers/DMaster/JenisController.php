@@ -56,7 +56,9 @@ class JenisController extends Controller
                 ->join('tmKlp', 'tmKlp.KlpID', 'tmJns.KlpID')
                 ->join('tmStr', 'tmKlp.StrID', 'tmStr.StrID')
                 ->where('tmJns.TA', \HelperKegiatan::getTahunAnggaran())
-                ->orderBy($column_order, $direction)
+                ->orderBy('tmStr.Kd_Rek_1', 'ASC')
+                ->orderBy('tmKlp.Kd_Rek_2', 'ASC')
+                ->orderBy('tmJns.Kd_Rek_3', 'ASC')
                 ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
         $data->setPath(route('jenis.index'));
@@ -171,7 +173,11 @@ class JenisController extends Controller
 			$jenis->JnsNm = $request->input('JnsNm');
 			$jenis->Descr = $request->input('Descr');
 			$jenis->TA = \HelperKegiatan::getTahunAnggaran();
-			$jenis->save();
+            $jenis->save();
+            
+            return response()->json([            
+                'message'=>'Data jenis telah berhasil diubah.'
+            ],200);
 		}
     }
     /**

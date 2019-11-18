@@ -30,7 +30,7 @@ class TransaksiController extends Controller
     {
         $columns = ['*'];
         if (!$this->checkStateIsExistSession('transaksi', 'orderby')) {
-            $this->putControllerStateSession('transaksi', 'orderby', ['column_name' => 'StrID', 'order' => 'asc']);
+            $this->putControllerStateSession('transaksi', 'orderby', ['column_name' => 'Kd_Rek_1', 'order' => 'asc']);
         }
         $column_order = $this->getControllerStateSession('transaksi.orderby', 'column_name');
         $direction = $this->getControllerStateSession('transaksi.orderby', 'order');
@@ -41,8 +41,8 @@ class TransaksiController extends Controller
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
         $data = TransaksiModel::where('TA', \HelperKegiatan::getTahunAnggaran())
-            ->orderBy($column_order, $direction)
-            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
+                            ->orderBy('Kd_Rek_1', 'ASC')
+                            ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
         $data->setPath(route('transaksi.index'));
         return $data;

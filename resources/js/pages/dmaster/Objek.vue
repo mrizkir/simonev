@@ -6,7 +6,7 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-money-check-alt"></i>
-                        RINCIAN
+                        OBJEK
                     </h1>
                 </div>
                 <div class="col-sm-6">
@@ -14,7 +14,7 @@
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
                         <li class="breadcrumb-item">REKENING</li>
-                        <li class="breadcrumb-item active">RINCIAN</li>
+                        <li class="breadcrumb-item active">OBJEK</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Tambah Rincian
+                                <i class="fas fa-plus"></i> Tambah Objek
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -50,26 +50,26 @@
                         <form class="form-horizontal" @submit.prevent="saveData">
 							<div class="card-body">								
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">JENIS</label>
-                                    <div class="col-sm-9" id="divJnsID">
+                                    <label class="col-sm-3 col-form-label">RINCIAN</label>
+                                    <div class="col-sm-9" id="divObyID">
                                         <select2 
-                                            id="JnsID" 
-                                            name="JnsID" 
-                                            v-model="form.JnsID" 
-                                            :options="daftar_jenis" 
+                                            id="ObyID" 
+                                            name="ObyID" 
+                                            v-model="form.ObyID" 
+                                            :options="daftar_rincian" 
                                             :settings="{
                                                 theme:'bootstrap',
-                                                placeholder:'PILIH JENIS'
+                                                placeholder:'PILIH RINCIAN'
                                             }">
                                         </select2>
-                                        <div class="text-danger" v-if="!$v.form.JnsID.required">* wajib dipilih</div>
+                                        <div class="text-danger" v-if="!$v.form.ObyID.required">* wajib dipilih</div>
                                     </div>
                                 </div>
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KODE RINCIAN</label>
+                                    <label class="col-sm-3 col-form-label">KODE OBJEK</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Kd_Rek_4" 
+											v-model.trim="form.Kd_Rek_5" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
@@ -83,16 +83,16 @@
                                                 modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Kd_Rek_4.$error, 'is-valid': $v.form.Kd_Rek_4.$dirty && !$v.form.Kd_Rek_4.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Kd_Rek_5.$error, 'is-valid': $v.form.Kd_Rek_5.$dirty && !$v.form.Kd_Rek_5.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Kd_Rek_4.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.Kd_Rek_5.$error">* wajib isi</div>
                                     </div>
 								 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">NAMA RINCIAN</label>
+                                    <label class="col-sm-3 col-form-label">NAMA OBJEK</label>
                                     <div class="col-sm-9">
-										<input type="text" v-model="form.ObyNm" class="form-control" v-bind:class="{'is-invalid': $v.form.ObyNm.$error, 'is-valid': $v.form.ObyNm.$dirty && !$v.form.ObyNm.$invalid}">
-										<div class="text-danger" v-if="$v.form.ObyNm.$error">* wajib isi</div>
+										<input type="text" v-model="form.RObyNm" class="form-control" v-bind:class="{'is-invalid': $v.form.RObyNm.$error, 'is-valid': $v.form.RObyNm.$dirty && !$v.form.RObyNm.$invalid}">
+										<div class="text-danger" v-if="$v.form.RObyNm.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -123,7 +123,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Ubah Rincian
+                                <i class="fas fa-plus"></i> Ubah Objek
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -134,26 +134,26 @@
                         <form class="form-horizontal" @submit.prevent="updateData">
                             <div class="card-body">         
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">JENIS</label>
-                                    <div class="col-sm-9" id="divJnsID">
+                                    <label class="col-sm-3 col-form-label">RINCIAN</label>
+                                    <div class="col-sm-9" id="divObyID">
                                         <select2 
-                                            id="JnsID" 
-                                            name="JnsID" 
-                                            v-model="form.JnsID" 
-                                            :options="daftar_jenis" 
+                                            id="ObyID" 
+                                            name="ObyID" 
+                                            v-model="form.ObyID" 
+                                            :options="daftar_rincian" 
                                             :settings="{
                                                 theme:'bootstrap',
-                                                placeholder:'PILIH JENIS'
+                                                placeholder:'PILIH RINCIAN'
                                             }">
                                         </select2>
-                                        <div class="text-danger" v-if="!$v.form.JnsID.required">* wajib dipilih</div>
+                                        <div class="text-danger" v-if="!$v.form.ObyID.required">* wajib dipilih</div>
                                     </div>
                                 </div>                       
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KODE RINCIAN</label>
+                                    <label class="col-sm-3 col-form-label">KODE OBJEK</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Kd_Rek_4" 
+											v-model.trim="form.Kd_Rek_5" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
@@ -167,16 +167,16 @@
                                                 modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Kd_Rek_4.$error, 'is-valid': $v.form.Kd_Rek_4.$dirty && !$v.form.Kd_Rek_4.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Kd_Rek_5.$error, 'is-valid': $v.form.Kd_Rek_5.$dirty && !$v.form.Kd_Rek_5.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Kd_Rek_4.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.Kd_Rek_5.$error">* wajib isi</div>
                                     </div>
 								 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">NAMA RINCIAN</label>
+                                    <label class="col-sm-3 col-form-label">NAMA OBJEK</label>
                                     <div class="col-sm-9">
-										<input type="text" v-model="form.ObyNm" class="form-control" v-bind:class="{'is-invalid': $v.form.ObyNm.$error, 'is-valid': $v.form.ObyNm.$dirty && !$v.form.ObyNm.$invalid}">
-										<div class="text-danger" v-if="$v.form.ObyNm.$error">* wajib isi</div>
+										<input type="text" v-model="form.RObyNm" class="form-control" v-bind:class="{'is-invalid': $v.form.RObyNm.$error, 'is-valid': $v.form.RObyNm.$dirty && !$v.form.RObyNm.$invalid}">
+										<div class="text-danger" v-if="$v.form.RObyNm.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -205,15 +205,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL RINCIAN</h3>
+                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL OBJEK</h3>
                             <div class="card-tools">                                 
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',rincian.detail)">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',objek.detail)">
                                     <i class="fas fa-edit"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',rincian.detail)">
+                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',objek.detail)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>      
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -228,20 +228,20 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{rincian.detail.JnsID}}</p>
+                                                <p class="form-control-static">{{objek.detail.ObyID}}</p>
                                             </div>                            
                                         </div>  
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>KODE RINCIAN: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>KODE OBJEK: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{rincian.detail.kode_rek4}}</p>
+                                                <p class="form-control-static">{{objek.detail.kode_rek5}}</p>
                                             </div>                            
                                         </div>                          
                                         
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>NAMA RINCIAN: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>NAMA OBJEK: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{rincian.detail.ObyNm}}</p>
+                                                <p class="form-control-static">{{objek.detail.RObyNm}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -251,19 +251,19 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{rincian.detail.Descr}}</p>
+                                                <p class="form-control-static">{{objek.detail.Descr}}</p>
                                             </div>                            
                                         </div> 
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>DI BUAT: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{rincian.detail.created_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{objek.detail.created_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>DI UBAH: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{rincian.detail.updated_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{objek.detail.updated_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -285,8 +285,8 @@
                                     <label class="col-sm-2 col-form-label">KRITERIA</label>
                                     <div class="col-sm-10">
                                         <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
-                                            <option value="kode_rek4" :selected="cmbKriteria=='kode_rek4'">KODE RINCIAN</option>
-                                            <option value="ObyNm" :selected="cmbKriteria=='ObyNm'">NAMA RINCIAN</option>
+                                            <option value="kode_rek5" :selected="cmbKriteria=='kode_rek5'">KODE OBJEK</option>
+                                            <option value="RObyNm" :selected="cmbKriteria=='RObyNm'">NAMA OBJEK</option>
                                         </select>
                                     </div>
                                 </div>
@@ -321,16 +321,16 @@
                                 </button>                                
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_rincian.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_objek.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>
                                         <th width="150">
-                                            KODE RINCIAN
+                                            KODE OBJEK
                                         </th> 
                                         <th>
-                                            NAMA RINCIAN
+                                            NAMA OBJEK
                                         </th> 
                                         <th width="100">
                                             KET.  
@@ -342,10 +342,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_rincian.data" v-bind:key="item.ObyID">
-                                        <td>{{daftar_rincian.from+index}}</td>
-                                        <td>{{item.kode_rek4}}</td>
-                                        <td>{{item.ObyNm}}</td>    
+                                    <tr v-for="(item,index) in daftar_objek.data" v-bind:key="item.RObyID">
+                                        <td>{{daftar_objek.from+index}}</td>
+                                        <td>{{item.kode_rek5}}</td>
+                                        <td>{{item.RObyNm}}</td>    
                                         <td>{{item.Descr}}</td>
                                         <td>{{item.TA}}</td>
                                         <td>
@@ -377,8 +377,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_rincian.data.length">                            
-                            <pagination :data="daftar_rincian" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_objek.data.length">                            
+                            <pagination :data="daftar_objek" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
 	                            <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -407,49 +407,49 @@ export default {
 	{
 		return {
             pid:'default',
-            rincian:{
+            objek:{
                 kriteria:'',
                 isikriteria:'',
                 detail:null
             },
-            daftar_rincian:{
+            daftar_objek:{
                 data:{}
             }, 
             api_message:'',           
 
             //field form search
-            cmbKriteria:'ObyNm',
+            cmbKriteria:'RObyNm',
             txtKriteria:'',
 
             //form			
-            daftar_jenis: [{id:'',text:'PILIH JENIS'}],
+            daftar_rincian: [{id:'',text:'PILIH RINCIAN'}],
 			form: {		
-                ObyID:'',
-                JnsID:'',		                                
-                Kd_Rek_4: '',
-                ObyNm: '',				
+                RObyID:'',
+                ObyID:'',		                                
+                Kd_Rek_5: '',
+                RObyNm: '',				
 				Descr:'',
 			}
 		}
 	},
 	methods: 
     {	
-        fetchJenis ()
+        fetchObjek ()
         {            
-            axios.get('/api/v1/master/rincian/create',{
+            axios.get('/api/v1/master/objek/create',{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {             
-                var daftar_jenis = [];
+                var daftar_rincian = [];
                 $.each(response.data,function(key,value){
-                    daftar_jenis.push({
+                    daftar_rincian.push({
                         id:key,
                         text:value
                     });
                 });                
-                this.daftar_jenis=daftar_jenis;                 
+                this.daftar_rincian=daftar_rincian;                 
             })
             .catch(response => {
                 this.api_message = response;
@@ -457,7 +457,7 @@ export default {
         },
         search()
         {
-            axios.post('/api/v1/master/rincian/search',{
+            axios.post('/api/v1/master/objek/search',{
                     'cmbKriteria':this.cmbKriteria,
                     'txtKriteria':this.txtKriteria,
                     'action':'search',
@@ -470,7 +470,7 @@ export default {
                     
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Melakukan pencarian data Rekening Rincian",
+                        text: "Melakukan pencarian data Rekening Objek",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -479,12 +479,12 @@ export default {
                         allowEnterKey: false,
                     });              
                     setTimeout(() => {
-                        this.rincian=response.data; 
-                        this.daftar_rincian = this.rincian.daftar_rincian;
-                        if(typeof(this.rincian.search) !== 'undefined' && this.rincian.search !== null)
+                        this.objek=response.data; 
+                        this.daftar_objek = this.objek.daftar_objek;
+                        if(typeof(this.objek.search) !== 'undefined' && this.objek.search !== null)
                         {
-                            this.cmbKriteria = this.rincian.search.kriteria;
-                            this.txtKriteria = this.rincian.search.isikriteria;
+                            this.cmbKriteria = this.objek.search.kriteria;
+                            this.txtKriteria = this.objek.search.isikriteria;
                         }   
                         this.$swal.close();
                     }, 1500); 
@@ -495,7 +495,7 @@ export default {
         },
         resetpencarian()
         {
-            axios.post('/api/v1/master/rincian/search',{
+            axios.post('/api/v1/master/objek/search',{
                     'action':'reset',
                 },{
                     headers:{
@@ -505,7 +505,7 @@ export default {
                 .then(response => {                 
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Reset pencarian data Rekening Rincian",
+                        text: "Reset pencarian data Rekening Objek",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -514,9 +514,9 @@ export default {
                         allowEnterKey: false,
                     });              
                     setTimeout(() => {
-                        this.rincian=response.data; 
-                        this.daftar_rincian = this.rincian.daftar_rincian;                
-                        this.cmbKriteria = 'ObyNm';
+                        this.objek=response.data; 
+                        this.daftar_objek = this.objek.daftar_objek;                
+                        this.cmbKriteria = 'RObyNm';
                         this.txtKriteria = '';      
                         this.$swal.close();
                     }, 1500);                                              
@@ -527,18 +527,18 @@ export default {
         },
         populateData(page=1)
         {           
-            axios.get('/api/v1/master/rincian?page='+page,{
+            axios.get('/api/v1/master/objek?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
-                this.rincian=response.data; 
-                this.daftar_rincian = this.rincian.daftar_rincian;    
-                 if(typeof(this.rincian.search) !== 'undefined' && this.rincian.search !== null)
+                this.objek=response.data; 
+                this.daftar_objek = this.objek.daftar_objek;    
+                 if(typeof(this.objek.search) !== 'undefined' && this.objek.search !== null)
                 {
-                    this.cmbKriteria = this.rincian.search.kriteria;
-                    this.txtKriteria = this.rincian.search.isikriteria;
+                    this.cmbKriteria = this.objek.search.kriteria;
+                    this.txtKriteria = this.objek.search.isikriteria;
                 }                          
             })
             .catch(response => {
@@ -552,19 +552,19 @@ export default {
             {
                 case 'create' :
                     this.pid = pid;    
-                    this.fetchJenis();                
+                    this.fetchObjek();                
                 break;
                 case 'show' :
                     this.pid = pid;
-                    this.rincian.detail = item;
+                    this.objek.detail = item;
                 break;
                 case 'edit' :
                     this.pid = pid;
-                    this.fetchJenis();
-                    this.form.ObyID=item.ObyID;                   
-                    this.form.JnsID=item.JnsID;                                       
-                    this.form.Kd_Rek_4=item.Kd_Rek_4;
-                    this.form.ObyNm=item.ObyNm;
+                    this.fetchObjek();
+                    this.form.RObyID=item.RObyID;                   
+                    this.form.ObyID=item.ObyID;                                       
+                    this.form.Kd_Rek_5=item.Kd_Rek_5;
+                    this.form.RObyNm=item.RObyNm;
                     this.form.Descr=item.Descr;
                 break;
                 case 'destroy':
@@ -582,7 +582,7 @@ export default {
                     }).then(function (isConfirm){
                         if(isConfirm.value === true) 
                         {
-                            axios.post('/api/v1/master/rincian/'+item.ObyID,{
+                            axios.post('/api/v1/master/objek/'+item.RObyID,{
                                 '_method':'DELETE',
                             },{
                                 headers:{
@@ -610,10 +610,10 @@ export default {
 			this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-				axios.post('/api/v1/master/rincian',{
-                    'JnsID':this.form.JnsID,
-                    'Kd_Rek_4':this.form.Kd_Rek_4,
-                    'ObyNm':this.form.ObyNm,
+				axios.post('/api/v1/master/objek',{
+                    'ObyID':this.form.ObyID,
+                    'Kd_Rek_5':this.form.Kd_Rek_5,
+                    'RObyNm':this.form.RObyNm,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -623,7 +623,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Menyimpan Data Rincian berhasil dilakukan",
+                        text: "Menyimpan Data Objek berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -647,11 +647,11 @@ export default {
             this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-                axios.post('/api/v1/master/rincian/'+this.form.ObyID,{
+                axios.post('/api/v1/master/objek/'+this.form.RObyID,{
                     '_method':'PUT',
-                    'JnsID':this.form.JnsID,
-                    'Kd_Rek_4':this.form.Kd_Rek_4,
-                    'ObyNm':this.form.ObyNm,
+                    'ObyID':this.form.ObyID,
+                    'Kd_Rek_5':this.form.Kd_Rek_5,
+                    'RObyNm':this.form.RObyNm,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -661,7 +661,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Mengubah Data Rincian berhasil dilakukan",
+                        text: "Mengubah Data Objek berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -682,22 +682,22 @@ export default {
         },
         clearform ()
         {
-            this.ObyID='';
-            this.JnsID='';            
-            this.form.Kd_Rek_4='';
-            this.form.ObyNm='';           
+            this.RObyID='';
+            this.ObyID='';            
+            this.form.Kd_Rek_5='';
+            this.form.RObyNm='';           
             this.form.Descr='';           
         },
 	},
 	validations: {
 		form: {
-            JnsID: {
+            ObyID: {
 				required
 			},
-			Kd_Rek_4: {
+			Kd_Rek_5: {
 				required
 			},
-			ObyNm: {
+			RObyNm: {
 				required
 			},			
 		}

@@ -51,7 +51,8 @@ class KelompokController extends Controller
                                             '))
             ->join('tmStr', 'tmStr.StrID', 'tmKlp.StrID')
             ->where('tmKlp.TA', \HelperKegiatan::getTahunAnggaran())
-            ->orderBy($column_order, $direction)
+            ->orderBy('tmStr.Kd_Rek_1', 'ASC')
+            ->orderBy('tmKlp.Kd_Rek_2', 'ASC')
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
         $data->setPath(route('kelompok.index'));

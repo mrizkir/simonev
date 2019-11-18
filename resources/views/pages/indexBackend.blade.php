@@ -120,6 +120,12 @@
 									<p>RINCIAN</p>
 							  	</router-link>
 							</li>							
+							<li class="nav-item">
+							  	<router-link to="/dmaster/objek" class="nav-link">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>OBJEK</p>
+							  	</router-link>
+							</li>							
 							<li class="nav-header">LAIN-LAIN</li>
 							<li class="nav-item">
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
