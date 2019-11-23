@@ -48,13 +48,13 @@ class PaguAnggaranOPDController extends Controller {
                 case 'kode_organisasi' :
                     $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                                 ->where('kode_organisasi', $search['isikriteria'])
-                                                ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunAnggaran())
                                                 ->orderBy($column_order,$direction);                                        
                 break;
                 case 'OrgNm' :
                     $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                                 ->where('OrgNm', 'ilike', '%' . $search['isikriteria'] . '%')
-                                                ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
+                                                ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunAnggaran())
                                                 ->orderBy($column_order,$direction);                                        
                 break;
             }           
@@ -63,7 +63,7 @@ class PaguAnggaranOPDController extends Controller {
         else
         {
             $data = PaguAnggaranOPDModel::join('v_urusan_organisasi','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
-                                        ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunPerencanaan())
+                                        ->where('tmPaguAnggaranOPD.TA',\HelperKegiatan::getTahunAnggaran())
                                         ->orderBy($column_order,$direction)
                                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         } 
@@ -134,7 +134,7 @@ class PaguAnggaranOPDController extends Controller {
                                 ->select(\DB::raw('"v_urusan_organisasi"."OrgID","v_urusan_organisasi"."kode_organisasi","v_urusan_organisasi"."OrgNm"'))
                                 ->leftJoin('tmPaguAnggaranOPD','tmPaguAnggaranOPD.OrgID','v_urusan_organisasi.OrgID')
                                 ->whereNull('tmPaguAnggaranOPD.OrgID')
-                                ->where('v_urusan_organisasi.TA',\HelperKegiatan::getTahunPerencanaan())
+                                ->where('v_urusan_organisasi.TA',\HelperKegiatan::getTahunAnggaran())
                                 ->orderBy('kode_organisasi')
                                 ->get();
         $daftar_organisasi=[];        
@@ -154,12 +154,12 @@ class PaguAnggaranOPDController extends Controller {
     public function store(Request $request)
     {
         $validator=Validator::make($request->all(), [
-            'OrgID'=> [new CheckRecordIsExistValidation('tmPaguAnggaranOPD',['where'=>['TA','=',\HelperKegiatan::getTahunPerencanaan()]]),
+            'OrgID'=> [new CheckRecordIsExistValidation('tmPaguAnggaranOPD',['where'=>['TA','=',\HelperKegiatan::getTahunAnggaran()]]),
                         'required'],
             'Jumlah1'=>'required|numeric',
             'Jumlah2'=>'required|numeric',
         ]);
-        $ta = \HelperKegiatan::getTahunPerencanaan();
+        $ta = \HelperKegiatan::getTahunAnggaran();
         if ($validator->fails())
         {
             return response()->json([            
@@ -174,7 +174,7 @@ class PaguAnggaranOPDController extends Controller {
                 'Jumlah1' => $request->input('Jumlah1'),
                 'Jumlah2' => $request->input('Jumlah2'),
                 'Descr' => $request->input('Descr'),
-                'TA' => \HelperKegiatan::getTahunPerencanaan()
+                'TA' => \HelperKegiatan::getTahunAnggaran()
             ]);        
             return response()->json([            
                 'message'=>'Data ini telah berhasil disimpan.'

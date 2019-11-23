@@ -44,7 +44,7 @@
 			<nav class="mt-2">
 				<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">			
 					<li class="nav-item">
-						<router-link to="/" class="nav-link">
+						<router-link to="/" class="nav-link" @click.native="changeMenuItem">
 							<i class="nav-icon fas fa-tachometer-alt"></i>
 							<p>
 								DASHBOARD
@@ -52,7 +52,7 @@
 						</router-link>						
 					</li>
 					<li class="nav-item">
-						<router-link to="/formvalidation" class="nav-link">
+						<router-link to="/formvalidation" class="nav-link" @click.native="changeMenuItem">
 							<i class="nav-icon fas fa-tachometer-alt"></i>
 							<p>
 								TEST
@@ -70,71 +70,78 @@
 						<ul class="nav nav-treeview" id="ulDMaster">
 							<li class="nav-header">DATA DASAR</li>
 							<li class="nav-item">
-							  	<router-link to="/dmaster/kelompokurusan" class="nav-link">
+							  	<router-link to="/dmaster/kelompokurusan" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>KELOMPOK URUSAN</p>
 							  	</router-link>
-							  	<router-link to="/dmaster/urusan" class="nav-link">
+							  	<router-link to="/dmaster/urusan" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>URUSAN</p>
 								</router-link>
-								<router-link to="/dmaster/organisasi" class="nav-link">
+								<router-link to="/dmaster/organisasi" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>ORGANISASI</p>
 							  	</router-link>
-								<router-link to="/dmaster/unitkerja" class="nav-link">
+								<router-link to="/dmaster/unitkerja" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>UNIT KERJA</p>
 							  	</router-link>
-								<router-link to="/dmaster/program" class="nav-link">
+								<router-link to="/dmaster/program" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PROGRAM</p>
 							  	</router-link>
-								<router-link to="/dmaster/programkegiatan" class="nav-link">
+								<router-link to="/dmaster/programkegiatan" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>KEGIATAN</p>
 								</router-link>
 							</li>
 							<li class="nav-header">REKENING</li>
 							<li class="nav-item">
-							  	<router-link to="/dmaster/transaksi" class="nav-link">
+							  	<router-link to="/dmaster/transaksi" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>TRANSAKSI</p>
 							  	</router-link>
 							</li>							
 							<li class="nav-item">
-							  	<router-link to="/dmaster/kelompok" class="nav-link">
+							  	<router-link to="/dmaster/kelompok" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>KELOMPOK</p>
 							  	</router-link>
 							</li>							
 							<li class="nav-item">
-							  	<router-link to="/dmaster/jenis" class="nav-link">
+							  	<router-link to="/dmaster/jenis" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>JENIS</p>
 							  	</router-link>
 							</li>							
 							<li class="nav-item">
-							  	<router-link to="/dmaster/rincian" class="nav-link">
+							  	<router-link to="/dmaster/rincian" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>RINCIAN</p>
 							  	</router-link>
 							</li>							
 							<li class="nav-item">
-							  	<router-link to="/dmaster/objek" class="nav-link">
+							  	<router-link to="/dmaster/objek" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>OBJEK</p>
 							  	</router-link>
-							</li>							
+							</li>
+							<li class="nav-header">PEGAWAI</li>
+							<li class="nav-item">
+							  	<router-link to="/dmaster/asn" class="nav-link" @click.native="changeMenuItem">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>ASN</p>
+							  	</router-link>
+							</li>								
 							<li class="nav-header">LAIN-LAIN</li>
 							<li class="nav-item">
-							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link">
+							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PAGU DANA OPD</p>
 							  	</router-link>
 							</li>							
 						</ul>
-					</li>
+					</li>					
 				</ul>
 			</nav>
 		</div>

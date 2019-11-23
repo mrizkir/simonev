@@ -80,6 +80,20 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/objek/search', ['uses' => 'DMaster\ObjekController@search', 'as' => 'objek.search']);
     Route::post('/master/objek/filter', ['uses' => 'DMaster\ObjekController@filter', 'as' => 'objek.filter']);
+    
+    //masters - asn [pegawai]
+    Route::resource('/master/asn', 'DMaster\ASNController', [
+        'parameters' => ['asn' => 'uuid'],
+    ]);
+    Route::post('/master/asn/search', ['uses' => 'DMaster\ASNController@search', 'as' => 'asn.search']);
+    Route::post('/master/asn/filter', ['uses' => 'DMaster\ASNController@filter', 'as' => 'asn.filter']);
+    
+    //masters - asn opd [pegawai]
+    Route::resource('/master/asnopd', 'DMaster\ASNOPDController', [
+        'parameters' => ['asnopd' => 'uuid'],
+    ]);
+    Route::post('/master/asnopd/search', ['uses' => 'DMaster\ASNOPDController@search', 'as' => 'asnopd.search']);
+    Route::post('/master/asnopd/filter', ['uses' => 'DMaster\ASNOPDController@filter', 'as' => 'asnopd.filter']);
 
     //master - pagu anggaran opd
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);

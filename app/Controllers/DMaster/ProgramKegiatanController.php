@@ -120,7 +120,7 @@ class ProgramKegiatanController extends Controller {
         $this->setCurrentPageInsideSession('programkegiatan',1);
         $data=$this->populateData();
         
-        return response()->json(['page_active'=>'program',
+        return response()->json(['page_active'=>'programkegiatan',
                                 'search'=>$this->getControllerStateSession('programkegiatan','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
                                 'column_order'=>$this->getControllerStateSession('programkegiatan.orderby','column_name'),

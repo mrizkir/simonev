@@ -10,6 +10,10 @@
 // const ProgramKegiatan = () => import ('./pages/dmaster/ProgramKegiatan.vue');
 
 // const Transaksi = () => import ('./pages/dmaster/Transaksi.vue');
+// const Kelompok = () => import ('./pages/dmaster/Kelompok.vue');
+// const Jenis = () => import ('./pages/dmaster/Jenis.vue');
+// const Rincian = () => import ('./pages/dmaster/Rincian.vue');
+// const Objek = () => import ('./pages/dmaster/Objek.vue');
 
 // const PaguAnggaranOPD = () => import ('./pages/dmaster/PaguAnggaranOPD.vue');
 
@@ -30,10 +34,9 @@ import Jenis from './pages/dmaster/Jenis.vue';
 import Rincian from './pages/dmaster/Rincian.vue';
 import Objek from './pages/dmaster/Objek.vue';
 
+import ASN from './pages/dmaster/ASN.vue';
+
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
-
-
-
 
 export const routes =  [
     {
@@ -127,6 +130,13 @@ export const routes =  [
             title: "OBJEK"
         },
         component: Objek
+    }, 
+    {
+        path: '/dmaster/asn',
+        meta:{
+            title: "APARAT SIPILI NEGARA (ASN)"
+        },
+        component: ASN
     }, 
     {
         path: '/dmaster/paguanggaranopd',

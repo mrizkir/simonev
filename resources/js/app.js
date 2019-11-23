@@ -22,7 +22,6 @@ import Vuex from 'vuex';
 import StoreData from './store';
  
 Vue.use(Vuex);
-
 const store = new Vuex.Store(StoreData);
 
 //validate
@@ -60,11 +59,19 @@ Vue.filter("formatAngka",function (value){
 import moment from 'moment';
 
 Vue.filter('formatTanggal', function(value) {
-    return moment(String(value)).format('DD/MM/YYYY hh:mm')
+    var tanggal = moment(String(value)).format('DD/MM/YYYY hh:mm');
+    return tanggal;
 });
 
 const app = new Vue({
     el: '#app',
     store,
     router,
+    methods: 
+    {
+        changeMenuItem()
+        {
+            console.log('test');
+        }
+    }
 });

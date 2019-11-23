@@ -5,16 +5,16 @@
             <div class="row mb-2">
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
-                        <i class="nav-icon fas fa-money-check-alt"></i>
-                        TRANSAKSI
+                        <i class="nav-icon fas fa-user-friends"></i>
+                        ASN
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item">MASTER</li>
-                        <li class="breadcrumb-item">REKENING</li>
-                        <li class="breadcrumb-item active">TRANSAKSI</li>
+                        <li class="breadcrumb-item">PEGAWAI</li>
+                        <li class="breadcrumb-item active">ASN</li>
                     </ol>
                 </div>
             </div>
@@ -39,7 +39,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Tambah Transaksi
+                                <i class="fas fa-plus"></i> Tambah ASN
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -50,15 +50,15 @@
                         <form class="form-horizontal" @submit.prevent="saveData">
 							<div class="card-body">								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KODE TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">NIP ASN</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Kd_Rek_1" 
+											v-model.trim="form.NIP_ASN" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
                                                 minimumValue:0,
-                                                maximumValue:100,
+                                                maximumValue:99999999999999999,
                                                 numericPos:true,
                                                 decimalPlaces : 0,
                                                 digitGroupSeparator : '',
@@ -67,16 +67,16 @@
                                                 modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Kd_Rek_1.$error, 'is-valid': $v.form.Kd_Rek_1.$dirty && !$v.form.Kd_Rek_1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.NIP_ASN.$error, 'is-valid': $v.form.NIP_ASN.$dirty && !$v.form.NIP_ASN.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Kd_Rek_1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.NIP_ASN.$error">* wajib isi</div>
                                     </div>
 								 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">NAMA TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">NAMA ASN</label>
                                     <div class="col-sm-9">
-										<input type="text" v-model="form.StrNm" class="form-control" v-bind:class="{'is-invalid': $v.form.StrNm.$error, 'is-valid': $v.form.StrNm.$dirty && !$v.form.StrNm.$invalid}">
-										<div class="text-danger" v-if="$v.form.StrNm.$error">* wajib isi</div>
+										<input type="text" v-model="form.Nm_ASN" class="form-control" v-bind:class="{'is-invalid': $v.form.Nm_ASN.$error, 'is-valid': $v.form.Nm_ASN.$dirty && !$v.form.Nm_ASN.$invalid}">
+										<div class="text-danger" v-if="$v.form.Nm_ASN.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -107,7 +107,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Ubah Transaksi
+                                <i class="fas fa-plus"></i> Ubah ASN
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -118,15 +118,15 @@
                         <form class="form-horizontal" @submit.prevent="updateData">
                             <div class="card-body">                                
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KODE TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">NIP ASN</label>
                                     <div class="col-sm-9">
 										<vue-autonumeric 
-											v-model.trim="form.Kd_Rek_1" 
+											v-model.trim="form.NIP_ASN" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
                                                 minimumValue:0,
-                                                maximumValue:100,
+                                                maximumValue:99999999999999999,
                                                 numericPos:true,
                                                 decimalPlaces : 0,
                                                 digitGroupSeparator : '',
@@ -135,16 +135,16 @@
                                                 modifyValueOnWheel:false
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Kd_Rek_1.$error, 'is-valid': $v.form.Kd_Rek_1.$dirty && !$v.form.Kd_Rek_1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.NIP_ASN.$error, 'is-valid': $v.form.NIP_ASN.$dirty && !$v.form.NIP_ASN.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.Kd_Rek_1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.NIP_ASN.$error">* wajib isi</div>
                                     </div>
                                 </div>								
 								<div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">NAMA TRANSAKSI</label>
+                                    <label class="col-sm-3 col-form-label">NAMA ASN</label>
                                     <div class="col-sm-9">
-										<input type="text" v-model="form.StrNm" class="form-control" v-bind:class="{'is-invalid': $v.form.StrNm.$error, 'is-valid': $v.form.StrNm.$dirty && !$v.form.StrNm.$invalid}">
-										<div class="text-danger" v-if="$v.form.StrNm.$error">* wajib isi</div>
+										<input type="text" v-model="form.Nm_ASN" class="form-control" v-bind:class="{'is-invalid': $v.form.Nm_ASN.$error, 'is-valid': $v.form.Nm_ASN.$dirty && !$v.form.Nm_ASN.$invalid}">
+										<div class="text-danger" v-if="$v.form.Nm_ASN.$error">* wajib isi</div>
                                     </div>
 								</div>
 								<div class="form-group row">
@@ -173,15 +173,15 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL TRANSAKSI</h3>
+                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL ASN</h3>
                             <div class="card-tools">                                 
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',transaksi.detail)">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',asn.detail)">
                                     <i class="fas fa-edit"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',transaksi.detail)">
+                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',asn.detail)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>      
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -196,20 +196,20 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>ID: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.StrID}}</p>
+                                                <p class="form-control-static">{{asn.detail.ASNID}}</p>
                                             </div>                            
                                         </div>  
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>KODE TRANSAKSI: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>NIP ASN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.Kd_Rek_1}}</p>
+                                                <p class="form-control-static">{{asn.detail.NIP_ASN}}</p>
                                             </div>                            
                                         </div>                          
                                         
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>NAMA TRANSAKSI: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>NAMA ASN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.StrNm}}</p>
+                                                <p class="form-control-static">{{asn.detail.Nm_ASN}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -219,19 +219,19 @@
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.Descr}}</p>
+                                                <p class="form-control-static">{{asn.detail.Descr}}</p>
                                             </div>                            
                                         </div> 
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>DI BUAT: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.created_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{asn.detail.created_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                         <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>DI UBAH: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{transaksi.detail.updated_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{asn.detail.updated_at|formatTanggal}}</p>
                                             </div>                            
                                         </div>
                                     </div>      
@@ -241,7 +241,44 @@
                     </div>
                 </div>
             </div>
-            <div class="row" v-if="pid=='default'">               
+            <div class="row" v-if="pid=='default'">   
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-search"></i> PENCARIAN</h3>                            
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="search">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KRITERIA</label>
+                                    <div class="col-sm-10">
+                                        <select name="cmbKriteria" id="cmbKriteria" class="form-control" v-model="cmbKriteria">
+                                            <option value="NIP_ASN" :selected="cmbKriteria=='NIP_ASN'">NIP ASN</option>
+                                            <option value="Nm_ASN" :selected="cmbKriteria=='Nm_ASN'">NAMA ASN</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">ISI KRITERIA</label>
+                                    <div class="col-sm-10">
+                                        <input name="txtKriteria" id="txtKriteria" type="text" class="form-control" v-model="txtKriteria">
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-md-2">&nbsp;</div>
+                                    <div class="col-md-10">
+                                        <button type="button" class="btn bg-gradient-info btn-xs" v-on:click.prevent="search">
+                                            <i class="fas fa-search"></i> Cari
+                                        </button>      
+                                        <a id="btnReset" href="#" title="Reset Pencarian" class="btn btn-default btn-xs" v-on:click.prevent="resetpencarian">
+                                            <b><i class="icon-reset"></i></b> Reset
+                                        </a>                           
+                                    </div>
+                                </div> 
+                            </div>
+                        </form>
+                    </div>
+                </div>            
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -252,16 +289,16 @@
                                 </button>                                
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_transaksi.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_asn.data.length">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>
                                         <th width="150">
-                                            KODE TRANSAKSI
+                                            NIP ASN
                                         </th> 
                                         <th>
-                                            NAMA TRANSAKSI
+                                            NAMA ASN
                                         </th> 
                                         <th width="100">
                                             KET.  
@@ -273,10 +310,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_transaksi.data" v-bind:key="item.StrID">
-                                        <td>{{daftar_transaksi.from+index}}</td>
-                                        <td>{{item.Kd_Rek_1}}</td>
-                                        <td>{{item.StrNm}}</td>    
+                                    <tr v-for="(item,index) in daftar_asn.data" v-bind:key="item.ASNID">
+                                        <td>{{daftar_asn.from+index}}</td>
+                                        <td>{{item.NIP_ASN}}</td>
+                                        <td>{{item.Nm_ASN}}</td>    
                                         <td>{{item.Descr}}</td>
                                         <td>{{item.TA}}</td>
                                         <td>
@@ -308,8 +345,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_transaksi.data.length">                            
-                            <pagination :data="daftar_transaksi" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_asn.data.length">                            
+                            <pagination :data="daftar_asn" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
 	                            <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -337,37 +374,97 @@ export default {
 	{
 		return {
             pid:'default',
-            transaksi:{
+            asn:{
                 kriteria:'',
                 isikriteria:'',
                 detail:null
             },
-            daftar_transaksi:{
+            daftar_asn:{
                 data:{}
             }, 
             api_message:'',           
-       
+
+            //field form search
+            cmbKriteria:'Nm_ASN',
+            txtKriteria:'',
+
             //form			
 			form: {				
-                StrID:'',
-                Kd_Rek_1: '',
-                StrNm: '',				
+                ASNID:'',
+                NIP_ASN: '',
+                Nm_ASN: '',				
 				Descr:'',
 			}
 		}
 	},
 	methods: 
     {	
+        search()
+        {
+            axios.post('/api/v1/master/asn/search',{
+                    'cmbKriteria':this.cmbKriteria,
+                    'txtKriteria':this.txtKriteria,
+                    'action':'search',
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {      
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Melakukan pencarian data ASN",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });   
+                    setTimeout(() => {
+                        this.asn=response.data; 
+                        this.daftar_asn = this.asn.daftar_asn;
+                        if(typeof(this.asn.search) !== 'undefined' && this.asn.search !== null)
+                        {
+                            this.cmbKriteria = this.asn.search.kriteria;
+                            this.txtKriteria = this.asn.search.isikriteria;
+                        }   
+                        this.$swal.close();
+                    }, 1500);
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			   
+        },       
+        resetpencarian()
+        {
+            axios.post('/api/v1/master/asn/search',{
+                    'action':'reset',
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.asn=response.data; 
+                    this.daftar_asn = this.asn.daftar_asn;                
+                    this.cmbKriteria = 'Nm_ASN';
+                    this.txtKriteria = '';                       
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			   
+        },  
         populateData(page=1)
         {           
-            axios.get('/api/v1/master/transaksi?page='+page,{
+            axios.get('/api/v1/master/asn?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
             })
             .then(response => {                                        
-                this.transaksi=response.data; 
-                this.daftar_transaksi = this.transaksi.daftar_transaksi;                           
+                this.asn=response.data; 
+                this.daftar_asn = this.asn.daftar_asn;                           
             })
             .catch(response => {
                 this.api_message = response;
@@ -383,13 +480,13 @@ export default {
                 break;
                 case 'show' :
                     this.pid = pid;
-                    this.transaksi.detail = item;
+                    this.asn.detail = item;
                 break;
                 case 'edit' :
                     this.pid = pid;
-                    this.form.StrID=item.StrID;                   
-                    this.form.Kd_Rek_1=item.Kd_Rek_1;
-                    this.form.StrNm=item.StrNm;
+                    this.form.ASNID=item.ASNID;                   
+                    this.form.NIP_ASN=item.NIP_ASN;
+                    this.form.Nm_ASN=item.Nm_ASN;
                     this.form.Descr=item.Descr;
                 break;
                 case 'destroy':
@@ -407,7 +504,7 @@ export default {
                     }).then(function (isConfirm){
                         if(isConfirm.value === true) 
                         {
-                            axios.post('/api/v1/master/transaksi/'+item.StrID,{
+                            axios.post('/api/v1/master/asn/'+item.ASNID,{
                                 '_method':'DELETE',
                             },{
                                 headers:{
@@ -435,9 +532,9 @@ export default {
 			this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-				axios.post('/api/v1/master/transaksi',{
-                    'Kd_Rek_1':this.form.Kd_Rek_1,
-                    'StrNm':this.form.StrNm,
+				axios.post('/api/v1/master/asn',{
+                    'NIP_ASN':this.form.NIP_ASN,
+                    'Nm_ASN':this.form.Nm_ASN,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -447,7 +544,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Menyimpan Data Transaksi berhasil dilakukan",
+                        text: "Menyimpan Data ASN berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -471,10 +568,10 @@ export default {
             this.$v.form.$touch();
             if(this.$v.$invalid == false)
             { 
-                axios.post('/api/v1/master/transaksi/'+this.form.StrID,{
+                axios.post('/api/v1/master/asn/'+this.form.ASNID,{
                     '_method':'PUT',
-                    'Kd_Rek_1':this.form.Kd_Rek_1,
-                    'StrNm':this.form.StrNm,
+                    'NIP_ASN':this.form.NIP_ASN,
+                    'Nm_ASN':this.form.Nm_ASN,
                     'Descr':this.form.Descr,
                 },{
                     headers:{
@@ -484,7 +581,7 @@ export default {
                 .then(response => {                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Mengubah Data Transaksi berhasil dilakukan",
+                        text: "Mengubah Data ASN berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -505,18 +602,18 @@ export default {
         },
         clearform ()
         {
-            this.StrID='';
-            this.form.Kd_Rek_1='';
-            this.form.StrNm='';           
+            this.ASNID='';
+            this.form.NIP_ASN='';
+            this.form.Nm_ASN='';           
             this.form.Descr='';           
         },
 	},
 	validations: {
 		form: {
-			Kd_Rek_1: {
+			NIP_ASN: {
 				required
 			},
-			StrNm: {
+			Nm_ASN: {
 				required
 			},			
 		}
