@@ -329,8 +329,6 @@ import VueAutonumeric from 'vue-autonumeric';
 export default {
 	mounted()
 	{
-        window.$('#liDMaster').addClass('menu-open');
-        window.$('#linkDMaster').addClass('active');        
 		this.proc ('default');   
 	},
 	data: function() 

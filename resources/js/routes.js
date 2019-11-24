@@ -45,6 +45,7 @@ import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
 export const routes =  [
     {
+        name:'dashboard',
         path: '/',
         meta:{
             title: "DASHBOARD"
@@ -52,6 +53,7 @@ export const routes =  [
         component: DashboardFront
     },
     {
+        name:'formvalidation',
         path: '/formvalidation',
         meta:{
             title: "LATIHAN FORM VALIDATION"
@@ -60,6 +62,7 @@ export const routes =  [
     },
     // DATA MASTER
     {
+        name:'dmaster_kelompokurusan',
         path: '/dmaster/kelompokurusan',
         meta:{
             title: "KELOMPOK URUSAN"
@@ -67,6 +70,7 @@ export const routes =  [
         component: KelompokUrusan
     },
     {
+        name:'dmaster_urusan',
         path: '/dmaster/urusan',
         meta:{
             title: "URUSAN"
@@ -74,6 +78,7 @@ export const routes =  [
         component: Urusan
     },    
     {
+        name:'dmaster_organisasi',
         path: '/dmaster/organisasi',
         meta:{
             title: "OPD / SKPD"
@@ -81,6 +86,7 @@ export const routes =  [
         component: Organisasi
     }, 
     {
+        name:'dmaster_unitkerja',
         path: '/dmaster/unitkerja',
         meta:{
             title: "UNIT KERJA"
@@ -88,6 +94,7 @@ export const routes =  [
         component: UnitKerja
     }, 
     {
+        name:'dmaster_program',
         path: '/dmaster/program',
         meta:{
             title: "PROGRAM"
@@ -95,6 +102,7 @@ export const routes =  [
         component: Program
     }, 
     {
+        name:'dmaster_programkegiatan',
         path: '/dmaster/programkegiatan',
         meta:{
             title: "PROGRAM KEGIATAN"
@@ -102,6 +110,7 @@ export const routes =  [
         component: ProgramKegiatan
     }, 
     {
+        name:'dmaster_transaksi',
         path: '/dmaster/transaksi',
         meta:{
             title: "TRANSAKSI"
@@ -109,6 +118,7 @@ export const routes =  [
         component: Transaksi
     },    
     {
+        name:'dmaster_kelompok',
         path: '/dmaster/kelompok',
         meta:{
             title: "KELOMPOK"
@@ -116,6 +126,7 @@ export const routes =  [
         component: Kelompok
     }, 
     {
+        name:'dmaster_jenis',
         path: '/dmaster/jenis',
         meta:{
             title: "JENIS"
@@ -123,6 +134,7 @@ export const routes =  [
         component: Jenis
     }, 
     {
+        name:'dmaster_rincian',
         path: '/dmaster/rincian',
         meta:{
             title: "RINCIAN"
@@ -130,6 +142,7 @@ export const routes =  [
         component: Rincian
     }, 
     {
+        name:'dmaster_objek',
         path: '/dmaster/objek',
         meta:{
             title: "OBJEK"
@@ -137,6 +150,7 @@ export const routes =  [
         component: Objek
     }, 
     {
+        name:'dmaster_asn',
         path: '/dmaster/asn',
         meta:{
             title: "APARAT SIPIL NEGARA (ASN)"
@@ -144,6 +158,7 @@ export const routes =  [
         component: ASN
     }, 
     {
+        name:'dmaster_asnopd',
         path: '/dmaster/asnopd',
         meta:{
             title: "APARAT SIPIL NEGARA (ASN) OPD"
@@ -151,6 +166,7 @@ export const routes =  [
         component: ASNOPD
     }, 
     {
+        name:'dmaster_paguanggaranopd',
         path: '/dmaster/paguanggaranopd',
         meta:{
             title: "PAGU ANGGARAN OPD / SKPD"
@@ -158,6 +174,7 @@ export const routes =  [
         component: PaguAnggaranOPD
     },    
     {
+        name:'dmaster_jenispelaksanaan',
         path: '/dmaster/jenispelaksanaan',
         meta:{
             title: "JENIS PELAKSANAAN"

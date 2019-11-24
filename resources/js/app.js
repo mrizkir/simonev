@@ -67,11 +67,42 @@ const app = new Vue({
     el: '#app',
     store,
     router,
+    mounted()
+    {
+        this.changeMenuItem();
+    },
     methods: 
     {
         changeMenuItem()
         {
-            console.log('test');
+            var name = this.$router.currentRoute.name;
+            switch (name)
+            {
+                case 'dashboard':
+                    window.$('#liDMaster').removeClass('menu-open');
+                    window.$('#ulDMaster').css('display','none');                
+                    window.$('#linkDMaster').removeClass('active');
+                break;
+                //dmaster
+                case 'dmaster_kelompokurusan':
+                case 'dmaster_urusan':
+                case 'dmaster_organisasi':
+                case 'dmaster_unitkerja':
+                case 'dmaster_program':
+                case 'dmaster_programkegiatan':
+                case 'dmaster_transaksi':
+                case 'dmaster_kelompok':
+                case 'dmaster_jenis':
+                case 'dmaster_rincian':
+                case 'dmaster_objek':
+                case 'dmaster_asn':
+                case 'dmaster_asnopd':
+                case 'dmaster_paguanggaranopd':
+                case 'dmaster_jenispelaksanaan':
+                    window.$('#liDMaster').addClass('menu-open');
+                    window.$('#linkDMaster').addClass('active'); 
+                break;
+            }
         }
     }
 });

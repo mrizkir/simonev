@@ -137,10 +137,7 @@ import 'echarts/lib/component/tooltip';
 
 export default {        
     mounted ()
-    {        
-        window.$('#liDMaster').removeClass('menu-open');
-        window.$('#ulDMaster').css('display','none');                
-        window.$('#linkDMaster').removeClass('active');        
+    {         
         this.populateData();        
     },
     data: function()

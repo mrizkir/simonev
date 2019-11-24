@@ -265,8 +265,6 @@ import { required} from 'vuelidate/lib/validators';
 export default {
 	mounted()
 	{
-        window.$('#liDMaster').addClass('menu-open');
-        window.$('#linkDMaster').addClass('active');        
 		this.proc ('default');   
 	},
 	data: function() 
