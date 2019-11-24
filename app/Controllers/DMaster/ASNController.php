@@ -133,7 +133,7 @@ class ASNController extends Controller
         if ($validator->fails())
         {
             return response()->json([            
-                'message'=>"Data ini gagal disimpan karena NIP sudah tersedia pada tahun $ta."
+                'message'=>$validator->errors(),
             ],500);
         }
         else

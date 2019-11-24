@@ -15,6 +15,9 @@
 // const Rincian = () => import ('./pages/dmaster/Rincian.vue');
 // const Objek = () => import ('./pages/dmaster/Objek.vue');
 
+// const ASN = () => import ('./pages/dmaster/ASN.vue');
+// const ASNOPD = () => import ('./pages/dmaster/ASNOPD.vue');
+
 // const PaguAnggaranOPD = () => import ('./pages/dmaster/PaguAnggaranOPD.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
@@ -35,6 +38,7 @@ import Rincian from './pages/dmaster/Rincian.vue';
 import Objek from './pages/dmaster/Objek.vue';
 
 import ASN from './pages/dmaster/ASN.vue';
+import ASNOPD from './pages/dmaster/ASNOPD.vue';
 
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
@@ -134,9 +138,16 @@ export const routes =  [
     {
         path: '/dmaster/asn',
         meta:{
-            title: "APARAT SIPILI NEGARA (ASN)"
+            title: "APARAT SIPIL NEGARA (ASN)"
         },
         component: ASN
+    }, 
+    {
+        path: '/dmaster/asnopd',
+        meta:{
+            title: "APARAT SIPIL NEGARA (ASN) OPD"
+        },
+        component: ASNOPD
     }, 
     {
         path: '/dmaster/paguanggaranopd',

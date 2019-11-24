@@ -133,6 +133,12 @@
 									<p>ASN</p>
 							  	</router-link>
 							</li>								
+							<li class="nav-item">
+							  	<router-link to="/dmaster/asnopd" class="nav-link" @click.native="changeMenuItem">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>ASN OPD</p>
+							  	</router-link>
+							</li>								
 							<li class="nav-header">LAIN-LAIN</li>
 							<li class="nav-item">
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link" @click.native="changeMenuItem">
