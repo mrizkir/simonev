@@ -141,6 +141,10 @@
 							</li>								
 							<li class="nav-header">LAIN-LAIN</li>
 							<li class="nav-item">
+							  	<router-link to="/dmaster/jenispelaksanaan" class="nav-link" @click.native="changeMenuItem">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>JENIS PELAKSANAAN</p>
+							  	</router-link>
 							  	<router-link to="/dmaster/paguanggaranopd" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>PAGU DANA OPD</p>

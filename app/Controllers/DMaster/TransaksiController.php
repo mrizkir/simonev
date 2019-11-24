@@ -19,7 +19,6 @@ class TransaksiController extends Controller
     public function __construct()
     {
         parent::__construct();
-        $this->middleware(['auth']);
     }
     /**
      * collect data from resources for index view
@@ -110,24 +109,7 @@ class TransaksiController extends Controller
             ],200);
         }               
         
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function show($uuid)
-    {
-
-        $data = TransaksiModel::where('StrID', $uuid)->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.transaksi.show")->with([
-                'page_active' => 'transaksi',
-                'data' => $data,
-            ]);
-        }
-    }   
+    } 
     /**
      * Store a newly created resource in storage.
      *

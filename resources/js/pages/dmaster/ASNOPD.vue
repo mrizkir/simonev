@@ -39,7 +39,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Tambah ASN
+                                <i class="fas fa-plus"></i> Tambah ASN ke OPD
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
@@ -122,9 +122,6 @@
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',asnopd.detail)">
-                                    <i class="fas fa-edit"></i>
-                                </button>                                
                                 <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',asnopd.detail)">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>      
@@ -161,23 +158,23 @@
                                 <div class="col-md-6">
                                     <div class="form-horizontal">
                                         <div class="form-group row">
+                                            <label class="col-md-4 control-label"><strong>JENIS JABATAN: </strong></label>
+                                            <div class="col-md-8">
+                                                <p class="form-control-static">{{asnopd.detail.Jenis_Jabatan.toUpperCase()}}</p>
+                                            </div>                            
+                                        </div> 
+                                        <div class="form-group row">
                                             <label class="col-md-4 control-label"><strong>KETERANGAN: </strong></label>
                                             <div class="col-md-8">
                                                 <p class="form-control-static">{{asnopd.detail.Descr}}</p>
                                             </div>                            
                                         </div> 
                                         <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>DI BUAT: </strong></label>
+                                            <label class="col-md-4 control-label"><strong>DI BUAT / DI UBAH: </strong></label>
                                             <div class="col-md-8">
-                                                <p class="form-control-static">{{asnopd.detail.created_at|formatTanggal}}</p>
+                                                <p class="form-control-static">{{asnopd.detail.created_at|formatTanggal}} / {{asnopd.detail.updated_at|formatTanggal}}</p>
                                             </div>                            
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-md-4 control-label"><strong>DI UBAH: </strong></label>
-                                            <div class="col-md-8">
-                                                <p class="form-control-static">{{asnopd.detail.updated_at|formatTanggal}}</p>
-                                            </div>                            
-                                        </div>
+                                        </div>                                        
                                     </div>      
                                 </div>
                             </div>

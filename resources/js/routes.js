@@ -40,6 +40,7 @@ import Objek from './pages/dmaster/Objek.vue';
 import ASN from './pages/dmaster/ASN.vue';
 import ASNOPD from './pages/dmaster/ASNOPD.vue';
 
+import JenisPelaksanaan from './pages/dmaster/JenisPelaksanaan.vue';
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
 export const routes =  [
@@ -155,5 +156,12 @@ export const routes =  [
             title: "PAGU ANGGARAN OPD / SKPD"
         },
         component: PaguAnggaranOPD
+    },    
+    {
+        path: '/dmaster/jenispelaksanaan',
+        meta:{
+            title: "JENIS PELAKSANAAN"
+        },
+        component: JenisPelaksanaan
     },    
 ];

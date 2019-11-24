@@ -95,9 +95,15 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/master/asnopd/search', ['uses' => 'DMaster\ASNOPDController@search', 'as' => 'asnopd.search']);
     Route::post('/master/asnopd/filter', ['uses' => 'DMaster\ASNOPDController@filter', 'as' => 'asnopd.filter']);
 
-    //master - pagu anggaran opd
+    //master - pagu anggaran opd [lain-lain]
     Route::resource('master/paguanggaranopd','DMaster\PaguAnggaranOPDController',['parameters'=>['paguanggaranopd'=>'uuid']]);
     Route::post('/master/paguanggaranopd/search',['uses'=>'DMaster\PaguAnggaranOPDController@search','as'=>'paguanggaranopd.search']);  
     
+    //masters - jenis pelaksanaan [lain-lain]
+    Route::resource('/master/jenispelaksanaan', 'DMaster\JenisPelaksanaanController', [
+        'parameters' => ['jenispelaksanaan' => 'uuid'],
+    ]);
+    Route::post('/master/jenispelaksanaan/search', ['uses' => 'DMaster\JenisPelaksanaanController@search', 'as' => 'jenispelaksanaan.search']);
+
 
 });
