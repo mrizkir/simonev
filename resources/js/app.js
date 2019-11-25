@@ -79,6 +79,7 @@ const app = new Vue({
             switch (name)
             {
                 case 'dashboard':
+                case 'apbdmurni' :
                     window.$('#liDMaster').removeClass('menu-open');
                     window.$('#ulDMaster').css('display','none');                
                     window.$('#linkDMaster').removeClass('active');

@@ -142,7 +142,6 @@ class programController extends Controller
         }
         else
         {            
-            $search = $this->getControllerStateSession('program', 'search');        
             $data = $this->populateData($currentpage);
             if ($currentpage > $data->lastPage()) {
                 $data = $this->populateData($data->lastPage());

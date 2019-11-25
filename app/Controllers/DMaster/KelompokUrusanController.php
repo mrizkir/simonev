@@ -48,7 +48,6 @@ class KelompokUrusanController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('kelompokurusan', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompokurusan');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) 

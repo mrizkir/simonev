@@ -95,7 +95,6 @@ class SubOrganisasiController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('suborganisasi', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('suborganisasi');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
@@ -122,5 +121,16 @@ class SubOrganisasiController extends Controller
         $data = SubOrganisasiModel::find($id)
                                     ->firstOrFail();
         return response()->json($data,200);
+    }
+    /**
+     * digunakan untuk mendapatkan daftar unitkerja berdasarkan OrgID
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function getdaftarunitkerja ($id)
+    {
+        $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$id);        
+        return response()->json($daftar_unitkerja,200); 
     }
 }

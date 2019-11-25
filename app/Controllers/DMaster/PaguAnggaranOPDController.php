@@ -106,7 +106,6 @@ class PaguAnggaranOPDController extends Controller {
      */
     public function index(Request $request)
     {        
-        $search=$this->getControllerStateSession('paguanggaranopd','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('paguanggaranopd'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())

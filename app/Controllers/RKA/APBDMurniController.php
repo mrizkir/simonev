@@ -9,7 +9,7 @@ use App\Models\RKA\RKARincianKegiatanModel;
 use App\Models\RKA\RKARencanaTargetModel;
 use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
-class RKAKegiatanMurniController extends Controller 
+class APBDMurniController extends Controller 
 {
      /**
      * Membuat sebuah objek
@@ -189,12 +189,12 @@ class RKAKegiatanMurniController extends Controller
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('rkakegiatanmurni','orderby')) 
+        if (!$this->checkStateIsExistSession('apbdmurni','orderby')) 
         {            
-           $this->putControllerStateSession('rkakegiatanmurni','orderby',['column_name'=>'KgtNm','order'=>'asc']);
+           $this->putControllerStateSession('apbdmurni','orderby',['column_name'=>'KgtNm','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('rkakegiatanmurni.orderby','order'); 
+        $column_order=$this->getControllerStateSession('apbdmurni.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('apbdmurni.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -206,17 +206,17 @@ class RKAKegiatanMurniController extends Controller
         if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
         {            
             $this->putControllerStateSession($this->SessionName,'filters',[
-                                                                            'OrgID'=>'none',
-                                                                            'SOrgID'=>'none',
+                                                                            'OrgID'=>'',
+                                                                            'SOrgID'=>'',
                                                                             'changetab'=>'ringkasan-tab',
-                                                                            'RKARincID'=>'none',
-                                                                            ]);
+                                                                            'RKARincID'=>'',
+                                                                        ]);
         }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
 
-        if ($this->checkStateIsExistSession('rkakegiatanmurni','search')) 
+        if ($this->checkStateIsExistSession('apbdmurni','search')) 
         {
-            $search=$this->getControllerStateSession('rkakegiatanmurni','search');
+            $search=$this->getControllerStateSession('apbdmurni','search');
             switch ($search['kriteria']) 
             {
                 case 'KgtNm' :
@@ -227,101 +227,15 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
+            $data = \DB::table('v_rka')
                         ->where('SOrgID',$SOrgID)                                            
                         ->where('TA', \HelperKegiatan::getTahunAnggaran())  
-                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
+                        ->where('EntryLvl',1)
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
-        $data->setPath(route('rkakegiatanmurni.index'));
+        $data->setPath(route('apbdmurni.index'));
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage (Request $request) 
-    {
-        $theme = 'dore';
-
-        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
-        
-        $this->setCurrentPageInsideSession('rkakegiatanmurni',1);
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                                                'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
-                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                                                'data'=>$data])->render();      
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }
-    /**
-     * digunakan untuk mengurutkan record 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby (Request $request) 
-    {
-        $theme = 'dore';
-
-        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'KgtNm' :
-                $column_name = 'KgtNm';
-            break;           
-            default :
-                $column_name = 'KgtNm';
-        }
-        $this->putControllerStateSession('rkakegiatanmurni','orderby',['column_name'=>$column_name,'order'=>$orderby]);      
-
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rkakegiatanmurni');         
-        $data=$this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        
-        $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                                                'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
-                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                                                'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }
-    
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate ($id) 
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession('rkakegiatanmurni',$id);
-        $data=$this->populateData($id);
-        $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                                                'data'=>$data])->render(); 
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
-    }
+    } 
     /**
      * filter resource in storage.
      *
@@ -329,11 +243,8 @@ class RKAKegiatanMurniController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function filter(Request $request) 
-    {
-        $auth = \Auth::user();    
-        $theme = 'dore';
-
-        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+    {        
+        $filters=$this->getControllerStateSession('apbdmurni','filters');
         $daftar_unitkerja=[];
         $json_data = [];
 
@@ -345,13 +256,13 @@ class RKAKegiatanMurniController extends Controller
             $filters['SOrgID']='none';
             $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunAnggaran(),false,$OrgID);  
             
-            $this->putControllerStateSession('rkakegiatanmurni','filters',$filters);
+            $this->putControllerStateSession('apbdmurni','filters',$filters);
 
             $data = [];
 
-            $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',   
+            $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni',   
                                                                                     'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),    
-                                                                                    'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                    'search'=>$this->getControllerStateSession('apbdmurni','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -365,13 +276,13 @@ class RKAKegiatanMurniController extends Controller
         {
             $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
             $filters['SOrgID']=$SOrgID;
-            $this->putControllerStateSession('rkakegiatanmurni','filters',$filters);
-            $this->setCurrentPageInsideSession('rkakegiatanmurni',1);
+            $this->putControllerStateSession('apbdmurni','filters',$filters);
+            $this->setCurrentPageInsideSession('apbdmurni',1);
 
             $data = $this->populateData();            
-            $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',   
+            $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni',   
                                                                                     'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),                                                           
-                                                                                    'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                    'search'=>$this->getControllerStateSession('apbdmurni','search'),
                                                                                     'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
                                                                                     'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
                                                                                     'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
@@ -459,27 +370,27 @@ class RKAKegiatanMurniController extends Controller
     {
         $theme = 'dore';
 
-        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+        $filters=$this->getControllerStateSession('apbdmurni','filters');
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('rkakegiatanmurni','search');
+            $this->destroyControllerStateSession('apbdmurni','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('rkakegiatanmurni','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('apbdmurni','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('rkakegiatanmurni',1);
+        $this->setCurrentPageInsideSession('apbdmurni',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni', 
+        $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni', 
                                                                                 'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),                                                           
-                                                                                'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                                                                                'search'=>$this->getControllerStateSession('apbdmurni','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
                                                                                 'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -491,35 +402,39 @@ class RKAKegiatanMurniController extends Controller
      */
     public function index(Request $request)
     {                
-        $theme = 'dore';
-
-        $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
-        $search=$this->getControllerStateSession('rkakegiatanmurni','search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('rkakegiatanmurni'); 
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('apbdmurni'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
+            $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('rkakegiatanmurni',$data->currentPage());
-        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
-        $daftar_opd['']='';
-        $daftar_unitkerja=[];
-        if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-        {
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-            $daftar_unitkerja['']='';
-        }  
-        return view("pages.$theme.rka.rkakegiatanmurni.index")->with(['page_active'=>'rkakegiatanmurni',
-                                                                    'daftar_opd'=>$daftar_opd,
-                                                                    'daftar_unitkerja'=>$daftar_unitkerja,
-                                                                    'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
-                                                                    'filters'=>$filters,
-                                                                    'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
-                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                    'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                    'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
-                                                                    'data'=>$data]);               
+        $this->setCurrentPageInsideSession('apbdmurni',$currentpage);
+        // $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
+        // $daftar_opd['']='';
+        // $daftar_unitkerja=[];
+        // if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
+        // {
+        //     $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
+        //     $daftar_unitkerja['']='';
+        // }  
+        // return view("pages.$theme.rka.apbdmurni.index")->with(['page_active'=>'apbdmurni',
+        //                                                             'daftar_opd'=>$daftar_opd,
+        //                                                             'daftar_unitkerja'=>$daftar_unitkerja,
+        //                                                             'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
+        //                                                             'filters'=>$filters,
+        //                                                             'search'=>$this->getControllerStateSession('apbdmurni','search'),
+        //                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+        //                                                             'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
+        //                                                             'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
+        //                                                             'data'=>$data]);   
+        return response()->json(['page_active'=>'apbdmurni',
+                                'search'=>$this->getControllerStateSession('apbdmurni','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
+                                'filters'=>$this->getControllerStateSession('apbdmurni','filters'), 
+                                'daftar_apbdmurni'=>$data],200);            
     }
     /**
      * Show the form for creating a new resource.
@@ -546,7 +461,7 @@ class RKAKegiatanMurniController extends Controller
             $daftar_ppk=[];
             $daftar_pptk=[];
             
-            return view("pages.$theme.rka.rkakegiatanmurni.create")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.create")->with(['page_active'=>'apbdmurni',
                                                                             'daftar_program'=>$daftar_program,                                                                                                                                                       
                                                                             'daftar_rkpd'=>[],
                                                                             'daftar_pa'=>$daftar_pa,
@@ -557,7 +472,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
                                                                 ]);  
@@ -610,7 +525,7 @@ class RKAKegiatanMurniController extends Controller
                     $rkaid=$rinciankegiatan->RKAID;
                     $rka = $this->getDataRKA($rkaid);                                        
                 }
-                $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerealisasi")->with(['page_active'=>'rkakegiatanmurni',                                                                            
+                $datatable=view("pages.$theme.rka.apbdmurni.datatablerealisasi")->with(['page_active'=>'apbdmurni',                                                                            
                                                                                             'datarealisasi'=>$datarealisasi
                                                                                         ])->render();
                 $json_data['RKARincID']=$RKARincID;
@@ -711,7 +626,7 @@ class RKAKegiatanMurniController extends Controller
             }            
             $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunAnggaran(),false);            
             $daftar_transaksi['']='';            
-            return view("pages.$theme.rka.rkakegiatanmurni.create1")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.create1")->with(['page_active'=>'apbdmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
                                                                         'daftar_transaksi'=>$daftar_transaksi
@@ -719,7 +634,7 @@ class RKAKegiatanMurniController extends Controller
         }
         catch (\Exception $e)
         {            
-            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>$e->getMessage()
                                                                 ]);  
@@ -740,7 +655,7 @@ class RKAKegiatanMurniController extends Controller
         {   
             $data_rekening=\App\Models\DMaster\RekeningModel::find($filters['RObyID']);           
             $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());             
-            return view("pages.$theme.rka.rkakegiatanmurni.create2")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.create2")->with(['page_active'=>'apbdmurni',
                                                                         'filters'=>$filters,
                                                                         'daftar_jenispelaksanaan'=>$daftar_jenispelaksanaan,
                                                                         'data_rekening'=>$data_rekening,
@@ -750,7 +665,7 @@ class RKAKegiatanMurniController extends Controller
         }
         catch (\Exception $e)
         {            
-            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>$e->getMessage()
                                                                 ]);  
@@ -776,7 +691,7 @@ class RKAKegiatanMurniController extends Controller
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
-            return view("pages.$theme.rka.rkakegiatanmurni.create3")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.create3")->with(['page_active'=>'apbdmurni',
                                                                         'filters'=>$filters,
                                                                         'daftar_uraian'=>$daftar_uraian,
                                                                         'rka'=>$rka,
@@ -784,7 +699,7 @@ class RKAKegiatanMurniController extends Controller
         }
         catch (\Exception $e)
         {            
-            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>$e->getMessage()
                                                                 ]);  
@@ -824,7 +739,7 @@ class RKAKegiatanMurniController extends Controller
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
-            return view("pages.$theme.rka.rkakegiatanmurni.create4")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.create4")->with(['page_active'=>'apbdmurni',
                                                                         'filters'=>$filters,
                                                                         'daftar_uraian'=>$daftar_uraian,
                                                                         'rka'=>$rka,
@@ -832,7 +747,7 @@ class RKAKegiatanMurniController extends Controller
         }
         catch (\Exception $e)
         {            
-            return view("pages.$theme.rka.rkakegiatanmurni.error")->with(['page_active'=>$this->NameOfPage,
+            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
                                                                     'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
                                                                     'errormessage'=>$e->getMessage()
                                                                 ]);  
@@ -853,7 +768,7 @@ class RKAKegiatanMurniController extends Controller
             'PaguDana1'=>'required',
         ]);
         $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $rkakegiatanmurni = RKAKegiatanModel::create([
+        $apbdmurni = RKAKegiatanModel::create([
             'RKAID' => uniqid ('uid'),
             'OrgID' => $filters['OrgID'],
             'SOrgID' => $filters['SOrgID'],
@@ -881,7 +796,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$apbdmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -911,7 +826,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.create2',['uuid'=>$id]));
+            return redirect(route('apbdmurni.create2',['uuid'=>$id]));
         }
 
     }
@@ -961,7 +876,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -1009,7 +924,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -1063,7 +978,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
 
     }
@@ -1097,7 +1012,7 @@ class RKAKegiatanMurniController extends Controller
         $rka = $this->getDataRKA($id);
         if (!is_null($rka) )  
         {
-            $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+            $filters=$this->getControllerStateSession('apbdmurni','filters');
             $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
             $datauraian=$this->populateDataUraian($id);
             $daftar_uraian=[''=>''];
@@ -1108,7 +1023,7 @@ class RKAKegiatanMurniController extends Controller
             $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
             $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($id);
             $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($id);
-            return view("pages.$theme.rka.rkakegiatanmurni.show")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.show")->with(['page_active'=>'apbdmurni',
                                                                         'filters'=>$filters,
                                                                         'rka'=>$rka,
                                                                         'sumber_dana'=>$sumber_dana,
@@ -1134,7 +1049,7 @@ class RKAKegiatanMurniController extends Controller
         $data = RKAKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.rka.rkakegiatanmurni.edit")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.edit")->with(['page_active'=>'apbdmurni',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -1155,7 +1070,7 @@ class RKAKegiatanMurniController extends Controller
         if (!is_null($data) ) 
         {            
             $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());
-            return view("pages.$theme.rka.rkakegiatanmurni.edit2")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.edit2")->with(['page_active'=>'apbdmurni',
                                                                         'rka'=>$this->getDataRKA($data->RKAID),
                                                                         'daftar_jenispelaksanaan'=>$daftar_jenispelaksanaan,
                                                                         'data'=>$data
@@ -1236,7 +1151,7 @@ class RKAKegiatanMurniController extends Controller
                 $data_rencana['anggaran_12']=$rencana[0]->anggaran_12;
 
             }
-            return view("pages.$theme.rka.rkakegiatanmurni.edit4")->with(['page_active'=>'rkakegiatanmurni',
+            return view("pages.$theme.rka.apbdmurni.edit4")->with(['page_active'=>'apbdmurni',
                                                                         'rka'=>$rka = $this->getDataRKA($data->RKAID),
                                                                         'data'=>$data,
                                                                         'data_rencana'=>$data_rencana,
@@ -1253,7 +1168,7 @@ class RKAKegiatanMurniController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $rkakegiatanmurni = RKAKegiatanModel::find($id);
+        $apbdmurni = RKAKegiatanModel::find($id);
         
         $this->validate($request, [
             'lokasi_kegiatan'=>'required',
@@ -1270,20 +1185,20 @@ class RKAKegiatanMurniController extends Controller
             'waktu_pelaksanaan'=>'required'
         ]);
         
-        $rkakegiatanmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
-        $rkakegiatanmurni->SumberDanaID=$request->input('SumberDanaID');
-        $rkakegiatanmurni->capaian_program1=$request->input('capaian_program');
-        $rkakegiatanmurni->tk_capaian1=$request->input('tk_capaian');
-        $rkakegiatanmurni->masukan1=$request->input('masukan');
-        $rkakegiatanmurni->keluaran1=$request->input('keluaran');
-        $rkakegiatanmurni->tk_keluaran1=$request->input('tk_keluaran');
-        $rkakegiatanmurni->hasil1=$request->input('hasil');
-        $rkakegiatanmurni->tk_hasil1=$request->input('tk_hasil');
-        $rkakegiatanmurni->ksk1=$request->input('ksk');
-        $rkakegiatanmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
-        $rkakegiatanmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
-        $rkakegiatanmurni->Descr=$request->input('Descr');
-        $rkakegiatanmurni->save();
+        $apbdmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
+        $apbdmurni->SumberDanaID=$request->input('SumberDanaID');
+        $apbdmurni->capaian_program1=$request->input('capaian_program');
+        $apbdmurni->tk_capaian1=$request->input('tk_capaian');
+        $apbdmurni->masukan1=$request->input('masukan');
+        $apbdmurni->keluaran1=$request->input('keluaran');
+        $apbdmurni->tk_keluaran1=$request->input('tk_keluaran');
+        $apbdmurni->hasil1=$request->input('hasil');
+        $apbdmurni->tk_hasil1=$request->input('tk_hasil');
+        $apbdmurni->ksk1=$request->input('ksk');
+        $apbdmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
+        $apbdmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
+        $apbdmurni->Descr=$request->input('Descr');
+        $apbdmurni->save();
 
         if ($request->ajax()) 
         {
@@ -1294,7 +1209,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rkakegiatanmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$apbdmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -1339,7 +1254,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
 
@@ -1397,7 +1312,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
+            return redirect(route('apbdmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
         }
     }
     /**
@@ -1416,20 +1331,20 @@ class RKAKegiatanMurniController extends Controller
             switch ($pid)
             {
                 case 'datakegiatan' :
-                    $rkakegiatanmurni = RKAKegiatanModel::find($id);
-                    $result=$rkakegiatanmurni->delete();
+                    $apbdmurni = RKAKegiatanModel::find($id);
+                    $result=$apbdmurni->delete();
 
-                    $currentpage=$this->getCurrentPageInsideSession('rkakegiatanmurni'); 
+                    $currentpage=$this->getCurrentPageInsideSession('apbdmurni'); 
                     $data=$this->populateData($currentpage);
                     if ($currentpage > $data->lastPage())
                     {            
                         $data = $this->populateData($data->lastPage());
                     }
-                    $datatable = view("pages.$theme.rka.rkakegiatanmurni.datatable")->with(['page_active'=>'rkakegiatanmurni',
-                                                                                            'search'=>$this->getControllerStateSession('rkakegiatanmurni','search'),
+                    $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni',
+                                                                                            'search'=>$this->getControllerStateSession('apbdmurni','search'),
                                                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                                            'column_order'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','column_name'),
-                                                                                            'direction'=>$this->getControllerStateSession('rkakegiatanmurni.orderby','order'),
+                                                                                            'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
+                                                                                            'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
                                                                                             'data'=>$data])->render();    
                 break;
                 case 'datauraian' :
@@ -1439,10 +1354,10 @@ class RKAKegiatanMurniController extends Controller
 
                     $rka = $this->getDataRKA($rkaid);                    
                     
-                    $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+                    $filters=$this->getControllerStateSession('apbdmurni','filters');
                     $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
                     $datauraian=$this->populateDataUraian($rkaid);
-                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatableuraian")->with([
+                    $datatable=view("pages.$theme.rka.apbdmurni.datatableuraian")->with([
                                                                                                 'datauraian'=>$datauraian,
                                                                                                 'rka'=>$rka
                                                                                             ])->render();
@@ -1454,7 +1369,7 @@ class RKAKegiatanMurniController extends Controller
                     \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
 
                     $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($rkaid);
-                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerencanatargetfisik")->with([
+                    $datatable=view("pages.$theme.rka.apbdmurni.datatablerencanatargetfisik")->with([
                                                                                                 'datarencanatargetfisik'=>$datarencanatargetfisik,
                                                                                             ])->render();
                         
@@ -1465,7 +1380,7 @@ class RKAKegiatanMurniController extends Controller
                     \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
 
                     $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($rkaid);
-                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerencanaanggarankas")->with([
+                    $datatable=view("pages.$theme.rka.apbdmurni.datatablerencanaanggarankas")->with([
                                                                                                 'datarencanaanggarankas'=>$datarencanaanggarankas,
                                                                                             ])->render();
                         
@@ -1475,9 +1390,9 @@ class RKAKegiatanMurniController extends Controller
                     $RKARincID=$realisasirinciankegiatan->RKARincID;
                     $result=$realisasirinciankegiatan->delete();
                     
-                    $filters=$this->getControllerStateSession('rkakegiatanmurni','filters');
+                    $filters=$this->getControllerStateSession('apbdmurni','filters');
                     $datarealisasi=$this->populateDataRealisasi($RKARincID);
-                    $datatable=view("pages.$theme.rka.rkakegiatanmurni.datatablerealisasi")->with([
+                    $datatable=view("pages.$theme.rka.apbdmurni.datatablerealisasi")->with([
                                                                                                 'datarealisasi'=>$datarealisasi,
                                                                                             ])->render();
                         
@@ -1489,7 +1404,7 @@ class RKAKegiatanMurniController extends Controller
         }
         else
         {
-            return redirect(route('rkakegiatanmurni.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('apbdmurni.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }

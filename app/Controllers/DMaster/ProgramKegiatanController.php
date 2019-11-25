@@ -159,7 +159,6 @@ class ProgramKegiatanController extends Controller {
      */
     public function index(Request $request)
     {                
-        $search=$this->getControllerStateSession('programkegiatan','search');
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('programkegiatan'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())

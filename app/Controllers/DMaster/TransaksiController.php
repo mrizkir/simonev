@@ -53,7 +53,6 @@ class TransaksiController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('transaksi', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('transaksi');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {

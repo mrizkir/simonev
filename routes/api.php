@@ -20,7 +20,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
         'only' => ['index', 'show']
     ]);
     Route::post('/master/organisasi/search',['uses'=>'DMaster\OrganisasiController@search','as'=>'organisasi.search']);  
-    Route::get('master/organisasi/daftaropd',['uses'=>'DMaster\OrganisasiController@getdaftaropd','as'=>'organisasi.daftaropd']);
+    Route::get('/master/organisasi/daftaropd',['uses'=>'DMaster\OrganisasiController@getdaftaropd','as'=>'organisasi.daftaropd']);
     
     //master - suborganisasi
     Route::resource('/master/suborganisasi', 'DMaster\SubOrganisasiController', [
@@ -28,7 +28,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
         'only' => ['index', 'show']
     ]);
     Route::post('/master/suborganisasi/search',['uses'=>'DMaster\SubOrganisasiController@search','as'=>'suborganisasi.search']);  
-    Route::get('master/suborganisasi/daftarunitkerja',['uses'=>'DMaster\SubOrganisasiController@getdaftarunitkerja','as'=>'suborganisasi.daftarunitkerja']);
+    Route::get('/master/suborganisasi/daftarunitkerja/{uuid}',['uses'=>'DMaster\SubOrganisasiController@getdaftarunitkerja','as'=>'suborganisasi.daftarunitkerja']);
     
     //masters - program 
     Route::resource('/master/program', 'DMaster\ProgramController', [
@@ -104,6 +104,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
         'parameters' => ['jenispelaksanaan' => 'uuid'],
     ]);
     Route::post('/master/jenispelaksanaan/search', ['uses' => 'DMaster\JenisPelaksanaanController@search', 'as' => 'jenispelaksanaan.search']);
-
-
+    
+    //RKA - APBD Murni
+    Route::resource('/apbdmurni','RKA\APBDMurniController',['parameters'=>['apbdmurni'=>'uuid']]);
 });

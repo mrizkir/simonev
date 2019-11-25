@@ -101,7 +101,6 @@ class OrganisasiController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('organisasi', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('organisasi');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {

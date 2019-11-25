@@ -51,14 +51,6 @@
 							</p>
 						</router-link>						
 					</li>
-					<li class="nav-item">
-						<router-link to="/formvalidation" class="nav-link" @click.native="changeMenuItem">
-							<i class="nav-icon fas fa-tachometer-alt"></i>
-							<p>
-								TEST
-							</p>
-						</router-link>						
-					</li>
 					<li class="nav-item has-treeview" id="liDMaster">
 						<a href="#" class="nav-link" id="linkDMaster">
 						  	<i class="nav-icon fas fa-tree"></i>
@@ -151,7 +143,15 @@
 							  	</router-link>
 							</li>							
 						</ul>
-					</li>					
+					</li>
+					<li class="nav-item">
+						<router-link to="/apbdmurni" class="nav-link" @click.native="changeMenuItem">
+							<i class="nav-icon fas fa-cart-arrow-down"></i>
+							<p>
+								APBD MURNI
+							</p>
+						</router-link>						
+					</li>
 				</ul>
 			</nav>
 		</div>

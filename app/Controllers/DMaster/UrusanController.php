@@ -107,7 +107,6 @@ class urusanController extends Controller
         }
         else
         {
-            $search = $this->getControllerStateSession('urusan', 'search');
             $data = $this->populateData($currentpage);
             if ($currentpage > $data->lastPage()) {
                 $data = $this->populateData($data->lastPage());

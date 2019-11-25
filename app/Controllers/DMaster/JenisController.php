@@ -72,8 +72,6 @@ class JenisController extends Controller
      */
     public function index(Request $request)
     {
-
-        $search = $this->getControllerStateSession('jenis', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('jenis');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {

@@ -155,7 +155,6 @@ class ObjekController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('objek', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('objek');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {

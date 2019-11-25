@@ -117,7 +117,6 @@ class ASNOPDController extends Controller
      */
     public function index(Request $request)
     {
-        $search = $this->getControllerStateSession('asnopd', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('asnopd');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) 
