@@ -46,5 +46,8 @@
     </div>
 </div>
 <script src="{{ asset('js/app.js') }}" defer></script>
+<script>
+window.localStorage.removeItem('vuex');
+</script>
 </body>
 </html>

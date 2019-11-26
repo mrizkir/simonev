@@ -228,12 +228,22 @@ class APBDMurniController extends Controller
         else
         {
             $data = \DB::table('v_rka')
+                        ->select(\DB::raw('"RKAID",kode_kegiatan,"KgtNm","PaguDana1",0 AS "TotalPaguUraian1",0 AS "TotalRealisasi1",0 AS "TotalFisik1"'))
                         ->where('SOrgID',$SOrgID)                                            
                         ->where('TA', \HelperKegiatan::getTahunAnggaran())  
                         ->where('EntryLvl',1)
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
         $data->setPath(route('apbdmurni.index'));
+        $data->transform(function ($item,$key){
+            $item->TotalPaguUraian1=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian1');
+            $item->TotalRealisasi1=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('realisasi1');
+
+            $jumlah_uraian=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->count('RKARincID');
+            $total_fisik=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('fisik1');
+            $item->TotalFisik1=\Helper::formatPecahan($total_fisik,$jumlah_uraian);
+            return $item;
+        });
         return $data;
     } 
     /**
@@ -401,7 +411,15 @@ class APBDMurniController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
+    {             
+        $OrgID=$request->header('OrgID');   
+        $SOrgID=$request->header('SOrgID');   
+
+        $filters=$this->getControllerStateSession('apbdmurni','filters');
+        $filters['OrgID']=$OrgID;
+        $filters['SOrgID']=$SOrgID;
+        $this->putControllerStateSession('apbdmurni','filters',$filters);
+
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('apbdmurni'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
@@ -409,25 +427,8 @@ class APBDMurniController extends Controller
             $data = $this->populateData($data->lastPage());
             $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('apbdmurni',$currentpage);
-        // $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
-        // $daftar_opd['']='';
-        // $daftar_unitkerja=[];
-        // if ($filters['OrgID'] != 'none'&&$filters['OrgID'] != ''&&$filters['OrgID'] != null)
-        // {
-        //     $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunPerencanaan(),false,$filters['OrgID']);        
-        //     $daftar_unitkerja['']='';
-        // }  
-        // return view("pages.$theme.rka.apbdmurni.index")->with(['page_active'=>'apbdmurni',
-        //                                                             'daftar_opd'=>$daftar_opd,
-        //                                                             'daftar_unitkerja'=>$daftar_unitkerja,
-        //                                                             'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),
-        //                                                             'filters'=>$filters,
-        //                                                             'search'=>$this->getControllerStateSession('apbdmurni','search'),
-        //                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-        //                                                             'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
-        //                                                             'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
-        //                                                             'data'=>$data]);   
+        $this->setCurrentPageInsideSession('apbdmurni',$currentpage); 
+         
         return response()->json(['page_active'=>'apbdmurni',
                                 'search'=>$this->getControllerStateSession('apbdmurni','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
@@ -1323,7 +1324,6 @@ class APBDMurniController extends Controller
      */
     public function destroy(Request $request,$id)
     {
-        $theme = 'dore';       
         
         if ($request->ajax()) 
         {
@@ -1333,19 +1333,7 @@ class APBDMurniController extends Controller
                 case 'datakegiatan' :
                     $apbdmurni = RKAKegiatanModel::find($id);
                     $result=$apbdmurni->delete();
-
-                    $currentpage=$this->getCurrentPageInsideSession('apbdmurni'); 
-                    $data=$this->populateData($currentpage);
-                    if ($currentpage > $data->lastPage())
-                    {            
-                        $data = $this->populateData($data->lastPage());
-                    }
-                    $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni',
-                                                                                            'search'=>$this->getControllerStateSession('apbdmurni','search'),
-                                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                                            'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
-                                                                                            'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
-                                                                                            'data'=>$data])->render();    
+                    return response()->json(['message'=>"data kegiatan dengan ID ($id) Berhasil di Hapus"],200);                    
                 break;
                 case 'datauraian' :
                     $rinciankegiatan = RKARincianKegiatanModel::find($id);

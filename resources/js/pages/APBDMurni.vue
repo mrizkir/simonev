@@ -55,6 +55,22 @@
                                             </select2>
                                         </div>
                                     </div>                               
+                                    <div class="form-group row" id="divSOrgID">
+                                        <label class="col-sm-2 col-form-label">UNIT KERJA</label>
+                                        <div class="col-sm-10">                                        
+                                            <select2 
+                                                id="SOrgID" 
+                                                name="SOrgID" 
+                                                v-model="SOrgID" 
+                                                :options="daftar_unitkerja" 
+                                                :settings="{
+                                                    theme:'bootstrap',
+                                                    placeholder:'PILIH UNIT KERJA'
+                                                }" 
+                                                v-on:select="filter($event)">
+                                            </select2>
+                                        </div>
+                                    </div>                               
                                 </div>
                             </form>
                         </div>
@@ -96,11 +112,14 @@
                                         </tr>
                                     </thead>
                                     <tbody>  
-                                        <tr v-for="(item,index) in daftar_apbdmurni.data" v-bind:key="item.JenisPelaksanaanID">
+                                        <tr v-for="(item,index) in daftar_apbdmurni.data" v-bind:key="item.RKAID">
                                             <td>{{daftar_apbdmurni.from+index}}</td>
-                                            <td>{{item.NamaJenis}}</td>    
-                                            <td>{{item.Descr}}</td>
-                                            <td>{{item.TA}}</td>
+                                            <td>{{item.kode_kegiatan}}</td>    
+                                            <td>{{item.KgtNm}}</td>
+                                            <td>{{item.PaguDana1|formatUang}}</td>
+                                            <td>{{item.TotalPaguUraian1|formatUang}}</td>
+                                            <td>{{item.TotalRealisasi1|formatUang}}</td>
+                                            <td>{{item.TotalFisik1}}</td>                                            
                                             <td>
                                                 <div class="dropdown">
                                                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -151,6 +170,14 @@ import Select2 from 'v-select2-component';
 export default {
     mounted()
 	{
+        //inisialisasi data halaman
+        this.$store.commit('addToPages',{
+                name:'apbdmurni',
+                OrgID:'',
+                OrgNm:'',
+                SOrgID:'',
+                SOrgNm:''
+        });
 		this.proc ('default');   
 	},
 	data: function() 
@@ -162,7 +189,6 @@ export default {
             apbdmurni:{
                 kriteria:'',
                 isikriteria:'',
-                detail:null
             },
             daftar_apbdmurni:{
                 data:{}
@@ -194,7 +220,7 @@ export default {
                         text:value
                     });
                 });                
-                this.daftar_opd=daftar_opd;                 
+                this.daftar_opd=daftar_opd;   
             })
             .catch(response => {
                 this.api_message = response;
@@ -204,6 +230,14 @@ export default {
         {
             this.OrgID = id;
             this.OrgNm = text;
+
+            var page = this.$store.getters.getPage('apbdmurni');
+            page.OrgID=id;
+            page.OrgNm=text;
+            page.SOrgID='';
+            page.SOrgNm='';
+            this.$store.commit('replacePage',page);
+
             axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+id,{
                 headers:{
                     'Authorization': window.laravel.api_token,
@@ -217,17 +251,31 @@ export default {
                         text:value
                     });
                 });                
-                this.daftar_unitkerja=daftar_unitkerja;                 
+                this.daftar_unitkerja=daftar_unitkerja;                            
             })
             .catch(response => {
                 this.api_message = response;
             });
+            this.populateData();
+        },
+        filter ({id, text})
+        {
+            this.SOrgID = id;
+            this.SOrgNm = text;            
+            var page = this.$store.getters.getPage('apbdmurni');
+            page.SOrgID=id;
+            page.SOrgNm=text;
+            this.$store.commit('replacePage',page);
+
+            this.populateData();
         },
         populateData(page=1)
         {           
             axios.get('/api/v1/apbdmurni?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
+                    'OrgID':this.OrgID,
+                    'SOrgID':this.SOrgID,
                 }
             })
             .then(response => {        
@@ -243,9 +291,66 @@ export default {
             // this.$v.$reset();
             switch (pid)
             {
+                case 'destroy':
+                    var self = this;
+                    this.$swal({
+                        title: 'Yakin mau menghapus?',
+                        text: "Anda tidak bisa mengembalikan data ini",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus ini!',
+                        cancelButtonText: 'Tidak, Batalkan!',
+                        buttonsStyling: true
+                    }).then(function (isConfirm){
+                        if(isConfirm.value === true) 
+                        {
+                            axios.post('/api/v1/apbdmurni/'+item.RKAID,{
+                                '_method':'DELETE',
+                                'pid':'datakegiatan'
+                            },{
+                                headers:{
+                                    'Authorization': window.laravel.api_token,
+                                },
+                            })
+                            .then(response => {                                                          
+                                self.proc('default');                                                                    
+                            })
+                            .catch(response => {
+                                self.api_message = response;                               
+                            });                                  
+                        }
+                    });                                      
+                break;
                 default :
                     this.pid = pid;
-                    this.fetchOPD();
+                    this.fetchOPD();           
+                    this.OrgID=this.$store.getters.getAtributeValueOfPage('apbdmurni','OrgID');      
+                    this.OrgNm=this.$store.getters.getAtributeValueOfPage('apbdmurni','OrgNm');      
+                    if (this.OrgID!='')
+                    {                                
+                        axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID,{
+                            headers:{
+                                'Authorization': window.laravel.api_token,
+                            }
+                        })
+                        .then(response => {     
+                            var daftar_unitkerja = [];
+                            $.each(response.data,function(key,value){
+                                daftar_unitkerja.push({
+                                    id:key,
+                                    text:value
+                                });
+                            });                
+                            this.daftar_unitkerja=daftar_unitkerja;                            
+                        })
+                        .catch(response => {
+                            this.api_message = response;
+                        });                
+                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('apbdmurni','SOrgID');      
+                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('apbdmurni','SOrgNm');    
+                    }               
                     this.populateData();                    
             }
         }    
