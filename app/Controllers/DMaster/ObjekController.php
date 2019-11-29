@@ -190,7 +190,7 @@ class ObjekController extends Controller
     {
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_5' => [
-                new CheckRecordIsExistValidation('tmROby', ['where' => ['ObyID', '=', $request->input('ObyID')]]),
+                new CheckRecordIsExistValidation('tmROby', [['where','ObyID', '=', $request->input('ObyID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
@@ -232,7 +232,7 @@ class ObjekController extends Controller
 
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_5' => [
-                new IgnoreIfDataIsEqualValidation('tmOby', $objek->Kd_Rek_5, ['where' => ['ObyID', '=', $request->input('ObyID')]]),
+                new IgnoreIfDataIsEqualValidation('tmOby', $objek->Kd_Rek_5, [['where','ObyID', '=', $request->input('ObyID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'

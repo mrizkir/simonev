@@ -145,7 +145,7 @@
 						</ul>
 					</li>
 					<li class="nav-item">
-						<router-link to="/apbdmurni" class="nav-link" @click.native="changeMenuItem">
+						<router-link to="/apbdmurni" class="nav-link" @click.native="changeMenuItem" id="linkAPBDMurni">
 							<i class="nav-icon fas fa-cart-arrow-down"></i>
 							<p>
 								APBD MURNI

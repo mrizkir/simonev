@@ -124,7 +124,7 @@ class ASNController extends Controller
     {        
         $ta = \HelperKegiatan::getTahunAnggaran();
         $validator=\Validator::make($request->all(), [
-            'NIP_ASN'=> [new CheckRecordIsExistValidation('tmASN',['where'=>['TA','=',$ta]]),
+            'NIP_ASN'=> [new CheckRecordIsExistValidation('tmASN',[['where','TA','=',$ta]]),
                         'required',
                         'regex:/^[0-9]+$/'],
             'Nm_ASN'=>'required',

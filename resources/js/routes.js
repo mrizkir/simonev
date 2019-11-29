@@ -47,6 +47,7 @@ import JenisPelaksanaan from './pages/dmaster/JenisPelaksanaan.vue';
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
 import APBDMurni from './pages/APBDMurni.vue';
+import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
 
 export const routes =  [
     {
@@ -193,5 +194,13 @@ export const routes =  [
             title: "APBD MURNI"
         },
         component: APBDMurni
+    },    
+    {
+        name:'apbdmurnicreate',
+        path: '/apbdmurni/create',
+        meta:{
+            title: "APBD MURNI | KEGIATAN BARU"
+        },
+        component: APBDMurniCreate
     },    
 ];

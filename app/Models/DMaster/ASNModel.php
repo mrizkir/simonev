@@ -60,12 +60,28 @@ class ASNModel extends Model {
 
     public static function getASN ($ta,$prepend=true) 
     {
-        $r=ASNModel::where('TA',$ta)->orderBy('Kd_ASN')->get();
-        $kelompok_urusan=($prepend==true)?['none'=>'DAFTAR ASN']:[];        
+        $r=ASNModel::where('TA',$ta)->orderBy('NIP_ASN')->get();
+        $daftar_asn=($prepend==true)?['none'=>'DAFTAR ASN']:[];        
         foreach ($r as $k=>$v)
         {
-            $kelompok_urusan[$v->ASNID]=$v->Kd_ASN.'. '.$v->Nm_ASN;
+            $daftar_asn[$v->ASNID]=$v->NIP_ASN.'. '.$v->Nm_ASN;
         } 
-        return $kelompok_urusan;
+        return $daftar_asn;
+    }
+
+    public static function getDaftarASNByOPD ($jenis_jabatan,$OrgID,$prepend=true) 
+    {
+        $r=RiwayatJabatanASNModel::join('tmASN','tmASN.ASNID','trRiwayatJabatanASN.ASNID')
+                                    ->select(\DB::raw('"tmASN"."ASNID","tmASN"."NIP_ASN","tmASN"."Nm_ASN"'))
+                                    ->where('trRiwayatJabatanASN.OrgID',$OrgID)
+                                    ->where('trRiwayatJabatanASN.Jenis_Jabatan',$jenis_jabatan)
+                                    ->orderBy('NIP_ASN')
+                                    ->get();
+        $daftar_asn=($prepend==true)?['none'=>'DAFTAR ASN']:[];          
+        foreach ($r as $k=>$v)
+        {
+            $daftar_asn[$v->ASNID]='['.$v->NIP_ASN.'] '.$v->Nm_ASN;
+        } 
+        return $daftar_asn;
     }
 }

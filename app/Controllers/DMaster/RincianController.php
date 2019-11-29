@@ -187,7 +187,7 @@ class RincianController extends Controller
     {
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_4' => [
-                new CheckRecordIsExistValidation('tmOby', ['where' => ['JnsID', '=', $request->input('JnsID')]]),
+                new CheckRecordIsExistValidation('tmOby', [['where','JnsID', '=', $request->input('JnsID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
@@ -229,7 +229,7 @@ class RincianController extends Controller
 
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_4' => [
-                new IgnoreIfDataIsEqualValidation('tmOby', $rincian->Kd_Rek_4, ['where' => ['JnsID', '=', $request->input('JnsID')]]),
+                new IgnoreIfDataIsEqualValidation('tmOby', $rincian->Kd_Rek_4, [['where','JnsID', '=', $request->input('JnsID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'

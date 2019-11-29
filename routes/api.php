@@ -107,4 +107,6 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     
     //RKA - APBD Murni
     Route::resource('/apbdmurni','RKA\APBDMurniController',['parameters'=>['apbdmurni'=>'uuid']]);
+    Route::post('/apbdmurni/filter',['uses'=>'RKA\APBDMurniController@filter','as'=>'apbdmurni.filter']);  
+
 });

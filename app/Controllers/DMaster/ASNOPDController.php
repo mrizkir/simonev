@@ -42,7 +42,7 @@ class ASNOPDController extends Controller
         if (!$this->checkStateIsExistSession('asnopd','filters')) 
         {            
             $this->putControllerStateSession('asnopd','filters',[
-                                                                'OrgID'=>'none',
+                                                                'OrgID'=>'',
                                                             ]);
         }        
         $OrgID= $this->getControllerStateSession('asnopd.filters','OrgID');
@@ -173,8 +173,8 @@ class ASNOPDController extends Controller
         $OrgID=$request->input('OrgID');
         $Jenis_Jabatan=$request->input('Jenis_Jabatan');
         $validator=\Validator::make($request->all(), [  
-            'ASNID'=> [new CheckRecordIsExistValidation('trRiwayatJabatanASN',['where'=>['OrgID','=',$OrgID],
-                                                                                'where'=>['Jenis_Jabatan','=',$Jenis_Jabatan]]),
+            'ASNID'=> [new CheckRecordIsExistValidation('trRiwayatJabatanASN',[['where','OrgID','=',$OrgID],
+                                                                                ['where','Jenis_Jabatan','=',$Jenis_Jabatan]]),
                         'required'],
             'Jenis_Jabatan'=>'required',
         ]);

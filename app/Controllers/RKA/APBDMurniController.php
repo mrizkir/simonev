@@ -255,52 +255,8 @@ class APBDMurniController extends Controller
     public function filter(Request $request) 
     {        
         $filters=$this->getControllerStateSession('apbdmurni','filters');
-        $daftar_unitkerja=[];
         $json_data = [];
-
-        //index
-        if ($request->exists('OrgID'))
-        {
-            $OrgID = $request->input('OrgID')==''?'none':$request->input('OrgID');
-            $filters['OrgID']=$OrgID;
-            $filters['SOrgID']='none';
-            $daftar_unitkerja=\App\Models\DMaster\SubOrganisasiModel::getDaftarUnitKerja(\HelperKegiatan::getTahunAnggaran(),false,$OrgID);  
-            
-            $this->putControllerStateSession('apbdmurni','filters',$filters);
-
-            $data = [];
-
-            $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni',   
-                                                                                    'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),    
-                                                                                    'search'=>$this->getControllerStateSession('apbdmurni','search'),
-                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                                    'data'=>$data])->render();
-
-          
-            $json_data = ['success'=>true,'daftar_unitkerja'=>$daftar_unitkerja,'datatable'=>$datatable];
-        } 
-        //index
-        if ($request->exists('SOrgID'))
-        {
-            $SOrgID = $request->input('SOrgID')==''?'none':$request->input('SOrgID');
-            $filters['SOrgID']=$SOrgID;
-            $this->putControllerStateSession('apbdmurni','filters',$filters);
-            $this->setCurrentPageInsideSession('apbdmurni',1);
-
-            $data = $this->populateData();            
-            $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni',   
-                                                                                    'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),                                                           
-                                                                                    'search'=>$this->getControllerStateSession('apbdmurni','search'),
-                                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                                    'data'=>$data])->render();                                                                                       
-            
-            $json_data = ['success'=>true,'datatable'=>$datatable];            
-        } 
-
+        
         //select prgid create 0
         if ($request->exists('PrgID') && $request->exists('create'))
         {
@@ -340,8 +296,6 @@ class APBDMurniController extends Controller
                 $daftar_kegiatan[$v->KgtID]='['.$v->kode_kegiatan.']. '.$v->KgtNm;
             }            
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
-            $json_data['success']=true;
-            $json_data['PrgID']=$PrgID;
         } 
         //select RKPDID create 0
         if ($request->exists('RKPDID') && $request->exists('create'))
@@ -365,8 +319,6 @@ class APBDMurniController extends Controller
             }   
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
             $json_data['NilaiUsulan2']=isset($r[0])?$r[0]->NilaiUsulan2:0;
-            $json_data['success']=true;
-            $json_data['RKPDID']=$RKPDID;
         }
         return response()->json($json_data,200);  
     }
@@ -378,8 +330,6 @@ class APBDMurniController extends Controller
      */
     public function search (Request $request) 
     {
-        $theme = 'dore';
-
         $filters=$this->getControllerStateSession('apbdmurni','filters');
         $action = $request->input('action');
         if ($action == 'reset') 
@@ -444,7 +394,6 @@ class APBDMurniController extends Controller
      */
     public function create()
     {        
-        $theme = 'dore';
         $filters=$this->getControllerStateSession($this->SessionName,'filters');         
         $locked=false;
         if ($filters['SOrgID'] != 'none'&&$filters['SOrgID'] != ''&&$filters['SOrgID'] != null && $locked==false)
@@ -456,27 +405,24 @@ class APBDMurniController extends Controller
                                                                 ->join('v_suborganisasi','tmSOrg.OrgID','v_suborganisasi.OrgID')
                                                                 ->find($SOrgID);  
 
-            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD);            
-            $daftar_pa=[];
-            $daftar_kpa=[];
-            $daftar_ppk=[];
-            $daftar_pptk=[];
+            $daftar_program = \App\Models\DMaster\ProgramModel::getDaftarProgramByOPD($organisasi->OrgIDRPJMD,false);            
+            $daftar_pa=\App\Models\DMaster\ASNModel::getDaftarASNByOPD('pa',$OrgID,false);
+            $daftar_kpa=\App\Models\DMaster\ASNModel::getDaftarASNByOPD('kpa',$OrgID,false);;
+            $daftar_ppk=\App\Models\DMaster\ASNModel::getDaftarASNByOPD('ppk',$OrgID,false);;
+            $daftar_pptk=\App\Models\DMaster\ASNModel::getDaftarASNByOPD('pptk',$OrgID,false);;
             
-            return view("pages.$theme.rka.apbdmurni.create")->with(['page_active'=>'apbdmurni',
-                                                                            'daftar_program'=>$daftar_program,                                                                                                                                                       
-                                                                            'daftar_rkpd'=>[],
-                                                                            'daftar_pa'=>$daftar_pa,
-                                                                            'daftar_kpa'=>$daftar_kpa,
-                                                                            'daftar_ppk'=>$daftar_ppk,
-                                                                            'daftar_pptk'=>$daftar_pptk,
-                                                                        ]);  
+            return response()->json([
+                'daftar_program'=>$daftar_program,                                                                                                                                                       
+                'daftar_rkpd'=>[],
+                'daftar_pa'=>$daftar_pa,
+                'daftar_kpa'=>$daftar_kpa,
+                'daftar_ppk'=>$daftar_ppk,
+                'daftar_pptk'=>$daftar_pptk,
+            ],200);            
         }
         else
         {
-            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>'Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.'
-                                                                ]);  
+            return response()->json('Mohon unit kerja untuk di pilih terlebih dahulu. bila sudah terpilih ternyata tidak bisa, berarti saudara tidak diperkenankan menambah kegiatan karena telah dikunci.',500);  
         }  
     }
     /**
@@ -763,43 +709,42 @@ class APBDMurniController extends Controller
     public function store(Request $request)
     {
         
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(),[
             'PrgID'=>'required',
             'KgtID'=>'required',
             'PaguDana1'=>'required',
         ]);
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $apbdmurni = RKAKegiatanModel::create([
-            'RKAID' => uniqid ('uid'),
-            'OrgID' => $filters['OrgID'],
-            'SOrgID' => $filters['SOrgID'],
-            'PrgID' => $request->input('PrgID'),
-            'KgtID' => $request->input('KgtID'),
-            'RKPDID' => $request->input('RKPDID'),            
-            'PaguDana1' => $request->input('PaguDana1'),
-            'PaguDana2' => 0,
-            'nip_pa1' => $request->input('nip_pa'),
-            'nip_kpa1' => $request->input('nip_kpa'),
-            'nip_ppk1' => $request->input('nip_ppk'),
-            'nip_pptk1' => $request->input('nip_pptk'),
-            'user_id' => $theme = \Auth::user()->id,
-            'Descr' => '-',
-            'EntryLvl' => 1,
-            'TA' => \HelperKegiatan::getTahunAnggaran(),
-        ]);        
-        
-        if ($request->ajax()) 
+        if ($validator->fails())
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],422);
         }
         else
         {
-            return redirect(route('apbdmurni.show',['uuid'=>$apbdmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            $apbdmurni = RKAKegiatanModel::create([
+                'RKAID' => uniqid ('uid'),
+                'OrgID' =>$request->input('OrgID'),
+                'SOrgID' => $request->input('SOrgID'),
+                'PrgID' => $request->input('PrgID'),
+                'KgtID' => $request->input('KgtID'),
+                'RKPDID' => $request->input('RKPDID'),            
+                'PaguDana1' => $request->input('PaguDana1'),
+                'PaguDana2' => 0,
+                'nip_pa1' => $request->input('nip_pa'),
+                'nip_kpa1' => $request->input('nip_kpa'),
+                'nip_ppk1' => $request->input('nip_ppk'),
+                'nip_pptk1' => $request->input('nip_pptk'),
+                'user_id' => $theme = \Auth::user()->id,
+                'Descr' => '-',
+                'EntryLvl' => 1,
+                'TA' => \HelperKegiatan::getTahunAnggaran(),
+            ]);     
+            
+            return response()->json([            
+                'message'=>'Data rincian telah berhasil disimpan.'
+            ],200);
         }
-
     }
     /**
      * Store a newly created resource in storage.

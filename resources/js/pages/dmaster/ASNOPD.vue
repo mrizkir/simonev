@@ -101,10 +101,10 @@
 							</div>
 							<div class="card-footer">
                                 <div class="form-group row">
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-2">
                                         &nbsp;
                                     </div>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-10">
                                         <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
                                     </div>                                    
                                 </div>

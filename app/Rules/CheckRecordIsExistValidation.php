@@ -46,13 +46,13 @@ class CheckRecordIsExistValidation implements Rule
         $this->attributes=$attributes;
         $table = \DB::table($this->tableName);   
         if(is_array($this->clauses))
-        {            
+        {        
             foreach ($this->clauses as $k=>$v)
             {
-                switch ($k)
+                switch ($v[0])
                 {
-                    case 'where' :
-                        $table->where([$v]);
+                    case 'where' :                        
+                        $table->where($v[1],$v[2],$v[3]);
                     break;
                 }
             }            

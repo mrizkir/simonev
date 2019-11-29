@@ -101,7 +101,7 @@ class KelompokController extends Controller
     {
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_2' => [
-                new CheckRecordIsExistValidation('tmKlp', ['where' => ['StrID', '=', $request->input('StrID')]]),
+                new CheckRecordIsExistValidation('tmKlp', [['where','StrID', '=', $request->input('StrID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
@@ -143,7 +143,7 @@ class KelompokController extends Controller
         $kelompok = KelompokModel::findOrFail($uuid);
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_2' => [
-                new IgnoreIfDataIsEqualValidation('tmKlp', $kelompok->Kd_Rek_2, ['where' => ['StrID', '=', $request->input('StrID')]]),
+                new IgnoreIfDataIsEqualValidation('tmKlp', $kelompok->Kd_Rek_2, [['where','StrID', '=', $request->input('StrID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'

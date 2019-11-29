@@ -107,7 +107,7 @@ class JenisController extends Controller
     {
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_3' => [
-                new CheckRecordIsExistValidation('tmJns', ['where' => ['KlpID', '=', $request->input('KlpID')]]),
+                new CheckRecordIsExistValidation('tmJns', [['where','KlpID', '=', $request->input('KlpID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
@@ -149,7 +149,7 @@ class JenisController extends Controller
         $jenis = JenisModel::find($uuid);
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_3' => [
-                new IgnoreIfDataIsEqualValidation('tmJns', $jenis->Kd_Rek_3, ['where' => ['KlpID', '=', $request->input('KlpID')]]),
+                new IgnoreIfDataIsEqualValidation('tmJns', $jenis->Kd_Rek_3, [['where','KlpID', '=', $request->input('KlpID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'

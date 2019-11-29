@@ -84,6 +84,9 @@ const app = new Vue({
                     window.$('#ulDMaster').css('display','none');                
                     window.$('#linkDMaster').removeClass('active');
                 break;
+                case 'apbdmurnicreate' :                        
+                    window.$('#linkAPBDMurni').addClass('active');
+                break;
                 //dmaster
                 case 'dmaster_kelompokurusan':
                 case 'dmaster_urusan':

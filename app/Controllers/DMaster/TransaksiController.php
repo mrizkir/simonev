@@ -79,7 +79,7 @@ class TransaksiController extends Controller
        
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_1' => [
-                new CheckRecordIsExistValidation('tmStr', ['where' => ['TA', '=', \HelperKegiatan::getTahunAnggaran()]]),
+                new CheckRecordIsExistValidation('tmStr', [['where','TA', '=', \HelperKegiatan::getTahunAnggaran()]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
@@ -120,7 +120,7 @@ class TransaksiController extends Controller
         $transaksi = TransaksiModel::find($uuid);
         $validator = \Validator::make($request->all(),[
             'Kd_Rek_1' => [
-                new IgnoreIfDataIsEqualValidation('tmStr', $transaksi->Kd_Rek_1, ['where' => ['TA', '=', \HelperKegiatan::getTahunAnggaran()]]),
+                new IgnoreIfDataIsEqualValidation('tmStr', $transaksi->Kd_Rek_1, [['where','TA', '=', \HelperKegiatan::getTahunAnggaran()]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
