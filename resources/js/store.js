@@ -6,9 +6,14 @@ const vuexLocal = new VuexPersistence({
 
 export default {
     state: {
-       pages:[]
+        config:[],
+        pages:[]
     },
     getters:{
+        getConfig: (state) => (name) =>
+        {
+            
+        },
         getPage: (state) => (name) => 
         {
             let page = state.pages.find(halaman => halaman.name==name);
@@ -21,6 +26,9 @@ export default {
         }
     },
     mutations:{
+        init (state) {       
+            
+        },
         addToPages(state, page)
         {
             let found = state.pages.find(halaman => halaman.name==page.name);

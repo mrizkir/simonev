@@ -59,8 +59,8 @@ class APBDMurniController extends Controller
                                             "v_rka"."updated_at"
                                             '))
                             ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
-                            ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
-                            ->findOrFail($id);
+                            ->where('trRKA.EntryLvl',1)
+                            ->find($id);
 
         return $rka;
     }
@@ -951,34 +951,37 @@ class APBDMurniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($uuid)
     {
-        $theme = 'dore';
-
-        $rka = $this->getDataRKA($id);
-        if (!is_null($rka) )  
+        $rka = $this->getDataRKA($uuid);
+        if (is_null($rka) )  
         {
-            $filters=$this->getControllerStateSession('apbdmurni','filters');
-            $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
-            $datauraian=$this->populateDataUraian($id);
-            $daftar_uraian=[''=>''];
-            foreach ($datauraian as $v)
-            {
-                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
-            }
-            $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
-            $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($id);
-            $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($id);
-            return view("pages.$theme.rka.apbdmurni.show")->with(['page_active'=>'apbdmurni',
-                                                                        'filters'=>$filters,
-                                                                        'rka'=>$rka,
-                                                                        'sumber_dana'=>$sumber_dana,
-                                                                        'datauraian'=>$datauraian,
-                                                                        'datarencanatargetfisik'=>$datarencanatargetfisik,
-                                                                        'datarencanaanggarankas'=>$datarencanaanggarankas,
-                                                                        'daftar_uraian'=>$daftar_uraian,
-                                                                        'datarealisasi'=>$datarealisasi
-                                                                    ]);
+            return response()->json("Data RKA dengan ID ($id) tidak ditemukan",500);                                                           
+        }
+        else
+        {
+            return response()->json($rka,200);
+            // $filters=$this->getControllerStateSession('apbdmurni','filters');
+            // $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
+            // $datauraian=$this->populateDataUraian($id);
+            // $daftar_uraian=[''=>''];
+            // foreach ($datauraian as $v)
+            // {
+            //     $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
+            // }
+            // $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
+            // $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($id);
+            // $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($id);
+            // return view("pages.$theme.rka.apbdmurni.show")->with(['page_active'=>'apbdmurni',
+            //                                                             'filters'=>$filters,
+            //                                                             'rka'=>$rka,
+            //                                                             'sumber_dana'=>$sumber_dana,
+            //                                                             'datauraian'=>$datauraian,
+            //                                                             'datarencanatargetfisik'=>$datarencanatargetfisik,
+            //                                                             'datarencanaanggarankas'=>$datarencanaanggarankas,
+            //                                                             'daftar_uraian'=>$daftar_uraian,
+            //                                                             'datarealisasi'=>$datarealisasi
+            //          
         }        
     }
 

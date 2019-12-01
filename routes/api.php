@@ -1,6 +1,6 @@
 <?php
 Route::get('/datadashboard', ['uses' => 'FrontendController@datadashboard', 'as' => 'datadashboard']);
-Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {     
+Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {         
     //masters - kelompok urusan 
     Route::resource('/master/kelompokurusan', 'DMaster\KelompokUrusanController', [
         'parameters' => ['kelompokurusan' => 'uuid'],
@@ -108,5 +108,8 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     //RKA - APBD Murni
     Route::resource('/apbdmurni','RKA\APBDMurniController',['parameters'=>['apbdmurni'=>'uuid']]);
     Route::post('/apbdmurni/filter',['uses'=>'RKA\APBDMurniController@filter','as'=>'apbdmurni.filter']);  
-
+    
+    //setting - app configuration
+    Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);
+    Route::get('/setting/config/all',['uses'=>'Setting\ConfigController@all','as'=>'config.all']);
 });

@@ -22,6 +22,8 @@
 // const PaguAnggaranOPD = () => import ('./pages/dmaster/PaguAnggaranOPD.vue');
 
 // const APBDMurni = () => import ('./pages/APBDMurni.vue');
+// const APBDMurniDetail = () => import ('./pages/apbdmurni/APBDMurniDetail.vue');
+// const APBDMurniCreate = () => import ('./pages/apbdmurni/APBDMurniCreate.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
 import FormValidation from './pages/FormValidation.vue';
@@ -47,6 +49,7 @@ import JenisPelaksanaan from './pages/dmaster/JenisPelaksanaan.vue';
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
 import APBDMurni from './pages/APBDMurni.vue';
+import APBDMurniDetail from './pages/apbdmurni/APBDMurniDetail.vue';
 import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
 
 export const routes =  [
@@ -194,6 +197,14 @@ export const routes =  [
             title: "APBD MURNI"
         },
         component: APBDMurni
+    },    
+    {
+        name:'apbdmurnidetail',
+        path: '/apbdmurni/detail',
+        meta:{
+            title: "APBD MURNI | DETAIL"
+        },
+        component: APBDMurniDetail
     },    
     {
         name:'apbdmurnicreate',

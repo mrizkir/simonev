@@ -69,10 +69,11 @@ const app = new Vue({
     router,
     mounted()
     {
-        this.changeMenuItem();
-    },
+        this.$store.commit('init');
+        this.changeMenuItem();        
+    },    
     methods: 
-    {
+    {        
         changeMenuItem()
         {
             var name = this.$router.currentRoute.name;
@@ -85,6 +86,7 @@ const app = new Vue({
                     window.$('#linkDMaster').removeClass('active');
                 break;
                 case 'apbdmurnicreate' :                        
+                case 'apbdmurnidetail' :                        
                     window.$('#linkAPBDMurni').addClass('active');
                 break;
                 //dmaster

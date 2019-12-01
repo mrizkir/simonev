@@ -168,14 +168,15 @@ import Select2 from 'v-select2-component';
 
 export default {
     mounted()
-	{
+	{       
         //inisialisasi data halaman
         this.$store.commit('addToPages',{
                 name:'apbdmurni',
                 OrgID:'',
                 OrgNm:'',
                 SOrgID:'',
-                SOrgNm:''
+                SOrgNm:'',
+                detailkegiatan:{}
         });
 		this.proc ('default');   
 	},
@@ -289,6 +290,35 @@ export default {
         {           
             switch (pid)
             {
+                case 'show':                                        
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Mendapatkan informasi Detail Data Kegiatan dengan ID "+item.RKAID,
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        axios.get('/api/v1/apbdmurni/'+item.RKAID,{
+                            headers:{
+                                'Authorization': window.laravel.api_token,
+                            }
+                        })
+                        .then(response => {                                                                
+                            var page = this.$store.getters.getPage('apbdmurni');
+                            page.detailkegiatan = response.data;                        
+                            this.$store.commit('replacePage',page);
+                        })
+                        .catch(response => {
+                            this.api_message = response;
+                        });       
+                        this.$swal.close();          
+                        this.$router.push('apbdmurni/detail');
+                    }, 1500);               
+                break;
                 case 'create':
                     if (this.OrgID == '')
                     {
