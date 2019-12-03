@@ -87,6 +87,7 @@ const app = new Vue({
                 break;
                 case 'apbdmurnicreate' :                        
                 case 'apbdmurnidetail' :                        
+                case 'apbdmurniuraiancreate' :                        
                     window.$('#linkAPBDMurni').addClass('active');
                 break;
                 //dmaster

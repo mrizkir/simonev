@@ -20,7 +20,7 @@
         </div>
     </section>  
     <!-- Main content -->
-    <section class="content">
+    <section class="content" v-if="SOrgIDSelected">
         <div class="container-fluid">
             <div class="row" v-if="api_message">
                 <div class="col-md-12">
@@ -173,6 +173,22 @@
             </div>
         </div>
     </section>
+    <section class="content" v-else>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- /.card-header -->
+                    <div class="alert alert-danger alert-dismissible">
+                        <router-link to="/apbdmurni" class="close">
+                            <i class="fas fa-times"></i>
+                        </router-link>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        Mohon untuk dipilih Unit Kerja !!!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 </div>
 </template>
 <script>
@@ -181,14 +197,20 @@ import VueAutonumeric from 'vue-autonumeric';
 import vSelect from 'vue-select';
 
 export default {
-   mounted()
-   {
-       this.$v.$reset();
-       this.fetchData();
-   },
-   data: function() 
+    created ()
+    {
+        var page = this.$store.getters.getPage('apbdmurni');
+        this.SOrgIDSelected = page.SOrgID.length > 0;        
+    },
+    mounted()
+    {
+        this.$v.$reset();
+        this.fetchData();
+    },
+    data: function() 
 	{
 		return {
+            SOrgIDSelected:false,
             api_message:'',          
 
             //form			

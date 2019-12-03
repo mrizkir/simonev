@@ -8,7 +8,10 @@ mix.webpackConfig(webpack => {
         },
         watchOptions: {
             ignored: /node_modules/
-        }
+        },
+        plugins:[
+            new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
+        ]
    };
 });
 

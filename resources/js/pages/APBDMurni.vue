@@ -320,7 +320,7 @@ export default {
                     }, 1500);               
                 break;
                 case 'create':
-                    if (this.OrgID == '')
+                    if (this.SOrgID == '')
                     {
                         this.pid = 'default'; 
                         this.$swal({

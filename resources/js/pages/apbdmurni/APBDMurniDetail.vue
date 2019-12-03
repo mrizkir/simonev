@@ -20,7 +20,7 @@
         </div>
     </section>  
     <!-- Main content -->
-    <section class="content" v-if="detailkegiatan">
+    <section class="content" v-if="detailkegiatan.hasOwnProperty('RKAID')">
         <div class="container-fluid">
             <div class="row" v-if="api_message">
                 <div class="col-md-12">
@@ -155,8 +155,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-eye"></i> RINCIAN KEGIATAN</h3>
-                            <div class="card-tools">                                 
-                                
+                            <div class="card-tools"> 
+                                <router-link to="/apbdmurni/uraian/create" class="btn btn-tool" title="Tambah Rincian Kegiatan Baru">
+                                    <i class="fas fa-plus"></i>
+                                </router-link> 
                             </div>
                         </div>
                         <div class="card-body table-responsive p-0" v-if="daftar_rincian.data.length">
@@ -204,6 +206,22 @@
             </div>
         </div>
     </section>
+    <section class="content" v-else>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- /.card-header -->
+                    <div class="alert alert-danger alert-dismissible">
+                        <router-link to="/apbdmurni" class="close">
+                            <i class="fas fa-times"></i>
+                        </router-link>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        Mohon di pilih terlebih dahulu kegiatan !!!                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
 </div>
 </template>
 <script>
@@ -211,7 +229,7 @@ export default {
     created ()
     {
         var page = this.$store.getters.getPage('apbdmurni');
-        this.detailkegiatan = page.detailkegiatan;
+        this.detailkegiatan = page.detailkegiatan;                
     },
     data: function() 
 	{
