@@ -80,7 +80,7 @@
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create')">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create')" title="Tambaha Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
                             </div>

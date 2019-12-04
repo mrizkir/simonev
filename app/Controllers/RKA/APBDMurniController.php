@@ -431,9 +431,7 @@ class APBDMurniController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function changerekening(Request $request)
-    {
-        $theme = 'dore';
-        
+    {        
         $json_data = [];
         $pid = $request->input('pid')==''?'none':$request->input('pid');
         switch ($pid)
@@ -555,12 +553,10 @@ class APBDMurniController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create1(Request $request,$id)
+    public function create1(Request $request)
     {        
-        $theme = 'dore';
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
         $locked=false;
-        $rka=$this->getDataRKA($id);
         try
         {            
             if ($filters['SOrgID'] == 'none'&&$filters['SOrgID'] == ''&&$filters['SOrgID'] == null)
@@ -572,19 +568,11 @@ class APBDMurniController extends Controller
                 throw new \Exception ('Tidak diperkenankan menambah uraian kegiatan karena telah dikunci.');
             }            
             $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunAnggaran(),false);            
-            $daftar_transaksi['']='';            
-            return view("pages.$theme.rka.apbdmurni.create1")->with(['page_active'=>'apbdmurni',
-                                                                        'filters'=>$filters,
-                                                                        'rka'=>$rka,
-                                                                        'daftar_transaksi'=>$daftar_transaksi
-                                                                    ]);
+            return response()->json(['daftar_transaksi'=>$daftar_transaksi],200);
         }
         catch (\Exception $e)
         {            
-            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>$e->getMessage()
-                                                                ]);  
+            return response()->json($e->getMessage(),500);
         }        
     }
     /**
