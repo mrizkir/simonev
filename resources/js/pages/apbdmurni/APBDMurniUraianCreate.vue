@@ -21,7 +21,7 @@
         </div>
     </section>  
     <!-- Main content -->
-    <section class="content" v-if="detailkegiatan.hasOwnProperty('RKAID') && SObyID.length > 0">
+    <section class="content" v-if="detailkegiatan.hasOwnProperty('RKAID') && datarekening.hasOwnProperty('code')">
         <div class="container-fluid">
             <div class="row" v-if="api_message">
                 <div class="col-md-12">
@@ -106,7 +106,7 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">NAMA REKENING: </label>
                                     <div class="col-md-9">
-                                        <p class="form-control-static">{{SObyID}}</p>
+                                        <p class="form-control-static">{{datarekening.label}}</p>
                                     </div>                            
                                 </div>
                                 <div class="form-group row">
@@ -117,8 +117,8 @@
                                     </div>
 								</div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">VOLUME</label>
-                                    <div class="col-sm-9">
+                                    <label class="col-sm-3 col-form-label">VOLUME / NAMA SATUAN</label>
+                                    <div class="col-sm-3">
 										<vue-autonumeric 
 											v-model.trim="form.volume" 
 											v-on:input="$v.form.$touch"
@@ -137,6 +137,10 @@
 											v-bind:class="{'is-invalid': $v.form.volume.$error, 'is-valid': $v.form.volume.$dirty && !$v.form.volume.$invalid}">
 										</vue-autonumeric>
 										<div class="text-danger" v-if="$v.form.volume.$error">* wajib isi</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" v-model="form.satuan" class="form-control" v-bind:class="{'is-invalid': $v.form.satuan.$error, 'is-valid': $v.form.satuan.$dirty && !$v.form.satuan.$invalid}">
+										<div class="text-danger" v-if="$v.form.satuan.$error">* wajib isi</div>
                                     </div>
                                 </div>	
                                 <div class="form-group row">
@@ -183,9 +187,9 @@
                                     <div class="col-sm-9">
                                         <v-select 
                                             v-model="form.JenisPelaksanaanID" 
-                                            :reduce="daftar_jenis_pelaksanaan => daftar_jenis_pelaksanaan.code"
+                                            :reduce="daftar_jenispelaksanaan => daftar_jenispelaksanaan.code"
                                             placeholder="SILAHKAN PILIH JENIS PELAKSANAAN" 
-                                            :options="daftar_jenis_pelaksanaan">
+                                            :options="daftar_jenispelaksanaan">
                                         </v-select>
                                     </div>
                                 </div>
@@ -233,11 +237,12 @@ export default {
     {
         var page = this.$store.getters.getPage('apbdmurni');
         this.detailkegiatan = page.detailkegiatan;             
-        this.SObyID = page.SObyID;   
+        this.datarekening = page.datarekening;   
     },
     mounted()
     {
-        
+        this.$v.$reset();
+        this.fetchJenisPelaksanaan();
     },
     data: function() 
 	{
@@ -245,14 +250,15 @@ export default {
             pid:'default',
             api_message:'',
 
-            SObyID:'',
+            datarekening:'',
             detailkegiatan:'',
 
              //form			
-            daftar_jenis_pelaksanaan: [],           
+            daftar_jenispelaksanaan: [],           
 			form: {		
                 nama_uraian:'',
                 volume:'',		                                
+                satuan:'',		                                
                 harga_satuan:'',		                                
                 pagu_uraian1: '',
                 JenisPelaksanaanID: ''
@@ -261,11 +267,74 @@ export default {
     },
     methods: 
     {	
+        fetchJenisPelaksanaan()
+        {
+            axios.get('/api/v1/apbdmurni/create2',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {             
+                var daftar_jenispelaksanaan = [];
+                $.each(response.data,function(key,value){
+                    daftar_jenispelaksanaan.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_jenispelaksanaan=daftar_jenispelaksanaan;    
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
+        saveData() 
+		{	
+            this.$v.form.$touch();    
+            if(this.$v.$invalid == false)
+            { 
+                var page = this.$store.getters.getPage('apbdmurni');                
+				axios.post('/api/v1/apbdmurni/store2',{
+                    'RObyID':page.OrgID,
+                    'nama_uraian':page.SOrgID,
+                    'volume':this.form.PrgID,
+                    'satuan':this.form.KgtID,
+                    'RKPDID':this.form.RKPDID,
+                    'harga_satuan':this.form.PaguDana1,
+                    'pagu_uraian1':this.form.nip_pa,
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Menyimpan Data Rincian Kegiatan berhasil dilakukan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.clearform();              
+                        this.$swal.close();          
+                        this.$router.push('apbdmurni/detail');                          
+                    }, 1500);             
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			
+			}        
+        },
         clearform ()
         {   
             this.form.nama_uraian='';
             this.form.volume=0;
-            this.form.harga_satuan='';
+            this.form.satuan='';
+            this.form.harga_satuan=0;
             this.form.pagu_uraian1=0;
             this.form.JenisPelaksanaanID='';               
         },
@@ -276,6 +345,9 @@ export default {
 				required
 			},
 			volume: {
+				required
+			},
+			satuan: {
 				required
 			},
 			harga_satuan: {

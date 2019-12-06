@@ -156,7 +156,6 @@
                                     <div class="col-sm-10">
                                         <v-select 
                                             v-model="form.SObyID" 
-                                            :reduce="daftar_obyek => daftar_obyek.code" 
                                             placeholder="PILIH OBJEK" 
                                             :options="daftar_obyek"
                                             @input="changeTransaksi('SObyID')">
@@ -380,7 +379,7 @@ export default {
                 break;
                 case 'SObyID':
                     var page = this.$store.getters.getPage('apbdmurni');
-                    page.SObyID = this.form.SObyID;                        
+                    page.datarekening = this.form.SObyID;                        
                     this.$store.commit('replacePage',page);
                     page = this.$store.getters.getPage('apbdmurni');
                     this.$router.push('/apbdmurni/uraian/create');

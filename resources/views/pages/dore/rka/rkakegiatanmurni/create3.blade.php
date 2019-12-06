@@ -79,7 +79,7 @@
                         </h2>
                         <div class="separator mb-3"></div>
                         {!! Form::open(['action'=>['RKA\RKAKegiatanMurniController@store3',$rka->RKAID],'method'=>'post','class'=>'form-horizontal','id'=>'frmuraian','name'=>'frmuraian'])!!}                                                          
-                            <div class="form-group row">
+                            <div class="form-group row>
                                 <label class="col-md-3 col-form-label">RINCIAN KEGIATAN :</label> 
                                 <div class="col-md-9">
                                     {{Form::select('RKARincID', $daftar_uraian,null,['class'=>'form-control select','id'=>'RKARincID'])}}

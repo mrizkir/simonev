@@ -579,31 +579,10 @@ class APBDMurniController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create2(Request $request,$id)
-    {        
-        $theme = 'dore';
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $locked=false;
-        $rka=$this->getDataRKA($id);
-        try
-        {   
-            $data_rekening=\App\Models\DMaster\RekeningModel::find($filters['RObyID']);           
-            $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());             
-            return view("pages.$theme.rka.apbdmurni.create2")->with(['page_active'=>'apbdmurni',
-                                                                        'filters'=>$filters,
-                                                                        'daftar_jenispelaksanaan'=>$daftar_jenispelaksanaan,
-                                                                        'data_rekening'=>$data_rekening,
-                                                                        'RObyID'=>$filters['RObyID'],
-                                                                        'rka'=>$rka,
-                                                                    ]);
-        }
-        catch (\Exception $e)
-        {            
-            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>$e->getMessage()
-                                                                ]);  
-        }        
+    public function create2(Request $request)
+    {                
+        $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());             
+        return response()->json($daftar_jenispelaksanaan,200);              
     }
     /**
      * Show the form for creating a new resource.
@@ -732,36 +711,6 @@ class APBDMurniController extends Controller
                 'message'=>'Data rincian telah berhasil disimpan.'
             ],200);
         }
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store1(Request $request,$id)
-    {
-        
-        $this->validate($request, [
-            'RObyID'=>'required',            
-        ]);             
-        
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $filters['RObyID']=$request->input('RObyID');
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
-        }
-        else
-        {
-            return redirect(route('apbdmurni.create2',['uuid'=>$id]));
-        }
-
     }
     /**
      * Store a newly created resource in storage.
