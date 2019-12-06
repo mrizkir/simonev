@@ -545,7 +545,6 @@ class APBDMurniController extends Controller
                 $json_data['RKARincID']=$RKARincID;
             break;
         }
-        $json_data['success']=true;
         return response()->json($json_data,200);
     }
     /**

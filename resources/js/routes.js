@@ -24,6 +24,7 @@
 // const APBDMurni = () => import ('./pages/APBDMurni.vue');
 // const APBDMurniDetail = () => import ('./pages/apbdmurni/APBDMurniDetail.vue');
 // const APBDMurniCreate = () => import ('./pages/apbdmurni/APBDMurniCreate.vue');
+// const APBDMurniUraianPilihRekening = () => import ('./pages/apbdmurni/APBDMurniUraianPilihRekening.vue');
 // const APBDMurniUraianCreate = () => import ('./pages/apbdmurni/APBDMurniUraianCreate.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
@@ -52,6 +53,7 @@ import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 import APBDMurni from './pages/APBDMurni.vue';
 import APBDMurniDetail from './pages/apbdmurni/APBDMurniDetail.vue';
 import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
+import APBDMurniUraianPilihRekening from './pages/apbdmurni/APBDMurniUraianPilihRekening.vue';
 import APBDMurniUraianCreate from './pages/apbdmurni/APBDMurniUraianCreate.vue';
 
 export const routes =  [
@@ -215,6 +217,14 @@ export const routes =  [
             title: "APBD MURNI | KEGIATAN BARU"
         },
         component: APBDMurniCreate
+    },    
+    {
+        name:'apbdmurniuraianpilihrekening',
+        path: '/apbdmurni/uraian/pilihrekening',
+        meta:{
+            title: "APBD MURNI | PILIH REKENING"
+        },
+        component: APBDMurniUraianPilihRekening
     },    
     {
         name:'apbdmurniuraiancreate',

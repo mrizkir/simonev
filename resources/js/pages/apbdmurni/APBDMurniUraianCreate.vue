@@ -21,7 +21,7 @@
         </div>
     </section>  
     <!-- Main content -->
-    <section class="content" v-if="detailkegiatan.hasOwnProperty('RKAID')">
+    <section class="content" v-if="detailkegiatan.hasOwnProperty('RKAID') && SObyID.length > 0">
         <div class="container-fluid">
             <div class="row" v-if="api_message">
                 <div class="col-md-12">
@@ -93,7 +93,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> Tambah Rincian Kegiatan Baru
+                                <i class="fas fa-plus"></i> TAMBAH RINCIAN KEGIATAN BARU
                             </h3>
                             <div class="card-tools">
                                 <router-link to="/apbdmurni/detail" class="btn btn-tool">
@@ -104,65 +104,101 @@
                         <form class="form-horizontal" @submit.prevent="saveData">
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">TRANSAKSI</label>
-                                    <div class="col-sm-10">
-                                        <v-select 
-                                            v-model="form.StrID" 
-                                            :reduce="daftar_transaksi => daftar_transaksi.code" 
-                                            placeholder="PILIH TRANSAKSI" 
-                                            :options="daftar_transaksi"
-                                            @input="changeTransaksi('StrID')">
-                                        </v-select>
+                                    <label class="col-md-3 col-form-label">NAMA REKENING: </label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">{{SObyID}}</p>
+                                    </div>                            
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NAMA URAIAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.nama_uraian" class="form-control" v-bind:class="{'is-invalid': $v.form.nama_uraian.$error, 'is-valid': $v.form.nama_uraian.$dirty && !$v.form.nama_uraian.$invalid}">
+										<div class="text-danger" v-if="$v.form.nama_uraian.$error">* wajib isi</div>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">VOLUME</label>
+                                    <div class="col-sm-9">
+										<vue-autonumeric 
+											v-model.trim="form.volume" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												allowDecimalPadding: false,
+                                                minimumValue:0,
+                                                maximumValue:99999999999999999,
+                                                numericPos:true,
+                                                decimalPlaces : 0,
+                                                digitGroupSeparator : '',
+                                                showWarnings:false,
+                                                unformatOnSubmit: true,
+                                                modifyValueOnWheel:false
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.volume.$error, 'is-valid': $v.form.volume.$dirty && !$v.form.volume.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.volume.$error">* wajib isi</div>
+                                    </div>
+                                </div>	
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">HARGA SATUAN</label>
+                                    <div class="col-sm-9">
+                                       <vue-autonumeric 
+											v-model.trim="form.harga_satuan" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												minimumValue: '0',
+												decimalCharacter: ',',
+												digitGroupSeparator: '.',
+                                                emptyInputBehavior:0,
+												unformatOnSubmit: true 
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.harga_satuan.$error, 'is-valid': $v.form.harga_satuan.$dirty && !$v.form.harga_satuan.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.harga_satuan.$error">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">KELOMPOK</label>
-                                    <div class="col-sm-10">
-                                        <v-select 
-                                            v-model="form.KlpID" 
-                                            :reduce="daftar_kelompok => daftar_kelompok.code" 
-                                            placeholder="PILIH KELOMPOK" 
-                                            :options="daftar_kelompok"
-                                            @input="changeTransaksi('KlpID')">
-                                        </v-select>
+                                    <label class="col-sm-3 col-form-label">PAGU URAIAN</label>
+                                    <div class="col-sm-9">
+                                       <vue-autonumeric 
+											v-model.trim="form.pagu_uraian1" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												minimumValue: '0',
+												decimalCharacter: ',',
+												digitGroupSeparator: '.',
+                                                emptyInputBehavior:0,
+												unformatOnSubmit: true 
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.pagu_uraian1.$error, 'is-valid': $v.form.pagu_uraian1.$dirty && !$v.form.pagu_uraian1.$invalid}">
+										</vue-autonumeric>
+                                        <span class="form-text text-muted">(Harga Satuan * Volume)</span>
+										<div class="text-danger" v-if="$v.form.pagu_uraian1.$error">* wajib isi</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">JENIS</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">JENIS PELAKSANAAN</label>
+                                    <div class="col-sm-9">
                                         <v-select 
-                                            v-model="form.JnsID" 
-                                            :reduce="daftar_jenis => daftar_jenis.code" 
-                                            placeholder="PILIH JENIS" 
-                                            :options="daftar_jenis"
-                                            @input="changeTransaksi('JnsID')">
+                                            v-model="form.JenisPelaksanaanID" 
+                                            :reduce="daftar_jenis_pelaksanaan => daftar_jenis_pelaksanaan.code"
+                                            placeholder="SILAHKAN PILIH JENIS PELAKSANAAN" 
+                                            :options="daftar_jenis_pelaksanaan">
                                         </v-select>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="card-footer">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">RINCIAN</label>
-                                    <div class="col-sm-10">
-                                        <v-select 
-                                            v-model="form.ObyID" 
-                                            :reduce="daftar_rincian => daftar_rincian.code" 
-                                            placeholder="PILIH RINCIAN" 
-                                            :options="daftar_rincian"
-                                            @input="changeTransaksi('ObyID')">
-                                        </v-select>
+                                    <div class="col-sm-3">
+                                        &nbsp;
                                     </div>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
+                                    </div>                                    
                                 </div>
-                                <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">OBJEK</label>
-                                    <div class="col-sm-10">
-                                        <v-select 
-                                            v-model="form.SObyID" 
-                                            :reduce="daftar_objek => daftar_objek.code" 
-                                            placeholder="PILIH OBJEK" 
-                                            :options="daftar_objek"
-                                            @input="changeTransaksi('SObyID')">
-                                        </v-select>
-                                    </div>
-                                </div>                                
                             </div>
                         </form>
                     </div>
@@ -170,19 +206,38 @@
             </div>
         </div>
     </section>
+    <section class="content" v-else>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- /.card-header -->
+                    <div class="alert alert-danger alert-dismissible">
+                        <router-link to="/apbdmurni" class="close">
+                            <i class="fas fa-times"></i>
+                        </router-link>
+                        <h5><i class="icon fas fa-ban"></i> Alert!</h5>
+                        Mohon di pilih terlebih dahulu kegiatan !!!                         
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>   
 </div>
 </template>
 <script>
 import vSelect from 'vue-select';
+import { required} from 'vuelidate/lib/validators';
+import VueAutonumeric from 'vue-autonumeric';
 export default {
     created ()
     {
         var page = this.$store.getters.getPage('apbdmurni');
-        this.detailkegiatan = page.detailkegiatan;                
+        this.detailkegiatan = page.detailkegiatan;             
+        this.SObyID = page.SObyID;   
     },
     mounted()
     {
-        this.fetchTransaksi();
+        
     },
     data: function() 
 	{
@@ -190,62 +245,51 @@ export default {
             pid:'default',
             api_message:'',
 
+            SObyID:'',
             detailkegiatan:'',
-            daftar_rincian:{
-                data:{}
-            },
-            //form
-            daftar_transaksi: [],            
-            daftar_kelompok: [],            
-            daftar_jenis: [],            
-            daftar_rincian: [],            
-            daftar_objek: [],            
-            form: {		
-                StrID:'',                
-                KlpID:'',                
-                JnsID:'',                
-                ObyID:'',                
-                SObyID:'',                
-            },
-            
+
+             //form			
+            daftar_jenis_pelaksanaan: [],           
+			form: {		
+                nama_uraian:'',
+                volume:'',		                                
+                harga_satuan:'',		                                
+                pagu_uraian1: '',
+                JenisPelaksanaanID: ''
+            }
         }
     },
     methods: 
     {	
-        fetchTransaksi ()
-        {  
-            axios.get('/api/v1/apbdmurni/create1',{
-                headers:{
-                    'Authorization': window.laravel.api_token,
-                }
-            })
-            .then(response => {             
-                var daftar_transaksi = [];
-                $.each(response.data.daftar_transaksi,function(key,value){
-                    daftar_transaksi.push({
-                        code:key,
-                        label:value
-                    });
-                });                
-                this.daftar_transaksi=daftar_transaksi;                 
-                
-                this.daftar_kelompok = [];                
-                this.daftar_jenis=[];                       
-                this.daftar_rincian=[];                 
-                this.daftar_objek=[];                                                         
-            })
-            .catch(response => {
-                this.api_message = response;
-            });
-        },
-        changeTransaksi (pid)
-        {
-            console.log('id='+pid);
+        clearform ()
+        {   
+            this.form.nama_uraian='';
+            this.form.volume=0;
+            this.form.harga_satuan='';
+            this.form.pagu_uraian1=0;
+            this.form.JenisPelaksanaanID='';               
         },
     },
+    validations: {
+		form: {
+			nama_uraian: {
+				required
+			},
+			volume: {
+				required
+			},
+			harga_satuan: {
+				required
+			},
+			pagu_uraian1: {
+				required
+			},
+		}
+	},
 	components: 
 	{
         'v-select': vSelect,
+        'vue-autonumeric':VueAutonumeric,
     }
 }
 </script>

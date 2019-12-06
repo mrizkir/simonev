@@ -180,7 +180,7 @@
 												unformatOnSubmit: true 
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.Jumlah2.$error, 'is-valid': $v.form.Jumlah1.$dirty && !$v.form.Jumlah1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.Jumlah2.$error, 'is-valid': $v.form.Jumlah2.$dirty && !$v.form.Jumlah2.$invalid}">
 										</vue-autonumeric>
 										<div class="text-danger" v-if="$v.form.Jumlah2.$error">* wajib isi</div>
                                     </div>

@@ -156,7 +156,7 @@
                         <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-eye"></i> RINCIAN KEGIATAN</h3>
                             <div class="card-tools"> 
-                                <router-link to="/apbdmurni/uraian/create" class="btn btn-tool" title="Tambah Rincian Kegiatan Baru">
+                                <router-link to="/apbdmurni/uraian/pilihrekening" class="btn btn-tool" title="Tambah Rincian Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
                                 </router-link> 
                             </div>

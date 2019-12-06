@@ -176,6 +176,7 @@ export default {
                 OrgNm:'',
                 SOrgID:'',
                 SOrgNm:'',
+                SObyID:'',
                 detailkegiatan:{}
         });
 		this.proc ('default');   
