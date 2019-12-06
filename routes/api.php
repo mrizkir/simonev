@@ -112,6 +112,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::get('/apbdmurni/create1',['uses'=>'RKA\APBDMurniController@create1','as'=>'apbdmurni.create1']);  
     Route::get('/apbdmurni/create2',['uses'=>'RKA\APBDMurniController@create2','as'=>'apbdmurni.create2']);  
     Route::post('/apbdmurni/changerekening',['uses'=>'RKA\APBDMurniController@changerekening','as'=>'apbdmurni.changerekening']);
+    Route::post('/apbdmurni/store2',['uses'=>'RKA\APBDMurniController@store2','as'=>'apbdmurni.store2']);                      
     
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);

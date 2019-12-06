@@ -64,7 +64,7 @@ class RKARincianKegiatanModel extends Model
      *
      * @var string
      */
-    protected static $logName = 'RKAKegiatanMurniController';
+    protected static $logName = 'APBDMurniController';
     /**
      * log the changed attributes for all these events 
      */

@@ -718,10 +718,9 @@ class APBDMurniController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store2(Request $request,$id)
+    public function store2(Request $request)
     {
-        
-        $this->validate($request, [
+        $validator=\Validator::make($request->all(), [
             'RObyID'=>'required',
             'nama_uraian'=>'required',
             'volume'=>'required',
@@ -729,37 +728,35 @@ class APBDMurniController extends Controller
             'harga_satuan'=>'required',
             'pagu_uraian1'=>'required',
         ]);
-        $rinciankegiatan = RKARincianKegiatanModel::create([
-            'RKARincID' => uniqid ('uid'),
-            'RKAID' => $id,
-            'RObyID' => $request->input('RObyID'),
-            'JenisPelaksanaanID' => $request->input('JenisPelaksanaanID'),
-            'nama_uraian' => $request->input('nama_uraian'),
-            'volume1' => $request->input('volume'),
-            'satuan1' => $request->input('satuan'),            
-            'harga_satuan1' => $request->input('harga_satuan'),
-            'harga_satuan2' => 0,
-            'pagu_uraian1' => $request->input('pagu_uraian1'),            
-            'pagu_uraian2' => 0,            
-            'Descr' => $request->input('Descr'),
-            'EntryLvl' => 1,
-            'TA' => \HelperKegiatan::getTahunAnggaran(),
-        ]);        
-        $this->destroyControllerStateSession('filters','RObyID');
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']='data-uraian-tab';
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        if ($request->ajax()) 
+        if ($validator->fails())
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
         }
         else
         {
-            return redirect(route('apbdmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            $rinciankegiatan = RKARincianKegiatanModel::create([
+                'RKARincID' => uniqid ('uid'),
+                'RKAID' => $request->input('RKAID'),
+                'RObyID' => $request->input('RObyID'),
+                'JenisPelaksanaanID' => $request->input('JenisPelaksanaanID'),
+                'nama_uraian' => $request->input('nama_uraian'),
+                'volume1' => $request->input('volume'),
+                'satuan1' => $request->input('satuan'),            
+                'harga_satuan1' => $request->input('harga_satuan'),
+                'harga_satuan2' => 0,
+                'pagu_uraian1' => $request->input('pagu_uraian1'),            
+                'pagu_uraian2' => 0,            
+                'Descr' => $request->input('Descr'),
+                'EntryLvl' => 1,
+                'TA' => \HelperKegiatan::getTahunAnggaran(),
+            ]);        
+            return response()->json([            
+                'message'=>'Data ini telah berhasil disimpan.'
+            ],200); 
         }
+        
 
     }
     /**

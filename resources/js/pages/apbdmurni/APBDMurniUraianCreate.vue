@@ -295,13 +295,15 @@ export default {
             { 
                 var page = this.$store.getters.getPage('apbdmurni');                
 				axios.post('/api/v1/apbdmurni/store2',{
-                    'RObyID':page.OrgID,
-                    'nama_uraian':page.SOrgID,
-                    'volume':this.form.PrgID,
-                    'satuan':this.form.KgtID,
+                    'RKAID':this.detailkegiatan.RKAID,
+                    'RObyID':this.datarekening.code,
+                    'nama_uraian':this.form.nama_uraian,
+                    'volume':this.form.volume,
+                    'satuan':this.form.satuan,
                     'RKPDID':this.form.RKPDID,
-                    'harga_satuan':this.form.PaguDana1,
-                    'pagu_uraian1':this.form.nip_pa,
+                    'harga_satuan':this.form.harga_satuan,
+                    'pagu_uraian1':this.form.pagu_uraian1,
+                    'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
@@ -319,7 +321,10 @@ export default {
                         allowEnterKey: false,
                     });              
                     setTimeout(() => {
-                        this.clearform();              
+                        this.clearform();     
+                        var page = this.$store.getters.getPage('apbdmurni');
+                        page.datarekening = '';                        
+                        this.$store.commit('replacePage',page);         
                         this.$swal.close();          
                         this.$router.push('apbdmurni/detail');                          
                     }, 1500);             
