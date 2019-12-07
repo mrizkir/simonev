@@ -177,19 +177,19 @@
                                         </th>
                                         <th width="110" class="text-right">REALISASI</th>
                                         <th width="110" class="text-right">SISA</th>
-                                        <th width="100">FISIK (%)</th>
+                                        <th width="100" class="text-center">FISIK (%)</th>
                                         <th width="100">AKSI</th>
                                     </tr>
                                 </thead>
-                                <tbody>  
+                                <tbody>                                      
                                     <tr v-for="(item,index) in daftar_uraian" v-bind:key="item.RKARincID">
                                         <td>{{index+1}}</td>
                                         <td>{{item.nama_uraian}}</td>
                                         <td class="text-right">{{item.harga_satuan1|formatUang}}</td>    
                                         <td class="text-right">{{item.pagu_uraian1|formatUang}}</td>
-                                        <td>0</td>
-                                        <td>0</td>
-                                        <td>0</td>
+                                        <td class="text-right">{{item.realisasi1|formatUang}}</td>
+                                        <td class="text-right">{{item.pagu_uraian1-item.realisasi1|formatUang}}</td>
+                                        <td class="text-center">{{item.fisik1}}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -210,6 +210,26 @@
                                         </td>
                                     </tr>
                                 </tbody>
+                                <tfoot>
+                                    <tr class="table-info font-weight-bold">
+                                        <td colspan="3" class="text-right">TOTAL</td>
+                                        <td class="text-right">
+                                            {{totalpaguuraian|formatUang}}
+                                        </td>
+                                        <td class="text-right">
+                                            {{totalrealisasi|formatUang}}
+                                        </td>
+                                        <td class="text-right">
+                                            {{totalpaguuraian-totalrealisasi|formatUang}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{totalfisik}}
+                                        </td>
+                                        <td class="center">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="card-body table-responsive" v-else>                            
@@ -259,6 +279,9 @@ export default {
             daftar_uraian:{
                 data:{}
             },
+            totalpaguuraian:0,
+            totalrealisasi:0,
+            totalfisik:0,
         }
     },
     methods: 
@@ -288,6 +311,9 @@ export default {
                     page.detailkegiatan = this.detailkegiatan;                        
                     this.$store.commit('replacePage',page);                    
                     this.daftar_uraian = response.data.daftar_uraian;
+                    this.totalpaguuraian = response.data.totalpaguuraian;
+                    this.totalrealisasi = response.data.totalrealisasi;
+                    this.totalfisik = response.data.totalfisik;
                 })
                 .catch(response => {
                     this.api_message = response;
@@ -309,7 +335,7 @@ export default {
 
                 break;
             }
-        }
+        },
     }
 }
 </script>

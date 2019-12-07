@@ -72,7 +72,7 @@ class APBDMurniController extends Controller
     public function populateDataUraian ($RKAID)
     {
         $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume1,satuan1,harga_satuan1,pagu_uraian1,"trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume1,satuan1,harga_satuan1,pagu_uraian1,0 AS "realisasi1",0 AS "fisik1","trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
                     ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                     ->where('RKAID',$RKAID)
                     ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
@@ -591,7 +591,6 @@ class APBDMurniController extends Controller
      */
     public function create3(Request $request,$id)
     {        
-        $theme = 'dore';
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
         $locked=false;
         $rka=$this->getDataRKA($id);
@@ -625,7 +624,6 @@ class APBDMurniController extends Controller
      */
     public function create4(Request $request,$id)
     {        
-        $theme = 'dore';
         $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
         $locked=false;
         $rka=$this->getDataRKA($id);
@@ -897,14 +895,28 @@ class APBDMurniController extends Controller
             // $filters=$this->getControllerStateSession('apbdmurni','filters');
             // $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
             $datauraian=$this->populateDataUraian($uuid);
+            $datauraian->transform(function ($item,$key){
+                $item->realisasi1=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi1');    
+                $item->fisik1=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik1');
+                return $item;
+            });
             $daftar_uraian=[];
+            $totalpaguuraian=0;
+            $totalrealisasi=0;
+            $totalfisik=0;
             foreach ($datauraian as $v)
             {
                 $daftar_uraian[]=$v;
+                $totalpaguuraian+=$v->pagu_uraian1;
+                $totalrealisasi+=$v->realisasi1;
+                $totalfisik+=$v->fisik1;
             }
             return response()->json([
                                         'rka'=>$rka,
                                         'daftar_uraian'=>$daftar_uraian,
+                                        'totalpaguuraian'=>$totalpaguuraian,
+                                        'totalrealisasi'=>$totalrealisasi,
+                                        'totalfisik'=>$totalfisik,
                                     ],
                                     200);
             // $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
@@ -1232,9 +1244,9 @@ class APBDMurniController extends Controller
                     $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
                     $datauraian=$this->populateDataUraian($rkaid);
                     $datatable=view("pages.$theme.rka.apbdmurni.datatableuraian")->with([
-                                                                                                'datauraian'=>$datauraian,
-                                                                                                'rka'=>$rka
-                                                                                            ])->render();
+                                                                                        'datauraian'=>$datauraian,
+                                                                                        'rka'=>$rka
+                                                                                    ])->render();
                         
                 break;
                 case 'datarencanafisik' :
