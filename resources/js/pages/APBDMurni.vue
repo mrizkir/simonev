@@ -176,6 +176,7 @@ export default {
                 OrgNm:'',
                 SOrgID:'',
                 SOrgNm:'',
+                RKAID:'',
                 datarekening:{},
                 detailkegiatan:{}
         });
@@ -291,34 +292,12 @@ export default {
         {           
             switch (pid)
             {
-                case 'show':                                        
-                    this.$swal({
-                        title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Mendapatkan informasi Detail Data Kegiatan dengan ID "+item.RKAID,
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        showCloseButton: false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        allowEnterKey: false,
-                    });              
-                    setTimeout(() => {
-                        axios.get('/api/v1/apbdmurni/'+item.RKAID,{
-                            headers:{
-                                'Authorization': window.laravel.api_token,
-                            }
-                        })
-                        .then(response => {                                                                
-                            var page = this.$store.getters.getPage('apbdmurni');
-                            page.detailkegiatan = response.data;                        
-                            this.$store.commit('replacePage',page);
-                        })
-                        .catch(response => {
-                            this.api_message = response;
-                        });       
-                        this.$swal.close();          
-                        this.$router.push('apbdmurni/detail');
-                    }, 1500);               
+                case 'show':     
+                    var page = this.$store.getters.getPage('apbdmurni');
+                    page.detailkegiatan = {};                        
+                    page.RKAID = item.RKAID;                        
+                    this.$store.commit('replacePage',page);      
+                    this.$router.push('apbdmurni/detail');
                 break;
                 case 'create':
                     if (this.SOrgID == '')

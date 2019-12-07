@@ -20,7 +20,7 @@
         </div>
     </section>  
     <!-- Main content -->
-    <section class="content" v-if="detailkegiatan.hasOwnProperty('RKAID')">
+    <section class="content" v-if="RKAIDIsExist">
         <div class="container-fluid">
             <div class="row" v-if="api_message">
                 <div class="col-md-12">
@@ -154,14 +154,14 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-eye"></i> RINCIAN KEGIATAN</h3>
+                            <h3 class="card-title"><i class="fas fa-list-ol"></i> RINCIAN KEGIATAN</h3>
                             <div class="card-tools"> 
                                 <router-link to="/apbdmurni/uraian/pilihrekening" class="btn btn-tool" title="Tambah Rincian Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
                                 </router-link> 
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_rincian.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_uraian.length > 0">
                             <table class="table table-striped table-hover mb-2">
                                 <thead>
                                     <tr>
@@ -177,19 +177,37 @@
                                         </th>
                                         <th width="110" class="text-right">REALISASI</th>
                                         <th width="110" class="text-right">SISA</th>
-                                        <th width="80">FISIK (%)</th>
-                                        <th width="120">AKSI</th>
+                                        <th width="100">FISIK (%)</th>
+                                        <th width="100">AKSI</th>
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_rincian.data" v-bind:key="item.RKARincID">
-                                        <td>{{daftar_rincian.from+index}}</td>
+                                    <tr v-for="(item,index) in daftar_uraian" v-bind:key="item.RKARincID">
+                                        <td>{{index+1}}</td>
                                         <td>{{item.nama_uraian}}</td>
                                         <td class="text-right">{{item.harga_satuan1|formatUang}}</td>    
                                         <td class="text-right">{{item.pagu_uraian1|formatUang}}</td>
                                         <td>0</td>
                                         <td>0</td>
                                         <td>0</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-wrench"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('realisasi',item)">
+                                                        <i class="fas fa-directions"></i> REALISASI
+                                                    </a>
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('edit',item)">
+                                                        <i class="fas fa-edit"></i> UBAH
+                                                    </a>
+                                                    <a class="dropdown-item" v-on:click.prevent="proc('destroy',item)" href="#">
+                                                        <i class="fas fa-trash-alt"></i> HAPUS
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -226,10 +244,9 @@
 </template>
 <script>
 export default {
-    created ()
+    mounted()
     {
-        var page = this.$store.getters.getPage('apbdmurni');
-        this.detailkegiatan = page.detailkegiatan;                
+        this.fetchDetailKegiatan();
     },
     data: function() 
 	{
@@ -237,11 +254,62 @@ export default {
             pid:'default',
             api_message:'',
 
-            detailkegiatan:'',
-            daftar_rincian:{
+            RKAIDIsExist:false,
+            detailkegiatan:{},
+            daftar_uraian:{
                 data:{}
             },
         }
     },
+    methods: 
+    {
+        fetchDetailKegiatan()
+        {           
+            var page = this.$store.getters.getPage('apbdmurni');            
+            this.$swal({
+                title: '<i class="fas fa-spin fa-spinner"></i>',
+                text: "Mendapatkan informasi Detail Data Kegiatan dengan ID "+page.RKAID,
+                showCancelButton: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            });              
+            setTimeout(() => {
+                axios.get('/api/v1/apbdmurni/'+page.RKAID,{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    }
+                })
+                .then(response => {   
+                    this.RKAIDIsExist = true;
+                    this.detailkegiatan = response.data.rka;
+                    page.detailkegiatan = this.detailkegiatan;                        
+                    this.$store.commit('replacePage',page);                    
+                    this.daftar_uraian = response.data.daftar_uraian;
+                })
+                .catch(response => {
+                    this.api_message = response;
+                });       
+                this.$swal.close();  
+            }, 1500);               
+        },
+        proc (pid,item=null) 
+        {           
+            switch (pid)
+            {
+                case 'realisasi':
+
+                break;
+                case 'edit':
+
+                break;
+                case 'destroy':
+
+                break;
+            }
+        }
+    }
 }
 </script>

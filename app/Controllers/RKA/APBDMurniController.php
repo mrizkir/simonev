@@ -889,19 +889,24 @@ class APBDMurniController extends Controller
         $rka = $this->getDataRKA($uuid);
         if (is_null($rka) )  
         {
-            return response()->json("Data RKA dengan ID ($id) tidak ditemukan",500);                                                           
+            return response()->json("Data RKA dengan ID ($uuid) tidak ditemukan",500);                                                           
         }
         else
         {
-            return response()->json($rka,200);
+           
             // $filters=$this->getControllerStateSession('apbdmurni','filters');
             // $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
-            // $datauraian=$this->populateDataUraian($id);
-            // $daftar_uraian=[''=>''];
-            // foreach ($datauraian as $v)
-            // {
-            //     $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
-            // }
+            $datauraian=$this->populateDataUraian($uuid);
+            $daftar_uraian=[];
+            foreach ($datauraian as $v)
+            {
+                $daftar_uraian[]=$v;
+            }
+            return response()->json([
+                                        'rka'=>$rka,
+                                        'daftar_uraian'=>$daftar_uraian,
+                                    ],
+                                    200);
             // $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
             // $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($id);
             // $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($id);
