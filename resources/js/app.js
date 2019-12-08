@@ -1,5 +1,7 @@
 require('./bootstrap');
 window.Vue = require('vue');
+//component
+Vue.component('apbdmurnidetailmenu', require('./pages/apbdmurni/APBDMurniDetailMenu').default);
 
 //vue route
 import VueRouter from 'vue-router';
@@ -71,7 +73,7 @@ const app = new Vue({
     {
         this.$store.commit('init');
         this.changeMenuItem();        
-    },    
+    },        
     methods: 
     {        
         changeMenuItem()

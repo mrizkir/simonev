@@ -1235,19 +1235,8 @@ class APBDMurniController extends Controller
                 break;
                 case 'datauraian' :
                     $rinciankegiatan = RKARincianKegiatanModel::find($id);
-                    $rkaid=$rinciankegiatan->RKAID;
                     $result=$rinciankegiatan->delete();
-
-                    $rka = $this->getDataRKA($rkaid);                    
-                    
-                    $filters=$this->getControllerStateSession('apbdmurni','filters');
-                    $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
-                    $datauraian=$this->populateDataUraian($rkaid);
-                    $datatable=view("pages.$theme.rka.apbdmurni.datatableuraian")->with([
-                                                                                        'datauraian'=>$datauraian,
-                                                                                        'rka'=>$rka
-                                                                                    ])->render();
-                        
+                    return response()->json(['message'=>"data rincian kegiatan dengan ID ($id) Berhasil di Hapus"],200);  
                 break;
                 case 'datarencanafisik' :
                     $rinciankegiatan = RKARincianKegiatanModel::find($id);

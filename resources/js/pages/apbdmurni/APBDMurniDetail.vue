@@ -162,21 +162,22 @@
                             </div>
                         </div>
                         <div class="card-body table-responsive p-0" v-if="daftar_uraian.length > 0">
-                            <table class="table table-striped table-hover mb-2">
+                            <table class="table table-striped table-hover mb-2 table-condensed">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>                        
                                         <th scope="col">
                                             NAMA PAKET PEKERJAAN
                                         </th>
-                                        <th class="text-right">                            
+                                        <th width="100" class="text-center">VOL.</th>
+                                        <th class="text-right" width="100">                            
                                             HARGA SAT.
                                         </th>
                                         <th class="text-right">
                                             PAGU URAIAN
-                                        </th>
-                                        <th width="110" class="text-right">REALISASI</th>
-                                        <th width="110" class="text-right">SISA</th>
+                                        </th>                                        
+                                        <th width="100" class="text-right">REALISASI</th>
+                                        <th width="100" class="text-right">SISA</th>
                                         <th width="100" class="text-center">FISIK (%)</th>
                                         <th width="100">AKSI</th>
                                     </tr>
@@ -185,6 +186,7 @@
                                     <tr v-for="(item,index) in daftar_uraian" v-bind:key="item.RKARincID">
                                         <td>{{index+1}}</td>
                                         <td>{{item.nama_uraian}}</td>
+                                        <td class="text-center">{{item.volume1}} {{item.satuan1}}</td>
                                         <td class="text-right">{{item.harga_satuan1|formatUang}}</td>    
                                         <td class="text-right">{{item.pagu_uraian1|formatUang}}</td>
                                         <td class="text-right">{{item.realisasi1|formatUang}}</td>
@@ -212,7 +214,7 @@
                                 </tbody>
                                 <tfoot>
                                     <tr class="table-info font-weight-bold">
-                                        <td colspan="3" class="text-right">TOTAL</td>
+                                        <td colspan="4" class="text-right">TOTAL</td>
                                         <td class="text-right">
                                             {{totalpaguuraian|formatUang}}
                                         </td>
@@ -266,7 +268,7 @@
 export default {
     mounted()
     {
-        this.fetchDetailKegiatan();
+        this.proc ('default');          
     },
     data: function() 
 	{
@@ -332,8 +334,40 @@ export default {
 
                 break;
                 case 'destroy':
-
+                    var self = this;
+                    this.$swal({
+                        title: 'Yakin mau menghapus rincian kegiatan?',
+                        text: "Anda tidak bisa mengembalikan data ini",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus ini!',
+                        cancelButtonText: 'Tidak, Batalkan!',
+                        buttonsStyling: true
+                    }).then(function (isConfirm){
+                        if(isConfirm.value === true) 
+                        {
+                            axios.post('/api/v1/apbdmurni/'+item.RKARincID,{
+                                '_method':'DELETE',
+                                'pid':'datauraian'
+                            },{
+                                headers:{
+                                    'Authorization': window.laravel.api_token,
+                                },
+                            })
+                            .then(response => {                                                          
+                                self.fetchDetailKegiatan();                                                           
+                            })
+                            .catch(response => {
+                                self.api_message = response;                               
+                            });                                  
+                        }
+                    });                          
                 break;
+                case 'default' :
+                    this.pid = pid;
+                    this.fetchDetailKegiatan();
             }
         },
     }
