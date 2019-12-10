@@ -388,7 +388,7 @@ class APBDMurniController extends Controller
                                 'daftar_apbdmurni'=>$data],200);            
     }
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource. [tambah kegiatan]
      *
      * @return \Illuminate\Http\Response
      */
@@ -548,7 +548,7 @@ class APBDMurniController extends Controller
         return response()->json($json_data,200);
     }
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource. [pilih rekening]
      *
      * @return \Illuminate\Http\Response
      */
@@ -575,7 +575,7 @@ class APBDMurniController extends Controller
         }        
     }
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource [tambah uraian]
      *
      * @return \Illuminate\Http\Response
      */
@@ -585,48 +585,12 @@ class APBDMurniController extends Controller
         return response()->json($daftar_jenispelaksanaan,200);              
     }
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource. [tambah rincian target fisik]
      *
      * @return \Illuminate\Http\Response
      */
     public function create3(Request $request,$id)
-    {        
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $locked=false;
-        $rka=$this->getDataRKA($id);
-        try
-        {   
-
-            $datauraian=$this->populateDataUraian($id);
-            $daftar_uraian=[''=>''];
-            foreach ($datauraian as $v)
-            {
-                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
-            }
-            return view("pages.$theme.rka.apbdmurni.create3")->with(['page_active'=>'apbdmurni',
-                                                                        'filters'=>$filters,
-                                                                        'daftar_uraian'=>$daftar_uraian,
-                                                                        'rka'=>$rka,
-                                                                    ]);
-        }
-        catch (\Exception $e)
-        {            
-            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>$e->getMessage()
-                                                                ]);  
-        }        
-    }
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create4(Request $request,$id)
-    {        
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $locked=false;
-        $rka=$this->getDataRKA($id);
+    {  
         try
         {   
             $r=\DB::table('trRKARinc')
@@ -645,12 +609,38 @@ class APBDMurniController extends Controller
                     ->orderByRaw('v_rekening."Kd_Rek_5"::int ASC')           
                     ->get();
 
-            $daftar_uraian=[''=>''];
             foreach ($r as $v)
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
             }
-            return view("pages.$theme.rka.apbdmurni.create4")->with(['page_active'=>'apbdmurni',
+            return response()->json($daftar_uraian,200);
+        }
+        catch (\Exception $e)
+        {            
+            return response()->json($e->getMessage(),500);
+        }              
+        
+    }
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create4(Request $request,$id)
+    {        
+        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
+        $locked=false;
+        $rka=$this->getDataRKA($id);
+        try
+        {   
+
+            $datauraian=$this->populateDataUraian($id);
+            $daftar_uraian=[''=>''];
+            foreach ($datauraian as $v)
+            {
+                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
+            }
+            return view("pages.$theme.rka.apbdmurni.create3")->with(['page_active'=>'apbdmurni',
                                                                         'filters'=>$filters,
                                                                         'daftar_uraian'=>$daftar_uraian,
                                                                         'rka'=>$rka,
@@ -934,7 +924,17 @@ class APBDMurniController extends Controller
             //          
         }        
     }
-
+    /**
+     * Display the specified resource. [targetfisik]
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function targetfisik($uuid)
+    {
+        $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($uuid);
+        return response()->json($datarencanatargetfisik,200);
+    }
     /**
      * Show the form for editing the specified resource.
      *

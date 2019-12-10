@@ -80,7 +80,7 @@
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create')" title="Tambaha Kegiatan Baru">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create')" title="Tambah Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
                                 </button>                                
                             </div>
@@ -127,7 +127,7 @@
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                     <a class="dropdown-item" href="#" v-on:click.prevent="proc('show',item)">
-                                                        <i class="fas fa-eye"></i> DETAIL
+                                                        <i class="fas fa-eye"></i> URAIAN
                                                     </a>
                                                     <a class="dropdown-item" href="#" v-on:click.prevent="proc('edit',item)">
                                                         <i class="fas fa-edit"></i> UBAH
@@ -297,7 +297,7 @@ export default {
                     page.detailkegiatan = {};                        
                     page.RKAID = item.RKAID;                        
                     this.$store.commit('replacePage',page);      
-                    this.$router.push('apbdmurni/detail');
+                    this.$router.push('/apbdmurni/uraian');
                 break;
                 case 'create':
                     if (this.SOrgID == '')
@@ -313,7 +313,7 @@ export default {
                     }
                     else
                     {                        
-                        this.$router.push('apbdmurni/create');                        
+                        this.$router.push('/apbdmurni/create');                        
                     }                    
                 break;
                 case 'destroy':

@@ -6,14 +6,14 @@
                 <div class="col-sm-6">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-cart-arrow-down"></i>
-                        APBD MURNI
+                        APBD MURNI | URAIAN
                     </h1>
                 </div>
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item"><router-link to="/apbdmurni">APBD MURNI</router-link></li>
-                        <li class="breadcrumb-item active">DETAIL</li>
+                        <li class="breadcrumb-item active">URAIAN</li>
                     </ol>
                 </div>
             </div>
@@ -36,7 +36,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><i class="fas fa-eye"></i> DETAIL KEGIATAN</h3>
+                            <h3 class="card-title"><i class="fas fa-eye"></i> DATA KEGIATAN</h3>
                             <div class="card-tools">                                 
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)" title="Tambah Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
@@ -288,12 +288,12 @@ export default {
     },
     methods: 
     {
-        fetchDetailKegiatan()
+        fetchUraianKegiatan()
         {           
             var page = this.$store.getters.getPage('apbdmurni');            
             this.$swal({
                 title: '<i class="fas fa-spin fa-spinner"></i>',
-                text: "Mendapatkan informasi Detail Data Kegiatan dengan ID "+page.RKAID,
+                text: "Mendapatkan informasi Uraian Data Kegiatan dengan ID "+page.RKAID,
                 showCancelButton: false,
                 showConfirmButton: false,
                 showCloseButton: false,
@@ -357,7 +357,7 @@ export default {
                                 },
                             })
                             .then(response => {                                                          
-                                self.fetchDetailKegiatan();                                                           
+                                self.fetchUraianKegiatan();                                                           
                             })
                             .catch(response => {
                                 self.api_message = response;                               
@@ -367,7 +367,7 @@ export default {
                 break;
                 case 'default' :
                     this.pid = pid;
-                    this.fetchDetailKegiatan();
+                    this.fetchUraianKegiatan();
             }
         },
     }

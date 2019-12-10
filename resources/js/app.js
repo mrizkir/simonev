@@ -1,7 +1,7 @@
 require('./bootstrap');
 window.Vue = require('vue');
 //component
-Vue.component('apbdmurnidetailmenu', require('./pages/apbdmurni/APBDMurniDetailMenu').default);
+Vue.component('apbdmurnimenuuraian', require('./pages/apbdmurni/APBDMurniMenuUraian').default);
 
 //vue route
 import VueRouter from 'vue-router';
@@ -88,7 +88,7 @@ const app = new Vue({
                     window.$('#linkDMaster').removeClass('active');
                 break;
                 case 'apbdmurnicreate' :                        
-                case 'apbdmurnidetail' :                        
+                case 'apbdmurniuraian' :                        
                 case 'apbdmurniuraianpilihrekening' :                        
                 case 'apbdmurniuraiancreate' :                        
                     window.$('#linkAPBDMurni').addClass('active');

@@ -17,9 +17,15 @@
         </a>
         <ul class="nav nav-treeview" id="ulAPBDMurni">
             <li class="nav-item">
-                <router-link to="/apbdmurni/detail" class="nav-link" @click.native="changeMenuItem">
+                <router-link to="/apbdmurni/uraian" class="nav-link" @click.native="changeMenuItem">
                     <i class="fas fa-circle nav-icon text-warning"></i>
-                    <p>DETAIL</p>
+                    <p>URAIAN</p>
+                </router-link>
+            </li>
+            <li class="nav-item">
+                <router-link to="/apbdmurni/uraian/targetfisik" class="nav-link" @click.native="changeMenuItem">
+                    <i class="fas fa-circle nav-icon text-warning"></i>
+                    <p>RENCANA TARGET FISIK</p>
                 </router-link>
             </li>
         </ul>
@@ -32,7 +38,8 @@ export default {
         var name = this.$router.currentRoute.name;
         switch(name)
         {
-            case 'apbdmurnidetail' :
+            case 'apbdmurniuraian' :
+            case 'apbdmurniuraiantargetfisik' :
                 this.apbdmurninotselectedmenu=false;
             break;
             default :

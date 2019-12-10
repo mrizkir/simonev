@@ -144,7 +144,7 @@
 							</li>							
 						</ul>
 					</li>
-					<apbdmurnidetailmenu/>
+					<apbdmurnimenuuraian/>
 				</ul>
 			</nav>
 		</div>

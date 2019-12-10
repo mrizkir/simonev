@@ -22,10 +22,11 @@
 // const PaguAnggaranOPD = () => import ('./pages/dmaster/PaguAnggaranOPD.vue');
 
 // const APBDMurni = () => import ('./pages/APBDMurni.vue');
-// const APBDMurniDetail = () => import ('./pages/apbdmurni/APBDMurniDetail.vue');
+// const APBDMurniUraian = () => import ('./pages/apbdmurni/APBDMurniUraian.vue');
 // const APBDMurniCreate = () => import ('./pages/apbdmurni/APBDMurniCreate.vue');
 // const APBDMurniUraianPilihRekening = () => import ('./pages/apbdmurni/APBDMurniUraianPilihRekening.vue');
 // const APBDMurniUraianCreate = () => import ('./pages/apbdmurni/APBDMurniUraianCreate.vue');
+// const APBDMurniUraianTargetFisik = () => import ('./pages/apbdmurni/APBDMurniUraianTargetFisik.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
 import FormValidation from './pages/FormValidation.vue';
@@ -51,10 +52,11 @@ import JenisPelaksanaan from './pages/dmaster/JenisPelaksanaan.vue';
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
 import APBDMurni from './pages/APBDMurni.vue';
-import APBDMurniDetail from './pages/apbdmurni/APBDMurniDetail.vue';
+import APBDMurniUraian from './pages/apbdmurni/APBDMurniUraian.vue';
 import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
 import APBDMurniUraianPilihRekening from './pages/apbdmurni/APBDMurniUraianPilihRekening.vue';
 import APBDMurniUraianCreate from './pages/apbdmurni/APBDMurniUraianCreate.vue';
+import APBDMurniUraianTargetFisik from './pages/apbdmurni/APBDMurniUraianTargetFisik.vue';
 
 export const routes =  [
     {
@@ -203,12 +205,12 @@ export const routes =  [
         component: APBDMurni
     },    
     {
-        name:'apbdmurnidetail',
-        path: '/apbdmurni/detail',
+        name:'apbdmurniuraian',
+        path: '/apbdmurni/uraian',
         meta:{
             title: "APBD MURNI | DETAIL"
         },
-        component: APBDMurniDetail
+        component: APBDMurniUraian
     },    
     {
         name:'apbdmurnicreate',
@@ -233,5 +235,13 @@ export const routes =  [
             title: "APBD MURNI | URAIAN BARU"
         },
         component: APBDMurniUraianCreate
+    },    
+    {
+        name:'apbdmurniuraiantargetfisik',
+        path: '/apbdmurni/uraian/targetfisik',
+        meta:{
+            title: "APBD MURNI | RENCANA TARGET FISIK"
+        },
+        component: APBDMurniUraianTargetFisik
     },    
 ];

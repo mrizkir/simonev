@@ -13,7 +13,7 @@
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item"><router-link to="/apbdmurni">APBD MURNI</router-link></li>
-                        <li class="breadcrumb-item"><router-link to="/apbdmurni/detail">DETAIL</router-link></li>
+                        <li class="breadcrumb-item"><router-link to="/apbdmurni/uraian">URAIAN</router-link></li>
                         <li class="breadcrumb-item active">PILIH REKENING</li>
                     </ol>
                 </div>
@@ -96,7 +96,7 @@
                                 <i class="fas fa-plus"></i> PILIH REKENING
                             </h3>
                             <div class="card-tools">
-                                <router-link to="/apbdmurni/detail" class="btn btn-tool">
+                                <router-link to="/apbdmurni/uraian" class="btn btn-tool">
                                     <i class="fas fa-times"></i>
                                 </router-link>                                
                             </div>       
