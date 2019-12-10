@@ -611,7 +611,7 @@ class APBDMurniController extends Controller
 
             foreach ($r as $v)
             {
-                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
+                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.'] '.$v->nama_uraian;
             }
             return response()->json($daftar_uraian,200);
         }

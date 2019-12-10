@@ -108,7 +108,11 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">RINCIAN KEGIATAN :</label> 
                                     <div class="col-md-9">
-                                        
+                                        <v-select 
+                                            v-model="form.RKARincID" 
+                                            placeholder="PILIH RINCIAN KEGIATAN" 
+                                            :options="daftar_rinciankegiatan">
+                                        </v-select>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
@@ -116,22 +120,18 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[0]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control"> 
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
@@ -139,22 +139,18 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[1]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
@@ -162,22 +158,18 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[2]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control"> 
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
@@ -185,45 +177,37 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[3]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control"> 
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">BULAN MEI :</label> 
                                     <div class="col-md-9">
                                         <vue-autonumeric 
-											v-model.trim="form.targetfisik[4]" 
-											v-on:input="$v.form.$touch"
+											v-model.trim="form.targetfisik[4]" 											
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control"> 
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
@@ -231,91 +215,75 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[5]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control"> 
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">BULAN JULI :</label> 
                                     <div class="col-md-9">
                                         <vue-autonumeric 
-											v-model.trim="form.targetfisik[6]" 
-											v-on:input="$v.form.$touch"
+											v-model.trim="form.targetfisik[6]" 											
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control"> 
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">BULAN AGUSTUS :</label> 
                                     <div class="col-md-9">
                                         <vue-autonumeric 
-											v-model.trim="form.targetfisik[7]" 
-											v-on:input="$v.form.$touch"
+											v-model.trim="form.targetfisik[7]" 											
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>                                   
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">BULAN SEPTEMBER :</label> 
                                     <div class="col-md-9">
                                         <vue-autonumeric 
-											v-model.trim="form.targetfisik[8]" 
-											v-on:input="$v.form.$touch"
+											v-model.trim="form.targetfisik[8]" 											
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>                                   
                                 <div class="form-group row">
@@ -323,45 +291,37 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[9]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>                                   
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">BULAN NOVEMBER :</label> 
                                     <div class="col-md-9">
                                         <vue-autonumeric 
-											v-model.trim="form.targetfisik[10]" 
-											v-on:input="$v.form.$touch"
+											v-model.trim="form.targetfisik[10]" 											
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
+											class="form-control">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
                                     </div>
                                 </div>                                                                   
                                 <div class="form-group row">
@@ -369,24 +329,37 @@
                                     <div class="col-md-9">
                                         <vue-autonumeric 
 											v-model.trim="form.targetfisik[11]" 
-											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:100,
-                                                numericPos:true,
-                                                decimalPlaces : 0,
-                                                digitGroupSeparator : '',
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
                                                 showWarnings:false,
+                                                emptyInputBehavior:0.00,
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.targetfisik.$error, 'is-valid': $v.form.targetfisik.$dirty && !$v.form.targetfisik.$invalid}">
-										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.targetfisik.$error">* wajib isi target fisik bulan januari</div>
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
+										</vue-autonumeric>										
                                     </div>
-                                </div>                 
+                                </div>         
+                                <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">TOTAL: </label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">{{totalTargetFisik}}</p>
+                                    </div>                            
+                                </div>       
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-info">Simpan</button>                                        
+                                    </div>                                    
+                                </div>
                             </div>
                         </form>
                     </div>
@@ -491,9 +464,11 @@ export default {
                 data:{}
             },
             //form			
-            daftar_bulan: [],           
+            totalTargetFisik:0,
+            daftar_rinciankegiatan: [],           
 			form: {		
-               targetfisik:[]
+                RKARincID:'',
+                targetfisik:[]
             }
         }
     },
@@ -526,7 +501,15 @@ export default {
                         }
                     })
                     .then(response => {                                        
-                        console.log(response.data);                
+                        console.log(response.data);    
+                        var daftar_rinciankegiatan = [];
+                        $.each(response.data,function(key,value){
+                            daftar_rinciankegiatan.push({
+                                code:key,
+                                label:value
+                            });
+                        });                
+                        this.daftar_rinciankegiatan=daftar_rinciankegiatan;                   
                     })
                     .catch(response => {
                         this.api_message = response;
@@ -537,6 +520,10 @@ export default {
                     this.populateData();
                     this.clearform();
             }
+        },
+        calTotalTargetFisik ()
+        {
+            console.log(this.form.targetfisik);
         },
         saveData() 
 		{	
@@ -553,13 +540,12 @@ export default {
     },
     validations: {
 		form:{
-            targetfisik: {
-                required
-            }
+            RKARincID: required,
         }
 	},
 	components: 
 	{
+        'v-select': vSelect,
         'vue-autonumeric':VueAutonumeric,
     }
 }
