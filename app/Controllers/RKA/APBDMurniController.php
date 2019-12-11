@@ -608,7 +608,8 @@ class APBDMurniController extends Controller
                     ->orderByRaw('v_rekening."Kd_Rek_4"::int ASC')
                     ->orderByRaw('v_rekening."Kd_Rek_5"::int ASC')           
                     ->get();
-
+                    
+            $daftar_uraian=[];
             foreach ($r as $v)
             {
                 $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.'] '.$v->nama_uraian;
