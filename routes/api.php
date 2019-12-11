@@ -107,13 +107,14 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     
     //RKA - APBD Murni
     Route::resource('/apbdmurni','RKA\APBDMurniController',['parameters'=>['apbdmurni'=>'uuid']]);
-    Route::get('/apbdmurni/uraian/targetfisik/{uuid}',['uses'=>'RKA\APBDMurniController@targetfisik','as'=>'apbdmurni.targetfisik']);  
+    Route::get('/apbdmurni/uraian/rencanatarget/{uuid}',['uses'=>'RKA\APBDMurniController@rencanatarget','as'=>'apbdmurni.rencanatarget']);  
     Route::post('/apbdmurni/filter',['uses'=>'RKA\APBDMurniController@filter','as'=>'apbdmurni.filter']);  
     Route::get('/apbdmurni/create1',['uses'=>'RKA\APBDMurniController@create1','as'=>'apbdmurni.create1']);  
     Route::get('/apbdmurni/create2',['uses'=>'RKA\APBDMurniController@create2','as'=>'apbdmurni.create2']);  
     Route::get('/apbdmurni/create3/{uuid}',['uses'=>'RKA\APBDMurniController@create3','as'=>'apbdmurni.create3']);  
     Route::post('/apbdmurni/changerekening',['uses'=>'RKA\APBDMurniController@changerekening','as'=>'apbdmurni.changerekening']);
     Route::post('/apbdmurni/store2',['uses'=>'RKA\APBDMurniController@store2','as'=>'apbdmurni.store2']);                      
+    Route::post('/apbdmurni/store3',['uses'=>'RKA\APBDMurniController@store3','as'=>'apbdmurni.store3']);                      
     
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);

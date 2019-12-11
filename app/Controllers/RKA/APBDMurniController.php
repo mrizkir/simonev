@@ -656,7 +656,7 @@ class APBDMurniController extends Controller
         }        
     }
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. [simpan kegiatan]
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -702,7 +702,7 @@ class APBDMurniController extends Controller
         }
     }
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. [simpan rincian[uraian] kegiatan]
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -745,16 +745,66 @@ class APBDMurniController extends Controller
                 'message'=>'Data ini telah berhasil disimpan.'
             ],200); 
         }
-        
-
     }
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created resource in storage. [simpan rencana target fisik dan anggaran kas]
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store3(Request $request,$id)
+    public function store3(Request $request)
+    {                
+        $validator=\Validator::make($request->all(), [
+            'RKARincID'=>'required',
+            'bulan_fisik.*'=>'required',
+            'bulan_anggaran.*'=>'required',
+        ]);
+
+        if ($validator->fails())
+        {
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
+        }
+        else
+        {
+            $bulan_fisik= $request->input('bulan_fisik');      
+            $bulan_anggaran= $request->input('bulan_anggaran');      
+            $data = [];
+            $now = \Carbon\Carbon::now('utc')->toDateTimeString();
+            for ($i=0;$i < 12; $i+=1)
+            {
+                $data[]=[
+                    'RKATargetRincID'=>uniqid ('uid'),
+                    'RKAID'=>$request->input('RKAID'),
+                    'RKARincID'=>$request->input('RKARincID'),
+                    'bulan1'=>$i+1,
+                    'target1'=>$bulan_anggaran[$i],
+                    'target2'=>0,
+                    'fisik1'=>$bulan_fisik[$i],
+                    'fisik2'=>0,
+                    'EntryLvl'=>1,
+                    'Descr'=>$request->input('Descr'),
+                    'TA'=>\HelperKegiatan::getTahunAnggaran(),
+                    'created_at'=>$now,
+                    'updated_at'=>$now,
+                ];
+            }
+            RKARencanaTargetModel::insert($data);
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil disimpan.'
+            ],200);
+        }
+            
+    }   
+    /**
+     * Store a newly created resource in storage. [simpan realisasi rincian kegiatan]
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store4(Request $request,$id)
     {
         
         $this->validate($request, [
@@ -795,61 +845,7 @@ class APBDMurniController extends Controller
             return redirect(route('apbdmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
         }
 
-    }
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store4(Request $request,$id)
-    {                
-        $this->validate($request, [
-            'RKARincID'=>'required',
-            'bulan_fisik.*'=>'required',
-            'bulan_anggaran.*'=>'required',
-        ]);
-        $bulan_fisik= $request->input('bulan_fisik');      
-        $bulan_anggaran= $request->input('bulan_anggaran');      
-        $data = [];
-        $now = \Carbon\Carbon::now('utc')->toDateTimeString();
-        for ($i=0;$i < 12; $i+=1)
-        {
-            $data[]=[
-                'RKATargetRincID'=>uniqid ('uid'),
-                'RKAID'=>$id,
-                'RKARincID'=>$request->input('RKARincID'),
-                'bulan1'=>$i+1,
-                'target1'=>$bulan_anggaran[$i],
-                'target2'=>0,
-                'fisik1'=>$bulan_fisik[$i],
-                'fisik2'=>0,
-                'EntryLvl'=>1,
-                'Descr'=>$request->input('Descr'),
-                'TA'=>\HelperKegiatan::getTahunAnggaran(),
-                'created_at'=>$now,
-                'updated_at'=>$now,
-            ];
-        }
-        RKARencanaTargetModel::insert($data);
-      
-        $this->destroyControllerStateSession('filters','RKARincID');
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']='data-rencana-target-fisik-tab';
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
-        }
-        else
-        {
-            return redirect(route('apbdmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
-        }
-
-    }
+    }    
     /**
      * digunakan untuk melakukan perubahan tabulasi detail rka.
      *
@@ -926,12 +922,12 @@ class APBDMurniController extends Controller
         }        
     }
     /**
-     * Display the specified resource. [targetfisik]
+     * Display the specified resource. [rencanatarget]
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function targetfisik($uuid)
+    public function rencanatarget($uuid)
     {
         $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($uuid);
         return response()->json($datarencanatargetfisik,200);

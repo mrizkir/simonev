@@ -23,9 +23,9 @@
                 </router-link>
             </li>
             <li class="nav-item">
-                <router-link to="/apbdmurni/uraian/targetfisik" class="nav-link" @click.native="changeMenuItem">
+                <router-link to="/apbdmurni/uraian/rencanatarget" class="nav-link" @click.native="changeMenuItem">
                     <i class="fas fa-circle nav-icon text-warning"></i>
-                    <p>RENCANA TARGET FISIK</p>
+                    <p>RENCANA TARGET</p>
                 </router-link>
             </li>
         </ul>
@@ -35,18 +35,24 @@
 export default {
     mounted()
     {
-        var name = this.$router.currentRoute.name;
-        switch(name)
+        this.changeMenuItem();
+    },
+    methods:
+    {
+        changeMenuItem()
         {
-            case 'apbdmurniuraian' :
-            case 'apbdmurniuraiantargetfisik' :
-                this.apbdmurninotselectedmenu=false;
-            break;
-            default :
-                this.apbdmurninotselectedmenu=true;
+            var name = this.$router.currentRoute.name;
+            switch(name)
+            {
+                case 'apbdmurniuraian' :
+                case 'apbdmurniuraianrencanatarget' :
+                    this.apbdmurninotselectedmenu=false;
+                break;
+                default :
+                    this.apbdmurninotselectedmenu=true;
+            }
         }
     },
-    
     data: function() 
 	{
 		return {

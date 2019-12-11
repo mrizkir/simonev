@@ -26,7 +26,7 @@
 // const APBDMurniCreate = () => import ('./pages/apbdmurni/APBDMurniCreate.vue');
 // const APBDMurniUraianPilihRekening = () => import ('./pages/apbdmurni/APBDMurniUraianPilihRekening.vue');
 // const APBDMurniUraianCreate = () => import ('./pages/apbdmurni/APBDMurniUraianCreate.vue');
-// const APBDMurniUraianTargetFisik = () => import ('./pages/apbdmurni/APBDMurniUraianTargetFisik.vue');
+// const APBDMurniUraianRencanaTarget = () => import ('./pages/apbdmurni/APBDMurniUraianRencanaTarget.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
 import FormValidation from './pages/FormValidation.vue';
@@ -56,7 +56,7 @@ import APBDMurniUraian from './pages/apbdmurni/APBDMurniUraian.vue';
 import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
 import APBDMurniUraianPilihRekening from './pages/apbdmurni/APBDMurniUraianPilihRekening.vue';
 import APBDMurniUraianCreate from './pages/apbdmurni/APBDMurniUraianCreate.vue';
-import APBDMurniUraianTargetFisik from './pages/apbdmurni/APBDMurniUraianTargetFisik.vue';
+import APBDMurniUraianRencanaTarget from './pages/apbdmurni/APBDMurniUraianRencanaTarget.vue';
 
 export const routes =  [
     {
@@ -237,11 +237,11 @@ export const routes =  [
         component: APBDMurniUraianCreate
     },    
     {
-        name:'apbdmurniuraiantargetfisik',
-        path: '/apbdmurni/uraian/targetfisik',
+        name:'apbdmurniuraianrencanatarget',
+        path: '/apbdmurni/uraian/rencanatarget',
         meta:{
             title: "APBD MURNI | RENCANA TARGET FISIK"
         },
-        component: APBDMurniUraianTargetFisik
+        component: APBDMurniUraianRencanaTarget
     },    
 ];
