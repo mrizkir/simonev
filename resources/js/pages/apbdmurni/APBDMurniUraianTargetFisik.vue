@@ -110,9 +110,14 @@
                                     <div class="col-md-9">
                                         <v-select 
                                             v-model="form.RKARincID" 
+											v-on:input="$v.form.$touch" 
                                             placeholder="PILIH RINCIAN KEGIATAN" 
-                                            :options="daftar_rinciankegiatan">
+                                            :options="daftar_rinciankegiatan" 
+                                            :reduce="daftar_rinciankegiatan => daftar_rinciankegiatan.code" 
+                                            @input="changeRincianKegiatan" 
+											v-bind:class="{'is-invalid': $v.form.RKARincID.$error, 'is-valid': $v.form.RKARincID.$dirty && !$v.form.RKARincID.$invalid}">
                                         </v-select>
+										<div class="text-danger" v-if="$v.form.RKARincID.$error">* Mohon dipilih Rincian Kegiatan</div>
                                     </div>
                                 </div>   
                                 <div class="form-group row">
@@ -130,7 +135,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control"> 
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -149,7 +155,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control">
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -168,7 +175,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control"> 
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -187,7 +195,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control"> 
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -206,7 +215,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control"> 
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -225,7 +235,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control"> 
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -244,7 +255,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control"> 
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>   
@@ -263,7 +275,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control">
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>                                   
@@ -282,7 +295,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control">
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>                                   
@@ -301,7 +315,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control">
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>                                   
@@ -320,7 +335,8 @@
                                                 unformatOnSubmit: true,
                                                 modifyValueOnWheel:false
 											}" 
-											class="form-control">
+											class="form-control"
+                                            v-on:input="calTotalTargetFisik">
 										</vue-autonumeric>
                                     </div>
                                 </div>                                                                   
@@ -347,7 +363,10 @@
                                 <div class="form-group row">
                                     <label class="col-md-3 col-form-label">TOTAL: </label>
                                     <div class="col-md-9">
-                                        <p class="form-control-static">{{totalTargetFisik}}</p>
+                                        <p class="form-control-static">
+											{{form.totalTargetFisik}}			
+                                            <span class="text-danger" v-if="$v.form.totalTargetFisik.$error">* Tidak boleh melampaui 100</span>								
+										</p>
                                     </div>                            
                                 </div>       
                             </div>
@@ -443,6 +462,9 @@
 import vSelect from 'vue-select';
 import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
+
+const lessThan100 = (value) => value <= 100;
+
 export default {
     created ()
     {
@@ -464,11 +486,12 @@ export default {
                 data:{}
             },
             //form			
-            totalTargetFisik:0,
+            
             daftar_rinciankegiatan: [],           
 			form: {		
                 RKARincID:'',
-                targetfisik:[]
+                targetfisik:[],
+                totalTargetFisik:0,
             }
         }
     },
@@ -500,8 +523,7 @@ export default {
                             'Authorization': window.laravel.api_token,
                         }
                     })
-                    .then(response => {                                        
-                        console.log(response.data);    
+                    .then(response => {                                                                  
                         var daftar_rinciankegiatan = [];
                         $.each(response.data,function(key,value){
                             daftar_rinciankegiatan.push({
@@ -521,17 +543,25 @@ export default {
                     this.clearform();
             }
         },
+        changeRincianKegiatan ()
+        {
+            console.log('RKARincID='+this.form.RKARincID);
+        },
         calTotalTargetFisik ()
         {
-            console.log(this.form.targetfisik);
+			var total=0;
+			$.each(this.form.targetfisik, function(key,value) {
+				total+=value;
+			});
+			this.form.totalTargetFisik = total;            
         },
         saveData() 
 		{	
-            this.$v.form.$touch();    
+            this.$v.form.$touch();  
             if(this.$v.$invalid == false)
             { 
-                
-			}        
+                console.log('test');
+            }                   
         },
         clearform ()
         {   
@@ -540,8 +570,13 @@ export default {
     },
     validations: {
 		form:{
-            RKARincID: required,
-        }
+            RKARincID: {
+                required
+            },             
+            totalTargetFisik: {
+                lessThan100
+            }           
+        },        
 	},
 	components: 
 	{
