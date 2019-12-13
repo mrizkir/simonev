@@ -41,34 +41,24 @@
                             <div class="card-body">
                                 <div class="form-group row" id="divOrgID">
                                     <label class="col-sm-2 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-10">                                        
-                                        <select2 
-                                            id="OrgID" 
-                                            name="OrgID" 
+                                    <div class="col-sm-10">   
+                                        <v-select 
                                             v-model="OrgID" 
-                                            :options="daftar_opd" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH OPD / SKPD'
-                                            }" 
-                                            v-on:select="fetchUnitKerja($event)">
-                                        </select2>
+                                            placeholder="PILIH OPD / SKPD" 
+                                            :options="daftar_opd"
+                                            @input="fetchUnitKerja">
+                                        </v-select>
                                     </div>
                                 </div>                               
                                 <div class="form-group row" id="divSOrgID">
                                     <label class="col-sm-2 col-form-label">UNIT KERJA</label>
-                                    <div class="col-sm-10">                                        
-                                        <select2 
-                                            id="SOrgID" 
-                                            name="SOrgID" 
+                                    <div class="col-sm-10">
+                                        <v-select 
                                             v-model="SOrgID" 
-                                            :options="daftar_unitkerja" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH UNIT KERJA'
-                                            }" 
-                                            v-on:select="filter($event)">
-                                        </select2>
+                                            placeholder="PILIH UNIT KERJA" 
+                                            :options="daftar_unitkerja"
+                                            @input="filter">
+                                        </v-select>
                                     </div>
                                 </div>                               
                             </div>
@@ -164,7 +154,7 @@
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 
 export default {
     mounted()
@@ -218,8 +208,8 @@ export default {
                 var daftar_opd = [];
                 $.each(response.data,function(key,value){
                     daftar_opd.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_opd=daftar_opd;   
@@ -228,19 +218,16 @@ export default {
                 this.api_message = response;
             });
         },
-        fetchUnitKerja({id, text})
-        {
-            this.OrgID = id;
-            this.OrgNm = text;
-
+        fetchUnitKerja()
+        {           
             var page = this.$store.getters.getPage('apbdmurni');
-            page.OrgID=id;
-            page.OrgNm=text;
+            page.OrgID=this.OrgID;
+            page.OrgNm=this.OrgID.label;
             page.SOrgID='';
             page.SOrgNm='';
             this.$store.commit('replacePage',page);
 
-            axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+id,{
+            axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
@@ -249,8 +236,8 @@ export default {
                 var daftar_unitkerja = [];
                 $.each(response.data,function(key,value){
                     daftar_unitkerja.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_unitkerja=daftar_unitkerja;                            
@@ -260,13 +247,11 @@ export default {
             });
             this.populateData();
         },
-        filter ({id, text})
-        {
-            this.SOrgID = id;
-            this.SOrgNm = text;            
+        filter ()
+        {           
             var page = this.$store.getters.getPage('apbdmurni');
-            page.SOrgID=id;
-            page.SOrgNm=text;
+            page.SOrgID=this.SOrgID;
+            page.SOrgNm=this.SOrgNm.label;
             this.$store.commit('replacePage',page);
 
             this.populateData();
@@ -276,8 +261,8 @@ export default {
             axios.get('/api/v1/apbdmurni?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
-                    'OrgID':this.OrgID,
-                    'SOrgID':this.SOrgID,
+                    'OrgID':this.OrgID.code,
+                    'SOrgID':this.SOrgID.code,
                 }
             })
             .then(response => {        
@@ -355,7 +340,7 @@ export default {
                     this.OrgNm=this.$store.getters.getAtributeValueOfPage('apbdmurni','OrgNm');      
                     if (this.OrgID!='')
                     {                                
-                        axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID,{
+                        axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
                             headers:{
                                 'Authorization': window.laravel.api_token,
                             }
@@ -364,8 +349,8 @@ export default {
                             var daftar_unitkerja = [];
                             $.each(response.data,function(key,value){
                                 daftar_unitkerja.push({
-                                    id:key,
-                                    text:value
+                                    code:key,
+                                    label:value
                                 });
                             });                
                             this.daftar_unitkerja=daftar_unitkerja;                            
@@ -383,7 +368,7 @@ export default {
     components: 
 	{
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
     }
 }
 </script>

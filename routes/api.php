@@ -114,7 +114,10 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::get('/apbdmurni/create3/{uuid}',['uses'=>'RKA\APBDMurniController@create3','as'=>'apbdmurni.create3']);  
     Route::post('/apbdmurni/changerekening',['uses'=>'RKA\APBDMurniController@changerekening','as'=>'apbdmurni.changerekening']);
     Route::post('/apbdmurni/store2',['uses'=>'RKA\APBDMurniController@store2','as'=>'apbdmurni.store2']);                      
-    Route::post('/apbdmurni/store3',['uses'=>'RKA\APBDMurniController@store3','as'=>'apbdmurni.store3']);                      
+    Route::post('/apbdmurni/store3',['uses'=>'RKA\APBDMurniController@store3','as'=>'apbdmurni.store3']);  
+    
+    Route::get('/apbdmurni/{uuid}/edit3/',['uses'=>'RKA\APBDMurniController@edit3','as'=>'apbdmurni.edit3']);  
+    Route::post('/apbdmurni/update3',['uses'=>'RKA\APBDMurniController@update3','as'=>'apbdmurni.update3']);                      
     
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);

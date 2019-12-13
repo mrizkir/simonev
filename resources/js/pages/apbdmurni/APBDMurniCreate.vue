@@ -200,7 +200,7 @@ export default {
     created ()
     {
         var page = this.$store.getters.getPage('apbdmurni');
-        this.SOrgIDSelected = page.SOrgID.length > 0;        
+        this.SOrgIDSelected = page.SOrgID.code.length > 0;        
     },
     mounted()
     {

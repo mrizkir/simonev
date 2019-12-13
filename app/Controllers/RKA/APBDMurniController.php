@@ -96,6 +96,7 @@ class APBDMurniController extends Controller
                         "RKAID",
                         v_rekening."kode_rek_5",
                         nama_uraian,
+                        pagu_uraian1,
                         fisik_1,
                         fisik_2,
                         fisik_3,
@@ -133,6 +134,7 @@ class APBDMurniController extends Controller
                         "RKAID",
                         v_rekening."kode_rek_5",
                         nama_uraian,
+                        pagu_uraian1,
                         anggaran_1,
                         anggaran_2,
                         anggaran_3,
@@ -477,7 +479,7 @@ class APBDMurniController extends Controller
                 $json_data['datatable']=$datatable;
             break;
             case 'tambahrencana' :
-                $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
+                $RKARincID = $request->input('RKARincID')==''?'':$request->input('RKARincID');
                 $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
                                                     ->find($RKARincID);
                 if (is_null($data_uraian))
@@ -907,8 +909,6 @@ class APBDMurniController extends Controller
                                     ],
                                     200);
             // $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
-            // $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($id);
-            // $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($id);
             // return view("pages.$theme.rka.apbdmurni.show")->with(['page_active'=>'apbdmurni',
             //                                                             'filters'=>$filters,
             //                                                             'rka'=>$rka,
@@ -930,7 +930,10 @@ class APBDMurniController extends Controller
     public function rencanatarget($uuid)
     {
         $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($uuid);
-        return response()->json($datarencanatargetfisik,200);
+        $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($uuid);
+        return response()->json(['targetfisik'=>$datarencanatargetfisik,
+                                'anggarankas'=>$datarencanaanggarankas
+                                ],200);
     }
     /**
      * Show the form for editing the specified resource.
@@ -940,8 +943,6 @@ class APBDMurniController extends Controller
      */
     public function edit($id)
     {
-        $theme = 'dore';
-        
         $data = RKAKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
@@ -959,8 +960,6 @@ class APBDMurniController extends Controller
      */
     public function edit2($id)
     {
-        $theme = 'dore';
-        
         $data = RKARincianKegiatanModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                                             ->findOrFail($id);
         if (!is_null($data) ) 
@@ -980,12 +979,10 @@ class APBDMurniController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit4($id)
+    public function edit3($id)
     {
-        $theme = 'dore';
-        
         $data = RKARincianKegiatanModel::join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
-                                            ->findOrFail($id);
+                                            ->find($id);
         if (!is_null($data) ) 
         {
             $rencana = \DB::table('v_rencana_fisik_anggaran_kas')
@@ -1045,14 +1042,14 @@ class APBDMurniController extends Controller
                 $data_rencana['anggaran_10']=$rencana[0]->anggaran_10;
                 $data_rencana['anggaran_11']=$rencana[0]->anggaran_11;
                 $data_rencana['anggaran_12']=$rencana[0]->anggaran_12;
-
+                
             }
-            return view("pages.$theme.rka.apbdmurni.edit4")->with(['page_active'=>'apbdmurni',
-                                                                        'rka'=>$rka = $this->getDataRKA($data->RKAID),
-                                                                        'data'=>$data,
-                                                                        'data_rencana'=>$data_rencana,
-                                                                    ]);
-        }        
+            return response()->json($data_rencana,200);
+        }       
+        else
+        {
+            return response()->json(['message'=>"Gagal mendapatkan Rencana target fisik dengan RKARincID=$id"],500);
+        }  
     }
 
     /**
@@ -1155,61 +1152,61 @@ class APBDMurniController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified resource in storage. [update rencana target fisik dan anggaran kas]
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update4(Request $request, $id)
+    public function update3(Request $request)
     {
-        $this->validate($request, [
+        
+        $validator=\Validator::make($request->all(), [
             'RKARincID'=>'required',
             'bulan_fisik.*'=>'required',
             'bulan_anggaran.*'=>'required',
         ]);
-
-        \DB::table('trRKATargetRinc')->where('RKARincID',$request->input('RKARincID'))->delete();
-
-        $bulan_fisik= $request->input('bulan_fisik');      
-        $bulan_anggaran= $request->input('bulan_anggaran');      
-        $data = [];
-        $now = \Carbon\Carbon::now('utc')->toDateTimeString();
-        for ($i=0;$i < 12; $i+=1)
+            
+        if ($validator->fails())
         {
-            $data[]=[
-                'RKATargetRincID'=>uniqid ('uid'),
-                'RKAID'=>$id,
-                'RKARincID'=>$request->input('RKARincID'),
-                'bulan1'=>$i+1,
-                'target1'=>$bulan_anggaran[$i],
-                'target2'=>0,
-                'fisik1'=>$bulan_fisik[$i],
-                'fisik2'=>0,
-                'EntryLvl'=>1,
-                'Descr'=>$request->input('Descr'),
-                'TA'=>\HelperKegiatan::getTahunAnggaran(),
-                'created_at'=>$now,
-                'updated_at'=>$now,
-            ];
-        }
-        RKARencanaTargetModel::insert($data);
-      
-        $this->destroyControllerStateSession('filters','RKARincID');
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']='data-rencana-target-fisik-tab';
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        if ($request->ajax()) 
-        {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
         }
         else
         {
-            return redirect(route('apbdmurni.show',['uuid'=>$id]))->with('success','Data ini telah berhasil disimpan.');
-        }
+            \DB::table('trRKATargetRinc')->where('RKARincID',$request->input('RKARincID'))->delete();
+            
+            $bulan_fisik= $request->input('bulan_fisik');      
+            $bulan_anggaran= $request->input('bulan_anggaran');      
+            $data = [];
+            $now = \Carbon\Carbon::now('utc')->toDateTimeString();
+            
+            for ($i=0;$i < 12; $i+=1)
+            {
+                $data[]=[
+                    'RKATargetRincID'=>uniqid ('uid'),
+                    'RKAID'=>$request->input('RKAID'),
+                    'RKARincID'=>$request->input('RKARincID'),
+                    'bulan1'=>$i+1,
+                    'target1'=>$bulan_anggaran[$i],
+                    'target2'=>0,
+                    'fisik1'=>$bulan_fisik[$i],
+                    'fisik2'=>0,
+                    'EntryLvl'=>1,
+                    'Descr'=>$request->input('Descr'),
+                    'TA'=>\HelperKegiatan::getTahunAnggaran(),
+                    'created_at'=>$now,
+                    'updated_at'=>$now,
+                ];
+            }
+            RKARencanaTargetModel::insert($data);
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil di ubah.'
+            ],200);
+        }       
+        
     }
     /**
      * Remove the specified resource from storage.
@@ -1235,27 +1232,13 @@ class APBDMurniController extends Controller
                     $result=$rinciankegiatan->delete();
                     return response()->json(['message'=>"data rincian kegiatan dengan ID ($id) Berhasil di Hapus"],200);  
                 break;
-                case 'datarencanafisik' :
+                case 'datarencana' :
                     $rinciankegiatan = RKARincianKegiatanModel::find($id);
                     $rkaid=$rinciankegiatan->RKAID;
                     \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
 
                     $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($rkaid);
-                    $datatable=view("pages.$theme.rka.apbdmurni.datatablerencanatargetfisik")->with([
-                                                                                                'datarencanatargetfisik'=>$datarencanatargetfisik,
-                                                                                            ])->render();
-                        
-                break;
-                case 'datarencanaanggarankas' :
-                    $rinciankegiatan = RKARincianKegiatanModel::find($id);
-                    $rkaid=$rinciankegiatan->RKAID;
-                    \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
-
-                    $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($rkaid);
-                    $datatable=view("pages.$theme.rka.apbdmurni.datatablerencanaanggarankas")->with([
-                                                                                                'datarencanaanggarankas'=>$datarencanaanggarankas,
-                                                                                            ])->render();
-                        
+                    return response()->json(['message'=>"data rencana target fisik dan anggara kas dengan ID ($id) Berhasil di Hapus"],200);      
                 break;
                 case 'datarealisasi' :
                     $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::find($id);
