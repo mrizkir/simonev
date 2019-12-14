@@ -52,16 +52,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">JENIS</label>
                                     <div class="col-sm-9" id="divJnsID">
-                                        <select2 
-                                            id="JnsID" 
-                                            name="JnsID" 
+                                        <v-select 
                                             v-model="form.JnsID" 
+                                            placeholder="PILIH JENIS" 
                                             :options="daftar_jenis" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH JENIS'
-                                            }">
-                                        </select2>
+                                            :reduce="daftar_jenis => daftar_jenis.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.JnsID.required">* wajib dipilih</div>
                                     </div>
                                 </div>
@@ -136,16 +132,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">JENIS</label>
                                     <div class="col-sm-9" id="divJnsID">
-                                        <select2 
-                                            id="JnsID" 
-                                            name="JnsID" 
+                                        <v-select 
                                             v-model="form.JnsID" 
+                                            placeholder="PILIH JENIS" 
                                             :options="daftar_jenis" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH JENIS'
-                                            }">
-                                        </select2>
+                                            :reduce="daftar_jenis => daftar_jenis.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.JnsID.required">* wajib dipilih</div>
                                     </div>
                                 </div>                       
@@ -393,7 +385,7 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import { required} from 'vuelidate/lib/validators';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 import VueAutonumeric from 'vue-autonumeric';
 
 export default {
@@ -422,7 +414,7 @@ export default {
             txtKriteria:'',
 
             //form			
-            daftar_jenis: [{id:'',text:'PILIH JENIS'}],
+            daftar_jenis:{},
 			form: {		
                 ObyID:'',
                 JnsID:'',		                                
@@ -445,8 +437,8 @@ export default {
                 var daftar_jenis = [];
                 $.each(response.data,function(key,value){
                     daftar_jenis.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_jenis=daftar_jenis;                 
@@ -705,7 +697,7 @@ export default {
 	components: 
 	{
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
         'vue-autonumeric':VueAutonumeric,
     }
 }

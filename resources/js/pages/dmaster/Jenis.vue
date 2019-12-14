@@ -51,17 +51,13 @@
 							<div class="card-body">								
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">KELOMPOK</label>
-                                    <div class="col-sm-9" id="divKlpID">
-                                        <select2 
-                                            id="KlpID" 
-                                            name="KlpID" 
+                                    <div class="col-sm-9" id="divKlpID">                                        
+                                        <v-select 
                                             v-model="form.KlpID" 
-                                            :options="daftar_transaksi" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH KELOMPOK'
-                                            }">
-                                        </select2>
+                                            placeholder="PILIH KELOMPOK" 
+                                            :options="daftar_kelompok" 
+                                            :reduce="daftar_kelompok => daftar_kelompok.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.KlpID.required">* wajib dipilih</div>
                                     </div>
                                 </div>
@@ -136,16 +132,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">KELOMPOK</label>
                                     <div class="col-sm-9" id="divKlpID">
-                                        <select2 
-                                            id="KlpID" 
-                                            name="KlpID" 
+                                        <v-select 
                                             v-model="form.KlpID" 
-                                            :options="daftar_transaksi" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH KELOMPOK'
-                                            }">
-                                        </select2>
+                                            placeholder="PILIH KELOMPOK" 
+                                            :options="daftar_kelompok" 
+                                            :reduce="daftar_kelompok => daftar_kelompok.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.KlpID.required">* wajib dipilih</div>
                                     </div>
                                 </div>                       
@@ -356,7 +348,7 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import { required} from 'vuelidate/lib/validators';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 import VueAutonumeric from 'vue-autonumeric';
 
 export default {
@@ -378,8 +370,8 @@ export default {
             }, 
             api_message:'',           
        
-            //form			
-            daftar_transaksi: [{id:'',text:'PILIH KELOMPOK'}],
+            //form		
+            daftar_kelompok:{},	
 			form: {		
                 JnsID:'',		
                 KlpID:'',                
@@ -399,14 +391,14 @@ export default {
                 }
             })
             .then(response => {             
-                var daftar_transaksi = [];
+                var daftar_kelompok = [];
                 $.each(response.data,function(key,value){
-                    daftar_transaksi.push({
-                        id:key,
-                        text:value
+                    daftar_kelompok.push({
+                        code:key,
+                        label:value
                     });
                 });                
-                this.daftar_transaksi=daftar_transaksi;                 
+                this.daftar_kelompok=daftar_kelompok;                 
             })
             .catch(response => {
                 this.api_message = response;
@@ -587,7 +579,7 @@ export default {
 	components: 
 	{
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
         'vue-autonumeric':VueAutonumeric,
     }
 }

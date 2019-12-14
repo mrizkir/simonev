@@ -43,17 +43,14 @@
                             <div class="card-body">
                                 <div class="form-group row" id="divPrgID">
                                     <label class="col-sm-2 col-form-label">PROGRAM</label>
-                                    <div class="col-sm-10">                                        
-                                        <select2 
-                                            id="cmbPrgID" 
-                                            name="cmbPrgID" 
+                                    <div class="col-sm-10">                                                                                
+                                        <v-select 
                                             v-model="PrgID" 
+                                            placeholder="PILIH PROGRAM" 
                                             :options="daftar_program" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                            }"
-                                            v-on:select="filter($event)">
-                                        </select2>
+                                            :reduce="daftar_program => daftar_program.code" 
+                                            @input="filter">
+                                        </v-select>
                                     </div>
                                 </div>                               
                             </div>
@@ -152,7 +149,7 @@
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 export default {
     mounted()
     {        
@@ -174,7 +171,7 @@ export default {
             api_message:'',   
             //field form search & filter
             PrgID:'',
-            daftar_program: [{}],
+            daftar_program: {},
             cmbKriteria:'kode_kegiatan',
             txtKriteria:'',         
          }
@@ -191,13 +188,13 @@ export default {
             .then(response => { 
                 var daftar_program = [];
                 daftar_program.push({
-                    id:'',
-                    text:'SELURUH PROGRAM'
+                    code:'',
+                    label:'SELURUH PROGRAM'
                 });
                 $.each(response.data,function(key,value){
                     daftar_program.push({
-                        id:value.PrgID,
-                        text:'['+value.kode_program+'] '+value.PrgNm
+                        code:value.PrgID,
+                        label:'['+value.kode_program+'] '+value.PrgNm
                     });
                 });                                            
                 this.daftar_program=daftar_program;
@@ -262,10 +259,10 @@ export default {
                     this.api_message = error.response.data.message;
                 });			   
         },   
-        filter ({id, text})
+        filter ()
         {               
             axios.post('/api/v1/master/programkegiatan/filter',{
-                    'PrgID':id,
+                    'PrgID':this.PrgID,
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
@@ -327,7 +324,7 @@ export default {
     },
     components: {
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
     }
 }
 </script>

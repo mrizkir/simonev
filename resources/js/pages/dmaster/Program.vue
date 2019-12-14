@@ -171,7 +171,7 @@ export default {
             api_message:'',   
             //field form search & filter
             UrsID:'',
-            daftar_urusan: [{}],
+            daftar_urusan: {},
             cmbKriteria:'kode_program',
             txtKriteria:'',         
          }

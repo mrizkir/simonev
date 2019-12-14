@@ -52,16 +52,12 @@
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">RINCIAN</label>
                                     <div class="col-sm-9" id="divObyID">
-                                        <select2 
-                                            id="ObyID" 
-                                            name="ObyID" 
+                                        <v-select 
                                             v-model="form.ObyID" 
+                                            placeholder="PILIH RINCIAN" 
                                             :options="daftar_rincian" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH RINCIAN'
-                                            }">
-                                        </select2>
+                                            :reduce="daftar_rincian => daftar_rincian.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.ObyID.required">* wajib dipilih</div>
                                     </div>
                                 </div>
@@ -135,17 +131,13 @@
                             <div class="card-body">         
                                 <div class="form-group row">
                                     <label class="col-sm-3 col-form-label">RINCIAN</label>
-                                    <div class="col-sm-9" id="divObyID">
-                                        <select2 
-                                            id="ObyID" 
-                                            name="ObyID" 
+                                    <div class="col-sm-9" id="divObyID">                                    
+                                        <v-select 
                                             v-model="form.ObyID" 
+                                            placeholder="PILIH RINCIAN" 
                                             :options="daftar_rincian" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH RINCIAN'
-                                            }">
-                                        </select2>
+                                            :reduce="daftar_rincian => daftar_rincian.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.ObyID.required">* wajib dipilih</div>
                                     </div>
                                 </div>                       
@@ -393,7 +385,7 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import { required} from 'vuelidate/lib/validators';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 import VueAutonumeric from 'vue-autonumeric';
 
 export default {
@@ -420,7 +412,7 @@ export default {
             txtKriteria:'',
 
             //form			
-            daftar_rincian: [{id:'',text:'PILIH RINCIAN'}],
+            daftar_rincian: {},
 			form: {		
                 RObyID:'',
                 ObyID:'',		                                
@@ -443,8 +435,8 @@ export default {
                 var daftar_rincian = [];
                 $.each(response.data,function(key,value){
                     daftar_rincian.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_rincian=daftar_rincian;                 
@@ -703,7 +695,7 @@ export default {
 	components: 
 	{
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
         'vue-autonumeric':VueAutonumeric,
     }
 }
