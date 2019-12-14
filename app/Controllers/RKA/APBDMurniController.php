@@ -630,32 +630,52 @@ class APBDMurniController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create4(Request $request,$id)
-    {        
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $locked=false;
-        $rka=$this->getDataRKA($id);
-        try
-        {   
+    { 
+        $data = \DB::table('trRKARinc')
+                        ->select(\DB::raw('
+                            "trRKARinc"."RKARincID",
+                            "RKAID",
+                            v_rekening."kode_rek_5",
+                            nama_uraian,
+                            pagu_uraian1,
+                            fisik_1,
+                            fisik_2,
+                            fisik_3,
+                            fisik_4,
+                            fisik_5,
+                            fisik_6,
+                            fisik_7,
+                            fisik_8,
+                            fisik_9,
+                            fisik_10,
+                            fisik_11,
+                            fisik_12,
+                            anggaran_1,
+                            anggaran_2,
+                            anggaran_3,
+                            anggaran_4,
+                            anggaran_5,
+                            anggaran_6,
+                            anggaran_7,
+                            anggaran_8,
+                            anggaran_9,
+                            anggaran_10,
+                            anggaran_11,
+                            anggaran_12
+                        '))
+                        ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                        ->join('v_rencana_fisik_anggaran_kas','v_rencana_fisik_anggaran_kas.RKARincID','trRKARinc.RKARincID')
+                        ->where('trRKARinc.RKARincID',$id)                
+                        ->get();            
 
-            $datauraian=$this->populateDataUraian($id);
-            $daftar_uraian=[''=>''];
-            foreach ($datauraian as $v)
-            {
-                $daftar_uraian[$v->RKARincID]='['.$v->kode_rek_5.']'.$v->nama_uraian;
-            }
-            return view("pages.$theme.rka.apbdmurni.create3")->with(['page_active'=>'apbdmurni',
-                                                                        'filters'=>$filters,
-                                                                        'daftar_uraian'=>$daftar_uraian,
-                                                                        'rka'=>$rka,
-                                                                    ]);
+        if (is_null($data) )  
+        {
+            return response()->json("Data Uraian dengan ID ($id) tidak ditemukan",500);                                                           
         }
-        catch (\Exception $e)
-        {            
-            return view("pages.$theme.rka.apbdmurni.error")->with(['page_active'=>$this->NameOfPage,
-                                                                    'page_title'=>\HelperKegiatan::getPageTitle($this->NameOfPage),
-                                                                    'errormessage'=>$e->getMessage()
-                                                                ]);  
-        }        
+        else
+        {    
+            return response()->json($data[0],200);       
+        }
     }
     /**
      * Store a newly created resource in storage. [simpan kegiatan]

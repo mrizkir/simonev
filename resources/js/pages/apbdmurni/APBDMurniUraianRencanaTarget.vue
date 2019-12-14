@@ -1211,8 +1211,7 @@
                         </div>              
                     </div>
                 </div>
-            </div>
-            
+            </div>            
         </div>
     </section>
     <section class="content" v-else>

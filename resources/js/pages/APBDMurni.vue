@@ -168,6 +168,7 @@ export default {
                 SOrgNm:'',
                 RKAID:'',
                 datarekening:{},
+                datauraian:{},
                 detailkegiatan:{}
         });
 		this.proc ('default');   

@@ -112,6 +112,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::get('/apbdmurni/create1',['uses'=>'RKA\APBDMurniController@create1','as'=>'apbdmurni.create1']);  
     Route::get('/apbdmurni/create2',['uses'=>'RKA\APBDMurniController@create2','as'=>'apbdmurni.create2']);  
     Route::get('/apbdmurni/create3/{uuid}',['uses'=>'RKA\APBDMurniController@create3','as'=>'apbdmurni.create3']);  
+    Route::get('/apbdmurni/create4/{uuid}',['uses'=>'RKA\APBDMurniController@create4','as'=>'apbdmurni.create4']);  
     Route::post('/apbdmurni/changerekening',['uses'=>'RKA\APBDMurniController@changerekening','as'=>'apbdmurni.changerekening']);
     Route::post('/apbdmurni/store2',['uses'=>'RKA\APBDMurniController@store2','as'=>'apbdmurni.store2']);                      
     Route::post('/apbdmurni/store3',['uses'=>'RKA\APBDMurniController@store3','as'=>'apbdmurni.store3']);  

@@ -328,7 +328,21 @@ export default {
             switch (pid)
             {
                 case 'realisasi':
-                    this.$router.push('/apbdmurni/uraian/realisasi'); 
+                    
+                    axios.get('/api/v1/apbdmurni/create4/'+item.RKARincID,{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        }
+                    })
+                    .then(response => {                                     
+                        var page = this.$store.getters.getPage('apbdmurni');
+                        page.datauraian=response.data;                                  
+                        this.$store.commit('replacePage',page);                                            
+                        this.$router.push('/apbdmurni/uraian/realisasi'); 
+                    })
+                    .catch(response => {
+                        this.api_message = response;
+                    });       
                 break;
                 case 'edit':
 
