@@ -43,17 +43,14 @@
                             <div class="card-body">
                                 <div class="form-group row" id="divUrsID">
                                     <label class="col-sm-2 col-form-label">URUSAN</label>
-                                    <div class="col-sm-10">                                        
-                                        <select2 
-                                            id="cmbUrsID" 
-                                            name="cmbUrsID" 
+                                    <div class="col-sm-10">                                                                                
+                                        <v-select 
                                             v-model="UrsID" 
+                                            placeholder="PILIH URUSAN" 
                                             :options="daftar_urusan" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                            }"
-                                            v-on:select="filter($event)">
-                                        </select2>
+                                            :reduce="daftar_urusan => daftar_urusan.code" 
+                                            @input="filter">
+                                        </v-select>
                                     </div>
                                 </div>                               
                             </div>
@@ -152,7 +149,7 @@
 </template>
 <script>
 import Pagination from 'laravel-vue-pagination';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 export default {
     mounted()
     {        
@@ -189,15 +186,11 @@ export default {
                 }
             })
             .then(response => { 
-                var daftar_urusan = [];
-                daftar_urusan.push({
-                    id:'',
-                    text:'SELURUH URUSAN'
-                });
+                var daftar_urusan = [];                
                 $.each(response.data,function(key,value){
                     daftar_urusan.push({
-                        id:value.UrsID,
-                        text:'['+value.Kode_Bidang+'] '+value.Nm_Bidang
+                        code:value.UrsID,
+                        label:'['+value.Kode_Bidang+'] '+value.Nm_Bidang
                     });
                 });                                            
                 this.daftar_urusan=daftar_urusan;
@@ -262,10 +255,10 @@ export default {
                     this.api_message = error.response.data.message;
                 });			   
         },   
-        filter ({id, text})
+        filter ()
         {               
             axios.post('/api/v1/master/program/filter',{
-                    'UrsID':id,
+                    'UrsID':this.UrsID,
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
@@ -327,7 +320,7 @@ export default {
     },
     components: {
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
     }
 }
 </script>

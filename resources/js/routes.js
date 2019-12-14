@@ -27,6 +27,7 @@
 // const APBDMurniUraianPilihRekening = () => import ('./pages/apbdmurni/APBDMurniUraianPilihRekening.vue');
 // const APBDMurniUraianCreate = () => import ('./pages/apbdmurni/APBDMurniUraianCreate.vue');
 // const APBDMurniUraianRencanaTarget = () => import ('./pages/apbdmurni/APBDMurniUraianRencanaTarget.vue');
+// const APBDMurniUraianRealisasi = () => import ('./pages/apbdmurni/APBDMurniUraianRealisasi.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
 import FormValidation from './pages/FormValidation.vue';
@@ -57,6 +58,7 @@ import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
 import APBDMurniUraianPilihRekening from './pages/apbdmurni/APBDMurniUraianPilihRekening.vue';
 import APBDMurniUraianCreate from './pages/apbdmurni/APBDMurniUraianCreate.vue';
 import APBDMurniUraianRencanaTarget from './pages/apbdmurni/APBDMurniUraianRencanaTarget.vue';
+import APBDMurniUraianRealisasi from './pages/apbdmurni/APBDMurniUraianRealisasi.vue';
 
 export const routes =  [
     {
@@ -243,5 +245,13 @@ export const routes =  [
             title: "APBD MURNI | RENCANA TARGET FISIK"
         },
         component: APBDMurniUraianRencanaTarget
+    },    
+    {
+        name:'apbdmurniuraianrealisasi',
+        path: '/apbdmurni/uraian/realisasi',
+        meta:{
+            title: "APBD MURNI | REALISASI URAIAN"
+        },
+        component: APBDMurniUraianRealisasi
     },    
 ];

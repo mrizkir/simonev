@@ -91,6 +91,7 @@ const app = new Vue({
                 case 'apbdmurniuraian' :                        
                 case 'apbdmurniuraianpilihrekening' :                        
                 case 'apbdmurniuraiancreate' :                        
+                case 'apbdmurniuraianrealisasi' :                        
                     window.$('#linkAPBDMurni').addClass('active');
                 break;
                 //dmaster

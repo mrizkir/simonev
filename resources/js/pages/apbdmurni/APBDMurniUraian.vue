@@ -328,7 +328,7 @@ export default {
             switch (pid)
             {
                 case 'realisasi':
-
+                    this.$router.push('/apbdmurni/uraian/realisasi'); 
                 break;
                 case 'edit':
 
