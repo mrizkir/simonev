@@ -122,6 +122,108 @@
                     </div>
                 </div>
             </div>
+            <div class="row" v-if="pid=='create'">
+				<div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-plus"></i> TAMBAH REALISASI
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                    <i class="fas fa-times"></i>
+                                </button>                                                
+                            </div>       
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="saveData">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">BULAN REALISASI :</label>
+                                    <div class="col-sm-10">
+                                        <v-select 
+                                            v-model="form.bulan" 
+                                            :reduce="daftar_bulan => daftar_bulan.code"
+                                            placeholder="PILIH BULAN REALISASI" 
+                                            :options="daftar_bulan"
+                                            @input="changeBulan">
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">ANGGARAN KAS :</label>
+                                    <div class="col-sm-10">                                        
+                                        <p class="form-control-static">{{form.anggarankas|formatUang}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">FISIK :</label>
+                                    <div class="col-sm-10">                                        
+                                        <p class="form-control-static">{{form.targetfisik}}%</p>
+                                    </div>
+                                </div>                                
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">REALISASI :</label>
+                                    <div class="col-sm-10">
+										<vue-autonumeric 
+											v-model.trim="form.realisasi1" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												minimumValue: '0',
+												decimalCharacter: ',',
+												digitGroupSeparator: '.',
+												emptyInputBehavior:0,
+												unformatOnSubmit: true 
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.realisasi1.$error, 'is-valid': $v.form.realisasi1.$dirty && !$v.form.realisasi1.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.realisasi1.$error">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">FISIK :</label>
+                                    <div class="col-sm-10">
+										<vue-autonumeric 
+											v-model.trim="form.fisik1" 
+											v-on:input="$v.form.$touch"
+											:options="{
+                                                allowDecimalPadding: false,
+                                                minimumValue:0.00,
+                                                maximumValue:100.00,
+                                                decimalCharacter:'.',
+                                                showWarnings:false,
+                                                emptyInputBehavior:0.00,
+                                                unformatOnSubmit: true,
+                                                modifyValueOnWheel:false
+                                            }"  
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.fisik1.$error, 'is-valid': $v.form.fisik1.$dirty && !$v.form.fisik1.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.fisik1.$error">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KETERANGAN :</label>
+                                    <div class="col-sm-10">                                        
+                                        <textarea v-model="form.Descr" rows="4" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+            </div>
             <div class="row" v-if="pid=='default'">
                 <div class="col-12">
                     <div class="card">
@@ -137,6 +239,56 @@
                                     <i class="fas fa-times"></i>
                                 </router-link>                                
                             </div>       
+                        </div>
+                        <div class="card-body table-responsive p-0" v-if="daftar_realisasi.length">
+                            <table class="table table-striped table-hover mb-2">
+                                <thead>
+                                    <tr>
+                                        <th width="55">NO</th>    
+                                        <th  width="150">
+                                            BULAN
+                                        </th>
+                                        <th class="text-right">RENCANA ANGGARAN KAS</th>                    
+                                        <th class="text-right">REALISASI/SP2D</th>                    
+                                        <th class="text-center">RENCANA TARGET FISIK (%)</th>                    
+                                        <th class="text-center">FISIK (%)</th>                                                                        
+                                        <th class="text-center">SISA ANGGARAN</th>                                                                        
+                                        <th width="80">AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>  
+                                    <tr v-for="(item,index) in daftar_realisasi" v-bind:key="item.RKARealisasiRincID">
+                                        <td>{{ index+1 }}</td>                
+                                        <td>
+                                            {{ item.NamaBulan }} {{item.TA}}
+                                        </td>                                       
+                                        <td class="text-right">{{item.target1|formatUang}}</td>
+                                        <td class="text-right">{{item.realisasi1|formatUang}}</td>
+                                        <td class="text-center">{{item.target_fisik1}}</td>
+                                        <td class="text-center">{{item.fisik1}}</td>
+                                        <td class="text-center">0</td>
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-wrench"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                                                                                      
+                                                    <a class="dropdown-item" v-on:click.prevent="proc('destroy',item)" href="#" title="Hapus Data Realisasi">
+                                                        <i class="fas fa-trash-alt"></i> HAPUS
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </td>          
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="card-body table-responsive" v-else>                            
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-info"></i> Info!</h5>
+                                Belum ada data yang bisa ditampilkan.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -162,12 +314,20 @@
 </div>
 </template>
 <script>
+import { required} from 'vuelidate/lib/validators';
+import VueAutonumeric from 'vue-autonumeric';
+import vSelect from 'vue-select';
+
 export default {
     created ()
     {
         var page = this.$store.getters.getPage('apbdmurni');
         this.detailkegiatan = page.detailkegiatan;     
         this.datauraian = page.datauraian;                  
+    },
+    mounted()
+    {
+        this.proc('default');   
     },
     data: function() 
 	{
@@ -177,18 +337,178 @@ export default {
 
             detailkegiatan:'',
             datauraian:'',
+            daftar_realisasi:{},
+
+            //form
+            daftar_bulan:[],
+            form: {		                
+                bulan:'',
+                targetfisik:0,
+                anggarankas:0,
+                realisasi1:0,
+                fisik1:0,
+                Descr:'',
+            }
         }
     },
     methods: 
     {
+        populateData(page=1)
+        {           
+            axios.get('/api/v1/apbdmurni/uraian/realisasi/'+this.datauraian.RKARincID,{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {                                        
+                this.daftar_realisasi = response.data.daftar_realisasi;
+                console.log(this.daftar_realisasi);
+            })
+            .catch(response => {
+                this.api_message = response;
+            }); 
+        },
         proc (pid,item=null) 
         { 
-            // this.$v.$reset();
+            this.$v.$reset();
             switch (pid)
-            {             
-
+            {      
+                case 'create' :
+                    this.pid = pid;
+                    axios.get('/api/v1/apbdmurni/create4/'+this.datauraian.RKARincID,{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        }
+                    })
+                    .then(response => {                   
+                        var daftar_bulan = [];
+                        $.each(response.data,function(key,value){                            
+                            daftar_bulan.push({
+                                code:key,
+                                label:value
+                            });
+                        });                
+                        this.daftar_bulan=daftar_bulan;                      
+                    })
+                    .catch(response => {                        
+                        this.api_message = response;
+                    }); 
+                break;
+                case 'destroy':
+                    var self = this;
+                    this.$swal({
+                        title: 'Yakin mau menghapus realisasi uraian kegiatan?',
+                        text: "Anda tidak bisa mengembalikan data ini",
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus ini!',
+                        cancelButtonText: 'Tidak, Batalkan!',
+                        buttonsStyling: true
+                    }).then(function (isConfirm){
+                        if(isConfirm.value === true) 
+                        {
+                            axios.post('/api/v1/apbdmurni/'+item.RKARealisasiRincID,{
+                                '_method':'DELETE',
+                                'pid':'datarealisasi'
+                            },{
+                                headers:{
+                                    'Authorization': window.laravel.api_token,
+                                },
+                            })
+                            .then(response => {                                                          
+                                self.populateData();                                                           
+                            })
+                            .catch(response => {
+                                self.api_message = response;                               
+                            });                                  
+                        }
+                    });                    
+                break;
+                default :
+                    this.pid = pid;
+                    if (this.detailkegiatan.hasOwnProperty('RKAID') && this.datauraian.hasOwnProperty('RKARincID'))
+                    {
+                        this.populateData();                        
+                    }                    
+                    this.clearform();    
             }
-        }
+        },
+        changeBulan()
+        {      
+            var bulan=parseInt(this.form.bulan); 
+            this.form.targetfisik=this.datauraian.targetfisik[bulan];
+            this.form.anggarankas=this.datauraian.anggarankas[bulan];            
+        },
+        saveData() 
+		{	
+            this.$v.form.$touch();    
+            if(this.$v.$invalid == false)
+            { 
+                axios.post('/api/v1/apbdmurni/store4',{                   
+                    'RKARincID':this.datauraian.RKARincID,
+                    'RKAID':this.detailkegiatan.RKAID,
+                    'bulan1':this.form.bulan,                   
+                    'target1':this.form.anggarankas,                   
+                    'realisasi1':this.form.realisasi1,                   
+                    'target_fisik1':this.form.targetfisik,                   
+                    'fisik1':this.form.fisik1,                   
+                    'Descr':this.form.Descr,                   
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Menyimpan Data Realisasi berhasil dilakukan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.clearform();                             
+                        this.$swal.close();   
+                        this.proc('default');       
+                    }, 1500);             
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			
+            }
+        },
+        clearform ()
+        {   
+            this.form.bulan='';
+            this.form.targetfisik=0;
+            this.form.anggarankas=0;
+            this.form.realisasi1=0;
+            this.form.fisik1=0;
+            this.form.Descr='';
+        },
     },
+    validations: {
+		form: {
+			bulan: {
+				required
+			},			
+			realisasi1: {
+				required
+			},			
+			fisik1: {
+				required
+			},			
+		}
+	},
+	components: 
+	{
+        'vue-autonumeric':VueAutonumeric,
+        'v-select': vSelect,
+    }
 }
 </script>

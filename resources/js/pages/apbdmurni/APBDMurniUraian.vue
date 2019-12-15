@@ -329,7 +329,7 @@ export default {
             {
                 case 'realisasi':
                     
-                    axios.get('/api/v1/apbdmurni/create4/'+item.RKARincID,{
+                    axios.get('/api/v1/apbdmurni/uraian/info/'+item.RKARincID,{
                         headers:{
                             'Authorization': window.laravel.api_token,
                         }

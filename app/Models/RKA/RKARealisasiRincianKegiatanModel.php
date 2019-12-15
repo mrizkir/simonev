@@ -30,6 +30,8 @@ class RKARealisasiRincianKegiatanModel extends Model
         'target2',         
         'realisasi1',  
         'realisasi2',         
+        'target_fisik1',         
+        'target_fisik2',         
         'fisik1',         
         'fisik2',         
         'EntryLvl',         

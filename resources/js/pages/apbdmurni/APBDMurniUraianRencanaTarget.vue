@@ -1418,8 +1418,11 @@ export default {
                 break;
                 default :
                     this.pid = pid;
-                    this.populateData();
-                    this.clearform();
+                    if (this.detailkegiatan.hasOwnProperty('RKAID'))
+                    {
+                        this.populateData();                        
+                    }                    
+                    this.clearform();    
             }
         },
         calTotalTargetFisik ()

@@ -167,10 +167,15 @@ class APBDMurniController extends Controller
     public function populateDataRealisasi ($RKARincID)
     {
         $data = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan1","target1","realisasi1",fisik1,"TA","created_at","updated_at"'))
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan1",\'\' AS "NamaBulan","target1","realisasi1",target_fisik1,fisik1,"TA","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
                     ->orderBy('bulan1','ASC')
                     ->get();
+
+        $data->transform(function ($item,$key){
+            $item->NamaBulan=\Helper::getBulan($item->bulan1);
+            return $item;
+        });
         return $data;
     }    
     public function getDataTotalKegiatan($OrgID,$SOrgID)
@@ -625,56 +630,20 @@ class APBDMurniController extends Controller
         
     }
     /**
-     * Show the form for creating a new resource.
+     * Show the form for creating a new resource. [menambah realisasi uraian]
      *
      * @return \Illuminate\Http\Response
      */
     public function create4(Request $request,$id)
     { 
-        $data = \DB::table('trRKARinc')
-                        ->select(\DB::raw('
-                            "trRKARinc"."RKARincID",
-                            "RKAID",
-                            v_rekening."kode_rek_5",
-                            nama_uraian,
-                            pagu_uraian1,
-                            fisik_1,
-                            fisik_2,
-                            fisik_3,
-                            fisik_4,
-                            fisik_5,
-                            fisik_6,
-                            fisik_7,
-                            fisik_8,
-                            fisik_9,
-                            fisik_10,
-                            fisik_11,
-                            fisik_12,
-                            anggaran_1,
-                            anggaran_2,
-                            anggaran_3,
-                            anggaran_4,
-                            anggaran_5,
-                            anggaran_6,
-                            anggaran_7,
-                            anggaran_8,
-                            anggaran_9,
-                            anggaran_10,
-                            anggaran_11,
-                            anggaran_12
-                        '))
-                        ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
-                        ->join('v_rencana_fisik_anggaran_kas','v_rencana_fisik_anggaran_kas.RKARincID','trRKARinc.RKARincID')
-                        ->where('trRKARinc.RKARincID',$id)                
-                        ->get();            
-
+        $data=\Helper::getBulan();
         if (is_null($data) )  
         {
             return response()->json("Data Uraian dengan ID ($id) tidak ditemukan",500);                                                           
         }
         else
         {    
-            return response()->json($data[0],200);       
+            return response()->json($data,200);       
         }
     }
     /**
@@ -708,6 +677,7 @@ class APBDMurniController extends Controller
                 'RKPDID' => $request->input('RKPDID'),            
                 'PaguDana1' => $request->input('PaguDana1'),
                 'PaguDana2' => 0,
+                'sifat_kegiatan1' => 'baru',
                 'nip_pa1' => $request->input('nip_pa'),
                 'nip_kpa1' => $request->input('nip_kpa'),
                 'nip_ppk1' => $request->input('nip_ppk'),
@@ -826,25 +796,30 @@ class APBDMurniController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store4(Request $request,$id)
+    public function store4(Request $request)
     {
         
         $this->validate($request, [
             'RKARincID'=>'required',
-            'bulan'=>'required',
+            'RKAID'=>'required',
+            'bulan1'=>'required',            
+            'target1'=>'required',
             'realisasi1'=>'required',
+            'target_fisik1'=>'required',
             'fisik1'=>'required',            
         ]);
         $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::create([
             'RKARealisasiRincID' => uniqid ('uid'),
-            'RKAID' => $id,
+            'RKAID' => $request->input('RKAID'),
             'RKARincID' => $request->input('RKARincID'),            
-            'bulan1' => $request->input('bulan'),
+            'bulan1' => $request->input('bulan1'),
             'bulan2' => 0,
-            'target1' => 0,            
+            'target1' => $request->input('target1'),            
             'target2' => 0,            
             'realisasi1' => $request->input('realisasi1'),            
             'realisasi2' => 0,            
+            'target_fisik1' => $request->input('target_fisik1'),           
+            'target_fisik2' => 0,           
             'fisik1' => $request->input('fisik1'),           
             'fisik2' => 0,           
             'EntryLvl' => 1,
@@ -942,6 +917,94 @@ class APBDMurniController extends Controller
         }        
     }
     /**
+     * Show the form for creating a new resource. [mendapatkan data uraian berdasarkan RKARincID]
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function infouraian(Request $request,$id)
+    { 
+        $data = \DB::table('trRKARinc')
+                        ->select(\DB::raw('
+                            "trRKARinc"."RKARincID",
+                            "RKAID",
+                            v_rekening."kode_rek_5",
+                            nama_uraian,
+                            pagu_uraian1,
+                            fisik_1,
+                            fisik_2,
+                            fisik_3,
+                            fisik_4,
+                            fisik_5,
+                            fisik_6,
+                            fisik_7,
+                            fisik_8,
+                            fisik_9,
+                            fisik_10,
+                            fisik_11,
+                            fisik_12,
+                            anggaran_1,
+                            anggaran_2,
+                            anggaran_3,
+                            anggaran_4,
+                            anggaran_5,
+                            anggaran_6,
+                            anggaran_7,
+                            anggaran_8,
+                            anggaran_9,
+                            anggaran_10,
+                            anggaran_11,
+                            anggaran_12
+                        '))
+                        ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
+                        ->join('v_rencana_fisik_anggaran_kas','v_rencana_fisik_anggaran_kas.RKARincID','trRKARinc.RKARincID')
+                        ->where('trRKARinc.RKARincID',$id)                
+                        ->get();            
+
+        if (is_null($data) )  
+        {
+            return response()->json("Data Uraian dengan ID ($id) tidak ditemukan",500);                                                           
+        }
+        else
+        {    
+            $datauraian=[
+                            'RKARincID'=>$data[0]->RKARincID,
+                            'RKAID'=>$data[0]->RKAID,
+                            'kode_rek_5'=>$data[0]->kode_rek_5,
+                            'nama_uraian'=>$data[0]->nama_uraian,
+                            'pagu_uraian1'=>$data[0]->pagu_uraian1,
+                            'targetfisik'=>[
+                                1=>$data[0]->fisik_1,
+                                2=>$data[0]->fisik_2,
+                                3=>$data[0]->fisik_3,
+                                4=>$data[0]->fisik_4,
+                                5=>$data[0]->fisik_5,
+                                6=>$data[0]->fisik_6,
+                                7=>$data[0]->fisik_7,
+                                8=>$data[0]->fisik_8,
+                                9=>$data[0]->fisik_9,
+                                10=>$data[0]->fisik_10,
+                                11=>$data[0]->fisik_11,
+                                12=>$data[0]->fisik_12,
+                            ],
+                            'anggarankas'=>[
+                                1=>$data[0]->anggaran_1,
+                                2=>$data[0]->anggaran_2,
+                                3=>$data[0]->anggaran_3,
+                                4=>$data[0]->anggaran_4,
+                                5=>$data[0]->anggaran_5,
+                                6=>$data[0]->anggaran_6,
+                                7=>$data[0]->anggaran_7,
+                                8=>$data[0]->anggaran_8,
+                                9=>$data[0]->anggaran_9,
+                                10=>$data[0]->anggaran_10,
+                                11=>$data[0]->anggaran_11,
+                                12=>$data[0]->anggaran_12,
+                            ]
+                        ];
+            return response()->json($datauraian,200);       
+        }
+    }
+    /**
      * Display the specified resource. [rencanatarget]
      *
      * @param  int  $id
@@ -953,6 +1016,18 @@ class APBDMurniController extends Controller
         $datarencanaanggarankas=$this->populateDataRencanaAnggaranKas($uuid);
         return response()->json(['targetfisik'=>$datarencanatargetfisik,
                                 'anggarankas'=>$datarencanaanggarankas
+                                ],200);
+    }
+    /**
+     * Display the specified resource. [daftar realisasi]
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function realisasi($uuid)
+    {        
+        $datarealisasi=$this->populateDataRealisasi($uuid); 
+        return response()->json(['daftar_realisasi'=>$datarealisasi,
                                 ],200);
     }
     /**
@@ -1254,23 +1329,13 @@ class APBDMurniController extends Controller
                 break;
                 case 'datarencana' :
                     $rinciankegiatan = RKARincianKegiatanModel::find($id);
-                    $rkaid=$rinciankegiatan->RKAID;
-                    \DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
-
-                    $datarencanatargetfisik=$this->populateDataRencanaTargetFisik($rkaid);
-                    return response()->json(['message'=>"data rencana target fisik dan anggara kas dengan ID ($id) Berhasil di Hapus"],200);      
+                    $result=\DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
+                    return response()->json(['message'=>"data rencana target fisik dan anggaran kas dengan ID ($id) Berhasil di Hapus"],200);      
                 break;
                 case 'datarealisasi' :
                     $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::find($id);
-                    $RKARincID=$realisasirinciankegiatan->RKARincID;
                     $result=$realisasirinciankegiatan->delete();
-                    
-                    $filters=$this->getControllerStateSession('apbdmurni','filters');
-                    $datarealisasi=$this->populateDataRealisasi($RKARincID);
-                    $datatable=view("pages.$theme.rka.apbdmurni.datatablerealisasi")->with([
-                                                                                                'datarealisasi'=>$datarealisasi,
-                                                                                            ])->render();
-                        
+                    return response()->json(['message'=>"data realisasi uraian kegiatan dengan ID ($id) Berhasil di Hapus"],200);                                                  
                 break;
             }
               
