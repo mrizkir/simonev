@@ -59,18 +59,15 @@
                                 </div> 									
 								<div class="form-group row">
                                     <label class="col-sm-2 col-form-label">NAMA ASN</label>
-                                    <div class="col-sm-10">
-										<select2 
-                                            id="ASNID" 
-                                            name="ASNID" 
-                                            v-on:input="$v.form.$touch" 
+                                    <div class="col-sm-10">									
+                                        <v-select 
                                             v-model="form.ASNID" 
+                                            v-on:input="$v.form.$touch" 
+                                            placeholder="PILIH ASN" 
                                             :options="daftar_asn" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                            }"
+                                            :reduce="daftar_asn => daftar_asn.code" 
                                             v-bind:class="{'is-invalid': $v.form.ASNID.$error, 'is-valid': $v.form.ASNID.$dirty && !$v.form.ASNID.$invalid}">
-                                        </select2>
+                                        </v-select>
                                         <div class="text-danger" v-if="$v.form.ASNID.$error">* wajib isi</div>
                                     </div>
 								</div>                                			
@@ -192,18 +189,14 @@
                             <div class="card-body">
                                 <div class="form-group row" id="divOrgID">
                                     <label class="col-sm-2 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-10">                                        
-                                        <select2 
-                                            id="OrgID" 
-                                            name="OrgID" 
+                                    <div class="col-sm-10">
+                                        <v-select 
                                             v-model="OrgID" 
+                                            placeholder="PILIH OPD / SKPD" 
                                             :options="daftar_opd" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH OPD / SKPD'
-                                            }" 
-                                            v-on:select="filter($event)">
-                                        </select2>
+                                            :reduce="daftar_opd => daftar_opd.code" 
+                                            @input="filter">
+                                        </v-select>                                        
                                     </div>
                                 </div>                               
                             </div>
@@ -324,7 +317,7 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import { required} from 'vuelidate/lib/validators';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 
 export default {
 	mounted()
@@ -347,12 +340,12 @@ export default {
 
             //field form search & filter
             OrgID:'',
-            daftar_opd: [{}],
+            daftar_opd: [],
             cmbKriteria:'Nm_ASN',
             txtKriteria:'',
 
             //form			
-            daftar_asn: [{id:'',text:'PILIH ASN'}],
+            daftar_asn: [],
 			form: {				
                 RiwayatJabatanASNID:'',
                 OrgID:'',
@@ -375,8 +368,8 @@ export default {
                 var daftar_asn = [];
                 $.each(response.data.daftar_asn,function(key,value){
                     daftar_asn.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_asn=daftar_asn;
@@ -397,8 +390,8 @@ export default {
                 var daftar_opd = [];
                 $.each(response.data,function(key,value){
                     daftar_opd.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_opd=daftar_opd;                 
@@ -463,17 +456,16 @@ export default {
                     this.api_message = error.response.data.message;
                 });			   
         },  
-        filter ({id, text})
+        filter ()
         {               
             axios.post('/api/v1/master/asnopd/filter',{
-                    'OrgID':id,
+                    'OrgID':this.OrgID,
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
                     },
                 })
                 .then(response => {            
-                    this.OrgID=id;
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
                         text: "Melakukan filter data ASN berdasarkan OPD / SKPD",
@@ -640,7 +632,7 @@ export default {
 	components: 
 	{
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
     }
 }
 </script>

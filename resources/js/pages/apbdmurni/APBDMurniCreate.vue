@@ -389,8 +389,8 @@ export default {
             { 
                 var page = this.$store.getters.getPage('apbdmurni');                
 				axios.post('/api/v1/apbdmurni',{
-                    'OrgID':page.OrgID,
-                    'SOrgID':page.SOrgID,
+                    'OrgID':page.OrgID.code,
+                    'SOrgID':page.SOrgID.code,
                     'PrgID':this.form.PrgID,
                     'KgtID':this.form.KgtID,
                     'RKPDID':this.form.RKPDID,
@@ -419,7 +419,7 @@ export default {
                     setTimeout(() => {
                         this.clearform();              
                         this.$swal.close();          
-                        this.$router.push('apbdmurni');                          
+                        this.$router.push('/apbdmurni');                          
                     }, 1500);             
                 })
                 .catch(error => {

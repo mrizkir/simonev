@@ -668,7 +668,7 @@ class APBDMurniController extends Controller
         }
         else
         {
-            $apbdmurni = RKAKegiatanModel::create([
+            $data=[
                 'RKAID' => uniqid ('uid'),
                 'OrgID' =>$request->input('OrgID'),
                 'SOrgID' => $request->input('SOrgID'),
@@ -682,14 +682,15 @@ class APBDMurniController extends Controller
                 'nip_kpa1' => $request->input('nip_kpa'),
                 'nip_ppk1' => $request->input('nip_ppk'),
                 'nip_pptk1' => $request->input('nip_pptk'),
-                'user_id' => $theme = \Auth::user()->id,
+                'user_id' => \Auth::user()->id,
                 'Descr' => '-',
                 'EntryLvl' => 1,
                 'TA' => \HelperKegiatan::getTahunAnggaran(),
-            ]);     
+            ];
+            $apbdmurni = RKAKegiatanModel::create($data);     
             
             return response()->json([            
-                'message'=>'Data rincian telah berhasil disimpan.'
+                'message'=>'Data rincian telah berhasil disimpan.',
             ],200);
         }
     }
