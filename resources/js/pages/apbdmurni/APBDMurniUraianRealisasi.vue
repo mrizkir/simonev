@@ -252,7 +252,7 @@
                                         <th class="text-right">REALISASI/SP2D</th>                    
                                         <th class="text-center">RENCANA TARGET FISIK (%)</th>                    
                                         <th class="text-center">FISIK (%)</th>                                                                        
-                                        <th class="text-center">SISA ANGGARAN</th>                                                                        
+                                        <th class="text-right">SISA ANGGARAN</th>                                                                        
                                         <th width="80">AKSI</th>
                                     </tr>
                                 </thead>
@@ -266,7 +266,7 @@
                                         <td class="text-right">{{item.realisasi1|formatUang}}</td>
                                         <td class="text-center">{{item.target_fisik1}}</td>
                                         <td class="text-center">{{item.fisik1}}</td>
-                                        <td class="text-center">0</td>
+                                        <td class="text-right">{{item.sisa_anggaran|formatUang}}</td>
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

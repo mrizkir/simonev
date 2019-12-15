@@ -166,8 +166,9 @@ class APBDMurniController extends Controller
      */
     public function populateDataRealisasi ($RKARincID)
     {
+
         $data = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan1",\'\' AS "NamaBulan","target1","realisasi1",target_fisik1,fisik1,"TA","created_at","updated_at"'))
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan1",\'\' AS "NamaBulan","target1","realisasi1",target_fisik1,fisik1,0 AS "sisa_anggaran","TA","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
                     ->orderBy('bulan1','ASC')
                     ->get();
@@ -875,9 +876,7 @@ class APBDMurniController extends Controller
             return response()->json("Data RKA dengan ID ($uuid) tidak ditemukan",500);                                                           
         }
         else
-        {
-           
-            // $filters=$this->getControllerStateSession('apbdmurni','filters');
+        {           
             // $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
             $datauraian=$this->populateDataUraian($uuid);
             $datauraian->transform(function ($item,$key){
@@ -904,17 +903,7 @@ class APBDMurniController extends Controller
                                         'totalfisik'=>$totalfisik,
                                     ],
                                     200);
-            // $datarealisasi=$this->populateDataRealisasi($filters['RKARincID']); 
-            // return view("pages.$theme.rka.apbdmurni.show")->with(['page_active'=>'apbdmurni',
-            //                                                             'filters'=>$filters,
-            //                                                             'rka'=>$rka,
-            //                                                             'sumber_dana'=>$sumber_dana,
-            //                                                             'datauraian'=>$datauraian,
-            //                                                             'datarencanatargetfisik'=>$datarencanatargetfisik,
-            //                                                             'datarencanaanggarankas'=>$datarencanaanggarankas,
-            //                                                             'daftar_uraian'=>$daftar_uraian,
-            //                                                             'datarealisasi'=>$datarealisasi
-            //          
+                
         }        
     }
     /**
@@ -1028,7 +1017,8 @@ class APBDMurniController extends Controller
     public function realisasi($uuid)
     {        
         $datarealisasi=$this->populateDataRealisasi($uuid); 
-        return response()->json(['daftar_realisasi'=>$datarealisasi,
+        return response()->json([
+                                    'daftar_realisasi'=>$datarealisasi,
                                 ],200);
     }
     /**

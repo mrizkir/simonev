@@ -51,17 +51,13 @@
 							<div class="card-body">
 								<div class="form-group row">
                                     <label class="col-sm-3 col-form-label">OPD / SKPD</label>
-                                    <div class="col-sm-9" id="divOrgID">
-                                        <select2 
-                                            id="OrgID" 
-                                            name="OrgID" 
+                                    <div class="col-sm-9" id="divOrgID">                               
+                                        <v-select 
                                             v-model="form.OrgID" 
+                                            placeholder="PILIH OPD / SKPD" 
                                             :options="daftar_opd" 
-                                            :settings="{
-                                                theme:'bootstrap',
-                                                placeholder:'PILIH OPD / SKPD'
-                                            }">
-                                        </select2>
+                                            :reduce="daftar_opd => daftar_opd.code">
+                                        </v-select>
                                         <div class="text-danger" v-if="!$v.form.OrgID.required">* wajib dipilih</div>
                                     </div>
                                 </div>
@@ -400,7 +396,7 @@
 <script>
 import Pagination from 'laravel-vue-pagination';
 import { required} from 'vuelidate/lib/validators';
-import Select2 from 'v-select2-component';
+import vSelect from 'vue-select';
 import VueAutonumeric from 'vue-autonumeric';
 
 export default {
@@ -429,7 +425,7 @@ export default {
             txtKriteria:'',
 
             //form
-			daftar_opd: [{id:'',text:'PILIH OPD / SKPD'}],
+			daftar_opd: [],
 			form: {				
                 PaguAnggaranOPDID:'',
                 OrgID: '',
@@ -453,8 +449,8 @@ export default {
                 var daftar_opd = [];
                 $.each(response.data,function(key,value){
                     daftar_opd.push({
-                        id:key,
-                        text:value
+                        code:key,
+                        label:value
                     });
                 });                
                 this.daftar_opd=daftar_opd;                 
@@ -722,7 +718,7 @@ export default {
 	components: 
 	{
         'pagination': Pagination,
-        'select2':Select2,
+        'v-select': vSelect,
         'vue-autonumeric':VueAutonumeric,
     }
 }
