@@ -3,13 +3,13 @@
     <section class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-cart-arrow-down"></i>
                         APBD MURNI
                     </h1>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
                         <li class="breadcrumb-item active">APBD MURNI</li>
@@ -76,23 +76,23 @@
                             </div>
                         </div>
                         <div class="card-body table-responsive p-0" v-if="daftar_apbdmurni.data.length">
-                            <table class="table table-striped table-hover mb-2">
+                            <table class="table table-striped table-hover mb-2 table-condensed">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>                                      
                                         <th width="120">
                                             KODE KEGIATAN
                                         </th> 
-                                        <th width="100">
+                                        <th>
                                             NAMA KEGIATAN  
                                         </th>                                       
-                                        <th width="100">
+                                        <th width="80">
                                             PAGU KEGIATAN  
                                         </th>                                       
-                                        <th width="100">
+                                        <th width="80">
                                             PAGU URAIAN  
                                         </th>                                       
-                                        <th width="70">
+                                        <th width="80">
                                             REALISASI  
                                         </th>                                       
                                         <th width="70">

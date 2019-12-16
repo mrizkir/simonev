@@ -166,17 +166,37 @@ class APBDMurniController extends Controller
      */
     public function populateDataRealisasi ($RKARincID)
     {
+        $datauraian = RKARincianKegiatanModel::find($RKARincID);
 
-        $data = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan1",\'\' AS "NamaBulan","target1","realisasi1",target_fisik1,fisik1,0 AS "sisa_anggaran","TA","created_at","updated_at"'))
+        $r = \DB::table('trRKARealisasiRinc')
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan1","target1","realisasi1",target_fisik1,fisik1,"TA","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
                     ->orderBy('bulan1','ASC')
                     ->get();
+        
+        $data = [];
+        foreach ($r as $item)
+        {
+            $sum_realisasi = \DB::table('trRKARealisasiRinc')
+                            ->where('RKARincID',$RKARincID)
+                            ->where('bulan1','<=',$item->bulan1)
+                            ->sum('realisasi1');
 
-        $data->transform(function ($item,$key){
-            $item->NamaBulan=\Helper::getBulan($item->bulan1);
-            return $item;
-        });
+            
+            $data[]=[
+                'RKARealisasiRincID'=>$item->RKARealisasiRincID,
+                'bulan1'=>$item->bulan1,
+                'NamaBulan'=>\Helper::getBulan($item->bulan1),
+                'target1'=>$item->target1,
+                'realisasi1'=>$item->realisasi1,
+                'target_fisik1'=>$item->target_fisik1,
+                'fisik1'=>$item->fisik1,
+                'sisa_anggaran'=>$datauraian->pagu_uraian1-$sum_realisasi,
+                'TA'=>$item->TA,
+                'created_at'=>$item->created_at,
+                'updated_at'=>$item->updated_at,
+            ];
+        }
         return $data;
     }    
     public function getDataTotalKegiatan($OrgID,$SOrgID)
@@ -1015,7 +1035,7 @@ class APBDMurniController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function realisasi($uuid)
-    {        
+    {   
         $datarealisasi=$this->populateDataRealisasi($uuid); 
         return response()->json([
                                     'daftar_realisasi'=>$datarealisasi,

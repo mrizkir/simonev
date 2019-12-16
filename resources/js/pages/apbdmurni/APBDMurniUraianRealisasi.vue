@@ -241,7 +241,7 @@
                             </div>       
                         </div>
                         <div class="card-body table-responsive p-0" v-if="daftar_realisasi.length">
-                            <table class="table table-striped table-hover mb-2">
+                            <table class="table table-striped table-hover mb-2 table-condensed">
                                 <thead>
                                     <tr>
                                         <th width="55">NO</th>    
