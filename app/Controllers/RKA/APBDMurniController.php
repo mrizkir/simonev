@@ -174,7 +174,11 @@ class APBDMurniController extends Controller
                     ->orderBy('bulan1','ASC')
                     ->get();
         
-        $data = [];
+        $daftar_realisasi = [];
+        $totalanggarankas=0;
+        $totalrealisasi=0;
+        $totaltargetfisik=0;
+        $totalfisik=0;
         foreach ($r as $item)
         {
             $sum_realisasi = \DB::table('trRKARealisasiRinc')
@@ -182,8 +186,8 @@ class APBDMurniController extends Controller
                             ->where('bulan1','<=',$item->bulan1)
                             ->sum('realisasi1');
 
-            
-            $data[]=[
+            $sisa_anggaran=$datauraian->pagu_uraian1-$sum_realisasi;            
+            $daftar_realisasi[]=[
                 'RKARealisasiRincID'=>$item->RKARealisasiRincID,
                 'bulan1'=>$item->bulan1,
                 'NamaBulan'=>\Helper::getBulan($item->bulan1),
@@ -191,12 +195,24 @@ class APBDMurniController extends Controller
                 'realisasi1'=>$item->realisasi1,
                 'target_fisik1'=>$item->target_fisik1,
                 'fisik1'=>$item->fisik1,
-                'sisa_anggaran'=>$datauraian->pagu_uraian1-$sum_realisasi,
+                'sisa_anggaran'=>$sisa_anggaran,
                 'TA'=>$item->TA,
                 'created_at'=>$item->created_at,
                 'updated_at'=>$item->updated_at,
             ];
+            
+            $totalanggarankas+=$item->target1;
+            $totalrealisasi+=$item->realisasi1;
+            $totaltargetfisik+=$item->target_fisik1;
+            $totalfisik+=$item->fisik1;
         }
+        $data['datarealisasi']=$daftar_realisasi;
+        $data['totalanggarankas']=$totalanggarankas;
+        $data['totalrealisasi']=$totalrealisasi;
+        $data['totaltargetfisik']=$totaltargetfisik;
+        $data['totalfisik']=$totalfisik;
+        $data['sisa_anggaran']=$datauraian->pagu_uraian1-$totalrealisasi;
+        
         return $data;
     }    
     public function getDataTotalKegiatan($OrgID,$SOrgID)
@@ -657,15 +673,22 @@ class APBDMurniController extends Controller
      */
     public function create4(Request $request,$id)
     { 
-        $data=\Helper::getBulan();
-        if (is_null($data) )  
+        $bulan=\Helper::getBulan();
+        $bulan_realisasi=RKARealisasiRincianKegiatanModel::select('bulan1')
+                                                    ->where('RKARincID',$id)
+                                                    ->get()
+                                                    ->pluck('bulan1','bulan1')
+                                                    ->toArray();
+        $data = [];
+        foreach($bulan as $k=>$v)
         {
-            return response()->json("Data Uraian dengan ID ($id) tidak ditemukan",500);                                                           
+            if (!array_key_exists($k,$bulan_realisasi))
+            {
+                $data[$k]=$v;
+            }
         }
-        else
-        {    
-            return response()->json($data,200);       
-        }
+        return response()->json($data,200);       
+    
     }
     /**
      * Store a newly created resource in storage. [simpan kegiatan]
@@ -1036,9 +1059,14 @@ class APBDMurniController extends Controller
      */
     public function realisasi($uuid)
     {   
-        $datarealisasi=$this->populateDataRealisasi($uuid); 
+        $data=$this->populateDataRealisasi($uuid); 
         return response()->json([
-                                    'daftar_realisasi'=>$datarealisasi,
+                                    'daftar_realisasi'=>$data['datarealisasi'],
+                                    'totalanggarankas'=>$data['totalanggarankas'],
+                                    'totalrealisasi'=>$data['totalrealisasi'],
+                                    'totaltargetfisik'=>$data['totaltargetfisik'],
+                                    'totalfisik'=>$data['totalfisik'],
+                                    'sisa_anggaran'=>$data['sisa_anggaran'],
                                 ],200);
     }
     /**

@@ -252,7 +252,7 @@
                                         <th class="text-right">REALISASI/SP2D</th>                    
                                         <th class="text-center">RENCANA TARGET FISIK (%)</th>                    
                                         <th class="text-center">FISIK (%)</th>                                                                        
-                                        <th class="text-right">SISA ANGGARAN</th>                                                                        
+                                        <th class="text-right" width="150">SISA ANGGARAN (PAGU URAIAN - TOTAL REALISASI)</th>                                                                        
                                         <th width="80">AKSI</th>
                                     </tr>
                                 </thead>
@@ -281,6 +281,29 @@
                                         </td>          
                                     </tr>
                                 </tbody>
+                                <tfoot>
+                                    <tr class="table-info font-weight-bold">
+                                        <td colspan="2" class="text-right">TOTAL</td>
+                                        <td class="text-right">
+                                            {{totalAnggaranKas|formatUang}}
+                                        </td>
+                                        <td class="text-right">
+                                            {{totalRealisasi|formatUang}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{totalTargetFisik}}
+                                        </td>
+                                        <td class="text-center">
+                                            {{totalFisik}}
+                                        </td>
+                                        <td class="text-right">
+                                            {{sisaAnggaran|formatUang}}
+                                        </td>
+                                        <td class="center">
+                                            &nbsp;
+                                        </td>
+                                    </tr>
+                                </tfoot>
                             </table>
                         </div>
                         <div class="card-body table-responsive" v-else>                            
@@ -338,7 +361,11 @@ export default {
             detailkegiatan:'',
             datauraian:'',
             daftar_realisasi:{},
-
+            totalAnggaranKas:0,
+            totalRealisasi:0,
+            totalTargetFisik:0,
+            totalFisik:0,
+            sisaAnggaran:0,
             //form
             daftar_bulan:[],
             form: {		                
@@ -347,6 +374,8 @@ export default {
                 anggarankas:0,
                 realisasi1:0,
                 fisik1:0,
+                totalrealisasi:0,
+                totalfisik:0,
                 Descr:'',
             }
         }
@@ -361,8 +390,12 @@ export default {
                 }
             })
             .then(response => {                                        
-                this.daftar_realisasi = response.data.daftar_realisasi;
-                console.log(this.daftar_realisasi);
+                this.daftar_realisasi = response.data.daftar_realisasi;      
+                this.totalAnggaranKas = response.data.totalanggarankas;      
+                this.totalRealisasi = response.data.totalrealisasi;      
+                this.totalTargetFisik = response.data.totaltargetfisik;      
+                this.totalFisik = response.data.totalfisik;      
+                this.sisaAnggaran = response.data.sisa_anggaran;      
             })
             .catch(response => {
                 this.api_message = response;
@@ -374,25 +407,32 @@ export default {
             switch (pid)
             {      
                 case 'create' :
-                    this.pid = pid;
-                    axios.get('/api/v1/apbdmurni/create4/'+this.datauraian.RKARincID,{
-                        headers:{
-                            'Authorization': window.laravel.api_token,
-                        }
-                    })
-                    .then(response => {                   
-                        var daftar_bulan = [];
-                        $.each(response.data,function(key,value){                            
-                            daftar_bulan.push({
-                                code:key,
-                                label:value
-                            });
-                        });                
-                        this.daftar_bulan=daftar_bulan;                      
-                    })
-                    .catch(response => {                        
-                        this.api_message = response;
-                    }); 
+                    if (parseFloat(this.sisaAnggaran) < parseFloat(this.datauraian.pagu_uraian1))
+                    {                    
+                        this.pid = pid;
+                        axios.get('/api/v1/apbdmurni/create4/'+this.datauraian.RKARincID,{
+                            headers:{
+                                'Authorization': window.laravel.api_token,
+                            }
+                        })
+                        .then(response => {                   
+                            var daftar_bulan = [];
+                            $.each(response.data,function(key,value){                            
+                                daftar_bulan.push({
+                                    code:key,
+                                    label:value
+                                });
+                            });                
+                            this.daftar_bulan=daftar_bulan;                      
+                        })
+                        .catch(response => {                        
+                            this.api_message = response;
+                        }); 
+                    }
+                    else
+                    {
+                        alert('udah habis');
+                    }
                 break;
                 case 'destroy':
                     var self = this;
