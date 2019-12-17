@@ -119,13 +119,13 @@
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label"><strong>TOTAL REALISASI: </strong></label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{form.totalrealisasi|formatUang}}</p>
+                                            <p class="form-control-static">{{totalRealisasiAll|formatUang}}</p>
                                         </div>                            
                                     </div>
                                     <div class="form-group row">
                                         <label class="col-md-3 col-form-label"><strong>TOTAL FISIK: </strong></label>
                                         <div class="col-md-9">
-                                            <p class="form-control-static">{{form.totalfisik}}</p>
+                                            <p class="form-control-static">{{totalFisikAll}}</p>
                                         </div>                            
                                     </div>
                                 </div>
@@ -227,7 +227,124 @@
                                             </div>
                                             <div class="col-sm-5">
                                                 <p class="form-control-static">
-                                                    Sisa Pagu {{100-form.totalfisik}}
+                                                    Sisa Fisik {{100-form.totalfisik}}
+                                                </p>
+                                            </div>
+                                        </div>
+										
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KETERANGAN :</label>
+                                    <div class="col-sm-10">                                        
+                                        <textarea v-model="form.Descr" rows="4" class="form-control"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+            </div>
+            <div class="row" v-if="pid=='edit'">
+				<div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-plus"></i> UBAH REALISASI
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                    <i class="fas fa-times"></i>
+                                </button>                                                
+                            </div>       
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="updateData">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">BULAN REALISASI :</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static">
+                                            {{form.bulan}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">ANGGARAN KAS :</label>
+                                    <div class="col-sm-10">                                        
+                                        <p class="form-control-static">{{form.anggarankas|formatUang}}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">FISIK :</label>
+                                    <div class="col-sm-10">                                        
+                                        <p class="form-control-static">{{form.targetfisik}}%</p>
+                                    </div>
+                                </div>                                
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">REALISASI :</label>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <vue-autonumeric 
+                                                    v-model.trim="form.realisasi1" 
+                                                    v-on:input="$v.form.$touch"
+                                                    :options="{
+                                                        minimumValue: '0',
+                                                        decimalCharacter: ',',
+                                                        digitGroupSeparator: '.',
+                                                        emptyInputBehavior:0,
+                                                        unformatOnSubmit: true 
+                                                    }" 
+                                                    class="form-control" 
+                                                    v-bind:class="{'is-invalid': $v.form.realisasi1.$error, 'is-valid': $v.form.realisasi1.$dirty && !$v.form.realisasi1.$invalid}">
+                                                </vue-autonumeric>
+                                                <div class="text-danger" v-if="$v.form.realisasi1.$error">* Mohon untuk di isi atau nilai yang di isi telah melampau {{form.pagu_uraian|formatUang}}</div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <p class="form-control-static">
+                                                    Sisa Pagu {{form.pagu_uraian-totalRealisasiAll|formatUang}}
+                                                </p>
+                                            </div>
+                                        </div>										
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">FISIK :</label>
+                                    <div class="col-sm-10">
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <vue-autonumeric 
+                                                    v-model.trim="form.fisik1" 
+                                                    v-on:input="$v.form.$touch"
+                                                    :options="{
+                                                        allowDecimalPadding: false,
+                                                        minimumValue:0.00,
+                                                        maximumValue:100.00,
+                                                        decimalCharacter:'.',
+                                                        showWarnings:false,
+                                                        emptyInputBehavior:0.00,
+                                                        unformatOnSubmit: true,
+                                                        modifyValueOnWheel:false
+                                                    }"  
+                                                    class="form-control" 
+                                                    v-bind:class="{'is-invalid': $v.form.fisik1.$error, 'is-valid': $v.form.fisik1.$dirty && !$v.form.fisik1.$invalid}">
+                                                </vue-autonumeric>
+                                                <div class="text-danger" v-if="$v.form.fisik1.$error">* Mohon untuk di isi atau nilai yang di isi telah melampau 100%</div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <p class="form-control-static">
+                                                    Sisa Fisik {{100-totalFisikAll}}
                                                 </p>
                                             </div>
                                         </div>
@@ -303,7 +420,10 @@
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-wrench"></i>
                                                 </button>
-                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">                                                                                                      
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton"> 
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('edit',item)" title="Ubah Realisasi">
+                                                        <i class="fas fa-edit"></i> UBAH
+                                                    </a>                                                                                                     
                                                     <a class="dropdown-item" v-on:click.prevent="proc('destroy',item)" href="#" title="Hapus Data Realisasi">
                                                         <i class="fas fa-trash-alt"></i> HAPUS
                                                     </a>
@@ -487,6 +607,17 @@ export default {
 
                     }
                 break;
+                case 'edit' :
+                    this.pid=pid;
+                    this.form.bulan=item.bulan1;
+
+                    this.form.totalrealisasi=this.form.totalrealisasi-item.realisasi1;
+                    this.form.realisasi1=item.realisasi1;
+
+                    this.form.totalfisik=this.form.totalfisik-item.fisik1;
+                    this.form.fisik1=item.fisik1;
+                    this.form.Descr=item.Descr;
+                break;
                 case 'destroy':
                     var self = this;
                     this.$swal({
@@ -574,6 +705,10 @@ export default {
                     this.api_message = error.response.data.message;
                 });			
             }
+        },
+        updateData()
+        {
+
         },
         clearform ()
         {   
