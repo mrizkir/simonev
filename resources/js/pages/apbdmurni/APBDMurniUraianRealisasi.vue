@@ -116,6 +116,18 @@
                                             <p class="form-control-static">{{datauraian.pagu_uraian1|formatUang}}</p>
                                         </div>                            
                                     </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>TOTAL REALISASI: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">{{form.totalrealisasi|formatUang}}</p>
+                                        </div>                            
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>TOTAL FISIK: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">{{form.totalfisik}}</p>
+                                        </div>                            
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -165,42 +177,61 @@
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">REALISASI :</label>
                                     <div class="col-sm-10">
-										<vue-autonumeric 
-											v-model.trim="form.realisasi1" 
-											v-on:input="$v.form.$touch"
-											:options="{
-												minimumValue: '0',
-												decimalCharacter: ',',
-												digitGroupSeparator: '.',
-												emptyInputBehavior:0,
-												unformatOnSubmit: true 
-											}" 
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.realisasi1.$error, 'is-valid': $v.form.realisasi1.$dirty && !$v.form.realisasi1.$invalid}">
-										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.realisasi1.$error">* wajib isi</div>
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <vue-autonumeric 
+                                                    v-model.trim="form.realisasi1" 
+                                                    v-on:input="$v.form.$touch"
+                                                    :options="{
+                                                        minimumValue: '0',
+                                                        decimalCharacter: ',',
+                                                        digitGroupSeparator: '.',
+                                                        emptyInputBehavior:0,
+                                                        unformatOnSubmit: true 
+                                                    }" 
+                                                    class="form-control" 
+                                                    v-bind:class="{'is-invalid': $v.form.realisasi1.$error, 'is-valid': $v.form.realisasi1.$dirty && !$v.form.realisasi1.$invalid}">
+                                                </vue-autonumeric>
+                                                <div class="text-danger" v-if="$v.form.realisasi1.$error">* Mohon untuk di isi atau nilai yang di isi telah melampau {{form.pagu_uraian|formatUang}}</div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <p class="form-control-static">
+                                                    Sisa Pagu {{form.pagu_uraian-form.totalrealisasi|formatUang}}
+                                                </p>
+                                            </div>
+                                        </div>										
                                     </div>
                                 </div>
                                 <div class="form-group row">
                                     <label class="col-sm-2 col-form-label">FISIK :</label>
                                     <div class="col-sm-10">
-										<vue-autonumeric 
-											v-model.trim="form.fisik1" 
-											v-on:input="$v.form.$touch"
-											:options="{
-                                                allowDecimalPadding: false,
-                                                minimumValue:0.00,
-                                                maximumValue:100.00,
-                                                decimalCharacter:'.',
-                                                showWarnings:false,
-                                                emptyInputBehavior:0.00,
-                                                unformatOnSubmit: true,
-                                                modifyValueOnWheel:false
-                                            }"  
-											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.fisik1.$error, 'is-valid': $v.form.fisik1.$dirty && !$v.form.fisik1.$invalid}">
-										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.fisik1.$error">* wajib isi</div>
+                                        <div class="row">
+                                            <div class="col-sm-7">
+                                                <vue-autonumeric 
+                                                    v-model.trim="form.fisik1" 
+                                                    v-on:input="$v.form.$touch"
+                                                    :options="{
+                                                        allowDecimalPadding: false,
+                                                        minimumValue:0.00,
+                                                        maximumValue:100.00,
+                                                        decimalCharacter:'.',
+                                                        showWarnings:false,
+                                                        emptyInputBehavior:0.00,
+                                                        unformatOnSubmit: true,
+                                                        modifyValueOnWheel:false
+                                                    }"  
+                                                    class="form-control" 
+                                                    v-bind:class="{'is-invalid': $v.form.fisik1.$error, 'is-valid': $v.form.fisik1.$dirty && !$v.form.fisik1.$invalid}">
+                                                </vue-autonumeric>
+                                                <div class="text-danger" v-if="$v.form.fisik1.$error">* Mohon untuk di isi atau nilai yang di isi telah melampau 100%</div>
+                                            </div>
+                                            <div class="col-sm-5">
+                                                <p class="form-control-static">
+                                                    Sisa Pagu {{100-form.totalfisik}}
+                                                </p>
+                                            </div>
+                                        </div>
+										
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -288,13 +319,13 @@
                                             {{totalAnggaranKas|formatUang}}
                                         </td>
                                         <td class="text-right">
-                                            {{totalRealisasi|formatUang}}
+                                            {{totalRealisasiAll|formatUang}}
                                         </td>
                                         <td class="text-center">
-                                            {{totalTargetFisik}}
+                                            {{totalTargetFisikAll}}
                                         </td>
                                         <td class="text-center">
-                                            {{totalFisik}}
+                                            {{totalFisikAll}}
                                         </td>
                                         <td class="text-right">
                                             {{sisaAnggaran|formatUang}}
@@ -341,6 +372,15 @@ import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
 import vSelect from 'vue-select';
 
+const checkTotalFisik = (value,vm) => {
+    return (parseFloat(value)+vm.totalfisik) <= 100;
+    return true;
+};
+const checkTotalRealisasi = (value,vm) => {    
+    return (parseFloat(value)+vm.totalrealisasi) <= vm.pagu_uraian;
+    return true;
+};
+
 export default {
     created ()
     {
@@ -362,14 +402,15 @@ export default {
             datauraian:'',
             daftar_realisasi:{},
             totalAnggaranKas:0,
-            totalRealisasi:0,
-            totalTargetFisik:0,
-            totalFisik:0,
+            totalRealisasiAll:0,
+            totalTargetFisikAll:0,
+            totalFisikAll:0,
             sisaAnggaran:0,
             //form
             daftar_bulan:[],
             form: {		                
                 bulan:'',
+                pagu_uraian:0,
                 targetfisik:0,
                 anggarankas:0,
                 realisasi1:0,
@@ -391,10 +432,17 @@ export default {
             })
             .then(response => {                                        
                 this.daftar_realisasi = response.data.daftar_realisasi;      
+                
+                this.form.pagu_uraian=parseFloat(this.datauraian.pagu_uraian1);
+                
                 this.totalAnggaranKas = response.data.totalanggarankas;      
-                this.totalRealisasi = response.data.totalrealisasi;      
-                this.totalTargetFisik = response.data.totaltargetfisik;      
-                this.totalFisik = response.data.totalfisik;      
+                this.totalRealisasiAll = response.data.totalrealisasi;      
+                this.form.totalrealisasi = response.data.totalrealisasi;      
+                
+                this.totalTargetFisikAll = response.data.totaltargetfisik;      
+                this.totalFisikAll = response.data.totalfisik;      
+                this.form.totalfisik = response.data.totalfisik;      
+                
                 this.sisaAnggaran = response.data.sisa_anggaran;      
             })
             .catch(response => {
@@ -406,8 +454,8 @@ export default {
             this.$v.$reset();
             switch (pid)
             {      
-                case 'create' :
-                    if (parseFloat(this.sisaAnggaran) < parseFloat(this.datauraian.pagu_uraian1))
+                case 'create' :                    
+                    if ((parseFloat(this.totalRealisasiAll) < parseFloat(this.datauraian.pagu_uraian1)) || (parseFloat(this.totalFisikAll)< 100))
                     {                    
                         this.pid = pid;
                         axios.get('/api/v1/apbdmurni/create4/'+this.datauraian.RKARincID,{
@@ -431,7 +479,12 @@ export default {
                     }
                     else
                     {
-                        alert('udah habis');
+                        this.$swal({
+                            title: 'Tidak bisa tambah Realisasi',
+                            type: 'warning',
+                            text: 'Tidak bisa tambah realisasi, karena Realisasi telah sama atau melampau pagu uraian!',
+                        });
+
                     }
                 break;
                 case 'destroy':
@@ -485,7 +538,7 @@ export default {
 		{	
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
-            { 
+            {                 
                 axios.post('/api/v1/apbdmurni/store4',{                   
                     'RKARincID':this.datauraian.RKARincID,
                     'RKAID':this.detailkegiatan.RKAID,
@@ -538,10 +591,12 @@ export default {
 				required
 			},			
 			realisasi1: {
-				required
+                required,
+                checkTotalRealisasi
 			},			
 			fisik1: {
-				required
+                required,
+                checkTotalFisik
 			},			
 		}
 	},
