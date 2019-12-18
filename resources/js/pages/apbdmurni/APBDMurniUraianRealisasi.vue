@@ -492,13 +492,11 @@ import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
 import vSelect from 'vue-select';
 
-const checkTotalFisik = (value,vm) => {
+const checkTotalFisik = (value,vm) => {    
     return (parseFloat(value)+vm.totalfisik) <= 100;
-    return true;
 };
-const checkTotalRealisasi = (value,vm) => {    
+const checkTotalRealisasi = (value,vm) => {        
     return (parseFloat(value)+vm.totalrealisasi) <= vm.pagu_uraian;
-    return true;
 };
 
 export default {
@@ -529,6 +527,7 @@ export default {
             //form
             daftar_bulan:[],
             form: {		                
+                RKARealisasiRincID:'',
                 bulan:'',
                 pagu_uraian:0,
                 targetfisik:0,
@@ -609,6 +608,8 @@ export default {
                 break;
                 case 'edit' :
                     this.pid=pid;
+
+                    this.form.RKARealisasiRincID=item.RKARealisasiRincID;
                     this.form.bulan=item.bulan1;
 
                     this.form.totalrealisasi=this.form.totalrealisasi-item.realisasi1;
@@ -708,10 +709,43 @@ export default {
         },
         updateData()
         {
-
+            this.$v.form.$touch();    
+            if(this.$v.$invalid == false)
+            {                 
+                axios.post('/api/v1/apbdmurni/update4/'+this.form.RKARealisasiRincID,{                   
+                    'realisasi1':this.form.realisasi1,                   
+                    'fisik1':this.form.fisik1,                   
+                    'Descr':this.form.Descr,                   
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Mengubah Data Realisasi berhasil dilakukan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.clearform();                             
+                        this.$swal.close();   
+                        this.proc('default');       
+                    }, 1500);             
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			
+            }
         },
         clearform ()
         {   
+            this.form.RKARealisasiRincID='';
             this.form.bulan='';
             this.form.targetfisik=0;
             this.form.anggarankas=0;

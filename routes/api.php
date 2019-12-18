@@ -122,6 +122,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     
     Route::get('/apbdmurni/{uuid}/edit3/',['uses'=>'RKA\APBDMurniController@edit3','as'=>'apbdmurni.edit3']);  
     Route::post('/apbdmurni/update3',['uses'=>'RKA\APBDMurniController@update3','as'=>'apbdmurni.update3']);                      
+    Route::post('/apbdmurni/update4/{uuid}',['uses'=>'RKA\APBDMurniController@update4','as'=>'apbdmurni.update4']);                      
     
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);

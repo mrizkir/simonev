@@ -169,7 +169,7 @@ class APBDMurniController extends Controller
         $datauraian = RKARincianKegiatanModel::find($RKARincID);
 
         $r = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan1","target1","realisasi1",target_fisik1,fisik1,"TA","created_at","updated_at"'))
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan1","target1","realisasi1",target_fisik1,fisik1,"TA","Descr","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
                     ->orderBy('bulan1','ASC')
                     ->get();
@@ -196,6 +196,7 @@ class APBDMurniController extends Controller
                 'target_fisik1'=>$item->target_fisik1,
                 'fisik1'=>$item->fisik1,
                 'sisa_anggaran'=>$sisa_anggaran,
+                'Descr'=>$item->Descr,
                 'TA'=>$item->TA,
                 'created_at'=>$item->created_at,
                 'updated_at'=>$item->updated_at,
@@ -844,7 +845,7 @@ class APBDMurniController extends Controller
     public function store4(Request $request)
     {
         
-        $this->validate($request, [
+        $validator=\Validator::make($request->all(), [
             'RKARincID'=>'required',
             'RKAID'=>'required',
             'bulan1'=>'required',            
@@ -853,58 +854,41 @@ class APBDMurniController extends Controller
             'target_fisik1'=>'required',
             'fisik1'=>'required',            
         ]);
-        $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::create([
-            'RKARealisasiRincID' => uniqid ('uid'),
-            'RKAID' => $request->input('RKAID'),
-            'RKARincID' => $request->input('RKARincID'),            
-            'bulan1' => $request->input('bulan1'),
-            'bulan2' => 0,
-            'target1' => $request->input('target1'),            
-            'target2' => 0,            
-            'realisasi1' => $request->input('realisasi1'),            
-            'realisasi2' => 0,            
-            'target_fisik1' => $request->input('target_fisik1'),           
-            'target_fisik2' => 0,           
-            'fisik1' => $request->input('fisik1'),           
-            'fisik2' => 0,           
-            'EntryLvl' => 1,
-            'Descr' => $request->input('Descr'),            
-            'TA' => \HelperKegiatan::getTahunAnggaran(),
-        ]);        
-        $this->destroyControllerStateSession('filters','RKARincID');
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']='data-realisasi-tab';
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        if ($request->ajax()) 
+        if ($validator->fails())
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil disimpan.'
-            ],200);
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
         }
         else
         {
-            return redirect(route('apbdmurni.show',['uuid'=>$realisasirinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+            $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::create([
+                'RKARealisasiRincID' => uniqid ('uid'),
+                'RKAID' => $request->input('RKAID'),
+                'RKARincID' => $request->input('RKARincID'),            
+                'bulan1' => $request->input('bulan1'),
+                'bulan2' => 0,
+                'target1' => $request->input('target1'),            
+                'target2' => 0,            
+                'realisasi1' => $request->input('realisasi1'),            
+                'realisasi2' => 0,            
+                'target_fisik1' => $request->input('target_fisik1'),           
+                'target_fisik2' => 0,           
+                'fisik1' => $request->input('fisik1'),           
+                'fisik2' => 0,           
+                'EntryLvl' => 1,
+                'Descr' => $request->input('Descr'),            
+                'TA' => \HelperKegiatan::getTahunAnggaran(),
+            ]);       
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil disimpan.'
+            ],200);
+            
         }
 
     }    
-    /**
-     * digunakan untuk melakukan perubahan tabulasi detail rka.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function changetab (Request $request)
-    {
-        $json_data = [];
-        $tab = $request->input('tab')==''?'none':$request->input('tab');
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']=$tab;
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-        $json_data['success']=true;
-        $json_data['changetab']=$tab;
-        return response()->json($json_data,200);  
-    }
+
     /**
      * Display the specified resource.
      *
@@ -1342,6 +1326,41 @@ class APBDMurniController extends Controller
         }       
         
     }
+
+    /**
+     * Store a newly created resource in storage. [update realisasi rincian kegiatan]
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function update4(Request $request, $id)
+    {    
+        $realisasi = RKARealisasiRincianKegiatanModel::find($id);    
+
+        $validator=\Validator::make($request->all(), [            
+            'realisasi1'=>'required',
+            'fisik1'=>'required',            
+        ]);
+        if ($validator->fails())
+        {
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
+        }
+        else
+        {
+            $realisasi->fisik1 = $request->input('fisik1');
+            $realisasi->realisasi1 = $request->input('realisasi1');
+            $realisasi->Descr = $request->input('Descr');
+            $realisasi->save();             
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil diubah.'
+            ],200);
+            
+        }
+
+    }    
     /**
      * Remove the specified resource from storage.
      *
