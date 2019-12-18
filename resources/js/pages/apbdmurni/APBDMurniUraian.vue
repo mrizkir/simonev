@@ -37,10 +37,10 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-eye"></i> DATA KEGIATAN</h3>
-                            <div class="card-tools">                                 
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('create',null)" title="Tambah Kegiatan Baru">
+                            <div class="card-tools">            
+                                <router-link to="/apbdmurni/create" class="btn btn-tool" title="Tambah Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
-                                </button>                                
+                                </router-link>                                
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',jenis.detail)" title="Ubah Kegiatan">
                                     <i class="fas fa-edit"></i>
                                 </button>                                
@@ -554,8 +554,7 @@ export default {
                     });       
                 break;
                 case 'edit':
-                    this.pid=pid;
-                    console.log(item);
+                    this.pid=pid;                    
                     this.fetchJenisPelaksanaan();
 
                     this.form.RKARincID=item.RKARincID;
