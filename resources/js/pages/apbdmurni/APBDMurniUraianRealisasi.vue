@@ -261,7 +261,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">
-                                <i class="fas fa-plus"></i> UBAH REALISASI
+                                <i class="fas fa-edit"></i> UBAH REALISASI
                             </h3>
                             <div class="card-tools">
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">

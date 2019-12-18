@@ -121,6 +121,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/apbdmurni/store4',['uses'=>'RKA\APBDMurniController@store4','as'=>'apbdmurni.store4']);  
     
     Route::get('/apbdmurni/{uuid}/edit3/',['uses'=>'RKA\APBDMurniController@edit3','as'=>'apbdmurni.edit3']);  
+    Route::post('/apbdmurni/update2/{uuid}',['uses'=>'RKA\APBDMurniController@update2','as'=>'apbdmurni.update2']);                      
     Route::post('/apbdmurni/update3',['uses'=>'RKA\APBDMurniController@update3','as'=>'apbdmurni.update3']);                      
     Route::post('/apbdmurni/update4/{uuid}',['uses'=>'RKA\APBDMurniController@update4','as'=>'apbdmurni.update4']);                      
     

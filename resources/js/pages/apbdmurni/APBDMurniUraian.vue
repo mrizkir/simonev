@@ -150,7 +150,128 @@
                     </div>
                  </div>
             </div>
-            <div class="row">
+            <div class="row" v-if="pid=='edit'">
+				<div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i> UBAH URAIAN KEGIATAN
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                    <i class="fas fa-times"></i>
+                                </button>                                                
+                            </div>       
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="updateData">
+                            <div class="card-body">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">NAMA REKENING: </label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">[{{form.kode_rek_5}}] {{form.RObyNm}}</p>
+                                    </div>                            
+                                </div>                  
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NAMA URAIAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.nama_uraian" class="form-control" v-bind:class="{'is-invalid': $v.form.nama_uraian.$error, 'is-valid': $v.form.nama_uraian.$dirty && !$v.form.nama_uraian.$invalid}">
+										<div class="text-danger" v-if="$v.form.nama_uraian.$error">* wajib isi</div>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">VOLUME / NAMA SATUAN</label>
+                                    <div class="col-sm-3">
+										<vue-autonumeric 
+											v-model.trim="form.volume" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												allowDecimalPadding: false,
+                                                minimumValue:0,
+                                                maximumValue:99999999999999999,
+                                                numericPos:true,
+                                                decimalPlaces : 0,
+                                                digitGroupSeparator : '',
+                                                showWarnings:false,
+                                                unformatOnSubmit: true,
+                                                modifyValueOnWheel:false
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.volume.$error, 'is-valid': $v.form.volume.$dirty && !$v.form.volume.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.volume.$error">* wajib isi</div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <input type="text" v-model="form.satuan" class="form-control" v-bind:class="{'is-invalid': $v.form.satuan.$error, 'is-valid': $v.form.satuan.$dirty && !$v.form.satuan.$invalid}">
+										<div class="text-danger" v-if="$v.form.satuan.$error">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">HARGA SATUAN</label>
+                                    <div class="col-sm-9">
+                                       <vue-autonumeric 
+											v-model.trim="form.harga_satuan" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												minimumValue: '0',
+												decimalCharacter: ',',
+												digitGroupSeparator: '.',
+                                                emptyInputBehavior:0,
+												unformatOnSubmit: true 
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.harga_satuan.$error, 'is-valid': $v.form.harga_satuan.$dirty && !$v.form.harga_satuan.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.harga_satuan.$error">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">PAGU URAIAN</label>
+                                    <div class="col-sm-9">
+                                       <vue-autonumeric 
+											v-model.trim="form.pagu_uraian1" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												minimumValue: '0',
+												decimalCharacter: ',',
+												digitGroupSeparator: '.',
+                                                emptyInputBehavior:0,
+												unformatOnSubmit: true 
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.pagu_uraian1.$error, 'is-valid': $v.form.pagu_uraian1.$dirty && !$v.form.pagu_uraian1.$invalid}">
+										</vue-autonumeric>
+                                        <span class="form-text text-muted">(Harga Satuan * Volume)</span>
+										<div class="text-danger" v-if="$v.form.pagu_uraian1.$error">* wajib isi</div>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">JENIS PELAKSANAAN</label>
+                                    <div class="col-sm-9">
+                                        <v-select 
+                                            v-model="form.JenisPelaksanaanID" 
+                                            :reduce="daftar_jenispelaksanaan => daftar_jenispelaksanaan.code"
+                                            placeholder="SILAHKAN PILIH JENIS PELAKSANAAN" 
+                                            :options="daftar_jenispelaksanaan">
+                                        </v-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+            </div>
+            <div class="row" v-if="pid=='default'">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -265,6 +386,10 @@
 </div>
 </template>
 <script>
+import vSelect from 'vue-select';
+import { required} from 'vuelidate/lib/validators';
+import VueAutonumeric from 'vue-autonumeric';
+
 export default {
     mounted()
     {
@@ -284,10 +409,45 @@ export default {
             totalpaguuraian:0,
             totalrealisasi:0,
             totalfisik:0,
+
+            //form			
+            daftar_jenispelaksanaan: [],           
+			form: {		
+                RKARincID:'',
+                kode_rek_5:'',
+                RObyNm:'',
+                nama_uraian:'',
+                volume:'',		                                
+                satuan:'',		                                
+                harga_satuan:'',		                                
+                pagu_uraian1: '',
+                JenisPelaksanaanID: ''
+            }
         }
     },
     methods: 
     {
+        fetchJenisPelaksanaan()
+        {
+            axios.get('/api/v1/apbdmurni/create2',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {             
+                var daftar_jenispelaksanaan = [];
+                $.each(response.data,function(key,value){
+                    daftar_jenispelaksanaan.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_jenispelaksanaan=daftar_jenispelaksanaan;    
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
         fetchUraianKegiatan()
         {           
             var page = this.$store.getters.getPage('apbdmurni');            
@@ -323,6 +483,55 @@ export default {
                 this.$swal.close();  
             }, 1500);               
         },
+        updateData ()
+        {
+            this.$v.form.$touch();    
+            if(this.$v.$invalid == false)
+            {                 
+                axios.post('/api/v1/apbdmurni/update2/'+this.form.RKARincID,{                   
+                    'nama_uraian':this.form.nama_uraian,
+                    'volume':this.form.volume,
+                    'satuan':this.form.satuan,
+                    'harga_satuan':this.form.harga_satuan,
+                    'pagu_uraian1':this.form.pagu_uraian1,
+                    'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
+                    'Descr':'-',                   
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Mengubah Data Uraian Kegiatan berhasil dilakukan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.clearform();                             
+                        this.$swal.close();   
+                        this.proc('default');       
+                    }, 1500);             
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			
+            }
+        },
+        clearform ()
+        {   
+            this.form.nama_uraian='';
+            this.form.volume=0;
+            this.form.satuan='';
+            this.form.harga_satuan=0;
+            this.form.pagu_uraian1=0;
+            this.form.JenisPelaksanaanID='';               
+        },
         proc (pid,item=null) 
         {           
             switch (pid)
@@ -345,7 +554,19 @@ export default {
                     });       
                 break;
                 case 'edit':
+                    this.pid=pid;
+                    console.log(item);
+                    this.fetchJenisPelaksanaan();
 
+                    this.form.RKARincID=item.RKARincID;
+                    this.form.kode_rek_5=item.kode_rek_5;
+                    this.form.RObyNm=item.RObyNm;
+                    this.form.nama_uraian=item.nama_uraian;
+                    this.form.volume=item.volume1;
+                    this.form.satuan=item.satuan1;
+                    this.form.harga_satuan=item.harga_satuan1;
+                    this.form.pagu_uraian1=item.pagu_uraian1;
+                    this.form.JenisPelaksanaanID=item.JenisPelaksanaanID;
                 break;
                 case 'destroy':
                     var self = this;
@@ -384,6 +605,31 @@ export default {
                     this.fetchUraianKegiatan();
             }
         },
+    },
+    
+    validations: {
+		form: {
+			nama_uraian: {
+				required
+			},
+			volume: {
+				required
+			},
+			satuan: {
+				required
+			},
+			harga_satuan: {
+				required
+			},
+			pagu_uraian1: {
+				required
+			},
+		}
+    },
+	components: 
+	{
+        'v-select': vSelect,
+        'vue-autonumeric':VueAutonumeric,
     }
 }
 </script>

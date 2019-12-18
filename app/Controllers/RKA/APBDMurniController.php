@@ -72,7 +72,7 @@ class APBDMurniController extends Controller
     public function populateDataUraian ($RKAID)
     {
         $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume1,satuan1,harga_satuan1,pagu_uraian1,0 AS "realisasi1",0 AS "fisik1","trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume1,satuan1,harga_satuan1,pagu_uraian1,0 AS "realisasi1",0 AS "fisik1","trRKARinc"."JenisPelaksanaanID","trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
                     ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                     ->where('RKAID',$RKAID)
                     ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
@@ -1234,38 +1234,34 @@ class APBDMurniController extends Controller
     {
         $rinciankegiatan = RKARincianKegiatanModel::find($id);
         
-        $this->validate($request, [
+        $validator=\Validator::make($request->all(), [
             'nama_uraian'=>'required',
             'volume'=>'required',
             'satuan'=>'required',
             'harga_satuan'=>'required',
             'pagu_uraian1'=>'required',
         ]);   
-
-        $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');
-        $rinciankegiatan->nama_uraian = $request->input('nama_uraian');
-        $rinciankegiatan->volume1=$request->input('volume');
-        $rinciankegiatan->satuan1=$request->input('satuan');
-        $rinciankegiatan->harga_satuan1=$request->input('harga_satuan');
-        $rinciankegiatan->pagu_uraian1=$request->input('pagu_uraian1');
-        $rinciankegiatan->Descr=$request->input('Descr');
         
-        $rinciankegiatan->save();
-
-        $filters=$this->getControllerStateSession($this->SessionName,'filters'); 
-        $filters['changetab']='data-uraian-tab';
-        $this->putControllerStateSession($this->SessionName,'filters',$filters);
-
-        if ($request->ajax()) 
+        if ($validator->fails())
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'
-            ],200);
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
         }
         else
-        {
-            return redirect(route('apbdmurni.show',['uuid'=>$rinciankegiatan->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+        {            
+            $rinciankegiatan->nama_uraian = $request->input('nama_uraian');
+            $rinciankegiatan->volume1=$request->input('volume');
+            $rinciankegiatan->satuan1=$request->input('satuan');
+            $rinciankegiatan->harga_satuan1=$request->input('harga_satuan');
+            $rinciankegiatan->pagu_uraian1=$request->input('pagu_uraian1');
+            $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');
+            $rinciankegiatan->Descr=$request->input('Descr');            
+            $rinciankegiatan->save();
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil di ubah.'
+            ],200);
         }
     }
 

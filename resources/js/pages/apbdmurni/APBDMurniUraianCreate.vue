@@ -253,7 +253,7 @@ export default {
             datarekening:'',
             detailkegiatan:'',
 
-             //form			
+            //form			
             daftar_jenispelaksanaan: [],           
 			form: {		
                 nama_uraian:'',
@@ -300,10 +300,10 @@ export default {
                     'nama_uraian':this.form.nama_uraian,
                     'volume':this.form.volume,
                     'satuan':this.form.satuan,
-                    'RKPDID':this.form.RKPDID,
                     'harga_satuan':this.form.harga_satuan,
                     'pagu_uraian1':this.form.pagu_uraian1,
                     'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
+                    'Descr':'-',
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
