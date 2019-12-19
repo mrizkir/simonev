@@ -444,38 +444,45 @@ export default {
         },
         fetchUraianKegiatan()
         {           
-            var page = this.$store.getters.getPage('apbdmurni');            
-            this.$swal({
-                title: '<i class="fas fa-spin fa-spinner"></i>',
-                text: "Mendapatkan informasi Uraian Data Kegiatan dengan ID "+page.RKAID,
-                showCancelButton: false,
-                showConfirmButton: false,
-                showCloseButton: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false,
-            });              
-            setTimeout(() => {
-                axios.get('/api/v1/apbdmurni/'+page.RKAID,{
-                    headers:{
-                        'Authorization': window.laravel.api_token,
-                    }
-                })
-                .then(response => {   
-                    this.RKAIDIsExist = true;
-                    this.detailkegiatan = response.data.rka;
-                    page.detailkegiatan = this.detailkegiatan;                        
-                    this.$store.commit('replacePage',page);                    
-                    this.daftar_uraian = response.data.daftar_uraian;
-                    this.totalpaguuraian = response.data.totalpaguuraian;
-                    this.totalrealisasi = response.data.totalrealisasi;
-                    this.totalfisik = response.data.totalfisik;
-                })
-                .catch(response => {
-                    this.api_message = response;
-                });       
-                this.$swal.close();  
-            }, 1500);               
+            var page = this.$store.getters.getPage('apbdmurni');    
+            if (page.RKAID == '')
+            {
+                this.RKAIDIsExist = false;
+            }
+            else
+            {
+                this.$swal({
+                    title: '<i class="fas fa-spin fa-spinner"></i>',
+                    text: "Mendapatkan informasi Uraian Data Kegiatan dengan ID "+page.RKAID,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    showCloseButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                });              
+                setTimeout(() => {
+                    axios.get('/api/v1/apbdmurni/'+page.RKAID,{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        }
+                    })
+                    .then(response => {   
+                        this.RKAIDIsExist = true;
+                        this.detailkegiatan = response.data.rka;
+                        page.detailkegiatan = this.detailkegiatan;                        
+                        this.$store.commit('replacePage',page);                    
+                        this.daftar_uraian = response.data.daftar_uraian;
+                        this.totalpaguuraian = response.data.totalpaguuraian;
+                        this.totalrealisasi = response.data.totalrealisasi;
+                        this.totalfisik = response.data.totalfisik;
+                    })
+                    .catch(response => {
+                        this.api_message = response;
+                    });       
+                    this.$swal.close();  
+                }, 1500);             
+            }              
         },
         updateData ()
         {

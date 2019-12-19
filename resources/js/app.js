@@ -75,13 +75,44 @@ const app = new Vue({
         this.changeMenuItem();        
     },        
     methods: 
-    {        
+    {    
+        toggleDMaster(state=0)
+        {
+            if (state == 0)
+            {
+                window.$('#liDMaster').removeClass('menu-open');
+                window.$('#ulDMaster').css('display','none');                
+                window.$('#linkDMaster').removeClass('active');
+            }
+            else
+            {
+                window.$('#liDMaster').addClass('menu-open');
+                window.$('#linkDMaster').addClass('active');
+            }
+        }, 
+        toggleRKA(state=0)
+        {
+            if (state == 0)
+            {                
+                window.$('#liRKA').removeClass('menu-open');
+                window.$('#ulRKA').css('display','none');                
+                window.$('#linkRKA').removeClass('active');
+            }
+            else
+            {
+                window.$('#liRKA').addClass('menu-open');
+                window.$('#linkRKA').addClass('active');
+            }
+        },
         changeMenuItem()
         {
             var name = this.$router.currentRoute.name;
             switch (name)
             {
-                case 'dashboard':               
+                case 'dashboard':            
+                    this.toggleDMaster();
+                    this.toggleRKA();
+                break;
                 //dmaster
                 case 'dmaster_kelompokurusan':
                 case 'dmaster_urusan':
@@ -98,12 +129,8 @@ const app = new Vue({
                 case 'dmaster_asnopd':
                 case 'dmaster_paguanggaranopd':
                 case 'dmaster_jenispelaksanaan':
-                    window.$('#liDMaster').addClass('menu-open');
-                    window.$('#linkDMaster').addClass('active'); 
-
-                    window.$('#liRKA').removeClass('menu-open');
-                    window.$('#ulRKA').css('display','none');                
-                    window.$('#linkRKA').removeClass('active');
+                    this.toggleDMaster(1);
+                    this.toggleRKA();
                 break;
 
                 //apbd murni
@@ -112,13 +139,17 @@ const app = new Vue({
                 case 'apbdmurniuraian' :                        
                 case 'apbdmurniuraianpilihrekening' :                        
                 case 'apbdmurniuraiancreate' :                        
-                case 'apbdmurniuraianrealisasi' :                        
-                    window.$('#liDMaster').removeClass('menu-open');
-                    window.$('#ulDMaster').css('display','none');                
-                    window.$('#linkDMaster').removeClass('active');
-
-                    window.$('#liRKA').addClass('menu-open');
-                    window.$('#linkRKA').addClass('active'); 
+                case 'apbdmurniuraianrealisasi' :  
+                
+                 //apbd perubahan
+                 case 'apbdperubahan' :                                   
+                 case 'apbdperubahancreate' :                        
+                 case 'apbdperubahanuraian' :                        
+                 case 'apbdperubahanuraianpilihrekening' :                        
+                 case 'apbdperubahanuraiancreate' :                        
+                 case 'apbdperubahanuraianrealisasi' : 
+                    this.toggleDMaster();
+                    this.toggleRKA(1);
                 break;
             }
         }
