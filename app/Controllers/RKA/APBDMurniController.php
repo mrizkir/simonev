@@ -273,7 +273,21 @@ class APBDMurniController extends Controller
         else
         {
             $data = \DB::table('v_rka')
-                        ->select(\DB::raw('"RKAID",kode_kegiatan,"KgtNm","PaguDana1",0 AS "TotalPaguUraian1",0 AS "TotalRealisasi1",0 AS "TotalFisik1"'))
+                        ->select(\DB::raw('"RKAID",
+                                            "RKPDID",
+                                            kode_program,
+                                            "PrgNm",
+                                            kode_kegiatan,
+                                            "KgtNm",
+                                            "PaguDana1",
+                                            0 AS "TotalPaguUraian1",
+                                            0 AS "TotalRealisasi1",
+                                            0 AS "TotalFisik1",
+                                            nip_pa1,
+                                            nip_kpa1,
+                                            nip_ppk1,
+                                            nip_pptk1
+                                        '))
                         ->where('SOrgID',$SOrgID)                                            
                         ->where('TA', \HelperKegiatan::getTahunAnggaran())  
                         ->where('EntryLvl',1)
@@ -1181,46 +1195,53 @@ class APBDMurniController extends Controller
     {
         $apbdmurni = RKAKegiatanModel::find($id);
         
-        $this->validate($request, [
-            'lokasi_kegiatan'=>'required',
-            'SumberDanaID'=>'required',
-            'capaian_program'=>'required',
-            'tk_capaian'=>'required',
-            'masukan'=>'required',
-            'keluaran'=>'required',
-            'tk_keluaran'=>'required',
-            'hasil'=>'required',
-            'tk_hasil'=>'required',
-            'ksk'=>'required',
-            'sifat_kegiatan'=>'required',
-            'waktu_pelaksanaan'=>'required'
+        $validator=\Validator::make($request->all(), [
+            'PaguDana1'=>'required',
+            'nip_pa1' => $request->input('nip_pa'),
+            'nip_kpa1' => $request->input('nip_kpa'),
+            'nip_ppk1' => $request->input('nip_ppk'),
+            'nip_pptk1' => $request->input('nip_pptk'),
+            // 'lokasi_kegiatan'=>'required',
+            // 'SumberDanaID'=>'required',
+            // 'capaian_program'=>'required',
+            // 'tk_capaian'=>'required',
+            // 'masukan'=>'required',
+            // 'keluaran'=>'required',
+            // 'tk_keluaran'=>'required',
+            // 'hasil'=>'required',
+            // 'tk_hasil'=>'required',
+            // 'ksk'=>'required',
+            // 'sifat_kegiatan'=>'required',
+            // 'waktu_pelaksanaan'=>'required'
         ]);
         
-        $apbdmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
-        $apbdmurni->SumberDanaID=$request->input('SumberDanaID');
-        $apbdmurni->capaian_program1=$request->input('capaian_program');
-        $apbdmurni->tk_capaian1=$request->input('tk_capaian');
-        $apbdmurni->masukan1=$request->input('masukan');
-        $apbdmurni->keluaran1=$request->input('keluaran');
-        $apbdmurni->tk_keluaran1=$request->input('tk_keluaran');
-        $apbdmurni->hasil1=$request->input('hasil');
-        $apbdmurni->tk_hasil1=$request->input('tk_hasil');
-        $apbdmurni->ksk1=$request->input('ksk');
-        $apbdmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
-        $apbdmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
-        $apbdmurni->Descr=$request->input('Descr');
-        $apbdmurni->save();
-
-        if ($request->ajax()) 
+        if ($validator->fails())
         {
-            return response()->json([
-                'success'=>true,
-                'message'=>'Data ini telah berhasil diubah.'
-            ],200);
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],500);
         }
         else
-        {
-            return redirect(route('apbdmurni.show',['uuid'=>$apbdmurni->RKAID]))->with('success','Data ini telah berhasil disimpan.');
+        {      
+            $apbdmurni->PaguDana1 = $request->input('PaguDana1');          
+            // $apbdmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
+            // $apbdmurni->SumberDanaID=$request->input('SumberDanaID');
+            // $apbdmurni->capaian_program1=$request->input('capaian_program');
+            // $apbdmurni->tk_capaian1=$request->input('tk_capaian');
+            // $apbdmurni->masukan1=$request->input('masukan');
+            // $apbdmurni->keluaran1=$request->input('keluaran');
+            // $apbdmurni->tk_keluaran1=$request->input('tk_keluaran');
+            // $apbdmurni->hasil1=$request->input('hasil');
+            // $apbdmurni->tk_hasil1=$request->input('tk_hasil');
+            // $apbdmurni->ksk1=$request->input('ksk');
+            // $apbdmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
+            // $apbdmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
+            // $apbdmurni->Descr=$request->input('Descr');
+            $apbdmurni->save();
+
+            return response()->json([            
+                'message'=>'Data ini telah berhasil di ubah.'
+            ],200);
         }
     }
     /**

@@ -31,6 +31,122 @@
                     </div>
                 </div>
             </div>
+            <div class="row" v-if="pid=='edit'">
+				<div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i> UBAH KEGIATAN
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                    <i class="fas fa-times"></i>
+                                </button>                                                
+                            </div>       
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="updateData">
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">PROGRAM</label>
+                                    <div class="col-sm-10">
+                                        [{{form.kode_program}}] {{form.PrgNm}}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">RKPDID</label>
+                                    <div class="col-sm-10">
+                                        {{form.RKPDID}}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KEGIATAN</label>
+                                    <div class="col-sm-10">
+                                        <p class="form-control-static">
+                                            [{{form.kode_kegiatan}}] {{form.KgtNm}}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">PAGU DANA</label>
+                                    <div class="col-sm-10">
+										<vue-autonumeric 
+											v-model.trim="form.PaguDana1" 
+											v-on:input="$v.form.$touch"
+											:options="{
+												minimumValue: '0',
+												decimalCharacter: ',',
+												digitGroupSeparator: '.',
+												emptyInputBehavior:0,
+												unformatOnSubmit: true 
+											}" 
+											class="form-control" 
+											v-bind:class="{'is-invalid': $v.form.PaguDana1.$error, 'is-valid': $v.form.PaguDana1.$dirty && !$v.form.PaguDana1.$invalid}">
+										</vue-autonumeric>
+										<div class="text-danger" v-if="$v.form.PaguDana1.$error">* wajib isi</div>
+                                    </div>
+                                </div>		
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">PA</label>
+                                    <div class="col-sm-10">
+                                        <v-select 
+                                            v-model="form.nip_pa" 
+                                            :reduce="daftar_pa => daftar_pa.code" 
+                                            placeholder="SILAHKAN PILIH KPA (PENGGUNA ANGGARAN)" 
+                                            :options="daftar_pa">
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">KPA</label>
+                                    <div class="col-sm-10">
+                                        <v-select 
+                                            v-model="form.nip_kpa" 
+                                            :reduce="daftar_ppk => daftar_kpa.code" 
+                                            placeholder="SILAHKAN PILIH KPA (KUASA PENGGUNA ANGGARAN)" 
+                                            :options="daftar_kpa">
+                                        </v-select>
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">PPK</label>
+                                    <div class="col-sm-10">
+                                        <v-select 
+                                            placeholder="SILAHKAN PILIH PPK (PEJABAT PEMBUAT KOMITMEN)" 
+                                            v-model="form.nip_ppk" 
+                                            :reduce="daftar_ppk => daftar_ppk.code" 
+                                            :options="daftar_ppk">
+                                        </v-select>
+                                    </div>
+                                </div>                               
+                                <div class="form-group row">
+                                    <label class="col-sm-2 col-form-label">PPTK</label>
+                                    <div class="col-sm-10">
+                                        <v-select 
+                                            v-model="form.nip_pptk" 
+                                            :reduce="daftar_pptk => daftar_pptk.code"
+                                            placeholder="SILAHKAN PILIH PPTK (PEJABAT PELAKSANA TEKNIS KEGIATAN)" 
+                                            :options="daftar_pptk">
+                                        </v-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-2">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+            </div>
             <div class="row" v-if="pid=='default'">
                 <div class="col-12">
                     <div class="card">
@@ -153,6 +269,8 @@
 </div>
 </template>
 <script>
+import { required} from 'vuelidate/lib/validators';
+import VueAutonumeric from 'vue-autonumeric';
 import Pagination from 'laravel-vue-pagination';
 import vSelect from 'vue-select';
 
@@ -192,12 +310,33 @@ export default {
             OrgNm:'',
             SOrgID:'',
             SOrgNm:'',
-            daftar_opd: [{}],
-            daftar_unitkerja: [{}],
+            daftar_opd: [],
+            daftar_unitkerja: [],
+
+            //form			
+            daftar_pa: [],
+            daftar_kpa: [],
+            daftar_ppk: [],
+            daftar_pptk: [],
+			form: {		
+                RKAID:'',
+                RKPDID:'',
+                kode_program:'',		                                
+                PrgNm:'',		                                
+                kode_kegiatan:'',		                                
+                KgtNm: '',
+                PaguDana1: '',	
+                nip_kpa:'',			
+                nip_pa:'',			
+                nip_ppk:'',			
+                nip_pptk:'',			
+				Descr:'',
+			},      
         }
     },
     methods: 
     {
+        
         fetchOPD ()
         {            
             axios.get('/api/v1/master/organisasi/daftaropd',{
@@ -257,6 +396,63 @@ export default {
 
             this.populateData();
         },
+        fetchPejabat ()
+        {  
+            axios.get('/api/v1/apbdmurni/create',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {             
+                var daftar_program = [];
+                $.each(response.data.daftar_program,function(key,value){
+                    daftar_program.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_program=daftar_program;                 
+                
+                var daftar_pa = [];
+                $.each(response.data.daftar_pa,function(key,value){
+                    daftar_pa.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_pa=daftar_pa;                 
+                
+                var daftar_kpa = [];
+                $.each(response.data.daftar_kpa,function(key,value){
+                    daftar_kpa.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_kpa=daftar_kpa;                 
+                
+                var daftar_ppk = [];
+                $.each(response.data.daftar_ppk,function(key,value){
+                    daftar_ppk.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_ppk=daftar_ppk;                 
+                
+                var daftar_pptk = [];
+                $.each(response.data.daftar_pptk,function(key,value){
+                    daftar_pptk.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_pptk=daftar_pptk;                 
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
         populateData(page=1)
         {           
             axios.get('/api/v1/apbdmurni?page='+page,{
@@ -276,6 +472,7 @@ export default {
         },
         proc (pid,item=null) 
         {           
+            this.$v.$reset();
             switch (pid)
             {
                 case 'show':     
@@ -301,6 +498,22 @@ export default {
                     {                        
                         this.$router.push('/apbdmurni/create');                        
                     }                    
+                break;
+                case 'edit':
+                    this.pid=pid;                    
+                    this.form.RKAID = item.RKAID;
+                    this.form.RKPDID = item.RKPDID;
+                    this.form.kode_program = item.kode_program;
+                    this.form.PrgNm = item.PrgNm;
+                    this.form.kode_kegiatan = item.kode_kegiatan;
+                    this.form.KgtNm = item.KgtNm;
+                    this.form.PaguDana1 = item.PaguDana1;
+
+                    this.fetchPejabat();
+                    this.form.nip_kpa=item.nip_kpa1;			
+                    this.form.nip_pa=item.nip_pa1;			
+                    this.form.nip_ppk=item.nip_ppk1;			
+                    this.form.nip_pptk=item.nip_pptk1;		
                 break;
                 case 'destroy':
                     var self = this;
@@ -366,8 +579,55 @@ export default {
             }
         }    
     },
+    updateData() 
+    {	
+        this.$v.form.$touch();    
+        if(this.$v.$invalid == false)
+        { 
+            axios.post('/api/v1/apbdmurni/update/'+this.form.RKAID,{                   
+                'PaguDana1':this.form.PaguDana1,                   
+                'nip_pa':this.form.nip_pa,
+                'nip_kpa':this.form.nip_kpa,
+                'nip_ppk':this.form.nip_ppk,
+                'nip_pptk':this.form.nip_pptk,
+            },{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                },
+            })
+            .then(response => {                          
+                this.$swal({
+                    title: '<i class="fas fa-spin fa-spinner"></i>',
+                    text: "Mengubah Data Kegiatan berhasil dilakukan",
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    showCloseButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                });              
+                setTimeout(() => {
+                    this.clearform();                             
+                    this.$swal.close();   
+                    this.proc('default');       
+                }, 1500);             
+            })
+            .catch(error => {
+                this.api_message = error.response.data.message;
+            });			
+            
+        }
+    },        
+    validations: {
+		form: {
+			PaguDana1: {
+				required
+			},
+		}
+	},
     components: 
 	{
+        'vue-autonumeric':VueAutonumeric,
         'pagination': Pagination,
         'v-select': vSelect,
     }

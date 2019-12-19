@@ -40,13 +40,7 @@
                             <div class="card-tools">            
                                 <router-link to="/apbdmurni/create" class="btn btn-tool" title="Tambah Kegiatan Baru">
                                     <i class="fas fa-plus"></i>
-                                </router-link>                                
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('edit',jenis.detail)" title="Ubah Kegiatan">
-                                    <i class="fas fa-edit"></i>
-                                </button>                                
-                                <button type="button" class="btn btn-tool text-danger" v-on:click.prevent="proc('destroy',jenis.detail)" title="Hapus Kegiatan">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>                                                 
+                                </router-link>                                                                
                                 <router-link to="/apbdmurni" class="btn btn-tool" title="Keluar">
                                     <i class="fas fa-times"></i>
                                 </router-link>                                
