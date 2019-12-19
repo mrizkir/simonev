@@ -118,13 +118,32 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/apbdmurni/changerekening',['uses'=>'RKA\APBDMurniController@changerekening','as'=>'apbdmurni.changerekening']);
     Route::post('/apbdmurni/store2',['uses'=>'RKA\APBDMurniController@store2','as'=>'apbdmurni.store2']);                      
     Route::post('/apbdmurni/store3',['uses'=>'RKA\APBDMurniController@store3','as'=>'apbdmurni.store3']);  
-    Route::post('/apbdmurni/store4',['uses'=>'RKA\APBDMurniController@store4','as'=>'apbdmurni.store4']);  
-    
+    Route::post('/apbdmurni/store4',['uses'=>'RKA\APBDMurniController@store4','as'=>'apbdmurni.store4']);      
     Route::get('/apbdmurni/{uuid}/edit3/',['uses'=>'RKA\APBDMurniController@edit3','as'=>'apbdmurni.edit3']);  
-    Route::post('/apbdmurni/update/{uuid}',['uses'=>'RKA\APBDMurniController@update','as'=>'apbdmurni.update']);                      
+    Route::put('/apbdmurni/update/{uuid}',['uses'=>'RKA\APBDMurniController@update','as'=>'apbdmurni.update']);                      
     Route::post('/apbdmurni/update2/{uuid}',['uses'=>'RKA\APBDMurniController@update2','as'=>'apbdmurni.update2']);                      
     Route::post('/apbdmurni/update3',['uses'=>'RKA\APBDMurniController@update3','as'=>'apbdmurni.update3']);                      
     Route::post('/apbdmurni/update4/{uuid}',['uses'=>'RKA\APBDMurniController@update4','as'=>'apbdmurni.update4']);                      
+    
+    //RKA - APBD Perubahan
+    Route::resource('/apbdperubahan','RKA\APBDPerubahanController',['parameters'=>['apbdperubahan'=>'uuid']]);
+    Route::get('/apbdperubahan/uraian/rencanatarget/{uuid}',['uses'=>'RKA\APBDPerubahanController@rencanatarget','as'=>'apbdperubahan.rencanatarget']);  
+    Route::get('/apbdperubahan/uraian/realisasi/{uuid}',['uses'=>'RKA\APBDPerubahanController@realisasi','as'=>'apbdperubahan.realisasi']);  
+    Route::get('/apbdperubahan/uraian/info/{uuid}',['uses'=>'RKA\APBDPerubahanController@infouraian','as'=>'apbdperubahan.infouraian']);  
+    Route::post('/apbdperubahan/filter',['uses'=>'RKA\APBDPerubahanController@filter','as'=>'apbdperubahan.filter']);  
+    Route::get('/apbdperubahan/create1',['uses'=>'RKA\APBDPerubahanController@create1','as'=>'apbdperubahan.create1']);  
+    Route::get('/apbdperubahan/create2',['uses'=>'RKA\APBDPerubahanController@create2','as'=>'apbdperubahan.create2']);  
+    Route::get('/apbdperubahan/create3/{uuid}',['uses'=>'RKA\APBDPerubahanController@create3','as'=>'apbdperubahan.create3']);  
+    Route::get('/apbdperubahan/create4/{uuid}',['uses'=>'RKA\APBDPerubahanController@create4','as'=>'apbdperubahan.create4']);  
+    Route::post('/apbdperubahan/changerekening',['uses'=>'RKA\APBDPerubahanController@changerekening','as'=>'apbdperubahan.changerekening']);
+    Route::post('/apbdperubahan/store2',['uses'=>'RKA\APBDPerubahanController@store2','as'=>'apbdperubahan.store2']);                      
+    Route::post('/apbdperubahan/store3',['uses'=>'RKA\APBDPerubahanController@store3','as'=>'apbdperubahan.store3']);  
+    Route::post('/apbdperubahan/store4',['uses'=>'RKA\APBDPerubahanController@store4','as'=>'apbdperubahan.store4']);      
+    Route::get('/apbdperubahan/{uuid}/edit3/',['uses'=>'RKA\APBDPerubahanController@edit3','as'=>'apbdperubahan.edit3']);  
+    Route::put('/apbdperubahan/update/{uuid}',['uses'=>'RKA\APBDPerubahanController@update','as'=>'apbdperubahan.update']);                      
+    Route::post('/apbdperubahan/update2/{uuid}',['uses'=>'RKA\APBDPerubahanController@update2','as'=>'apbdperubahan.update2']);                      
+    Route::post('/apbdperubahan/update3',['uses'=>'RKA\APBDPerubahanController@update3','as'=>'apbdperubahan.update3']);                      
+    Route::post('/apbdperubahan/update4/{uuid}',['uses'=>'RKA\APBDPerubahanController@update4','as'=>'apbdperubahan.update4']);
     
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);

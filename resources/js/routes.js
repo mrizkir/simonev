@@ -60,6 +60,14 @@ import APBDMurniUraianCreate from './pages/apbdmurni/APBDMurniUraianCreate.vue';
 import APBDMurniUraianRencanaTarget from './pages/apbdmurni/APBDMurniUraianRencanaTarget.vue';
 import APBDMurniUraianRealisasi from './pages/apbdmurni/APBDMurniUraianRealisasi.vue';
 
+import APBDPerubahan from './pages/APBDPerubahan.vue';
+import APBDPerubahanUraian from './pages/apbdperubahan/APBDPerubahanUraian.vue';
+import APBDPerubahanCreate from './pages/apbdperubahan/APBDPerubahanCreate.vue';
+import APBDPerubahanUraianPilihRekening from './pages/apbdperubahan/APBDPerubahanUraianPilihRekening.vue';
+import APBDPerubahanUraianCreate from './pages/apbdperubahan/APBDPerubahanUraianCreate.vue';
+import APBDPerubahanUraianRencanaTarget from './pages/apbdperubahan/APBDPerubahanUraianRencanaTarget.vue';
+import APBDPerubahanUraianRealisasi from './pages/apbdperubahan/APBDPerubahanUraianRealisasi.vue';
+
 export const routes =  [
     {
         name:'dashboard',
@@ -253,5 +261,61 @@ export const routes =  [
             title: "APBD MURNI | REALISASI URAIAN"
         },
         component: APBDMurniUraianRealisasi
+    },
+    {
+        name:'apbdperubahan',
+        path: '/apbdperubahan',
+        meta:{
+            title: "APBD PERUBAHAN"
+        },
+        component: APBDPerubahan
     },    
+    {
+        name:'apbdperubahanuraian',
+        path: '/apbdperubahan/uraian',
+        meta:{
+            title: "APBD PERUBAHAN | DETAIL"
+        },
+        component: APBDPerubahanUraian
+    },    
+    {
+        name:'apbdperubahancreate',
+        path: '/apbdperubahan/create',
+        meta:{
+            title: "APBD PERUBAHAN | KEGIATAN BARU"
+        },
+        component: APBDPerubahanCreate
+    },    
+    {
+        name:'apbdperubahanuraianpilihrekening',
+        path: '/apbdperubahan/uraian/pilihrekening',
+        meta:{
+            title: "APBD PERUBAHAN | PILIH REKENING"
+        },
+        component: APBDPerubahanUraianPilihRekening
+    },    
+    {
+        name:'apbdperubahanuraiancreate',
+        path: '/apbdperubahan/uraian/create',
+        meta:{
+            title: "APBD PERUBAHAN | URAIAN BARU"
+        },
+        component: APBDPerubahanUraianCreate
+    },    
+    {
+        name:'apbdperubahanuraianrencanatarget',
+        path: '/apbdperubahan/uraian/rencanatarget',
+        meta:{
+            title: "APBD PERUBAHAN | RENCANA TARGET FISIK"
+        },
+        component: APBDPerubahanUraianRencanaTarget
+    },    
+    {
+        name:'apbdperubahanuraianrealisasi',
+        path: '/apbdperubahan/uraian/realisasi',
+        meta:{
+            title: "APBD PERUBAHAN | REALISASI URAIAN"
+        },
+        component: APBDPerubahanUraianRealisasi
+    },        
 ];

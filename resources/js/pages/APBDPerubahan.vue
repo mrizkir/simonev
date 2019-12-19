@@ -6,13 +6,13 @@
                 <div class="col-sm-12">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-cart-arrow-down"></i>
-                        APBD MURNI
+                        APBD PERUBAHAN
                     </h1>
                 </div>
                 <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
-                        <li class="breadcrumb-item active">APBD MURNI</li>
+                        <li class="breadcrumb-item active">APBD PERUBAHAN</li>
                     </ol>
                 </div>
             </div>
@@ -191,7 +191,7 @@
                                 </button>                                
                             </div>
                         </div>
-                        <div class="card-body table-responsive p-0" v-if="daftar_apbdmurni.data.length">
+                        <div class="card-body table-responsive p-0" v-if="daftar_apbdperubahan.data.length">
                             <table class="table table-striped table-hover mb-2 table-condensed">
                                 <thead>
                                     <tr>
@@ -218,8 +218,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>  
-                                    <tr v-for="(item,index) in daftar_apbdmurni.data" v-bind:key="item.RKAID">
-                                        <td>{{daftar_apbdmurni.from+index}}</td>
+                                    <tr v-for="(item,index) in daftar_apbdperubahan.data" v-bind:key="item.RKAID">
+                                        <td>{{daftar_apbdperubahan.from+index}}</td>
                                         <td>{{item.kode_kegiatan}}</td>    
                                         <td>{{item.KgtNm}}</td>
                                         <td>{{item.PaguDana1|formatUang}}</td>
@@ -255,8 +255,8 @@
                                 Belum ada data yang bisa ditampilkan.
                             </div>
                         </div>
-                        <div class="card-footer" v-if="daftar_apbdmurni.data.length">                            
-                            <pagination :data="daftar_apbdmurni" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                        <div class="card-footer" v-if="daftar_apbdperubahan.data.length">                            
+                            <pagination :data="daftar_apbdperubahan" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
                                 <span slot="prev-nav">&lt; Prev</span>
                                 <span slot="next-nav">Next &gt;</span>
                             </pagination>
@@ -279,7 +279,7 @@ export default {
 	{       
         //inisialisasi data halaman
         this.$store.commit('addToPages',{
-                name:'apbdmurni',
+                name:'apbdperubahan',
                 OrgID:'',
                 OrgNm:'',
                 SOrgID:'',
@@ -297,11 +297,11 @@ export default {
             pid:'default',
             api_message:'',
 
-            apbdmurni:{
+            apbdperubahan:{
                 kriteria:'',
                 isikriteria:'',
             },
-            daftar_apbdmurni:{
+            daftar_apbdperubahan:{
                 data:{}
             },
 
@@ -360,7 +360,7 @@ export default {
         },
         fetchUnitKerja()
         {           
-            var page = this.$store.getters.getPage('apbdmurni');
+            var page = this.$store.getters.getPage('apbdperubahan');
             page.OrgID=this.OrgID;
             page.OrgNm=this.OrgID.label;
             page.SOrgID='';
@@ -389,7 +389,7 @@ export default {
         },
         filter ()
         {           
-            var page = this.$store.getters.getPage('apbdmurni');
+            var page = this.$store.getters.getPage('apbdperubahan');
             page.SOrgID=this.SOrgID;
             page.SOrgNm=this.SOrgNm.label;
             this.$store.commit('replacePage',page);
@@ -398,7 +398,7 @@ export default {
         },
         fetchPejabat ()
         {  
-            axios.get('/api/v1/apbdmurni/create',{
+            axios.get('/api/v1/apbdperubahan/create',{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
@@ -455,7 +455,7 @@ export default {
         },
         populateData(page=1)
         {           
-            axios.get('/api/v1/apbdmurni?page='+page,{
+            axios.get('/api/v1/apbdperubahan?page='+page,{
                 headers:{
                     'Authorization': window.laravel.api_token,
                     'OrgID':this.OrgID.code,
@@ -463,8 +463,8 @@ export default {
                 }
             })
             .then(response => {        
-                this.apbdmurni=response.data; 
-                this.daftar_apbdmurni = this.apbdmurni.daftar_apbdmurni;                                      
+                this.apbdperubahan=response.data; 
+                this.daftar_apbdperubahan = this.apbdperubahan.daftar_apbdperubahan;                                      
             })
             .catch(response => {
                 this.api_message = response;
@@ -476,7 +476,7 @@ export default {
             if(this.$v.$invalid == false)
             { 
                 console.log(this.form);
-                axios.post('/api/v1/apbdmurni/update/'+this.form.RKAID,{                   
+                axios.post('/api/v1/apbdperubahan/update/'+this.form.RKAID,{                   
                     '_method':'PUT',                   
                     'PaguDana1':this.form.PaguDana1,                   
                     'nip_pa':this.form.nip_pa,
@@ -517,11 +517,11 @@ export default {
             switch (pid)
             {
                 case 'show':     
-                    var page = this.$store.getters.getPage('apbdmurni');
+                    var page = this.$store.getters.getPage('apbdperubahan');
                     page.detailkegiatan = {};                        
                     page.RKAID = item.RKAID;                        
                     this.$store.commit('replacePage',page);      
-                    this.$router.push('/apbdmurni/uraian');
+                    this.$router.push('/apbdperubahan/uraian');
                 break;
                 case 'create':
                     if (this.SOrgID == '')
@@ -537,7 +537,7 @@ export default {
                     }
                     else
                     {                        
-                        this.$router.push('/apbdmurni/create');                        
+                        this.$router.push('/apbdperubahan/create');                        
                     }                    
                 break;
                 case 'edit':
@@ -572,7 +572,7 @@ export default {
                     }).then(function (isConfirm){
                         if(isConfirm.value === true) 
                         {
-                            axios.post('/api/v1/apbdmurni/'+item.RKAID,{
+                            axios.post('/api/v1/apbdperubahan/'+item.RKAID,{
                                 '_method':'DELETE',
                                 'pid':'datakegiatan'
                             },{
@@ -592,8 +592,8 @@ export default {
                 default :
                     this.pid = pid;
                     this.fetchOPD();           
-                    this.OrgID=this.$store.getters.getAtributeValueOfPage('apbdmurni','OrgID');      
-                    this.OrgNm=this.$store.getters.getAtributeValueOfPage('apbdmurni','OrgNm');      
+                    this.OrgID=this.$store.getters.getAtributeValueOfPage('apbdperubahan','OrgID');      
+                    this.OrgNm=this.$store.getters.getAtributeValueOfPage('apbdperubahan','OrgNm');      
                     if (this.OrgID!='')
                     {                                
                         axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
@@ -614,8 +614,8 @@ export default {
                         .catch(response => {
                             this.api_message = response;
                         });                
-                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('apbdmurni','SOrgID');      
-                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('apbdmurni','SOrgNm');    
+                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('apbdperubahan','SOrgID');      
+                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('apbdperubahan','SOrgNm');    
                     }               
                     this.populateData();                    
             }

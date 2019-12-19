@@ -1,7 +1,7 @@
 require('./bootstrap');
 window.Vue = require('vue');
 //component
-Vue.component('apbdmurnimenuuraian', require('./pages/apbdmurni/APBDMurniMenuUraian').default);
+
 
 //vue route
 import VueRouter from 'vue-router';
@@ -81,19 +81,7 @@ const app = new Vue({
             var name = this.$router.currentRoute.name;
             switch (name)
             {
-                case 'dashboard':
-                case 'apbdmurni' :
-                    window.$('#liDMaster').removeClass('menu-open');
-                    window.$('#ulDMaster').css('display','none');                
-                    window.$('#linkDMaster').removeClass('active');
-                break;
-                case 'apbdmurnicreate' :                        
-                case 'apbdmurniuraian' :                        
-                case 'apbdmurniuraianpilihrekening' :                        
-                case 'apbdmurniuraiancreate' :                        
-                case 'apbdmurniuraianrealisasi' :                        
-                    window.$('#linkAPBDMurni').addClass('active');
-                break;
+                case 'dashboard':               
                 //dmaster
                 case 'dmaster_kelompokurusan':
                 case 'dmaster_urusan':
@@ -112,6 +100,25 @@ const app = new Vue({
                 case 'dmaster_jenispelaksanaan':
                     window.$('#liDMaster').addClass('menu-open');
                     window.$('#linkDMaster').addClass('active'); 
+
+                    window.$('#liRKA').removeClass('menu-open');
+                    window.$('#ulRKA').css('display','none');                
+                    window.$('#linkRKA').removeClass('active');
+                break;
+
+                //apbd murni
+                case 'apbdmurni' :                                   
+                case 'apbdmurnicreate' :                        
+                case 'apbdmurniuraian' :                        
+                case 'apbdmurniuraianpilihrekening' :                        
+                case 'apbdmurniuraiancreate' :                        
+                case 'apbdmurniuraianrealisasi' :                        
+                    window.$('#liDMaster').removeClass('menu-open');
+                    window.$('#ulDMaster').css('display','none');                
+                    window.$('#linkDMaster').removeClass('active');
+
+                    window.$('#liRKA').addClass('menu-open');
+                    window.$('#linkRKA').addClass('active'); 
                 break;
             }
         }

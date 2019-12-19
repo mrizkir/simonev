@@ -52,14 +52,14 @@ class APBDMurniController extends Controller
                                             "v_rka"."ksk1",
                                             "v_rka"."sifat_kegiatan1",
                                             "v_rka"."waktu_pelaksanaan1",
-                                            "v_rka"."PaguDana1",
+                                            "v_rka"."PaguDana2",
                                             "v_rka"."Descr",
                                             "v_rka"."EntryLvl",
                                             "v_rka"."created_at",
                                             "v_rka"."updated_at"
                                             '))
                             ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
-                            ->where('trRKA.EntryLvl',1)
+                            ->where('trRKA.EntryLvl',2)
                             ->find($id);
 
         return $rka;
@@ -72,7 +72,7 @@ class APBDMurniController extends Controller
     public function populateDataUraian ($RKAID)
     {
         $data = \DB::table('trRKARinc')
-                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume1,satuan1,harga_satuan1,pagu_uraian1,0 AS "realisasi1",0 AS "fisik1","trRKARinc"."JenisPelaksanaanID","trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
+                    ->select(\DB::raw('"RKARincID","RKAID",v_rekening."kode_rek_5",v_rekening."RObyNm",nama_uraian,volume2,satuan2,harga_satuan2,pagu_uraian2,0 AS "realisasi2",0 AS "fisik2","trRKARinc"."JenisPelaksanaanID","trRKARinc"."TA","trRKARinc"."Descr","trRKARinc"."created_at","trRKARinc"."updated_at"'))
                     ->join('v_rekening','v_rekening.RObyID','trRKARinc.RObyID')
                     ->where('RKAID',$RKAID)
                     ->orderByRaw('v_rekening."Kd_Rek_1"::int ASC')
@@ -96,7 +96,7 @@ class APBDMurniController extends Controller
                         "RKAID",
                         v_rekening."kode_rek_5",
                         nama_uraian,
-                        pagu_uraian1,
+                        pagu_uraian2,
                         fisik_1,
                         fisik_2,
                         fisik_3,
@@ -134,7 +134,7 @@ class APBDMurniController extends Controller
                         "RKAID",
                         v_rekening."kode_rek_5",
                         nama_uraian,
-                        pagu_uraian1,
+                        pagu_uraian2,
                         anggaran_1,
                         anggaran_2,
                         anggaran_3,
@@ -169,9 +169,9 @@ class APBDMurniController extends Controller
         $datauraian = RKARincianKegiatanModel::find($RKARincID);
 
         $r = \DB::table('trRKARealisasiRinc')
-                    ->select(\DB::raw('"RKARealisasiRincID","bulan1","target1","realisasi1",target_fisik1,fisik1,"TA","Descr","created_at","updated_at"'))
+                    ->select(\DB::raw('"RKARealisasiRincID","bulan2","target2","realisasi2",target_fisik2,fisik2,"TA","Descr","created_at","updated_at"'))
                     ->where('RKARincID',$RKARincID)
-                    ->orderBy('bulan1','ASC')
+                    ->orderBy('bulan2','ASC')
                     ->get();
         
         $daftar_realisasi = [];
@@ -183,18 +183,18 @@ class APBDMurniController extends Controller
         {
             $sum_realisasi = \DB::table('trRKARealisasiRinc')
                             ->where('RKARincID',$RKARincID)
-                            ->where('bulan1','<=',$item->bulan1)
-                            ->sum('realisasi1');
+                            ->where('bulan2','<=',$item->bulan2)
+                            ->sum('realisasi2');
 
-            $sisa_anggaran=$datauraian->pagu_uraian1-$sum_realisasi;            
+            $sisa_anggaran=$datauraian->pagu_uraian2-$sum_realisasi;            
             $daftar_realisasi[]=[
                 'RKARealisasiRincID'=>$item->RKARealisasiRincID,
-                'bulan1'=>$item->bulan1,
-                'NamaBulan'=>\Helper::getBulan($item->bulan1),
-                'target1'=>$item->target1,
-                'realisasi1'=>$item->realisasi1,
-                'target_fisik1'=>$item->target_fisik1,
-                'fisik1'=>$item->fisik1,
+                'bulan2'=>$item->bulan2,
+                'NamaBulan'=>\Helper::getBulan($item->bulan2),
+                'target2'=>$item->target2,
+                'realisasi2'=>$item->realisasi2,
+                'target_fisik2'=>$item->target_fisik2,
+                'fisik2'=>$item->fisik2,
                 'sisa_anggaran'=>$sisa_anggaran,
                 'Descr'=>$item->Descr,
                 'TA'=>$item->TA,
@@ -202,17 +202,17 @@ class APBDMurniController extends Controller
                 'updated_at'=>$item->updated_at,
             ];
             
-            $totalanggarankas+=$item->target1;
-            $totalrealisasi+=$item->realisasi1;
-            $totaltargetfisik+=$item->target_fisik1;
-            $totalfisik+=$item->fisik1;
+            $totalanggarankas+=$item->target2;
+            $totalrealisasi+=$item->realisasi2;
+            $totaltargetfisik+=$item->target_fisik2;
+            $totalfisik+=$item->fisik2;
         }
         $data['datarealisasi']=$daftar_realisasi;
         $data['totalanggarankas']=$totalanggarankas;
         $data['totalrealisasi']=$totalrealisasi;
         $data['totaltargetfisik']=$totaltargetfisik;
         $data['totalfisik']=$totalfisik;
-        $data['sisa_anggaran']=$datauraian->pagu_uraian1-$totalrealisasi;
+        $data['sisa_anggaran']=$datauraian->pagu_uraian2-$totalrealisasi;
         
         return $data;
     }    
@@ -279,7 +279,7 @@ class APBDMurniController extends Controller
                                             "PrgNm",
                                             kode_kegiatan,
                                             "KgtNm",
-                                            "PaguDana1",
+                                            "PaguDana2",
                                             0 AS "TotalPaguUraian1",
                                             0 AS "TotalRealisasi1",
                                             0 AS "TotalFisik1",
@@ -290,16 +290,16 @@ class APBDMurniController extends Controller
                                         '))
                         ->where('SOrgID',$SOrgID)                                            
                         ->where('TA', \HelperKegiatan::getTahunAnggaran())  
-                        ->where('EntryLvl',1)
+                        ->where('EntryLvl',2)
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
         $data->setPath(route('apbdmurni.index'));
         $data->transform(function ($item,$key){
-            $item->TotalPaguUraian1=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian1');
-            $item->TotalRealisasi1=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('realisasi1');
+            $item->TotalPaguUraian1=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian2');
+            $item->TotalRealisasi1=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('realisasi2');
 
             $jumlah_uraian=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->count('RKARincID');
-            $total_fisik=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('fisik1');
+            $total_fisik=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('fisik2');
             $item->TotalFisik1=\Helper::formatPecahan($total_fisik,$jumlah_uraian);
             return $item;
         });
@@ -537,11 +537,11 @@ class APBDMurniController extends Controller
             break;
             case 'tambahrencana' :
                 $RKARincID = $request->input('RKARincID')==''?'':$request->input('RKARincID');
-                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
+                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian2'))
                                                     ->find($RKARincID);
                 if (is_null($data_uraian))
                 {
-                    $json_data['pagu_uraian1']=0;                
+                    $json_data['pagu_uraian2']=0;                
                     $json_data['total_rencana_fisik']=0;
                     $json_data['total_rencana_anggaran']=0;
                 }
@@ -549,56 +549,56 @@ class APBDMurniController extends Controller
                 {
                     $jumlah_realisasi=\DB::table('trRKARealisasiRinc')
                                             ->where('RKARincID',$RKARincID)
-                                            ->sum('realisasi1');
+                                            ->sum('realisasi2');
 
-                    $pagu_uraian1=$data_uraian->pagu_uraian1;
-                    $json_data['pagu_uraian1']=$pagu_uraian1;  
+                    $pagu_uraian2=$data_uraian->pagu_uraian2;
+                    $json_data['pagu_uraian2']=$pagu_uraian2;  
 
                     $data_target=\DB::table('trRKATargetRinc')
-                                ->select(\DB::raw('COALESCE(SUM(target1),0) AS target1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                ->select(\DB::raw('COALESCE(SUM(target2),0) AS target2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                 ->where('RKARincID',$RKARincID)
                                 ->get();
 
-                    $json_data['total_rencana_fisik']=$data_target[0]->fisik1;
-                    $json_data['total_rencana_anggaran']=$data_target[0]->target1;
+                    $json_data['total_rencana_fisik']=$data_target[0]->fisik2;
+                    $json_data['total_rencana_anggaran']=$data_target[0]->target2;
                 }
                 
                 $json_data['RKARincID']=$RKARincID;
             break;
             case 'tambahrealisasi' :
                 $RKARincID = $request->input('RKARincID')==''?'none':$request->input('RKARincID');
-                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian1'))
+                $data_uraian=RKARincianKegiatanModel::select(\DB::raw('pagu_uraian2'))
                                                     ->find($RKARincID);
                 if (is_null($data_uraian))
                 {
-                    $json_data['pagu_uraian1']=0;                
+                    $json_data['pagu_uraian2']=0;                
                     $json_data['sisa_pagu_rincian']=0;
                 }
                 else
                 {
                     $jumlah_realisasi=\DB::table('trRKARealisasiRinc')
                                             ->where('RKARincID',$RKARincID)
-                                            ->sum('realisasi1');
+                                            ->sum('realisasi2');
 
-                    $pagu_uraian1=$data_uraian->pagu_uraian1;
-                    $json_data['pagu_uraian1']=$pagu_uraian1;           
+                    $pagu_uraian2=$data_uraian->pagu_uraian2;
+                    $json_data['pagu_uraian2']=$pagu_uraian2;           
                     $daftar_bulan = [];
                     $bulan=\Helper::getBulan();
                     
                     $b1=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('bulan1'))
+                                            ->select(\DB::raw('bulan2'))
                                             ->where('RKARincID',$RKARincID)
                                             ->get();
 
                     $bulan_realisasi = [];
                     foreach ($b1 as $item)
                     {
-                        $bulan_realisasi[$item->bulan1]=\Helper::getBulan($item->bulan1);
+                        $bulan_realisasi[$item->bulan2]=\Helper::getBulan($item->bulan2);
                     }
                     $daftar_bulan = array_diff_assoc($bulan,$bulan_realisasi);
 
                     $json_data['bulan']=$daftar_bulan;                
-                    $json_data['sisa_pagu_rincian']=$pagu_uraian1-$jumlah_realisasi;
+                    $json_data['sisa_pagu_rincian']=$pagu_uraian2-$jumlah_realisasi;
                 }
                 
                 $json_data['RKARincID']=$RKARincID;
@@ -689,10 +689,10 @@ class APBDMurniController extends Controller
     public function create4(Request $request,$id)
     { 
         $bulan=\Helper::getBulan();
-        $bulan_realisasi=RKARealisasiRincianKegiatanModel::select('bulan1')
+        $bulan_realisasi=RKARealisasiRincianKegiatanModel::select('bulan2')
                                                     ->where('RKARincID',$id)
                                                     ->get()
-                                                    ->pluck('bulan1','bulan1')
+                                                    ->pluck('bulan2','bulan2')
                                                     ->toArray();
         $data = [];
         foreach($bulan as $k=>$v)
@@ -717,7 +717,7 @@ class APBDMurniController extends Controller
         $validator = \Validator::make($request->all(),[
             'PrgID'=>'required',
             'KgtID'=>'required',
-            'PaguDana1'=>'required',
+            'PaguDana2'=>'required',
         ]);
         if ($validator->fails())
         {
@@ -734,8 +734,7 @@ class APBDMurniController extends Controller
                 'PrgID' => $request->input('PrgID'),
                 'KgtID' => $request->input('KgtID'),
                 'RKPDID' => $request->input('RKPDID'),            
-                'PaguDana1' => $request->input('PaguDana1'),
-                'PaguDana2' => 0,
+                'PaguDana2' => $request->input('PaguDana2'),
                 'sifat_kegiatan1' => 'baru',
                 'nip_pa1' => $request->input('nip_pa'),
                 'nip_kpa1' => $request->input('nip_kpa'),
@@ -743,7 +742,7 @@ class APBDMurniController extends Controller
                 'nip_pptk1' => $request->input('nip_pptk'),
                 'user_id' => \Auth::user()->id,
                 'Descr' => '-',
-                'EntryLvl' => 1,
+                'EntryLvl`' => 2,
                 'TA' => \HelperKegiatan::getTahunAnggaran(),
             ];
             $apbdmurni = RKAKegiatanModel::create($data);     
@@ -767,7 +766,7 @@ class APBDMurniController extends Controller
             'volume'=>'required',
             'satuan'=>'required',
             'harga_satuan'=>'required',
-            'pagu_uraian1'=>'required',
+            'pagu_uraian2'=>'required',
         ]);
         if ($validator->fails())
         {
@@ -783,14 +782,12 @@ class APBDMurniController extends Controller
                 'RObyID' => $request->input('RObyID'),
                 'JenisPelaksanaanID' => $request->input('JenisPelaksanaanID'),
                 'nama_uraian' => $request->input('nama_uraian'),
-                'volume1' => $request->input('volume'),
-                'satuan1' => $request->input('satuan'),            
-                'harga_satuan1' => $request->input('harga_satuan'),
-                'harga_satuan2' => 0,
-                'pagu_uraian1' => $request->input('pagu_uraian1'),            
-                'pagu_uraian2' => 0,            
+                'volume2' => $request->input('volume'),
+                'satuan2' => $request->input('satuan'),            
+                'harga_satuan2' => $request->input('harga_satuan'),
+                'pagu_uraian2' => $request->input('pagu_uraian2'),            
                 'Descr' => $request->input('Descr'),
-                'EntryLvl' => 1,
+                'EntryLvl' => 2,
                 'TA' => \HelperKegiatan::getTahunAnggaran(),
             ]);        
             return response()->json([            
@@ -830,12 +827,10 @@ class APBDMurniController extends Controller
                     'RKATargetRincID'=>uniqid ('uid'),
                     'RKAID'=>$request->input('RKAID'),
                     'RKARincID'=>$request->input('RKARincID'),
-                    'bulan1'=>$i+1,
-                    'target1'=>$bulan_anggaran[$i],
-                    'target2'=>0,
-                    'fisik1'=>$bulan_fisik[$i],
-                    'fisik2'=>0,
-                    'EntryLvl'=>1,
+                    'bulan2'=>$i+1,
+                    'target2'=>$bulan_anggaran[$i],
+                    'fisik2'=>$bulan_fisik[$i],
+                    'EntryLvl'=>2,
                     'Descr'=>$request->input('Descr'),
                     'TA'=>\HelperKegiatan::getTahunAnggaran(),
                     'created_at'=>$now,
@@ -862,11 +857,11 @@ class APBDMurniController extends Controller
         $validator=\Validator::make($request->all(), [
             'RKARincID'=>'required',
             'RKAID'=>'required',
-            'bulan1'=>'required',            
-            'target1'=>'required',
-            'realisasi1'=>'required',
-            'target_fisik1'=>'required',
-            'fisik1'=>'required',            
+            'bulan2'=>'required',            
+            'target2'=>'required',
+            'realisasi2'=>'required',
+            'target_fisik2'=>'required',
+            'fisik2'=>'required',            
         ]);
         if ($validator->fails())
         {
@@ -880,17 +875,12 @@ class APBDMurniController extends Controller
                 'RKARealisasiRincID' => uniqid ('uid'),
                 'RKAID' => $request->input('RKAID'),
                 'RKARincID' => $request->input('RKARincID'),            
-                'bulan1' => $request->input('bulan1'),
-                'bulan2' => 0,
-                'target1' => $request->input('target1'),            
-                'target2' => 0,            
-                'realisasi1' => $request->input('realisasi1'),            
-                'realisasi2' => 0,            
-                'target_fisik1' => $request->input('target_fisik1'),           
-                'target_fisik2' => 0,           
-                'fisik1' => $request->input('fisik1'),           
-                'fisik2' => 0,           
-                'EntryLvl' => 1,
+                'bulan2' => $request->input('bulan2'),                
+                'target2' => $request->input('target2'),                            
+                'realisasi2' => $request->input('realisasi2'),                            
+                'target_fisik2' => $request->input('target_fisik2'),           
+                'fisik2' => $request->input('fisik2'),           
+                'EntryLvl' => 2,
                 'Descr' => $request->input('Descr'),            
                 'TA' => \HelperKegiatan::getTahunAnggaran(),
             ]);       
@@ -921,8 +911,8 @@ class APBDMurniController extends Controller
             // $sumber_dana = \App\Models\DMaster\SumberDanaModel::getDaftarSumberDana(\HelperKegiatan::getTahunAnggaran(),false);
             $datauraian=$this->populateDataUraian($uuid);
             $datauraian->transform(function ($item,$key){
-                $item->realisasi1=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi1');    
-                $item->fisik1=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik1');
+                $item->realisasi2=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('realisasi2');    
+                $item->fisik2=\DB::table('trRKARealisasiRinc')->where('RKARincID',$item->RKARincID)->sum('fisik2');
                 return $item;
             });
             $daftar_uraian=[];
@@ -932,9 +922,9 @@ class APBDMurniController extends Controller
             foreach ($datauraian as $v)
             {
                 $daftar_uraian[]=$v;
-                $totalpaguuraian+=$v->pagu_uraian1;
-                $totalrealisasi+=$v->realisasi1;
-                $totalfisik+=$v->fisik1;
+                $totalpaguuraian+=$v->pagu_uraian2;
+                $totalrealisasi+=$v->realisasi2;
+                $totalfisik+=$v->fisik2;
             }
             return response()->json([
                                         'rka'=>$rka,
@@ -960,7 +950,7 @@ class APBDMurniController extends Controller
                             "RKAID",
                             v_rekening."kode_rek_5",
                             nama_uraian,
-                            pagu_uraian1,
+                            pagu_uraian2,
                             fisik_1,
                             fisik_2,
                             fisik_3,
@@ -1002,7 +992,7 @@ class APBDMurniController extends Controller
                             'RKAID'=>$data[0]->RKAID,
                             'kode_rek_5'=>$data[0]->kode_rek_5,
                             'nama_uraian'=>$data[0]->nama_uraian,
-                            'pagu_uraian1'=>$data[0]->pagu_uraian1,
+                            'pagu_uraian2'=>$data[0]->pagu_uraian2,
                             'targetfisik'=>[
                                 1=>$data[0]->fisik_1,
                                 2=>$data[0]->fisik_2,
@@ -1196,7 +1186,7 @@ class APBDMurniController extends Controller
         $apbdmurni = RKAKegiatanModel::find($id);
         
         $validator=\Validator::make($request->all(), [
-            'PaguDana1'=>'required',
+            'PaguDana2'=>'required',
             'nip_pa' => 'required',
             'nip_kpa' => 'required',
             'nip_ppk' => 'required',
@@ -1223,7 +1213,7 @@ class APBDMurniController extends Controller
         }
         else
         {      
-            $apbdmurni->PaguDana1 = $request->input('PaguDana1');          
+            $apbdmurni->PaguDana2 = $request->input('PaguDana2');          
             $apbdmurni->nip_pa1 = $request->input('nip_pa');          
             $apbdmurni->nip_kpa1 = $request->input('nip_kpa');          
             $apbdmurni->nip_ppk1 = $request->input('nip_ppk');          
@@ -1265,7 +1255,7 @@ class APBDMurniController extends Controller
             'volume'=>'required',
             'satuan'=>'required',
             'harga_satuan'=>'required',
-            'pagu_uraian1'=>'required',
+            'pagu_uraian2'=>'required',
         ]);   
         
         if ($validator->fails())
@@ -1277,10 +1267,10 @@ class APBDMurniController extends Controller
         else
         {            
             $rinciankegiatan->nama_uraian = $request->input('nama_uraian');
-            $rinciankegiatan->volume1=$request->input('volume');
-            $rinciankegiatan->satuan1=$request->input('satuan');
-            $rinciankegiatan->harga_satuan1=$request->input('harga_satuan');
-            $rinciankegiatan->pagu_uraian1=$request->input('pagu_uraian1');
+            $rinciankegiatan->volume2=$request->input('volume');
+            $rinciankegiatan->satuan2=$request->input('satuan');
+            $rinciankegiatan->harga_satuan2=$request->input('harga_satuan');
+            $rinciankegiatan->pagu_uraian2=$request->input('pagu_uraian2');
             $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');
             $rinciankegiatan->Descr=$request->input('Descr');            
             $rinciankegiatan->save();
@@ -1328,12 +1318,10 @@ class APBDMurniController extends Controller
                     'RKATargetRincID'=>uniqid ('uid'),
                     'RKAID'=>$request->input('RKAID'),
                     'RKARincID'=>$request->input('RKARincID'),
-                    'bulan1'=>$i+1,
-                    'target1'=>$bulan_anggaran[$i],
-                    'target2'=>0,
-                    'fisik1'=>$bulan_fisik[$i],
-                    'fisik2'=>0,
-                    'EntryLvl'=>1,
+                    'bulan2'=>$i+1,
+                    'target2'=>$bulan_anggaran[$i],
+                    'fisik2'=>$bulan_fisik[$i],
+                    'EntryLvl'=>2,
                     'Descr'=>$request->input('Descr'),
                     'TA'=>\HelperKegiatan::getTahunAnggaran(),
                     'created_at'=>$now,
@@ -1360,8 +1348,8 @@ class APBDMurniController extends Controller
         $realisasi = RKARealisasiRincianKegiatanModel::find($id);    
 
         $validator=\Validator::make($request->all(), [            
-            'realisasi1'=>'required',
-            'fisik1'=>'required',            
+            'realisasi2'=>'required',
+            'fisik2'=>'required',            
         ]);
         if ($validator->fails())
         {
@@ -1371,8 +1359,8 @@ class APBDMurniController extends Controller
         }
         else
         {
-            $realisasi->fisik1 = $request->input('fisik1');
-            $realisasi->realisasi1 = $request->input('realisasi1');
+            $realisasi->fisik2 = $request->input('fisik2');
+            $realisasi->realisasi2 = $request->input('realisasi2');
             $realisasi->Descr = $request->input('Descr');
             $realisasi->save();             
 

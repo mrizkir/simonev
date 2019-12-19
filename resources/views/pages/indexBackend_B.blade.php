@@ -161,7 +161,7 @@
 										KEGIATAN
 									</p>
 								</router-link>
-							</li>				
+							</li>
 							<li class="nav-item">
 								<router-link to="/apbdmurni/uraian" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
@@ -179,7 +179,7 @@
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>REALISASI</p>
 								</router-link>
-							</li>	
+							</li>
 							<li class="nav-header">APBD PERUBAHAN</li>
 							<li class="nav-item">
 								<router-link to="/apbdperubahan" class="nav-link" @click.native="changeMenuItem" id="linkAPBDPerubahan">

@@ -6,13 +6,13 @@
                 <div class="col-sm-12">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-cart-arrow-down"></i>
-                        APBD MURNI
+                        APBD PERUBAHAN
                     </h1>
                 </div>
                 <div class="col-sm-12">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><router-link to="/">HOME</router-link></li>
-                        <li class="breadcrumb-item"><router-link to="/apbdmurni">APBD MURNI</router-link></li>
+                        <li class="breadcrumb-item"><router-link to="/apbdperubahan">APBD PERUBAHAN</router-link></li>
                         <li class="breadcrumb-item active">TAMBAH KEGIATAN BARU</li>
                     </ol>
                 </div>
@@ -41,7 +41,7 @@
                                 <i class="fas fa-plus"></i> Tambah Kegiatan Baru
                             </h3>
                             <div class="card-tools">
-                                <router-link to="/apbdmurni" class="btn btn-tool">
+                                <router-link to="/apbdperubahan" class="btn btn-tool">
                                     <i class="fas fa-times"></i>
                                 </router-link>                                
                             </div>       
@@ -95,7 +95,7 @@
                                     <label class="col-sm-2 col-form-label">PAGU DANA</label>
                                     <div class="col-sm-10">
 										<vue-autonumeric 
-											v-model.trim="form.PaguDana1" 
+											v-model.trim="form.PaguDana2" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												minimumValue: '0',
@@ -105,9 +105,9 @@
 												unformatOnSubmit: true 
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.PaguDana1.$error, 'is-valid': $v.form.PaguDana1.$dirty && !$v.form.PaguDana1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.PaguDana2.$error, 'is-valid': $v.form.PaguDana2.$dirty && !$v.form.PaguDana2.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.PaguDana1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.PaguDana2.$error">* wajib isi</div>
                                     </div>
                                 </div>		
                             </div>
@@ -179,7 +179,7 @@
                 <div class="col-md-12">
                     <!-- /.card-header -->
                     <div class="alert alert-danger alert-dismissible">
-                        <router-link to="/apbdmurni" class="close">
+                        <router-link to="/apbdperubahan" class="close">
                             <i class="fas fa-times"></i>
                         </router-link>
                         <h5><i class="icon fas fa-ban"></i> Alert!</h5>
@@ -199,7 +199,7 @@ import vSelect from 'vue-select';
 export default {
     created ()
     {
-        var page = this.$store.getters.getPage('apbdmurni');
+        var page = this.$store.getters.getPage('apbdperubahan');
         this.SOrgIDSelected = page.SOrgID.code.length > 0;        
     },
     mounted()
@@ -226,7 +226,7 @@ export default {
                 PrgID:'',		                                
                 RKPDID:'',		                                
                 KgtID: '',
-                PaguDana1: '',	
+                PaguDana2: '',	
                 nip_kpa:'',			
                 nip_pa:'',			
                 nip_ppk:'',			
@@ -240,7 +240,7 @@ export default {
     {	
         fetchData ()
         {  
-            axios.get('/api/v1/apbdmurni/create',{
+            axios.get('/api/v1/apbdperubahan/create',{
                 headers:{
                     'Authorization': window.laravel.api_token,
                 }
@@ -298,7 +298,7 @@ export default {
         fetchRKPD ()
         {  
             this.form.KgtID='';
-            axios.post('/api/v1/apbdmurni/filter',{
+            axios.post('/api/v1/apbdperubahan/filter',{
                     'RKPDID':this.form.RKPDID,
                     'create':0,
                 },{
@@ -326,7 +326,7 @@ export default {
                             });
                         });                
                         this.daftar_kegiatan=daftar_kegiatan;
-                        this.form.PaguDana1=response.data.NilaiUsulan2;
+                        this.form.PaguDana2=response.data.NilaiUsulan2;
                         this.$swal.close();
                     }, 1500);
                 })
@@ -338,7 +338,7 @@ export default {
         {  
             this.form.RKPDID='';
             this.form.KgtID='';
-            axios.post('/api/v1/apbdmurni/filter',{
+            axios.post('/api/v1/apbdperubahan/filter',{
                     'PrgID':this.form.PrgID,
                     'create':0,
                 },{
@@ -387,14 +387,14 @@ export default {
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
             { 
-                var page = this.$store.getters.getPage('apbdmurni');                
-				axios.post('/api/v1/apbdmurni',{
+                var page = this.$store.getters.getPage('apbdperubahan');                
+				axios.post('/api/v1/apbdperubahan',{
                     'OrgID':page.OrgID.code,
                     'SOrgID':page.SOrgID.code,
                     'PrgID':this.form.PrgID,
                     'KgtID':this.form.KgtID,
                     'RKPDID':this.form.RKPDID,
-                    'PaguDana1':this.form.PaguDana1,
+                    'PaguDana2':this.form.PaguDana2,
                     'nip_pa':this.form.nip_pa,
                     'nip_kpa':this.form.nip_kpa,
                     'nip_ppk':this.form.nip_ppk,
@@ -419,7 +419,7 @@ export default {
                     setTimeout(() => {
                         this.clearform();              
                         this.$swal.close();          
-                        this.$router.push('/apbdmurni');                          
+                        this.$router.push('/apbdperubahan');                          
                     }, 1500);             
                 })
                 .catch(error => {
@@ -432,7 +432,7 @@ export default {
             this.form.PrgID='';
             this.form.KgtID='';
             this.form.RKPDID='';
-            this.form.PaguDana1='';
+            this.form.PaguDana2='';
             this.form.nip_pa='';
             this.form.nip_kpa='';
             this.form.nip_ppk='';
@@ -449,7 +449,7 @@ export default {
 			KgtID: {
 				required
 			},
-			PaguDana1: {
+			PaguDana2: {
 				required
 			},
 		}
