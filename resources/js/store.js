@@ -49,6 +49,19 @@ export default {
                 }
             }
             state.pages[i]=page;            
+        },
+        removePage(state,page)
+        {
+            var i;
+            var index=0;
+            for (i = 0;i < state.pages.length;i++)
+            {                
+                if(state.pages[i].name==page.name)
+                {
+                    state.pages.splice(i,1);
+                    break;
+                }
+            }
         }        
     },
     actions:{

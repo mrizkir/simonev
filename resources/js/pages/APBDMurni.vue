@@ -475,7 +475,6 @@ export default {
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
             { 
-                console.log(this.form);
                 axios.post('/api/v1/apbdmurni/update/'+this.form.RKAID,{                   
                     '_method':'PUT',                   
                     'PaguDana1':this.form.PaguDana1,                   

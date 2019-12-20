@@ -301,8 +301,8 @@
                                     <tr v-for="(item,index) in daftar_uraian" v-bind:key="item.RKARincID">
                                         <td>{{index+1}}</td>
                                         <td>{{item.nama_uraian}}</td>
-                                        <td class="text-center">{{item.volume1}} {{item.satuan1}}</td>
-                                        <td class="text-right">{{item.harga_satuan1|formatUang}}</td>    
+                                        <td class="text-center">{{item.volume2}} {{item.satuan1}}</td>
+                                        <td class="text-right">{{item.harga_satuan2|formatUang}}</td>    
                                         <td class="text-right">{{item.pagu_uraian2|formatUang}}</td>
                                         <td class="text-right">{{item.realisasi2|formatUang}}</td>
                                         <td class="text-right">{{item.pagu_uraian2-item.realisasi2|formatUang}}</td>
@@ -444,38 +444,46 @@ export default {
         },
         fetchUraianKegiatan()
         {           
-            var page = this.$store.getters.getPage('apbdperubahan');            
-            this.$swal({
-                title: '<i class="fas fa-spin fa-spinner"></i>',
-                text: "Mendapatkan informasi Uraian Data Kegiatan dengan ID "+page.RKAID,
-                showCancelButton: false,
-                showConfirmButton: false,
-                showCloseButton: false,
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                allowEnterKey: false,
-            });              
-            setTimeout(() => {
-                axios.get('/api/v1/apbdperubahan/'+page.RKAID,{
-                    headers:{
-                        'Authorization': window.laravel.api_token,
-                    }
-                })
-                .then(response => {   
-                    this.RKAIDIsExist = true;
-                    this.detailkegiatan = response.data.rka;
-                    page.detailkegiatan = this.detailkegiatan;                        
-                    this.$store.commit('replacePage',page);                    
-                    this.daftar_uraian = response.data.daftar_uraian;
-                    this.totalpaguuraian = response.data.totalpaguuraian;
-                    this.totalrealisasi = response.data.totalrealisasi;
-                    this.totalfisik = response.data.totalfisik;
-                })
-                .catch(response => {
-                    this.api_message = response;
-                });       
-                this.$swal.close();  
-            }, 1500);               
+            var page = this.$store.getters.getPage('apbdperubahan');    
+            if (page.RKAID == '')
+            {
+                this.RKAIDIsExist = false;
+            }
+            else
+            {
+                this.$swal({
+                    title: '<i class="fas fa-spin fa-spinner"></i>',
+                    text: "Mendapatkan informasi Uraian Data Kegiatan dengan ID "+page.RKAID,
+                    showCancelButton: false,
+                    showConfirmButton: false,
+                    showCloseButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    allowEnterKey: false,
+                });              
+                setTimeout(() => {
+                    axios.get('/api/v1/apbdperubahan/'+page.RKAID,{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        }
+                    })
+                    .then(response => {   
+                        this.RKAIDIsExist = true;
+                        this.detailkegiatan = response.data.rka;
+                        page.detailkegiatan = this.detailkegiatan;                        
+                        this.$store.commit('replacePage',page);                    
+                        this.daftar_uraian = response.data.daftar_uraian;
+                        console.log(this.daftar_uraian);
+                        this.totalpaguuraian = response.data.totalpaguuraian;
+                        this.totalrealisasi = response.data.totalrealisasi;
+                        this.totalfisik = response.data.totalfisik;
+                    })
+                    .catch(response => {
+                        this.api_message = response;
+                    });       
+                    this.$swal.close();  
+                }, 1500);             
+            }              
         },
         updateData ()
         {
@@ -555,9 +563,9 @@ export default {
                     this.form.kode_rek_5=item.kode_rek_5;
                     this.form.RObyNm=item.RObyNm;
                     this.form.nama_uraian=item.nama_uraian;
-                    this.form.volume=item.volume1;
-                    this.form.satuan=item.satuan1;
-                    this.form.harga_satuan=item.harga_satuan1;
+                    this.form.volume=item.volume2;
+                    this.form.satuan=item.satuan2;
+                    this.form.harga_satuan=item.harga_satuan2;
                     this.form.pagu_uraian2=item.pagu_uraian2;
                     this.form.JenisPelaksanaanID=item.JenisPelaksanaanID;
                 break;

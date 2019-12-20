@@ -90,18 +90,32 @@ const app = new Vue({
                 window.$('#linkDMaster').addClass('active');
             }
         }, 
-        toggleRKA(state=0)
+        toggleAPBDMurni(state=0)
         {
             if (state == 0)
             {                
-                window.$('#liRKA').removeClass('menu-open');
-                window.$('#ulRKA').css('display','none');                
-                window.$('#linkRKA').removeClass('active');
+                window.$('#liAPBDMurni').removeClass('menu-open');
+                window.$('#ulAPBDMurni').css('display','none');                
+                window.$('#linkAPBDMurni').removeClass('active');
             }
             else
             {
-                window.$('#liRKA').addClass('menu-open');
-                window.$('#linkRKA').addClass('active');
+                window.$('#liAPBDMurni').addClass('menu-open');
+                window.$('#linkAPBDMurni').addClass('active');
+            }
+        },
+        toggleAPBDPerubahan(state=0)
+        {
+            if (state == 0)
+            {                
+                window.$('#liAPBDPerubahan').removeClass('menu-open');
+                window.$('#ulAPBDPerubahan').css('display','none');                
+                window.$('#linkAPBDPerubahan').removeClass('active');
+            }
+            else
+            {
+                window.$('#liAPBDPerubahan').addClass('menu-open');
+                window.$('#linkAPBDPerubahan').addClass('active');
             }
         },
         changeMenuItem()
@@ -111,7 +125,8 @@ const app = new Vue({
             {
                 case 'dashboard':            
                     this.toggleDMaster();
-                    this.toggleRKA();
+                    this.toggleAPBDMurni();
+                    this.toggleAPBDPerubahan();
                 break;
                 //dmaster
                 case 'dmaster_kelompokurusan':
@@ -130,7 +145,8 @@ const app = new Vue({
                 case 'dmaster_paguanggaranopd':
                 case 'dmaster_jenispelaksanaan':
                     this.toggleDMaster(1);
-                    this.toggleRKA();
+                    this.toggleAPBDMurni();
+                    this.toggleAPBDPerubahan();
                 break;
 
                 //apbd murni
@@ -140,16 +156,20 @@ const app = new Vue({
                 case 'apbdmurniuraianpilihrekening' :                        
                 case 'apbdmurniuraiancreate' :                        
                 case 'apbdmurniuraianrealisasi' :  
-                
-                 //apbd perubahan
-                 case 'apbdperubahan' :                                   
-                 case 'apbdperubahancreate' :                        
-                 case 'apbdperubahanuraian' :                        
-                 case 'apbdperubahanuraianpilihrekening' :                        
-                 case 'apbdperubahanuraiancreate' :                        
-                 case 'apbdperubahanuraianrealisasi' : 
                     this.toggleDMaster();
-                    this.toggleRKA(1);
+                    this.toggleAPBDMurni(1);
+                    this.toggleAPBDPerubahan(0);
+                break;
+                //apbd perubahan
+                case 'apbdperubahan' :                                   
+                case 'apbdperubahancreate' :                        
+                case 'apbdperubahanuraian' :                        
+                case 'apbdperubahanuraianpilihrekening' :                        
+                case 'apbdperubahanuraiancreate' :                        
+                case 'apbdperubahanuraianrealisasi' : 
+                    this.toggleDMaster();
+                    this.toggleAPBDMurni();
+                    this.toggleAPBDPerubahan(1);
                 break;
             }
         }

@@ -71,7 +71,7 @@
                                     <label class="col-sm-2 col-form-label">PAGU DANA</label>
                                     <div class="col-sm-10">
 										<vue-autonumeric 
-											v-model.trim="form.PaguDana1" 
+											v-model.trim="form.PaguDana2" 
 											v-on:input="$v.form.$touch"
 											:options="{
 												minimumValue: '0',
@@ -81,9 +81,9 @@
 												unformatOnSubmit: true 
 											}" 
 											class="form-control" 
-											v-bind:class="{'is-invalid': $v.form.PaguDana1.$error, 'is-valid': $v.form.PaguDana1.$dirty && !$v.form.PaguDana1.$invalid}">
+											v-bind:class="{'is-invalid': $v.form.PaguDana2.$error, 'is-valid': $v.form.PaguDana2.$dirty && !$v.form.PaguDana2.$invalid}">
 										</vue-autonumeric>
-										<div class="text-danger" v-if="$v.form.PaguDana1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.PaguDana2.$error">* wajib isi</div>
                                     </div>
                                 </div>		
                             </div>
@@ -222,10 +222,10 @@
                                         <td>{{daftar_apbdperubahan.from+index}}</td>
                                         <td>{{item.kode_kegiatan}}</td>    
                                         <td>{{item.KgtNm}}</td>
-                                        <td>{{item.PaguDana1|formatUang}}</td>
-                                        <td>{{item.TotalPaguUraian1|formatUang}}</td>
-                                        <td>{{item.TotalRealisasi1|formatUang}}</td>
-                                        <td>{{item.TotalFisik1}}</td>                                            
+                                        <td>{{item.PaguDana2|formatUang}}</td>
+                                        <td>{{item.TotalPaguUraian2|formatUang}}</td>
+                                        <td>{{item.TotalRealisasi2|formatUang}}</td>
+                                        <td>{{item.TotalFisik2}}</td>                                            
                                         <td>
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -325,7 +325,7 @@ export default {
                 PrgNm:'',		                                
                 kode_kegiatan:'',		                                
                 KgtNm: '',
-                PaguDana1: '',	
+                PaguDana2: '',	
                 nip_kpa:'',			
                 nip_pa:'',			
                 nip_ppk:'',			
@@ -475,10 +475,9 @@ export default {
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
             { 
-                console.log(this.form);
                 axios.post('/api/v1/apbdperubahan/update/'+this.form.RKAID,{                   
                     '_method':'PUT',                   
-                    'PaguDana1':this.form.PaguDana1,                   
+                    'PaguDana2':this.form.PaguDana2,                   
                     'nip_pa':this.form.nip_pa,
                     'nip_kpa':this.form.nip_kpa,
                     'nip_ppk':this.form.nip_ppk,
@@ -548,13 +547,13 @@ export default {
                     this.form.PrgNm = item.PrgNm;
                     this.form.kode_kegiatan = item.kode_kegiatan;
                     this.form.KgtNm = item.KgtNm;
-                    this.form.PaguDana1 = item.PaguDana1;
+                    this.form.PaguDana2 = item.PaguDana2;
 
                     this.fetchPejabat();                                    
-                    this.form.nip_pa=item.nip_pa1;			
-                    this.form.nip_kpa=item.nip_kpa1;	
-                    this.form.nip_ppk=item.nip_ppk1;			
-                    this.form.nip_pptk=item.nip_pptk1;	                   
+                    this.form.nip_pa=item.nip_pa2;			
+                    this.form.nip_kpa=item.nip_kpa2;	
+                    this.form.nip_ppk=item.nip_ppk2;			
+                    this.form.nip_pptk=item.nip_pptk2;	                   
                     
                 break;
                 case 'destroy':
@@ -590,8 +589,8 @@ export default {
                     });                                      
                 break;
                 default :
-                    this.pid = pid;
-                    this.fetchOPD();           
+                    this.pid = pid;                    
+                    this.fetchOPD();                               
                     this.OrgID=this.$store.getters.getAtributeValueOfPage('apbdperubahan','OrgID');      
                     this.OrgNm=this.$store.getters.getAtributeValueOfPage('apbdperubahan','OrgNm');      
                     if (this.OrgID!='')
@@ -628,7 +627,7 @@ export default {
             this.form.KgtNm='';
             this.form.kode_kegiatan='';
             this.form.KgtNm='';
-            this.form.PaguDana1=0;
+            this.form.PaguDana2=0;
             this.form.nip_pa='';
             this.form.nip_kpa='';
             this.form.nip_ppk='';
@@ -638,7 +637,7 @@ export default {
     },         
     validations: {
 		form: {
-			PaguDana1: {
+			PaguDana2: {
 				required
 			},
 		}

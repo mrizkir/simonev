@@ -612,6 +612,9 @@ export default {
                     this.form.RKARealisasiRincID=item.RKARealisasiRincID;
                     this.form.bulan=item.bulan1;
 
+                    this.form.anggarankas=item.target1;
+                    this.form.targetfisik=item.target_fisik1;
+
                     this.form.totalrealisasi=this.form.totalrealisasi-item.realisasi1;
                     this.form.realisasi1=item.realisasi1;
 

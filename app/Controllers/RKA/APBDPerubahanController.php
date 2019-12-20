@@ -9,7 +9,7 @@ use App\Models\RKA\RKARincianKegiatanModel;
 use App\Models\RKA\RKARencanaTargetModel;
 use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
-class APBDMurniController extends Controller 
+class APBDPerubahanController extends Controller 
 {
      /**
      * Membuat sebuah objek
@@ -39,19 +39,19 @@ class APBDMurniController extends Controller
                                             "v_rka"."Kd_Keg",
                                             "v_rka"."kode_kegiatan",
                                             "v_rka"."KgtNm",
-                                            "v_rka"."lokasi_kegiatan1",
+                                            "v_rka"."lokasi_kegiatan2",
                                             "v_rka"."SumberDanaID",
                                             "v_rka"."Nm_SumberDana",
-                                            "v_rka"."tk_capaian1",
-                                            "v_rka"."capaian_program1",
-                                            "v_rka"."masukan1",
-                                            "v_rka"."tk_keluaran1",
-                                            "v_rka"."keluaran1",
-                                            "v_rka"."tk_hasil1",
-                                            "v_rka"."hasil1",
-                                            "v_rka"."ksk1",
-                                            "v_rka"."sifat_kegiatan1",
-                                            "v_rka"."waktu_pelaksanaan1",
+                                            "v_rka"."tk_capaian2",
+                                            "v_rka"."capaian_program2",
+                                            "v_rka"."masukan2",
+                                            "v_rka"."tk_keluaran2",
+                                            "v_rka"."keluaran2",
+                                            "v_rka"."tk_hasil2",
+                                            "v_rka"."hasil2",
+                                            "v_rka"."ksk2",
+                                            "v_rka"."sifat_kegiatan2",
+                                            "v_rka"."waktu_pelaksanaan2",
                                             "v_rka"."PaguDana2",
                                             "v_rka"."Descr",
                                             "v_rka"."EntryLvl",
@@ -234,12 +234,12 @@ class APBDMurniController extends Controller
     public function populateData ($currentpage=1) 
     {        
         $columns=['*'];       
-        if (!$this->checkStateIsExistSession('apbdmurni','orderby')) 
+        if (!$this->checkStateIsExistSession('apbdperubahan','orderby')) 
         {            
-           $this->putControllerStateSession('apbdmurni','orderby',['column_name'=>'KgtNm','order'=>'asc']);
+           $this->putControllerStateSession('apbdperubahan','orderby',['column_name'=>'KgtNm','order'=>'asc']);
         }
-        $column_order=$this->getControllerStateSession('apbdmurni.orderby','column_name'); 
-        $direction=$this->getControllerStateSession('apbdmurni.orderby','order'); 
+        $column_order=$this->getControllerStateSession('apbdperubahan.orderby','column_name'); 
+        $direction=$this->getControllerStateSession('apbdperubahan.orderby','order'); 
 
         if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
         {            
@@ -259,9 +259,9 @@ class APBDMurniController extends Controller
         }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
 
-        if ($this->checkStateIsExistSession('apbdmurni','search')) 
+        if ($this->checkStateIsExistSession('apbdperubahan','search')) 
         {
-            $search=$this->getControllerStateSession('apbdmurni','search');
+            $search=$this->getControllerStateSession('apbdperubahan','search');
             switch ($search['kriteria']) 
             {
                 case 'KgtNm' :
@@ -280,9 +280,9 @@ class APBDMurniController extends Controller
                                             kode_kegiatan,
                                             "KgtNm",
                                             "PaguDana2",
-                                            0 AS "TotalPaguUraian1",
-                                            0 AS "TotalRealisasi1",
-                                            0 AS "TotalFisik1",
+                                            0 AS "TotalPaguUraian2",
+                                            0 AS "TotalRealisasi2",
+                                            0 AS "TotalFisik2",
                                             nip_pa1,
                                             nip_kpa1,
                                             nip_ppk1,
@@ -293,14 +293,14 @@ class APBDMurniController extends Controller
                         ->where('EntryLvl',2)
                         ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
         }      
-        $data->setPath(route('apbdmurni.index'));
+        $data->setPath(route('apbdperubahan.index'));
         $data->transform(function ($item,$key){
-            $item->TotalPaguUraian1=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian2');
-            $item->TotalRealisasi1=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('realisasi2');
+            $item->TotalPaguUraian2=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->sum('pagu_uraian2');
+            $item->TotalRealisasi2=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('realisasi2');
 
             $jumlah_uraian=\DB::table('trRKARinc')->where('RKAID',$item->RKAID)->count('RKARincID');
             $total_fisik=\DB::table('trRKARealisasiRinc')->where('RKAID',$item->RKAID)->sum('fisik2');
-            $item->TotalFisik1=\Helper::formatPecahan($total_fisik,$jumlah_uraian);
+            $item->TotalFisik2=\Helper::formatPecahan($total_fisik,$jumlah_uraian);
             return $item;
         });
         return $data;
@@ -313,7 +313,7 @@ class APBDMurniController extends Controller
      */
     public function filter(Request $request) 
     {        
-        $filters=$this->getControllerStateSession('apbdmurni','filters');
+        $filters=$this->getControllerStateSession('apbdperubahan','filters');
         $json_data = [];
         
         //select prgid create 0
@@ -389,27 +389,27 @@ class APBDMurniController extends Controller
      */
     public function search (Request $request) 
     {
-        $filters=$this->getControllerStateSession('apbdmurni','filters');
+        $filters=$this->getControllerStateSession('apbdperubahan','filters');
         $action = $request->input('action');
         if ($action == 'reset') 
         {
-            $this->destroyControllerStateSession('apbdmurni','search');
+            $this->destroyControllerStateSession('apbdperubahan','search');
         }
         else
         {
             $kriteria = $request->input('cmbKriteria');
             $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('apbdmurni','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
+            $this->putControllerStateSession('apbdperubahan','search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
         }      
-        $this->setCurrentPageInsideSession('apbdmurni',1);
+        $this->setCurrentPageInsideSession('apbdperubahan',1);
         $data=$this->populateData();
 
-        $datatable = view("pages.$theme.rka.apbdmurni.datatable")->with(['page_active'=>'apbdmurni', 
+        $datatable = view("pages.$theme.rka.apbdperubahan.datatable")->with(['page_active'=>'apbdperubahan', 
                                                                                 'datatotalkegiatan'=>$this->getDataTotalKegiatan($filters['OrgID'],$filters['SOrgID']),                                                           
-                                                                                'search'=>$this->getControllerStateSession('apbdmurni','search'),
+                                                                                'search'=>$this->getControllerStateSession('apbdperubahan','search'),
                                                                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
-                                                                                'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
+                                                                                'column_order'=>$this->getControllerStateSession('apbdperubahan.orderby','column_name'),
+                                                                                'direction'=>$this->getControllerStateSession('apbdperubahan.orderby','order'),
                                                                                 'data'=>$data])->render();      
         
         return response()->json(['success'=>true,'datatable'=>$datatable],200);        
@@ -424,27 +424,27 @@ class APBDMurniController extends Controller
         $OrgID=$request->header('OrgID');   
         $SOrgID=$request->header('SOrgID');   
 
-        $filters=$this->getControllerStateSession('apbdmurni','filters');
+        $filters=$this->getControllerStateSession('apbdperubahan','filters');
         $filters['OrgID']=$OrgID;
         $filters['SOrgID']=$SOrgID;
-        $this->putControllerStateSession('apbdmurni','filters',$filters);
+        $this->putControllerStateSession('apbdperubahan','filters',$filters);
 
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('apbdmurni'); 
+        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('apbdperubahan'); 
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage())
         {            
             $data = $this->populateData($data->lastPage());
             $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('apbdmurni',$currentpage); 
+        $this->setCurrentPageInsideSession('apbdperubahan',$currentpage); 
          
-        return response()->json(['page_active'=>'apbdmurni',
-                                'search'=>$this->getControllerStateSession('apbdmurni','search'),
+        return response()->json(['page_active'=>'apbdperubahan',
+                                'search'=>$this->getControllerStateSession('apbdperubahan','search'),
                                 'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                'column_order'=>$this->getControllerStateSession('apbdmurni.orderby','column_name'),
-                                'direction'=>$this->getControllerStateSession('apbdmurni.orderby','order'),
-                                'filters'=>$this->getControllerStateSession('apbdmurni','filters'), 
-                                'daftar_apbdmurni'=>$data],200);            
+                                'column_order'=>$this->getControllerStateSession('apbdperubahan.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('apbdperubahan.orderby','order'),
+                                'filters'=>$this->getControllerStateSession('apbdperubahan','filters'), 
+                                'daftar_apbdperubahan'=>$data],200);            
     }
     /**
      * Show the form for creating a new resource. [tambah kegiatan]
@@ -529,7 +529,7 @@ class APBDMurniController extends Controller
                     $rkaid=$rinciankegiatan->RKAID;
                     $rka = $this->getDataRKA($rkaid);                                        
                 }
-                $datatable=view("pages.$theme.rka.apbdmurni.datatablerealisasi")->with(['page_active'=>'apbdmurni',                                                                            
+                $datatable=view("pages.$theme.rka.apbdperubahan.datatablerealisasi")->with(['page_active'=>'apbdperubahan',                                                                            
                                                                                             'datarealisasi'=>$datarealisasi
                                                                                         ])->render();
                 $json_data['RKARincID']=$RKARincID;
@@ -734,18 +734,19 @@ class APBDMurniController extends Controller
                 'PrgID' => $request->input('PrgID'),
                 'KgtID' => $request->input('KgtID'),
                 'RKPDID' => $request->input('RKPDID'),            
+                'PaguDana1' => 0,
                 'PaguDana2' => $request->input('PaguDana2'),
                 'sifat_kegiatan1' => 'baru',
-                'nip_pa1' => $request->input('nip_pa'),
-                'nip_kpa1' => $request->input('nip_kpa'),
-                'nip_ppk1' => $request->input('nip_ppk'),
-                'nip_pptk1' => $request->input('nip_pptk'),
+                'nip_pa2' => $request->input('nip_pa'),
+                'nip_kpa2' => $request->input('nip_kpa'),
+                'nip_ppk2' => $request->input('nip_ppk'),
+                'nip_pptk2' => $request->input('nip_pptk'),
                 'user_id' => \Auth::user()->id,
                 'Descr' => '-',
-                'EntryLvl`' => 2,
+                'EntryLvl' => 2,
                 'TA' => \HelperKegiatan::getTahunAnggaran(),
             ];
-            $apbdmurni = RKAKegiatanModel::create($data);     
+            $apbdperubahan = RKAKegiatanModel::create($data);     
             
             return response()->json([            
                 'message'=>'Data rincian telah berhasil disimpan.',
@@ -782,9 +783,13 @@ class APBDMurniController extends Controller
                 'RObyID' => $request->input('RObyID'),
                 'JenisPelaksanaanID' => $request->input('JenisPelaksanaanID'),
                 'nama_uraian' => $request->input('nama_uraian'),
+                'volume1' => 0,
                 'volume2' => $request->input('volume'),
+                'satuan1' => 0,            
                 'satuan2' => $request->input('satuan'),            
+                'harga_satuan1' => 0,
                 'harga_satuan2' => $request->input('harga_satuan'),
+                'pagu_uraian1' => 0,            
                 'pagu_uraian2' => $request->input('pagu_uraian2'),            
                 'Descr' => $request->input('Descr'),
                 'EntryLvl' => 2,
@@ -827,8 +832,11 @@ class APBDMurniController extends Controller
                     'RKATargetRincID'=>uniqid ('uid'),
                     'RKAID'=>$request->input('RKAID'),
                     'RKARincID'=>$request->input('RKARincID'),
+                    'bulan1'=>$i+1,
                     'bulan2'=>$i+1,
+                    'target1'=>$bulan_anggaran[$i],
                     'target2'=>$bulan_anggaran[$i],
+                    'fisik1'=>$bulan_fisik[$i],
                     'fisik2'=>$bulan_fisik[$i],
                     'EntryLvl'=>2,
                     'Descr'=>$request->input('Descr'),
@@ -875,10 +883,15 @@ class APBDMurniController extends Controller
                 'RKARealisasiRincID' => uniqid ('uid'),
                 'RKAID' => $request->input('RKAID'),
                 'RKARincID' => $request->input('RKARincID'),            
+                'bulan1' => 0,                
                 'bulan2' => $request->input('bulan2'),                
+                'target1' => 0,                            
                 'target2' => $request->input('target2'),                            
+                'realisasi1' => 0,                            
                 'realisasi2' => $request->input('realisasi2'),                            
+                'target_fisik1' => 0,           
                 'target_fisik2' => $request->input('target_fisik2'),           
+                'fisik1' => 0,           
                 'fisik2' => $request->input('fisik2'),           
                 'EntryLvl' => 2,
                 'Descr' => $request->input('Descr'),            
@@ -1068,7 +1081,7 @@ class APBDMurniController extends Controller
         $data = RKAKegiatanModel::findOrFail($id);
         if (!is_null($data) ) 
         {
-            return view("pages.$theme.rka.apbdmurni.edit")->with(['page_active'=>'apbdmurni',
+            return view("pages.$theme.rka.apbdperubahan.edit")->with(['page_active'=>'apbdperubahan',
                                                     'data'=>$data
                                                     ]);
         }        
@@ -1087,7 +1100,7 @@ class APBDMurniController extends Controller
         if (!is_null($data) ) 
         {            
             $daftar_jenispelaksanaan=\App\Models\DMaster\JenisPelaksanaanModel::getJenisPelaksanaan(\HelperKegiatan::getTahunAnggaran());
-            return view("pages.$theme.rka.apbdmurni.edit2")->with(['page_active'=>'apbdmurni',
+            return view("pages.$theme.rka.apbdperubahan.edit2")->with(['page_active'=>'apbdperubahan',
                                                                         'rka'=>$this->getDataRKA($data->RKAID),
                                                                         'daftar_jenispelaksanaan'=>$daftar_jenispelaksanaan,
                                                                         'data'=>$data
@@ -1183,7 +1196,7 @@ class APBDMurniController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $apbdmurni = RKAKegiatanModel::find($id);
+        $apbdperubahan = RKAKegiatanModel::find($id);
         
         $validator=\Validator::make($request->all(), [
             'PaguDana2'=>'required',
@@ -1213,25 +1226,25 @@ class APBDMurniController extends Controller
         }
         else
         {      
-            $apbdmurni->PaguDana2 = $request->input('PaguDana2');          
-            $apbdmurni->nip_pa1 = $request->input('nip_pa');          
-            $apbdmurni->nip_kpa1 = $request->input('nip_kpa');          
-            $apbdmurni->nip_ppk1 = $request->input('nip_ppk');          
-            $apbdmurni->nip_pptk1 = $request->input('nip_pptk');          
-            // $apbdmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
-            // $apbdmurni->SumberDanaID=$request->input('SumberDanaID');
-            // $apbdmurni->capaian_program1=$request->input('capaian_program');
-            // $apbdmurni->tk_capaian1=$request->input('tk_capaian');
-            // $apbdmurni->masukan1=$request->input('masukan');
-            // $apbdmurni->keluaran1=$request->input('keluaran');
-            // $apbdmurni->tk_keluaran1=$request->input('tk_keluaran');
-            // $apbdmurni->hasil1=$request->input('hasil');
-            // $apbdmurni->tk_hasil1=$request->input('tk_hasil');
-            // $apbdmurni->ksk1=$request->input('ksk');
-            // $apbdmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
-            // $apbdmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
-            // $apbdmurni->Descr=$request->input('Descr');
-            $apbdmurni->save();
+            $apbdperubahan->PaguDana2 = $request->input('PaguDana2');          
+            $apbdperubahan->nip_pa1 = $request->input('nip_pa');          
+            $apbdperubahan->nip_kpa1 = $request->input('nip_kpa');          
+            $apbdperubahan->nip_ppk1 = $request->input('nip_ppk');          
+            $apbdperubahan->nip_pptk1 = $request->input('nip_pptk');          
+            // $apbdperubahan->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
+            // $apbdperubahan->SumberDanaID=$request->input('SumberDanaID');
+            // $apbdperubahan->capaian_program1=$request->input('capaian_program');
+            // $apbdperubahan->tk_capaian1=$request->input('tk_capaian');
+            // $apbdperubahan->masukan1=$request->input('masukan');
+            // $apbdperubahan->keluaran1=$request->input('keluaran');
+            // $apbdperubahan->tk_keluaran1=$request->input('tk_keluaran');
+            // $apbdperubahan->hasil1=$request->input('hasil');
+            // $apbdperubahan->tk_hasil1=$request->input('tk_hasil');
+            // $apbdperubahan->ksk1=$request->input('ksk');
+            // $apbdperubahan->sifat_kegiatan1=$request->input('sifat_kegiatan');
+            // $apbdperubahan->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
+            // $apbdperubahan->Descr=$request->input('Descr');
+            $apbdperubahan->save();
 
             return response()->json([       
                 'request'=>$request->all(),     
@@ -1318,8 +1331,11 @@ class APBDMurniController extends Controller
                     'RKATargetRincID'=>uniqid ('uid'),
                     'RKAID'=>$request->input('RKAID'),
                     'RKARincID'=>$request->input('RKARincID'),
+                    'bulan1'=>$i+1,
                     'bulan2'=>$i+1,
+                    'target1'=>$bulan_anggaran[$i],
                     'target2'=>$bulan_anggaran[$i],
+                    'fisik1'=>$bulan_fisik[$i],
                     'fisik2'=>$bulan_fisik[$i],
                     'EntryLvl'=>2,
                     'Descr'=>$request->input('Descr'),
@@ -1386,8 +1402,8 @@ class APBDMurniController extends Controller
             switch ($pid)
             {
                 case 'datakegiatan' :
-                    $apbdmurni = RKAKegiatanModel::find($id);
-                    $result=$apbdmurni->delete();
+                    $apbdperubahan = RKAKegiatanModel::find($id);
+                    $result=$apbdperubahan->delete();
                     return response()->json(['message'=>"data kegiatan dengan ID ($id) Berhasil di Hapus"],200);                    
                 break;
                 case 'datauraian' :
@@ -1412,7 +1428,7 @@ class APBDMurniController extends Controller
         }
         else
         {
-            return redirect(route('apbdmurni.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
+            return redirect(route('apbdperubahan.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
         }        
     }
 }
