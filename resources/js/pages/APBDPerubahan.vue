@@ -571,20 +571,21 @@ export default {
                     }).then(function (isConfirm){
                         if(isConfirm.value === true) 
                         {
-                            axios.post('/api/v1/apbdperubahan/'+item.RKAID,{
-                                '_method':'DELETE',
-                                'pid':'datakegiatan'
-                            },{
-                                headers:{
-                                    'Authorization': window.laravel.api_token,
-                                },
-                            })
-                            .then(response => {                                                          
-                                self.proc('default');                                                                    
-                            })
-                            .catch(response => {
-                                self.api_message = response;                               
-                            });                                  
+                            console.log(self.$store);
+                            // axios.post('/api/v1/apbdperubahan/'+item.RKAID,{
+                            //     '_method':'DELETE',
+                            //     'pid':'datakegiatan'
+                            // },{
+                            //     headers:{
+                            //         'Authorization': window.laravel.api_token,
+                            //     },
+                            // })
+                            // .then(response => {                                                          
+                            //     self.proc('default');                                                                    
+                            // })
+                            // .catch(response => {
+                            //     self.api_message = response;                               
+                            // });                                  
                         }
                     });                                      
                 break;

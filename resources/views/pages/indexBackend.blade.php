@@ -183,7 +183,7 @@
 					</li>
 					<li class="nav-item has-treeview" id="liAPBDPerubahan">
 						<a href="#" class="nav-link" id="linkAPBDPerubahan">
-						  	<i class="nav-icon fas fa-cart-arrow-down"></i>
+							<i class="nav-icon fas fa-luggage-cart"></i>
 						  	<p>
 								APBD PERUBAHAN
 								<i class="fas fa-angle-left right"></i>
@@ -194,7 +194,7 @@
 								<router-link to="/apbdperubahan" class="nav-link" @click.native="changeMenuItem" id="linkAPBDPerubahan">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>
-										APBD PERUBAHAN
+										KEGIATAN
 									</p>
 								</router-link>
 							</li>
@@ -214,6 +214,23 @@
 								<router-link to="/apbdperubahan/uraian/realisasi" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>REALISASI</p>
+								</router-link>
+							</li>
+						</ul>
+					</li>
+					<li class="nav-item has-treeview" id="liReport">
+						<a href="#" class="nav-link" id="linkReport">
+							<i class="nav-icon fas fa-sticky-note"></i>
+						  	<p>
+								LAPORAN
+								<i class="fas fa-angle-left right"></i>
+						  	</p>
+						</a>
+						<ul class="nav nav-treeview" id="ulReport">
+							<li class="nav-item">
+								<router-link to="/report/rkpdmurni" class="nav-link" @click.native="changeMenuItem">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>RKPD MURNI</p>
 								</router-link>
 							</li>
 						</ul>

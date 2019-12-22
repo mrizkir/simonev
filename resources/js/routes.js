@@ -52,6 +52,7 @@ import ASNOPD from './pages/dmaster/ASNOPD.vue';
 import JenisPelaksanaan from './pages/dmaster/JenisPelaksanaan.vue';
 import PaguAnggaranOPD from './pages/dmaster/PaguAnggaranOPD.vue';
 
+//APBD MURNI
 import APBDMurni from './pages/APBDMurni.vue';
 import APBDMurniUraian from './pages/apbdmurni/APBDMurniUraian.vue';
 import APBDMurniCreate from './pages/apbdmurni/APBDMurniCreate.vue';
@@ -60,6 +61,7 @@ import APBDMurniUraianCreate from './pages/apbdmurni/APBDMurniUraianCreate.vue';
 import APBDMurniUraianRencanaTarget from './pages/apbdmurni/APBDMurniUraianRencanaTarget.vue';
 import APBDMurniUraianRealisasi from './pages/apbdmurni/APBDMurniUraianRealisasi.vue';
 
+//APBD PERUBAHAN
 import APBDPerubahan from './pages/APBDPerubahan.vue';
 import APBDPerubahanUraian from './pages/apbdperubahan/APBDPerubahanUraian.vue';
 import APBDPerubahanCreate from './pages/apbdperubahan/APBDPerubahanCreate.vue';
@@ -67,6 +69,9 @@ import APBDPerubahanUraianPilihRekening from './pages/apbdperubahan/APBDPerubaha
 import APBDPerubahanUraianCreate from './pages/apbdperubahan/APBDPerubahanUraianCreate.vue';
 import APBDPerubahanUraianRencanaTarget from './pages/apbdperubahan/APBDPerubahanUraianRencanaTarget.vue';
 import APBDPerubahanUraianRealisasi from './pages/apbdperubahan/APBDPerubahanUraianRealisasi.vue';
+
+//REPORT
+import RKPDMurni from './pages/report/RKPDMurni.vue';
 
 export const routes =  [
     {
@@ -317,5 +322,13 @@ export const routes =  [
             title: "APBD PERUBAHAN | REALISASI URAIAN"
         },
         component: APBDPerubahanUraianRealisasi
+    },        
+    {
+        name:'reportrkpdmurni',
+        path: '/report/rkpdmurni',
+        meta:{
+            title: "LAPORAN RKPD MURNI"
+        },
+        component: RKPDMurni
     },        
 ];

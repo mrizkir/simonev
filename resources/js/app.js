@@ -118,6 +118,20 @@ const app = new Vue({
                 window.$('#linkAPBDPerubahan').addClass('active');
             }
         },
+        toggleReportRKPDMurni(state=0)
+        {
+            if (state == 0)
+            {                
+                window.$('#liReport').removeClass('menu-open');
+                window.$('#ulReport').css('display','none');                
+                window.$('#linkReport').removeClass('active');
+            }
+            else
+            {
+                window.$('#liReport').addClass('menu-open');
+                window.$('#linkReport').addClass('active');
+            }
+        },
         changeMenuItem()
         {
             var name = this.$router.currentRoute.name;
@@ -127,6 +141,7 @@ const app = new Vue({
                     this.toggleDMaster();
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan();
+                    this.toggleReportRKPDMurni();
                 break;
                 //dmaster
                 case 'dmaster_kelompokurusan':
@@ -147,6 +162,7 @@ const app = new Vue({
                     this.toggleDMaster(1);
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan();
+                    this.toggleReportRKPDMurni();
                 break;
 
                 //apbd murni
@@ -159,6 +175,7 @@ const app = new Vue({
                     this.toggleDMaster();
                     this.toggleAPBDMurni(1);
                     this.toggleAPBDPerubahan(0);
+                    this.toggleReportRKPDMurni();
                 break;
                 //apbd perubahan
                 case 'apbdperubahan' :                                   
@@ -170,6 +187,15 @@ const app = new Vue({
                     this.toggleDMaster();
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan(1);
+                    this.toggleReportRKPDMurni();
+                break;
+
+                //report
+                case 'reportrkpd' :                                                   
+                    this.toggleDMaster();
+                    this.toggleAPBDMurni();
+                    this.toggleAPBDPerubahan();
+                    this.toggleReportRKPDMurni(1);
                 break;
             }
         }
