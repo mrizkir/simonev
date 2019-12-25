@@ -71,6 +71,8 @@ import APBDPerubahanUraianRencanaTarget from './pages/apbdperubahan/APBDPerubaha
 import APBDPerubahanUraianRealisasi from './pages/apbdperubahan/APBDPerubahanUraianRealisasi.vue';
 
 //REPORT
+import FormAMurni from './pages/report/FormAMurni.vue';
+import FormBMurni from './pages/report/FormBMurni.vue';
 import RKPDMurni from './pages/report/RKPDMurni.vue';
 
 export const routes =  [
@@ -322,6 +324,22 @@ export const routes =  [
             title: "APBD PERUBAHAN | REALISASI URAIAN"
         },
         component: APBDPerubahanUraianRealisasi
+    },        
+    {
+        name:'reportformamurni',
+        path: '/report/reportformamurni',
+        meta:{
+            title: "LAPORAN FORM A MURNI"
+        },
+        component: FormAMurni
+    },        
+    {
+        name:'reportformbmurni',
+        path: '/report/reportformbmurni',
+        meta:{
+            title: "LAPORAN FORM B MURNI"
+        },
+        component: FormBMurni
     },        
     {
         name:'reportrkpdmurni',

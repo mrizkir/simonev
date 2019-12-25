@@ -118,7 +118,7 @@ const app = new Vue({
                 window.$('#linkAPBDPerubahan').addClass('active');
             }
         },
-        toggleReportRKPDMurni(state=0)
+        toggleReport(state=0)
         {
             if (state == 0)
             {                
@@ -141,7 +141,7 @@ const app = new Vue({
                     this.toggleDMaster();
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan();
-                    this.toggleReportRKPDMurni();
+                    this.toggleReport();
                 break;
                 //dmaster
                 case 'dmaster_kelompokurusan':
@@ -162,7 +162,7 @@ const app = new Vue({
                     this.toggleDMaster(1);
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan();
-                    this.toggleReportRKPDMurni();
+                    this.toggleReport();
                 break;
 
                 //apbd murni
@@ -175,7 +175,7 @@ const app = new Vue({
                     this.toggleDMaster();
                     this.toggleAPBDMurni(1);
                     this.toggleAPBDPerubahan(0);
-                    this.toggleReportRKPDMurni();
+                    this.toggleReport();
                 break;
                 //apbd perubahan
                 case 'apbdperubahan' :                                   
@@ -187,15 +187,17 @@ const app = new Vue({
                     this.toggleDMaster();
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan(1);
-                    this.toggleReportRKPDMurni();
+                    this.toggleReport();
                 break;
 
                 //report
-                case 'reportrkpd' :                                                   
+                case 'reportforma' :                                                   
+                case 'reportformb' :                                                   
+                case 'reportrkpdmurni' :                                                   
                     this.toggleDMaster();
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan();
-                    this.toggleReportRKPDMurni(1);
+                    this.toggleReport(1);
                 break;
             }
         }

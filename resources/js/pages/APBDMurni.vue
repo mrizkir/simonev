@@ -641,8 +641,7 @@ export default {
 				required
 			},
 		}
-    },
-    
+    },    
     components: 
 	{
         'vue-autonumeric':VueAutonumeric,

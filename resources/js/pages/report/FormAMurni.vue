@@ -6,7 +6,7 @@
                 <div class="col-sm-12">
                     <h1 class="m-0 text-dark">
                         <i class="nav-icon fas fa-sticky-note"></i>
-                        LAPORAN RKPD MURNI
+                        LAPORAN FORM A MURNI
                     </h1>
                 </div>
                 <div class="col-sm-12">
@@ -15,7 +15,7 @@
                         <li class="breadcrumb-item">
                             LAPORAN
                         </li>
-                        <li class="breadcrumb-item active">RKPD MURNI</li>
+                        <li class="breadcrumb-item active">FORM A MURNI</li>
                     </ol>
                 </div>
             </div>
@@ -164,7 +164,7 @@ export default {
 	{       
         //inisialisasi data halaman
         this.$store.commit('addToPages',{
-                name:'reportrkpdmurni',
+                name:'reportformamurni',
                 OrgID:'',
                 OrgNm:'',
                 SOrgID:'',
@@ -219,7 +219,7 @@ export default {
         },
         fetchUnitKerja()
         {           
-            var page = this.$store.getters.getPage('reportrkpdmurni');
+            var page = this.$store.getters.getPage('reportformamurni');
             page.OrgID=this.OrgID;
             page.OrgNm=this.OrgID.label;
             page.SOrgID='';
@@ -248,7 +248,7 @@ export default {
         },
         filter ()
         {           
-            var page = this.$store.getters.getPage('reportrkpdmurni');
+            var page = this.$store.getters.getPage('reportformamurni');
             page.SOrgID=this.SOrgID;
             page.SOrgNm=this.SOrgNm.label;
             this.$store.commit('replacePage',page);
@@ -266,8 +266,8 @@ export default {
                 default :
                     this.pid = pid;
                     this.fetchOPD();           
-                    this.OrgID=this.$store.getters.getAtributeValueOfPage('reportrkpdmurni','OrgID');      
-                    this.OrgNm=this.$store.getters.getAtributeValueOfPage('reportrkpdmurni','OrgNm');      
+                    this.OrgID=this.$store.getters.getAtributeValueOfPage('reportformamurni','OrgID');      
+                    this.OrgNm=this.$store.getters.getAtributeValueOfPage('reportformamurni','OrgNm');      
                     if (this.OrgID!='')
                     {                                
                         axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
@@ -288,8 +288,8 @@ export default {
                         .catch(response => {
                             this.api_message = response;
                         });                
-                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('reportrkpdmurni','SOrgID');      
-                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('reportrkpdmurni','SOrgNm');    
+                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('reportformamurni','SOrgID');      
+                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('reportformamurni','SOrgNm');    
                     }               
                     this.populateData();              
             }

@@ -228,6 +228,18 @@
 						</a>
 						<ul class="nav nav-treeview" id="ulReport">
 							<li class="nav-item">
+								<router-link to="/report/reportformamurni" class="nav-link" @click.native="changeMenuItem">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>FORM A MURNI</p>
+								</router-link>
+							</li>
+							<li class="nav-item">
+								<router-link to="/report/reportformbmurni" class="nav-link" @click.native="changeMenuItem">
+									<i class="fas fa-circle nav-icon text-warning"></i>
+									<p>FORM B MURNI</p>
+								</router-link>
+							</li>
+							<li class="nav-item">
 								<router-link to="/report/rkpdmurni" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
 									<p>RKPD MURNI</p>
