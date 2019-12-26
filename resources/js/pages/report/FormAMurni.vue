@@ -36,7 +36,30 @@
                 </div>
             </div>
             <div class="row" v-if="pid=='show'">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-bookmark"></i> FILTER</h3>                            
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group row" id="divOrgID">
+                                <label class="col-sm-2 col-form-label">BULAN</label>
+                                <div class="col-sm-10">   
+                                    <v-select 
+                                        v-model="no_bulan" 
+                                        placeholder="PILIH BULAN" 
+                                        :reduce="daftar_bulan => daftar_bulan.code"
+                                        :options="daftar_bulan"
+                                        @input="changeBulan">
+                                    </v-select>
+                                </div>
+                            </div>                
+                        </div>
+                    </div>
+                </div> 
+                <div class="col-12">
 
+                </div>
             </div>
             <div class="row" v-if="pid=='default'">
                 <div class="col-12">
@@ -182,6 +205,7 @@ export default {
             daftar_apbdmurni:{
                 data:{}
             },
+
             //field form search & filter
             OrgID:'',
             OrgNm:'',
@@ -189,6 +213,10 @@ export default {
             SOrgNm:'',
             daftar_opd: [],
             daftar_unitkerja: [],
+
+            //show detail
+            no_bulan:1,
+            daftar_bulan:[],
         }
     },
     methods: 
@@ -269,12 +297,39 @@ export default {
                 this.api_message = response;
             });             
         },
+        changeBulan ()
+        {
+            console.log(this.no_bulan);
+        },
+        generateReport()
+        {
+
+        },
         proc (pid,item=null) 
         {           
             switch (pid)
             {
                 case 'show' :
                     this.pid = pid;
+                    axios.get('/api/v1/report/formamurni/'+item.RKAID,{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        }
+                    })
+                    .then(response => {     
+                        var daftar_bulan = [];
+                        $.each(response.data.daftar_bulan,function(key,value){                            
+                            daftar_bulan.push({
+                                code:key,
+                                label:value
+                            });
+                        });                
+                        this.daftar_bulan=daftar_bulan;   
+                        this.no_bulan=response.data.no_bulan;                              
+                    })
+                    .catch(response => {
+                        this.api_message = response;
+                    });           
                 break;
                 default :
                     this.pid = pid;

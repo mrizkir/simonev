@@ -590,7 +590,8 @@ export default {
                                     label:value
                                 });
                             });                
-                            this.daftar_bulan=daftar_bulan;                      
+                            this.daftar_bulan=daftar_bulan;     
+                            this.no_bulan = response.data.no_bulan;                 
                         })
                         .catch(response => {                        
                             this.api_message = response;
