@@ -191,8 +191,8 @@ const app = new Vue({
                 break;
 
                 //report
-                case 'reportforma' :                                                   
-                case 'reportformb' :                                                   
+                case 'reportformamurni' :                                                   
+                case 'reportformbmurni' :                                                   
                 case 'reportrkpdmurni' :                                                   
                     this.toggleDMaster();
                     this.toggleAPBDMurni();

@@ -35,6 +35,9 @@
                     </div>
                 </div>
             </div>
+            <div class="row" v-if="pid=='show'">
+
+            </div>
             <div class="row" v-if="pid=='default'">
                 <div class="col-12">
                     <div class="card">
@@ -69,87 +72,81 @@
                         </form>
                     </div>
                 </div> 
-            </div>
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h3 class="card-title"></h3>
-                        <div class="card-tools">
-                            
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <div class="card-tools">
+                                
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body table-responsive p-0" v-if="daftar_apbdmurni.data.length">
-                        <table class="table table-striped table-hover mb-2 table-condensed">
-                            <thead>
-                                <tr>
-                                    <th width="55">NO</th>                                      
-                                    <th width="120">
-                                        KODE KEGIATAN
-                                    </th> 
-                                    <th>
-                                        NAMA KEGIATAN  
-                                    </th>                                       
-                                    <th width="80">
-                                        PAGU KEGIATAN  
-                                    </th>                                       
-                                    <th width="80">
-                                        PAGU URAIAN  
-                                    </th>                                       
-                                    <th width="80">
-                                        REALISASI  
-                                    </th>                                       
-                                    <th width="70">
-                                        FISIK(%)  
-                                    </th>                                       
-                                    <th width="70">AKSI</th>
-                                </tr>
-                            </thead>
-                            <tbody>  
-                                <tr v-for="(item,index) in daftar_apbdmurni.data" v-bind:key="item.RKAID">
-                                    <td>{{daftar_apbdmurni.from+index}}</td>
-                                    <td>{{item.kode_kegiatan}}</td>    
-                                    <td>{{item.KgtNm}}</td>
-                                    <td>{{item.PaguDana1|formatUang}}</td>
-                                    <td>{{item.TotalPaguUraian1|formatUang}}</td>
-                                    <td>{{item.TotalRealisasi1|formatUang}}</td>
-                                    <td>{{item.TotalFisik1}}</td>                                            
-                                    <td>
-                                        <div class="dropdown">
-                                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                <i class="fas fa-wrench"></i>
-                                            </button>
-                                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="#" v-on:click.prevent="proc('show',item)">
-                                                    <i class="fas fa-eye"></i> URAIAN
-                                                </a>
-                                                <a class="dropdown-item" href="#" v-on:click.prevent="proc('edit',item)">
-                                                    <i class="fas fa-edit"></i> UBAH
-                                                </a>
-                                                <a class="dropdown-item" v-on:click.prevent="proc('destroy',item)" href="#">
-                                                    <i class="fas fa-trash-alt"></i> HAPUS
-                                                </a>
+                        <div class="card-body table-responsive p-0" v-if="daftar_apbdmurni.data.length">
+                            <table class="table table-striped table-hover mb-2 table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th width="55">NO</th>                                      
+                                        <th width="120">
+                                            KODE KEGIATAN
+                                        </th> 
+                                        <th>
+                                            NAMA KEGIATAN  
+                                        </th>                                       
+                                        <th width="80">
+                                            PAGU KEGIATAN  
+                                        </th>                                       
+                                        <th width="80">
+                                            PAGU URAIAN  
+                                        </th>                                       
+                                        <th width="80">
+                                            REALISASI  
+                                        </th>                                       
+                                        <th width="70">
+                                            FISIK(%)  
+                                        </th>                                       
+                                        <th width="70">AKSI</th>
+                                    </tr>
+                                </thead>
+                                <tbody>  
+                                    <tr v-for="(item,index) in daftar_apbdmurni.data" v-bind:key="item.RKAID">
+                                        <td>{{daftar_apbdmurni.from+index}}</td>
+                                        <td>{{item.kode_kegiatan}}</td>    
+                                        <td>{{item.KgtNm}}</td>
+                                        <td>{{item.PaguDana1|formatUang}}</td>
+                                        <td>{{item.TotalPaguUraian1|formatUang}}</td>
+                                        <td>{{item.TotalRealisasi1|formatUang}}</td>
+                                        <td>{{item.TotalFisik1}}</td>                                            
+                                        <td>
+                                            <div class="dropdown">
+                                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <i class="fas fa-wrench"></i>
+                                                </button>
+                                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('show',item)">
+                                                        <i class="fas fa-eye"></i> DETAIL
+                                                    </a>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>                            
-                    </div>
-                    <div class="card-body table-responsive" v-else>                            
-                        <div class="alert alert-info alert-dismissible">
-                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                            <h5><i class="icon fas fa-info"></i> Info!</h5>
-                            Belum ada data yang bisa ditampilkan.
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>                            
                         </div>
-                    </div>
-                    <div class="card-footer" v-if="daftar_apbdmurni.data.length">                            
-                        <pagination :data="daftar_apbdmurni" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
-                            <span slot="prev-nav">&lt; Prev</span>
-                            <span slot="next-nav">Next &gt;</span>
-                        </pagination>
+                        <div class="card-body table-responsive" v-else>                            
+                            <div class="alert alert-info alert-dismissible">
+                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                <h5><i class="icon fas fa-info"></i> Info!</h5>
+                                Belum ada data yang bisa ditampilkan.
+                            </div>
+                        </div>
+                        <div class="card-footer" v-if="daftar_apbdmurni.data.length">                            
+                            <pagination :data="daftar_apbdmurni" @pagination-change-page="populateData" align="center" :show-disabled="true" :limit="8">
+                                <span slot="prev-nav">&lt; Prev</span>
+                                <span slot="next-nav">Next &gt;</span>
+                            </pagination>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </div>            
         </div>        
     </section>
 </div>
@@ -257,12 +254,28 @@ export default {
         },
         populateData(page=1)
         {           
-            
+            axios.get('/api/v1/apbdmurni?page='+page,{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                    'OrgID':this.OrgID.code,
+                    'SOrgID':this.SOrgID.code,
+                }
+            })
+            .then(response => {        
+                this.apbdmurni=response.data; 
+                this.daftar_apbdmurni = this.apbdmurni.daftar_apbdmurni;                                      
+            })
+            .catch(response => {
+                this.api_message = response;
+            });             
         },
         proc (pid,item=null) 
         {           
             switch (pid)
             {
+                case 'show' :
+                    this.pid = pid;
+                break;
                 default :
                     this.pid = pid;
                     this.fetchOPD();           
