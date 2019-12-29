@@ -25,9 +25,8 @@ class FormAController extends Controller
         //set nama halaman saat ini
         $this->NameOfPage = \Helper::getNameOfPage();
     }
-    private function getDataRKA ($id)
-    {
-        $no_bulan=12;
+    private function getDataRKA ($id,$no_bulan)
+    {        
         $rka = RKAKegiatanModel::select(\DB::raw('"trRKA"."RKAID",
                                             "v_rka"."kode_urusan",
                                             "v_rka"."Nm_Bidang",
@@ -258,43 +257,25 @@ class FormAController extends Controller
      */
     public function index (Request $request) 
     {  
-        $RKAID = $request->RKAID;      
-        $no_bulan = $request->no_bulan;
+        $RKAID = $request->input('RKAID');      
+        $no_bulan = $request->input('no_bulan');
         
-        $rka = $this->getDataRKA($RKAID);
-        
-        return response()->json([
-                                    'rka'=>$rka,
-                                    'generated_html'=>'<h1>Test</h1>'
-                                    // 'tingkat'=>$tingkat,
-                                ],200);
-    }    
-    
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        $rka = $this->getDataRKA($id);
+        $rka = $this->getDataRKA($RKAID,$no_bulan);
         if (is_null($rka) )
         {
             response()->json("ID Kekegiatan ($id) tidak dikenali", 500);
         }  
         else
         {
-            $tingkat = $this->getRekeningProyek();       
-            $bulan=\Helper::getBulan();
+            $tingkat = $this->getRekeningProyek();    
+            $generated_html=view('pages.forma.datatableuraian')->with([
+                                                                        'rka'=>$rka,
+                                                                        'tingkat'=>$tingkat,
+                                                                    ])->render();
             return response()->json([
-                                'daftar_bulan'=>$bulan,
-                                'no_bulan'=>date('n'),
-                                'rka'=>$rka,
-                                'tingkat'=>$tingkat,
-                            ],200);
-           
-        }        
+                                    'RKAID'=>$RKAID,
+                                    'generated_html'=>$generated_html
+                                ],200);
+        }
     }
- 
 }

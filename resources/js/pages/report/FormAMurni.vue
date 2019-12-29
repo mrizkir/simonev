@@ -59,51 +59,15 @@
                 </div> 
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-body table-responsive p-0">
-                            <table class="table table-striped table-bordered mb-2 table-condensed">
-                                 <thead> 
-                                    <tr>
-                                        <th rowspan="3" colspan="5" class="text-center" width="150">KODE <br>REKENING</th>
-                                        <th rowspan="3" width="400" class="text-center">URAIAN</th>
-                                        <th rowspan="2" width="100" class="text-center">JUMLAH</th>
-                                        <th rowspan="2" width="40" class="text-center">BOBOT</th>
-                                        <th colspan="2" class="text-center">REALISASI FISIK</th>
-                                        <th colspan="5" class="text-center">KEUANGAN</th>
-                                        <th rowspan="3" class="text-center">SISA ANGGARAN</th>
-                                    </tr>
-                                    <tr>
-                                        <td rowspan="2" class="text-center">%</td>
-                                        <td rowspan="2" class="text-center">% TTB</td>
-                                        <td colspan="2" class="text-center">RENCANA TARGET</td>
-                                        <td colspan="3" class="text-center">REALISASI</td>
-                                    </tr>
-                                    <tr>
-                                        <td class="text-center">Rp.</td>
-                                        <td class="text-center">%</td>
-                                        <td class="text-center">Rp.</td>
-                                        <td class="text-center">%</td>
-                                        <td class="text-center">Rp.</td>
-                                        <td class="text-center">%</td>
-                                        <td class="text-center">% TTB</td>
-                                    </tr>
-                                    <tr>
-                                        <td colspan="5" class="text-center">1</td>
-                                        <td class="text-center">2</td>
-                                        <td class="text-center">3</td>
-                                        <td class="text-center">4</td>
-                                        <td class="text-center">5</td>
-                                        <td class="text-center">6a</td>
-                                        <td class="text-center">6b</td>
-                                        <td class="text-center">6c</td>
-                                        <td class="text-center">6d</td>
-                                        <td class="text-center">6e</td>
-                                        <td class="text-center">7</td>
-                                        <td class="text-center">8</td>
-                                    </tr>
-                                </thead>
-                                <tbody v-html="html_generated"></tbody>
-                            </table>
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
                         </div>
+                        <div class="card-body table-responsive p-0" v-html="html_generated"></div>
                     </div>
                 </div>
             </div>
@@ -351,6 +315,7 @@ export default {
         },
         changeBulan ()
         {
+            this.html_generated='';
             var page = this.$store.getters.getPage('reportformamurni');
             page.no_bulan=this.no_bulan;
             this.$store.commit('replacePage',page);
@@ -381,6 +346,7 @@ export default {
             {
                 case 'show' :
                     this.pid = pid;
+                    this.html_generated='';
                     var daftar_bulan = this.$store.getters.getConfig(0);
                     this.daftar_bulan=daftar_bulan;   
 

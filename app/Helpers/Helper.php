@@ -127,8 +127,8 @@ class Helper {
 	*/
 	public static function formatPersen ($pembilang,$penyebut=0,$dec_sep=2) {
         $result=0.00;
-		if ($pembilang > 0) {
-            $temp=number_format(((float)$pembilang/$penyebut)*100,$dec_sep);
+		if ((float)$pembilang > 0 && (float)$penyebut > 0) {
+            $temp=number_format(((float)$pembilang/(float)$penyebut)*100,$dec_sep);
             $result = $temp > 100 ? 100.00 : $temp;
         }
         return $result;
@@ -137,9 +137,9 @@ class Helper {
 	* digunakan untuk mem-format pecahan
 	*/
 	public static function formatPecahan ($pembilang,$penyebut=0,$dec_sep=2) {
-        $result=0;
-		if ($pembilang > 0) {
-            $result=number_format(((float)$pembilang/$penyebut),$dec_sep);
+        $result=0.00;
+		if ((float)$pembilang > 0 && (float)$penyebut > 0) {
+            $result=number_format(((float)$pembilang/(float)$penyebut),$dec_sep);
         }
         return $result;
 	}    

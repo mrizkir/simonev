@@ -1,7 +1,7 @@
 @if (count($rka) > 0)
-<table border="1" width="100%" style="font-size:10px">
+<table class="table table-striped table-bordered mb-2 table-condensed">
     <thead> 
-        <tr class="bg-teal-700">
+        <tr>
             <th rowspan="3" colspan="5" class="text-center" width="150">KODE <br>REKENING</th>
             <th rowspan="3" width="400" class="text-center">URAIAN</th>
             <th rowspan="2" width="100" class="text-center">JUMLAH</th>
@@ -10,13 +10,13 @@
             <th colspan="5" class="text-center">KEUANGAN</th>
             <th rowspan="3" class="text-center">SISA ANGGARAN</th>
         </tr>
-        <tr class="bg-teal-700">
+        <tr>
             <td rowspan="2" class="text-center">%</td>
             <td rowspan="2" class="text-center">% TTB</td>
             <td colspan="2" class="text-center">RENCANA TARGET</td>
             <td colspan="3" class="text-center">REALISASI</td>
         </tr>
-        <tr class="bg-teal-700">
+        <tr>
             <td class="text-center">Rp.</td>
             <td class="text-center">%</td>
             <td class="text-center">Rp.</td>
@@ -25,7 +25,7 @@
             <td class="text-center">%</td>
             <td class="text-center">% TTB</td>
         </tr>
-        <tr class="bg-teal-700">
+        <tr>
             <td colspan="5" class="text-center">1</td>
             <td class="text-center">2</td>
             <td class="text-center">3</td>
@@ -262,15 +262,8 @@
                                                             echo '<td colspan="5"></td>';                    
                                                             //$url=$this->Service->constructUrl('d.report.FormADetails',array('id'=>$iduraian));
                                                             $url='#';
-                                                            $tetaut = "<a href=\"$url\">$nama_uraian</a>";
-                                                            echo '<td>';
-                                                            echo '<table width="100%">';
-                                                            echo '<tr>';
-                                                            echo '<td width="5%">&nbsp;</td>';
-                                                            echo '<td>'.$tetaut.'</td>';
-                                                            echo '</tr>';
-                                                            echo '</table>';
-                                                            echo '</td>';
+                                                            $tetaut = "<a href=\"$url\">$nama_uraian</a>";                                                            
+                                                            echo '<td>'.$tetaut.'</td>';                                                            
                                                             echo '<td class="text-right">'.$rp_nilai_uraian.'</td>';                                                        
                                                             echo "<td class=\"text-center\">$persen_bobot</td>";
                                                             echo "<td class=\"text-center\">$persen_fisik</td>";
@@ -383,7 +376,7 @@
 @else
 <table border="1" width="100%" style="font-size:10px">
     <thead> 
-        <tr class="bg-teal-700">
+        <tr>
             <th rowspan="3" colspan="5" class="text-center" width="150">KODE <br>REKENING</th>
             <th rowspan="3" width="400" class="text-center">URAIAN</th>
             <th rowspan="2" width="100" class="text-center">JUMLAH</th>
@@ -392,13 +385,13 @@
             <th colspan="5" class="text-center">KEUANGAN</th>
             <th rowspan="3" class="text-center">SISA ANGGARAN</th>
         </tr>
-        <tr class="bg-teal-700">
+        <tr>
             <td rowspan="2" class="text-center">%</td>
             <td rowspan="2" class="text-center">% TTB</td>
             <td colspan="2" class="text-center">RENCANA TARGET</td>
             <td colspan="3" class="text-center">REALISASI</td>
         </tr>
-        <tr class="bg-teal-700">
+        <tr>
             <td class="text-center">Rp.</td>
             <td class="text-center">%</td>
             <td class="text-center">Rp.</td>
@@ -407,7 +400,7 @@
             <td class="text-center">%</td>
             <td class="text-center">% TTB</td>
         </tr>
-        <tr class="bg-teal-700">
+        <tr>
             <td colspan="5" class="text-center">1</td>
             <td class="text-center">2</td>
             <td class="text-center">3</td>
