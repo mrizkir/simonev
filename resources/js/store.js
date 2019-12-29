@@ -12,7 +12,7 @@ export default {
     getters:{
         getConfig: (state) => (name) =>
         {
-            
+            return state.config[name];
         },
         getPage: (state) => (name) => 
         {
@@ -26,8 +26,60 @@ export default {
         }
     },
     mutations:{
-        init (state) {       
-            
+        init (state) 
+        {       
+            var config;
+            var daftar_bulan=[
+                {
+                    code:1,
+                    label:'Januari'
+                },
+                {
+                    code:2,
+                    label:'Februari'
+                },
+                {
+                    code:3,
+                    label:'Maret'
+                },
+                {
+                    code:4,
+                    label:'April'
+                },
+                {
+                    code:5,
+                    label:'Mei'
+                },
+                {
+                    code:6,
+                    label:'Juni'
+                },
+                {
+                    code:7,
+                    label:'Juli'
+                },
+                {
+                    code:8,
+                    label:'Agustus'
+                },
+                {
+                    code:9,
+                    label:'September'
+                },
+                {
+                    code:10,
+                    label:'Oktober'
+                },
+                {
+                    code:11,
+                    label:'September'
+                },
+                {
+                    code:12,
+                    label:'Desember'
+                }                
+            ];
+            state.config[0]=daftar_bulan;
         },
         addToPages(state, page)
         {

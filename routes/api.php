@@ -146,10 +146,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/apbdperubahan/update4/{uuid}',['uses'=>'RKA\APBDPerubahanController@update4','as'=>'apbdperubahan.update4']);
     
     //REPORT - Form A Murni
-    Route::resource('/report/formamurni', 'Report\FormAController', [
-                                                                    'parameters' => ['formamurni' => 'uuid'],
-                                                                    'only' => ['show']
-                                                                ]);
+    Route::post('/report/formamurni', ['uses'=>'Report\FormAController@index', 'as'=>'formamurni.index']);
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);
     Route::get('/setting/config/all',['uses'=>'Setting\ConfigController@all','as'=>'config.all']);

@@ -256,55 +256,18 @@ class FormAController extends Controller
      *
      * @return resources
      */
-    public function populateData ($currentpage=1) 
-    {        
-        $columns=['*'];       
-        if (!$this->checkStateIsExistSession($this->SessionName,'orderby')) 
-        {            
-           $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>'KgtNm','order'=>'asc']);
-        }
-        $column_order=$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'); 
-        $direction=$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'); 
-
-        if (!$this->checkStateIsExistSession('global_controller','numberRecordPerPage')) 
-        {            
-            $this->putControllerStateSession('global_controller','numberRecordPerPage',10);
-        }
-        $numberRecordPerPage=$this->getControllerStateSession('global_controller','numberRecordPerPage');  
+    public function index (Request $request) 
+    {  
+        $RKAID = $request->RKAID;      
+        $no_bulan = $request->no_bulan;
         
-        //filter
-        if (!$this->checkStateIsExistSession($this->SessionName,'filters')) 
-        {            
-            $this->putControllerStateSession($this->SessionName,'filters',[
-                                                                            'OrgID'=>'',
-                                                                            'SOrgID'=>'',
-                                                                            'changetab'=>'data-uraian-tab',
-                                                                            'bulan_realisasi'=>\HelperKegiatan::getBulanRealisasi() > 9 ? 9:HelperKegiatan::getBulanRealisasi(),
-                                                                            ]);
-        }        
-        $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
-
-        if ($this->checkStateIsExistSession($this->SessionName,'search')) 
-        {
-            $search=$this->getControllerStateSession($this->SessionName,'search');
-            switch ($search['kriteria']) 
-            {
-                case 'KgtNm' :
-                    $data = RKAKegiatanModel::where(['KgtNm'=>$search['isikriteria']])->orderBy($column_order,$direction); 
-                break;                
-            }           
-            $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);  
-        }
-        else
-        {
-            $data = \DB::table(\HelperKegiatan::getViewName($this->NameOfPage))
-                        ->where('SOrgID',$SOrgID)                                            
-                        ->where('TA', \HelperKegiatan::getTahunAnggaran())  
-                        ->where('EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
-                        ->paginate($numberRecordPerPage, $columns, 'page', $currentpage); 
-        }      
-        $data->setPath(route(\Helper::getNameOfPage('index')));
-        return $data;
+        $rka = $this->getDataRKA($RKAID);
+        
+        return response()->json([
+                                    'rka'=>$rka,
+                                    'generated_html'=>'<h1>Test</h1>'
+                                    // 'tingkat'=>$tingkat,
+                                ],200);
     }    
     
     /**

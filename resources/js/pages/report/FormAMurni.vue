@@ -58,7 +58,53 @@
                     </div>
                 </div> 
                 <div class="col-12">
-
+                    <div class="card">
+                        <div class="card-body table-responsive p-0">
+                            <table class="table table-striped table-bordered mb-2 table-condensed">
+                                 <thead> 
+                                    <tr>
+                                        <th rowspan="3" colspan="5" class="text-center" width="150">KODE <br>REKENING</th>
+                                        <th rowspan="3" width="400" class="text-center">URAIAN</th>
+                                        <th rowspan="2" width="100" class="text-center">JUMLAH</th>
+                                        <th rowspan="2" width="40" class="text-center">BOBOT</th>
+                                        <th colspan="2" class="text-center">REALISASI FISIK</th>
+                                        <th colspan="5" class="text-center">KEUANGAN</th>
+                                        <th rowspan="3" class="text-center">SISA ANGGARAN</th>
+                                    </tr>
+                                    <tr>
+                                        <td rowspan="2" class="text-center">%</td>
+                                        <td rowspan="2" class="text-center">% TTB</td>
+                                        <td colspan="2" class="text-center">RENCANA TARGET</td>
+                                        <td colspan="3" class="text-center">REALISASI</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-center">Rp.</td>
+                                        <td class="text-center">%</td>
+                                        <td class="text-center">Rp.</td>
+                                        <td class="text-center">%</td>
+                                        <td class="text-center">Rp.</td>
+                                        <td class="text-center">%</td>
+                                        <td class="text-center">% TTB</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="5" class="text-center">1</td>
+                                        <td class="text-center">2</td>
+                                        <td class="text-center">3</td>
+                                        <td class="text-center">4</td>
+                                        <td class="text-center">5</td>
+                                        <td class="text-center">6a</td>
+                                        <td class="text-center">6b</td>
+                                        <td class="text-center">6c</td>
+                                        <td class="text-center">6d</td>
+                                        <td class="text-center">6e</td>
+                                        <td class="text-center">7</td>
+                                        <td class="text-center">8</td>
+                                    </tr>
+                                </thead>
+                                <tbody v-html="html_generated"></tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="row" v-if="pid=='default'">
@@ -183,12 +229,15 @@ export default {
     mounted()
 	{       
         //inisialisasi data halaman
+        var d = new Date();
+        var bulan = d.getMonth()+1;
         this.$store.commit('addToPages',{
                 name:'reportformamurni',
                 OrgID:'',
                 OrgNm:'',
                 SOrgID:'',
                 SOrgNm:'',
+                no_bulan:bulan,
                 RKAID:'',
                 datarekening:{},
                 datauraian:{},
@@ -198,6 +247,8 @@ export default {
 	},
     data: function() 
 	{
+        var d = new Date();
+        var bulan = d.getMonth()+1;
 		return {
             pid:'default',
             api_message:'',
@@ -215,8 +266,9 @@ export default {
             daftar_unitkerja: [],
 
             //show detail
-            no_bulan:1,
+            no_bulan:bulan,
             daftar_bulan:[],
+            html_generated:'',
         }
     },
     methods: 
@@ -299,11 +351,29 @@ export default {
         },
         changeBulan ()
         {
-            console.log(this.no_bulan);
+            var page = this.$store.getters.getPage('reportformamurni');
+            page.no_bulan=this.no_bulan;
+            this.$store.commit('replacePage',page);
+
+            this.generateReport();
         },
         generateReport()
         {
-
+            var page = this.$store.getters.getPage('reportformamurni');
+            axios.post('/api/v1/report/formamurni',{
+                'RKAID':page.RKAID,
+                'no_bulan':page.no_bulan,
+            },{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {     
+                this.html_generated=response.data.generated_html;                     
+            })
+            .catch(response => {
+                this.api_message = response;
+            });           
         },
         proc (pid,item=null) 
         {           
@@ -311,25 +381,16 @@ export default {
             {
                 case 'show' :
                     this.pid = pid;
-                    axios.get('/api/v1/report/formamurni/'+item.RKAID,{
-                        headers:{
-                            'Authorization': window.laravel.api_token,
-                        }
-                    })
-                    .then(response => {     
-                        var daftar_bulan = [];
-                        $.each(response.data.daftar_bulan,function(key,value){                            
-                            daftar_bulan.push({
-                                code:key,
-                                label:value
-                            });
-                        });                
-                        this.daftar_bulan=daftar_bulan;   
-                        this.no_bulan=response.data.no_bulan;                              
-                    })
-                    .catch(response => {
-                        this.api_message = response;
-                    });           
+                    var daftar_bulan = this.$store.getters.getConfig(0);
+                    this.daftar_bulan=daftar_bulan;   
+
+                    var page = this.$store.getters.getPage('reportformamurni');
+                    page.RKAID = item.RKAID;
+                    
+                    this.no_bulan=page.no_bulan; 
+
+                    this.$store.commit('replacePage',page);
+                    this.generateReport();
                 break;
                 default :
                     this.pid = pid;
