@@ -147,6 +147,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     
     //REPORT - Form A Murni
     Route::post('/report/formamurni', ['uses'=>'Report\FormAController@index', 'as'=>'formamurni.index']);
+    Route::post('/report/formbmurni', ['uses'=>'Report\FormBController@index', 'as'=>'formbmurni.index']);
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);
     Route::get('/setting/config/all',['uses'=>'Setting\ConfigController@all','as'=>'config.all']);

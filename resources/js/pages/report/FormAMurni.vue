@@ -185,7 +185,6 @@
 </div>
 </template>
 <script>
-import VueAutonumeric from 'vue-autonumeric';
 import Pagination from 'laravel-vue-pagination';
 import vSelect from 'vue-select';
 
@@ -392,7 +391,6 @@ export default {
     },
     components: 
 	{
-        'vue-autonumeric':VueAutonumeric,
         'pagination': Pagination,
         'v-select': vSelect,
     }

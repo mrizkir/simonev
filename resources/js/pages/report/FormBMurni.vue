@@ -50,21 +50,10 @@
                                             v-model="OrgID" 
                                             placeholder="PILIH OPD / SKPD" 
                                             :options="daftar_opd"
-                                            @input="fetchUnitKerja">
-                                        </v-select>
-                                    </div>
-                                </div>                               
-                                <div class="form-group row" id="divSOrgID">
-                                    <label class="col-sm-2 col-form-label">UNIT KERJA</label>
-                                    <div class="col-sm-10">
-                                        <v-select 
-                                            v-model="SOrgID" 
-                                            placeholder="PILIH UNIT KERJA" 
-                                            :options="daftar_unitkerja"
                                             @input="filter">
                                         </v-select>
                                     </div>
-                                </div>           
+                                </div>                               
                                 <div class="form-group row" id="divNoBulan">
                                     <label class="col-sm-2 col-form-label">BULAN</label>
                                     <div class="col-sm-10">   
@@ -79,16 +68,25 @@
                                 </div>                        
                             </div>
                         </form>
-                    </div>
+                    </div>                    
                 </div> 
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title"></h3>
+                            <div class="card-tools">
+                                
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive p-0" v-html="html_generated"></div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 </div>
 </template>
 <script>
-import VueAutonumeric from 'vue-autonumeric';
-import Pagination from 'laravel-vue-pagination';
 import vSelect from 'vue-select';
 
 export default {
@@ -101,8 +99,6 @@ export default {
                 name:'reportformbmurni',
                 OrgID:'',
                 OrgNm:'',
-                SOrgID:'',
-                SOrgNm:'',
                 no_bulan:bulan,
                 datarekening:{},
                 datauraian:{},
@@ -125,17 +121,12 @@ export default {
             //field form search & filter
             OrgID:'',
             OrgNm:'',
-            SOrgID:'',
-            SOrgNm:'',
             daftar_opd: [],
-            daftar_unitkerja: [],
             
             //show detail
             no_bulan:bulan,
             daftar_bulan:[],
             html_generated:'',
-            
-
         }
     },
     methods: 
@@ -160,44 +151,15 @@ export default {
             .catch(response => {
                 this.api_message = response;
             });
-        },
-        fetchUnitKerja()
-        {           
-            var page = this.$store.getters.getPage('reportformbmurni');
-            page.OrgID=this.OrgID;
-            page.OrgNm=this.OrgID.label;
-            page.SOrgID='';
-            page.SOrgNm='';
-            this.$store.commit('replacePage',page);
-
-            axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
-                headers:{
-                    'Authorization': window.laravel.api_token,
-                }
-            })
-            .then(response => {     
-                var daftar_unitkerja = [];
-                $.each(response.data,function(key,value){
-                    daftar_unitkerja.push({
-                        code:key,
-                        label:value
-                    });
-                });                
-                this.daftar_unitkerja=daftar_unitkerja;                            
-            })
-            .catch(response => {
-                this.api_message = response;
-            });
-            this.populateData();
-        },
+        },        
         filter ()
         {           
             var page = this.$store.getters.getPage('reportformbmurni');
-            page.SOrgID=this.SOrgID;
-            page.SOrgNm=this.SOrgNm.label;
+            page.OrgID=this.OrgID;
+            page.OrgNm=this.OrgNm.label;
             this.$store.commit('replacePage',page);
 
-            this.populateData();
+            this.generateReport();
         },
         changeBulan ()
         {
@@ -208,9 +170,23 @@ export default {
 
             this.generateReport();
         },
-        populateData(page=1)
-        {           
-            
+        generateReport()
+        {
+            var page = this.$store.getters.getPage('reportformbmurni');
+            axios.post('/api/v1/report/formbmurni',{
+                'OrgID':page.OrgID.code,
+                'no_bulan':page.no_bulan,
+            },{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {     
+                this.html_generated=response.data.generated_html;                     
+            })
+            .catch(response => {
+                this.api_message = response;
+            });           
         },
         proc (pid,item=null) 
         {           
@@ -221,39 +197,20 @@ export default {
                     this.fetchOPD();           
                     this.OrgID=this.$store.getters.getAtributeValueOfPage('reportformbmurni','OrgID');      
                     this.OrgNm=this.$store.getters.getAtributeValueOfPage('reportformbmurni','OrgNm');      
+                    
+                    var daftar_bulan = this.$store.getters.getConfig(0);
+                    this.daftar_bulan=daftar_bulan;   
+                    this.no_bulan=this.$store.getters.getAtributeValueOfPage('reportformbmurni','no_bulan');                    
+
                     if (this.OrgID!='')
                     {                                
-                        axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
-                            headers:{
-                                'Authorization': window.laravel.api_token,
-                            }
-                        })
-                        .then(response => {     
-                            var daftar_unitkerja = [];
-                            $.each(response.data,function(key,value){
-                                daftar_unitkerja.push({
-                                    code:key,
-                                    label:value
-                                });
-                            });                
-                            this.daftar_unitkerja=daftar_unitkerja;                            
-                        })
-                        .catch(response => {
-                            this.api_message = response;
-                        });                
-                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('reportformbmurni','SOrgID');      
-                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('reportformbmurni','SOrgNm');    
-                    }  
-                    var daftar_bulan = this.$store.getters.getConfig(0);
-                    this.daftar_bulan=daftar_bulan;              
-                    this.populateData();              
+                        this.generateReport(); 
+                    }            
             }
         },
     },
     components: 
 	{
-        'vue-autonumeric':VueAutonumeric,
-        'pagination': Pagination,
         'v-select': vSelect,
     }
 }

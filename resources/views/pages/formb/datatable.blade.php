@@ -1,7 +1,7 @@
 @if (count($daftar_program) > 0)
 <div class="table-responsive">
 @php
-    $totalPaguUnit = (float)\DB::table('trRKA')->where('SOrgID',$filters['SOrgID'])->sum('PaguDana1');
+    $totalPaguUnit = (float)\DB::table('trRKA')->where('OrgID',$filters['OrgID'])->sum('PaguDana1');
     $no_huruf=ord('a');                                       
     $jumlah_kegiatan=0;
     $jumlah_uraian=0;
@@ -16,7 +16,7 @@
     $no_bulan = $filters['bulan_realisasi'];
 @endphp
 @if ($totalPaguUnit > 0)
-<table border="1" width="100%" style="font-size:10px">
+<table class="table table-striped table-bordered mb-2 table-condensed">
     <thead>       
         <tr>
             <th rowspan="2" class="text-center">NOMOR</th>
