@@ -1,9 +1,4 @@
 # SIMONEV
-Sistem Informasi Monitoring dan Evaluasi Pembangunan Daerah
+Sistem Informasi Monitoring dan Evaluasi Pembangunan Daerah (SIMONEV) berintegrasi dengan E-Planning sehingga sistem ini tidak bisa berjalan bila e-planning tidak terinstall.
 ## INSTALASI
-### JAVASCRIPT
-Themes yang digunakan oleh SIMONEV adalah DORE. Javascript gagal me-load file theme css karena DORE menggunakan relative path, 
-oleh karena itu ganti menjadi path statis di baris ke 100 pada file "script.js".
-```
-  loadStyle("http://localhost/simonev/public/css/" + theme, onStyleComplete);
-```
+
