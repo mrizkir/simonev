@@ -42,7 +42,7 @@
                             <h3 class="card-title"><i class="fas fa-bookmark"></i> FILTER</h3>                            
                         </div>
                         <div class="card-body">
-                            <div class="form-group row" id="divOrgID">
+                            <div class="form-group row" id="divNoBulan">
                                 <label class="col-sm-2 col-form-label">BULAN</label>
                                 <div class="col-sm-10">   
                                     <v-select 
