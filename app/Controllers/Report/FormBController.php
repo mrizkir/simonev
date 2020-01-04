@@ -55,6 +55,6 @@ class FormBController extends Controller
                                                         ])->render();
         return response()->json([
                                     'generated_html'=>$generated_html
-                                ]);               
+                            ],200);               
     }   
 }

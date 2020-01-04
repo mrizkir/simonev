@@ -79,183 +79,45 @@ class EvaluasiRKPDMurniController extends Controller
         }      
         $data->setPath(route(\Helper::getNameOfPage('index')));
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage (Request $request) 
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller','numberRecordPerPage',$numberRecordPerPage);
-        
-        $this->setCurrentPageInsideSession($this->SessionName,1);
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.report.evaluasirkpdm.datatable")->with(['page_active'=>$this->SessionName,
-                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                                'data'=>$data])->render();      
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }
-    /**
-     * digunakan untuk mengurutkan record 
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby (Request $request) 
-    {
-        $theme = 'dore';
-
-        $orderby = $request->input('orderby') == 'asc'?'desc':'asc';
-        $column=$request->input('column_name');
-        switch($column) 
-        {
-            case 'Nm_Sasaran' :
-                $column_name = 'Nm_Sasaran';
-            break;           
-            default :
-                $column_name = 'Nm_Sasaran';
-        }
-        $this->putControllerStateSession($this->SessionName,'orderby',['column_name'=>$column_name,'order'=>$orderby]);      
-
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName);         
-        $data=$this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        
-        $datatable = view("pages.$theme.report.evaluasirkpdm.datatable")->with(['page_active'=>$this->SessionName,
-                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                            'data'=>$data])->render();     
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);
-    }
-    
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate ($id) 
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession($this->SessionName,$id);
-        $data=$this->populateData($id);
-        $datatable = view("pages.$theme.report.evaluasirkpdm.datatable")->with(['page_active'=>$this->SessionName,
-                                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                            'data'=>$data])->render(); 
-
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
-    }
-    /**
-     * filter resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function filter(Request $request) 
-    {
-        $auth = \Auth::user();    
-        $theme = 'dore';
-
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $json_data = [];
-
-        //index
-        if ($request->exists('OrgIDRPJMD'))
-        {
-            $OrgIDRPJMD = $request->input('OrgIDRPJMD')==''?'':$request->input('OrgIDRPJMD');
-            $filters['OrgIDRPJMD']=$OrgIDRPJMD;            
-            $this->putControllerStateSession($this->SessionName,'filters',$filters);
-            $data = $this->populateData();
-            $datatable = view("pages.$theme.report.evaluasirkpdm.datatable")->with(['page_active'=>$this->SessionName,   
-                                                                            'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                            'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                            'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                            'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                            'data'=>$data])->render();
-
-          
-            $json_data = ['success'=>true,'datatable'=>$datatable];
-        }     
-        return response()->json($json_data,200);  
-    }
-    /**
-     * search resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search (Request $request) 
-    {
-        $theme = 'dore';
-
-        $action = $request->input('action');
-        if ($action == 'reset') 
-        {
-            $this->destroyControllerStateSession($this->SessionName,'search');
-        }
-        else
-        {
-            $kriteria = $request->input('cmbKriteria');
-            $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession($this->SessionName,'search',['kriteria'=>$kriteria,'isikriteria'=>$isikriteria]);
-        }      
-        $this->setCurrentPageInsideSession($this->SessionName,1);
-        $data=$this->populateData();
-
-        $datatable = view("pages.$theme.report.evaluasirkpdm.datatable")->with(['page_active'=>$this->SessionName,                                                            
-                                                                                'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),
-                                                                                'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                                'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                                'data'=>$data])->render();      
-        
-        return response()->json(['success'=>true,'datatable'=>$datatable],200);        
-    }
+    }        
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    {                
-        $theme = 'dore';
+    {      
+        $OrgID = $request->input('OrgID');
 
-        $filters=$this->getControllerStateSession($this->SessionName,'filters');
-        $search=$this->getControllerStateSession($this->SessionName,'search');
-        $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName); 
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage())
-        {            
-            $data = $this->populateData($data->lastPage());
-        }
-        $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
-        $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false);
-        $daftar_opd['']='';             
-        return view("pages.$theme.report.evaluasirkpdm.index")->with(['page_active'=>$this->SessionName,
-                                                                    'daftar_opd'=>$daftar_opd,
-                                                                    'filters'=>$filters,
-                                                                    'search'=>$this->getControllerStateSession($this->SessionName,'search'),
-                                                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
-                                                                    'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
-                                                                    'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
-                                                                    'data'=>$data]);               
+        //dapatkan daftar sasaran yang terkait dengan OrgID
+        $daftar_sasaran = [];
+        $generated_html = view("pages.evaluasirkpdm.datatable")->with([
+                                                                    'daftar_sasaran'=>$daftar_sasaran,
+                                                                    ])->render();
+        return response()->json([
+                                'OrgID'=>$OrgID,
+                                'generated_html'=>$generated_html
+                                ],200);          
+
+        // $filters=$this->getControllerStateSession($this->SessionName,'filters');
+        // $search=$this->getControllerStateSession($this->SessionName,'search');
+        // $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession($this->SessionName); 
+        // $data = $this->populateData($currentpage);
+        // if ($currentpage > $data->lastPage())
+        // {            
+        //     $data = $this->populateData($data->lastPage());
+        // }
+        // $this->setCurrentPageInsideSession($this->SessionName,$data->currentPage());
+        // $daftar_opd=\App\Models\DMaster\OrganisasiRPJMDModel::getDaftarOPDMaster(\HelperKegiatan::getRPJMDTahunMulai(),false);
+        // $daftar_opd['']='';             
+        // return view("pages.$theme.report.evaluasirkpdm.index")->with(['page_active'=>$this->SessionName,
+        //                                                             'daftar_opd'=>$daftar_opd,
+        //                                                             'filters'=>$filters,
+        //                                                             'search'=>$this->getControllerStateSession($this->SessionName,'search'),
+        //                                                             'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+        //                                                             'column_order'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'column_name'),
+        //                                                             'direction'=>$this->getControllerStateSession(\Helper::getNameOfPage('orderby'),'order'),
+        //                                                             'data'=>$data]);               
     }     
     /**
      * Display the specified resource.

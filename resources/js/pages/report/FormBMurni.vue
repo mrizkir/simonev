@@ -22,7 +22,6 @@
         </div>
     </section>  
     <!-- Main content -->
-    <!-- Main content -->
     <section class="content">
         <div class="container-fluid">
             <div class="row" v-if="api_message">
@@ -100,9 +99,6 @@ export default {
                 OrgID:'',
                 OrgNm:'',
                 no_bulan:bulan,
-                datarekening:{},
-                datauraian:{},
-                detailkegiatan:{}
         });
 		this.proc ('default');   
 	},
@@ -114,10 +110,7 @@ export default {
 		return {
             pid:'default',
             api_message:'',
-
-            daftar_apbdmurni:{
-                data:{}
-            },
+            
             //field form search & filter
             OrgID:'',
             OrgNm:'',
