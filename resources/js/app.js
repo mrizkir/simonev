@@ -193,7 +193,7 @@ const app = new Vue({
                 //report
                 case 'reportformamurni' :                                                   
                 case 'reportformbmurni' :                                                   
-                case 'reportrkpdmurni' :                                                   
+                case 'reportevaluasirkpdmurni' :                                                   
                     this.toggleDMaster();
                     this.toggleAPBDMurni();
                     this.toggleAPBDPerubahan();

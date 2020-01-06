@@ -240,9 +240,9 @@
 								</router-link>
 							</li>
 							<li class="nav-item">
-								<router-link to="/report/rkpdmurni" class="nav-link" @click.native="changeMenuItem">
+								<router-link to="/report/evaluasirkpdmurni" class="nav-link" @click.native="changeMenuItem">
 									<i class="fas fa-circle nav-icon text-warning"></i>
-									<p>RKPD MURNI</p>
+									<p>EVALUASI RKPD MURNI</p>
 								</router-link>
 							</li>
 						</ul>

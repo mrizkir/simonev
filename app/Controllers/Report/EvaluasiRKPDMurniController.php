@@ -7,6 +7,7 @@ use App\Controllers\Controller;
 use App\Models\RKA\RKAKegiatanModel;
 use App\Models\RKA\RKARincianKegiatanModel;
 use App\Models\RKA\RKARealisasiRincianKegiatanModel;
+use App\Models\RPJMD\RPJMDSasaranModel;
 
 class EvaluasiRKPDMurniController extends Controller 
 {
@@ -87,15 +88,15 @@ class EvaluasiRKPDMurniController extends Controller
      */
     public function index(Request $request)
     {      
-        $OrgID = $request->input('OrgID');
 
         //dapatkan daftar sasaran yang terkait dengan OrgID
-        $daftar_sasaran = [];
+        $daftar_sasaran = RPJMDSasaranModel::where('TA',\HelperKegiatan::getRPJMDTahunMulai())
+                                            ->get();
+                                            
         $generated_html = view("pages.evaluasirkpdm.datatable")->with([
                                                                     'daftar_sasaran'=>$daftar_sasaran,
                                                                     ])->render();
         return response()->json([
-                                'OrgID'=>$OrgID,
                                 'generated_html'=>$generated_html
                                 ],200);          
 

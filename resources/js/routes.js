@@ -73,7 +73,7 @@ import APBDPerubahanUraianRealisasi from './pages/apbdperubahan/APBDPerubahanUra
 //REPORT
 import FormAMurni from './pages/report/FormAMurni.vue';
 import FormBMurni from './pages/report/FormBMurni.vue';
-import RKPDMurni from './pages/report/RKPDMurni.vue';
+import EvaluasiRKPDMurni from './pages/report/EvaluasiRKPDMurni.vue';
 
 export const routes =  [
     {
@@ -342,11 +342,11 @@ export const routes =  [
         component: FormBMurni
     },        
     {
-        name:'reportrkpdmurni',
-        path: '/report/rkpdmurni',
+        name:'reportevaluasirkpdmurni',
+        path: '/report/evaluasirkpdmurni',
         meta:{
-            title: "LAPORAN RKPD MURNI"
+            title: "LAPORAN EVALUASI RKPD MURNI"
         },
-        component: RKPDMurni
+        component: EvaluasiRKPDMurni
     },        
 ];
