@@ -1,4 +1,4 @@
-@if (count($daftar_sasaran) > 0)
+@if (count($data) > 0)
 <table class="table table-bordered mb-2 table-condensed">
     <thead class="text-center">
         <tr>
@@ -58,15 +58,23 @@
             <th>K</th>
             <th>Rp</th>
             <th>K</th>
-            <th>Rp</th>
-            
+            <th>Rp</th>            
         </tr>
     </thead>
     <tbody>
-        @foreach ($daftar_sasaran as $key=>$item)
+        @foreach ($data as $key=>$item)
         <tr>
-        <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
+            <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
         </tr>
+        @if (strlen($item->kode)>0)
+        <tr>
+            <tr>
+                <td></td>
+                <td>{{$item->kode}}</td>
+                <td>{{$item->Nm_Bidang}}</td>
+            </tr>
+        </tr>
+        @endif
         @endforeach 
     </tbody>
 </table>

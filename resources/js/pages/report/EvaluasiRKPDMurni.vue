@@ -40,7 +40,9 @@
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                             <div class="card-tools">
-                                
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="populateData">
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
                             </div>
                         </div>
                         <div class="card-body table-responsive p-0" v-html="html_generated"></div>
@@ -86,6 +88,32 @@ export default {
             .catch(response => {
                 this.api_message = response;
             });           
+        },
+        populateData()
+        {
+            this.$swal({
+                title: '<i class="fas fa-spin fa-spinner"></i>',
+                text: "Refresh data evaluasi RKPD",
+                showCancelButton: false,
+                showConfirmButton: false,
+                showCloseButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                allowEnterKey: false,
+            }); 
+            axios.get('/api/v1/report/reportevaluasirkpdmurni/populatedata',
+            {
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {     
+                this.html_generated=response.data.generated_html;                     
+            })
+            .catch(response => {
+                this.api_message = response;
+            });  
+            this.$swal.close();
         },
         proc (pid,item=null) 
         {           
