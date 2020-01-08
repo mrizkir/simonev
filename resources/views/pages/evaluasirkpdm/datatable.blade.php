@@ -63,9 +63,6 @@
     </thead>
     <tbody>
         @foreach ($data as $key=>$item)
-        <tr>
-            <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
-        </tr>
         @if (strlen($item->kode)>0)
         <tr>            
             <tr>
@@ -73,6 +70,10 @@
                 <td>{{$item->kode}}</td>
                 <td>{{$item->Nm_Bidang}}</td>
             </tr>
+        </tr>
+        @else
+        <tr>
+            <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
         </tr>
         @endif
         @endforeach 

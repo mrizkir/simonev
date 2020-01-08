@@ -99,8 +99,8 @@ class EvaluasiRKPDMurniController extends Controller
                                     $nama_bidang=$item->Nm_Bidang;
                                     $data_urusan=['TA'=>\HelperKegiatan::getTahunPerencanaan(),
                                         'kode'=>$kode_bidang,
-                                        'PrioritasSasaranKabID'=>$PrioritasSasaranKabID,                       
-                                        'Nm_Sasaran'=>$Nm_Sasaran,                       
+                                        'PrioritasSasaranKabID'=>'',                       
+                                        'Nm_Sasaran'=>'',                       
                                         'Nm_Urusan'=>$nama_urusan,  
                                         'Nm_Bidang'=>$nama_bidang,                     
                                         'PrgNm'=>'',                       
