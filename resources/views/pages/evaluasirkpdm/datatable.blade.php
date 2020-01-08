@@ -69,6 +69,9 @@
         @if (strlen($item->kode)>0)
         <tr>
             <tr>
+                <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
+            </tr>
+            <tr>
                 <td></td>
                 <td>{{$item->kode}}</td>
                 <td>{{$item->Nm_Bidang}}</td>
