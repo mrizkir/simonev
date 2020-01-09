@@ -60,10 +60,10 @@ class IgnoreIfDataIsEqualValidation implements Rule
         {
             foreach ($this->clauses as $k=>$v)
             {
-                switch ($k)
+                switch ($v[0])
                 {
-                    case 'where' :
-                        $table->where([$v]);
+                    case 'where' :                        
+                        $table->where($v[1],$v[2],$v[3]);
                     break;
                 }
             }                

@@ -17,6 +17,11 @@ class OrganisasiController extends Controller
     {
         parent::__construct();
     }
+    public function getdaftaropd (Request $request)
+    {
+        $daftar_opd=\App\Models\DMaster\OrganisasiModel::getDaftarOPD(\HelperKegiatan::getTahunAnggaran(),false);  
+        return response()->json($daftar_opd,200);
+    }
     /**
      * collect data from resources for index view
      *
@@ -62,93 +67,7 @@ class OrganisasiController extends Controller
         return $data;
 
     }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage(Request $request)
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-        $this->setCurrentPageInsideSession('organisasi', 1);
-        $data = $this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active' => 'organisasi',
-                                                                                'search' => $this->getControllerStateSession('organisasi', 'search'),
-                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-                                                                                'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-                                                                                'data' => $data])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * digunakan untuk mengurutkan record
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby(Request $request)
-    {
-        $theme = 'dore';
-
-        $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
-        $column = $request->input('column_name');
-        switch ($column) {
-            case 'kode_organisasi':
-                $column_name = 'kode_organisasi';
-                break;
-            case 'NmOrg':
-                $column_name = 'NmOrg';
-                break;
-            case 'Nm_Urusan':
-                $column_name = 'Nm_Urusan';
-                break;
-            default:
-                $column_name = 'kode_organisasi';
-        }
-        $this->putControllerStateSession('organisasi', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
-
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('organisasi');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-        }
-
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active' => 'organisasi',
-                                                                                'search' => $this->getControllerStateSession('organisasi', 'search'),
-                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-                                                                                'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-                                                                                'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate($id)
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession('organisasi', $id);
-        $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with([
-            'page_active' => 'organisasi',
-            'search' => $this->getControllerStateSession('organisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-            'data' => $data
-        ])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
+   
     /**
      * search resource in storage.
      *
@@ -157,8 +76,6 @@ class OrganisasiController extends Controller
      */
     public function search(Request $request)
     {
-        $theme = 'dore';
-
         $action = $request->input('action');
         if ($action == 'reset') {
             $this->destroyControllerStateSession('organisasi', 'search');
@@ -170,14 +87,12 @@ class OrganisasiController extends Controller
         $this->setCurrentPageInsideSession('organisasi', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.organisasi.datatable")->with(['page_active' => 'organisasi',
-            'search' => $this->getControllerStateSession('organisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-            'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+        return response()->json(['page_active'=>'organisasi',
+                                'search'=>$this->getControllerStateSession('organisasi','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                'daftar_organisasi'=>$data],200);  
     }
     /**
      * Show the form for creating a new resource.
@@ -186,24 +101,19 @@ class OrganisasiController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
-
-        $search = $this->getControllerStateSession('organisasi', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('organisasi');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
         }
         $this->setCurrentPageInsideSession('organisasi', $data->currentPage());
-
-        return view("pages.$theme.dmaster.organisasi.index")->with(['
-            page_active' => 'organisasi',
-            'search' => $this->getControllerStateSession('organisasi', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('organisasi.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('organisasi.orderby', 'order'),
-            'data' => $data,
-        ]);
+   
+        return response()->json(['page_active'=>'organisasi',
+                                'search'=>$this->getControllerStateSession('organisasi','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('organisasi.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('organisasi.orderby','order'),
+                                'daftar_organisasi'=>$data],200);  
     }
     /**
      * Display the specified resource.
@@ -213,17 +123,9 @@ class OrganisasiController extends Controller
      */
     public function show($id)
     {
-        $theme = 'dore';
-
         $data = OrganisasiModel::leftJoin('v_urusan_organisasi', 'v_urusan_organisasi.OrgID', 'tmOrg.OrgID')
-            ->where('tmOrg.OrgID', $id)
-            ->firstOrFail(['tmOrg.OrgID', 'v_urusan_organisasi.kode_organisasi', 'tmOrg.OrgNm', 'v_urusan_organisasi.Nm_Urusan', 'tmOrg.TA']);
+                ->find($id);
 
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.organisasi.show")->with(['page_active' => 'organisasi',
-                'data' => $data,
-            ]);
-        }
-
+        return response()->json($data,200);
     }
 }

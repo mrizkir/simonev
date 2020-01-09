@@ -41,139 +41,23 @@ class KelompokController extends Controller
         $data = KelompokModel::select(\DB::raw('
                                                 "tmKlp"."KlpID",
                                                 "tmKlp"."StrID",
-                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2") AS "Kd_Rek_2",
-                                                "tmKlp"."KlpNm",
+                                                "tmKlp"."Kd_Rek_2",
+                                                CONCAT("tmStr"."Kd_Rek_1",\'.\',"tmKlp"."Kd_Rek_2") AS "kode_rek2",
+                                                "tmKlp"."KlpNm",                                                
+                                                "tmKlp"."Descr",
+                                                "tmKlp"."TA",
                                                 "tmKlp"."created_at",
                                                 "tmKlp"."updated_at"
                                             '))
             ->join('tmStr', 'tmStr.StrID', 'tmKlp.StrID')
             ->where('tmKlp.TA', \HelperKegiatan::getTahunAnggaran())
-            ->orderBy($column_order, $direction)
+            ->orderBy('tmStr.Kd_Rek_1', 'ASC')
+            ->orderBy('tmKlp.Kd_Rek_2', 'ASC')
             ->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
 
         $data->setPath(route('kelompok.index'));
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage(Request $request)
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-        $this->setCurrentPageInsideSession('kelompok', 1);
-        $data = $this->populateData();
-
-
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * digunakan untuk mengurutkan record
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby(Request $request)
-    {
-        $theme = 'dore';
-
-        $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
-        $column = $request->input('column_name');
-        switch ($column) {
-            case 'col-KlpID':
-                $column_name = 'KlpID';
-                break;
-            case 'col-KlpNm':
-                $column_name = 'KlpNm';
-                break;
-            default:
-                $column_name = 'KlpID';
-        }
-        $this->putControllerStateSession('kelompok', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
-
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompok');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-        }
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate($id)
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession('kelompok', $id);
-        $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
-            'data' => $data
-        ])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * search resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $theme = 'dore';
-
-        $action = $request->input('action');
-        if ($action == 'reset') {
-            $this->destroyControllerStateSession('kelompok', 'search');
-        } else {
-            $kriteria = $request->input('cmbKriteria');
-            $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('kelompok', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
-        }
-        $this->setCurrentPageInsideSession('kelompok', 1);
-        $data = $this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
-            'data' => $data
-        ])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
+    }      
     /**
      * Show the form for creating a new resource.
      *
@@ -181,37 +65,31 @@ class KelompokController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
-
-        $search = $this->getControllerStateSession('kelompok', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompok');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) {
             $data = $this->populateData($data->lastPage());
+            $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('kelompok', $data->currentPage());
+        $this->setCurrentPageInsideSession('kelompok', $currentpage);
 
-        return view("pages.$theme.dmaster.kelompok.index")->with([
-            'page_active' => 'kelompok',
-            'search' => $this->getControllerStateSession('kelompok', 'search'),
-            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-            'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-            'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
-            'data' => $data,
-        ]);
+
+        return response()->json(['page_active'=>'kelompok',
+                                'search'=>$this->getControllerStateSession('kelompok','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('kelompok.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('kelompok.orderby','order'),
+                                'daftar_kelompok'=>$data],200);   
     }
-    /**
+     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
-    {
-        $theme = 'dore';
-        return view("pages.$theme.dmaster.kelompok.create")->with([
-            'page_active' => 'kelompok',
-
-        ]);
+    {        
+        $daftar_transaksi=\App\Models\DMaster\TransaksiModel::getDaftarTransaksi(\HelperKegiatan::getTahunAnggaran(),false);
+        return response()->json($daftar_transaksi,200);  
     }
     /**
      * Store a newly created resource in storage.
@@ -221,68 +99,37 @@ class KelompokController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(),[
             'Kd_Rek_2' => [
-                new CheckRecordIsExistValidation('tmKlp', ['where' => ['StrID', '=', $request->input('StrID')]]),
+                new CheckRecordIsExistValidation('tmKlp', [['where','StrID', '=', $request->input('StrID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
             ],
-            'KlpNm' => 'required|min:5',
+            'KlpNm' => 'required',
         ]);
 
-        $kelompok = KelompokModel::create([
-            'KlpID' => uniqid('uid'),
-            'StrID' => $request->input('StrID'),
-            'Kd_Rek_2' => $request->input('Kd_Rek_2'),
-            'KlpNm' => $request->input('KlpNm'),
-            'Descr' => $request->input('Descr'),
-            'TA' => \HelperKegiatan::getTahunAnggaran(),
-        ]);
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Data ini telah berhasil disimpan.'
-            ]);
-        } else {
-            return redirect(route('kelompok.show', ['uuid' => $kelompok->KlpID]))->with('success', 'Data ini telah berhasil disimpan.');
+        if ($validator->fails())
+        {
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],422);
         }
-    }
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function show($uuid)
-    {
-        $theme = 'dore';
-
-        $data = KelompokModel::where('KlpID', $uuid)->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.kelompok.show")->with([
-                'page_active' => 'kelompok',
-                'data' => $data,
+        else
+        {
+            $kelompok = KelompokModel::create([
+                'KlpID' => uniqid('uid'),
+                'StrID' => $request->input('StrID'),
+                'Kd_Rek_2' => $request->input('Kd_Rek_2'),
+                'KlpNm' => $request->input('KlpNm'),
+                'Descr' => $request->input('Descr'),
+                'TA' => \HelperKegiatan::getTahunAnggaran(),
             ]);
-        }
-    }
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $uuid
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($uuid)
-    {
-        $theme = 'dore';
 
-        $data = KelompokModel::findOrFail($uuid);
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.kelompok.edit")->with([
-                'page_active' => 'rkakegiatanmurni',
-                'data' => $data
-            ]);
+            return response()->json([            
+                'message'=>'Data kelompok telah berhasil disimpan.'
+            ],200);
+
         }
     }
     /**
@@ -294,32 +141,33 @@ class KelompokController extends Controller
     public function update(Request $request, $uuid)
     {
         $kelompok = KelompokModel::findOrFail($uuid);
-        $this->validate($request, [
+        $validator = \Validator::make($request->all(),[
             'Kd_Rek_2' => [
-                new IgnoreIfDataIsEqualValidation('tmKlp', $kelompok->Kd_Rek_2, ['where' => ['StrID', '=', $request->input('StrID')]]),
+                new IgnoreIfDataIsEqualValidation('tmKlp', $kelompok->Kd_Rek_2, [['where','StrID', '=', $request->input('StrID')]]),
                 'required',
                 'min:1',
                 'regex:/^[0-9]+$/'
             ],
-            'KlpNm' => 'required|min:5',
+            'KlpNm' => 'required',
         ]);
 
-        $kelompok->StrID = $request->input('StrID');
-        $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2');
-        $kelompok->KlpNm = $request->input('KlpNm');
-        $kelompok->Descr = $request->input('Descr ');
-        $kelompok->TA = \HelperKegiatan::getTahunAnggaran();
-        $kelompok->StrID = $request->input('StrID');
-        $kelompok->save();
+        if ($validator->fails())
+        {
+            return response()->json([            
+                'message'=>$validator->errors(),
+            ],422);
+        }
+        else
+        {
+            $kelompok->StrID = $request->input('StrID');
+            $kelompok->Kd_Rek_2 = $request->input('Kd_Rek_2');
+            $kelompok->KlpNm = $request->input('KlpNm');
+            $kelompok->Descr = $request->input('Descr ');
+            $kelompok->save();
 
-
-        if ($request->ajax()) {
-            return response()->json([
-                'success' => true,
-                'message' => 'Data ini telah berhasil disimpan.'
-            ]);
-        } else {
-            return redirect(route('kelompok.show', ['uuid' => $kelompok->KlpID]))->with('success', 'Data ini telah berhasil disimpan.');
+            return response()->json([            
+                'message'=>'Data kelompok telah berhasil diubah.'
+            ],200);
         }
     }
     /**
@@ -330,28 +178,8 @@ class KelompokController extends Controller
      */
     public function destroy(Request $request, $uuid)
     {
-        $theme = 'dore';
         $kelompok = KelompokModel::find($uuid);
-
         $result = $kelompok->delete();
-        if ($request->ajax()) {
-            $currentpage = $this->getCurrentPageInsideSession('kelompok');
-            $data = $this->populateData($currentpage);
-            if ($currentpage > $data->lastPage()) {
-                $data = $this->populateData($data->lastPage());
-            }
-            $datatable = view("pages.$theme.dmaster.kelompok.datatable")->with([
-                'page_active' => 'kelompok',
-                'search' => $this->getControllerStateSession('kelompok', 'search'),
-                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                'column_order' => $this->getControllerStateSession('kelompok.orderby', 'column_name'),
-                'direction' => $this->getControllerStateSession('kelompok.orderby', 'order'),
-                'data' => $data
-            ])->render();
-
-            return response()->json(['success' => true, 'datatable' => $datatable], 200);
-        } else {
-            return redirect(route('kelompok.index'))->with('success', "Data ini dengan ($uuid) telah berhasil dihapus.");
-        }
+        return response()->json(['message'=>"data kelompok dengan ID ($uuid) Berhasil di Hapus"],200);
     }
 }

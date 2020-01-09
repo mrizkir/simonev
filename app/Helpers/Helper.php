@@ -7,21 +7,21 @@ class Helper {
     /*
      * nama bulan dalam bahasa indonesia
      */
-    private static $Bulan = array('none'=>' ',1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember');
+    private static $Bulan = array(1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September', 10=>'Oktober', 11=>'November', 12=>'Desember');
     
     /*
      * nama bulan dalam bahasa indonesia
      */
-    private static $BulanM = ['none'=>' ',1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September'];
+    private static $BulanM = [1=>'Januari', 2=>'Februari', 3=>'Maret', 4=>'April', 5=>'Mei',6=>'Juni', 7=>'Juli', 8=>'Agustus', 9=>'September'];
     
     /*
      * nama bulan dalam bahasa indonesia
      */
-    private static $BulanP = array('none'=>' ', 10=>'Oktober', 11=>'November', 12=>'Desember');
+    private static $BulanP = array(10=>'Oktober', 11=>'November', 12=>'Desember');
     /**
      * digunakan untuk mendapatkan bulan
      */
-    public static function getBulan($idx=null,$prepend=false) {
+    public static function getBulan($idx=null) {
         if ($idx === null) {
             return Helper::$Bulan;
         }else{
@@ -127,8 +127,8 @@ class Helper {
 	*/
 	public static function formatPersen ($pembilang,$penyebut=0,$dec_sep=2) {
         $result=0.00;
-		if ($pembilang > 0) {
-            $temp=number_format(((float)$pembilang/$penyebut)*100,$dec_sep);
+		if ((float)$pembilang > 0 && (float)$penyebut > 0) {
+            $temp=number_format(((float)$pembilang/(float)$penyebut)*100,$dec_sep);
             $result = $temp > 100 ? 100.00 : $temp;
         }
         return $result;
@@ -137,9 +137,9 @@ class Helper {
 	* digunakan untuk mem-format pecahan
 	*/
 	public static function formatPecahan ($pembilang,$penyebut=0,$dec_sep=2) {
-        $result=0;
-		if ($pembilang > 0) {
-            $result=number_format(((float)$pembilang/$penyebut),$dec_sep);
+        $result=0.00;
+		if ((float)$pembilang > 0 && (float)$penyebut > 0) {
+            $result=number_format(((float)$pembilang/(float)$penyebut),$dec_sep);
         }
         return $result;
 	}    

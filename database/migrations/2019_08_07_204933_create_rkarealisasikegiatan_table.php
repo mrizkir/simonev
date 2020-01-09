@@ -23,6 +23,8 @@ class CreateRkarealisasikegiatanTable extends Migration
             $table->decimal('target2',15,2);
             $table->decimal('realisasi1',15,2);            
             $table->decimal('realisasi2',15,2);            
+            $table->decimal('target_fisik1',5,2);            
+            $table->decimal('target_fisik2',5,2);            
             $table->decimal('fisik1',5,2);            
             $table->decimal('fisik2',5,2);            
             $table->tinyInteger('EntryLvl')->default(0);

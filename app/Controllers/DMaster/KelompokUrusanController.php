@@ -40,121 +40,7 @@ class KelompokUrusanController extends Controller
 
         $data->setPath(route('kelompokurusan.index'));
         return $data;
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage(Request $request)
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-        $this->setCurrentPageInsideSession('kelompokurusan', 1);
-        $data = $this->populateData();
-
-
-        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active' => 'kelompokurusan',
-                                                                                    'search' => $this->getControllerStateSession('kelompokurusan', 'search'),
-                                                                                    'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                    'column_order' => $this->getControllerStateSession('kelompokurusan.orderby', 'column_name'),
-                                                                                    'direction' => $this->getControllerStateSession('kelompokurusan.orderby', 'order'),
-                                                                                    'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * digunakan untuk mengurutkan record
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby(Request $request)
-    {
-        $theme = 'dore';
-
-        $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
-        $column = $request->input('column_name');
-        switch ($column) {
-            case 'col-Kd_Urusan':
-                $column_name = 'Kd_Urusan';
-                break;
-            case 'col-Nm_Urusan':
-                $column_name = 'Nm_Urusan';
-                break;
-            default:
-                $column_name = 'Kd_Urusan';
-        }
-        $this->putControllerStateSession('kelompokurusan', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
-
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompokurusan');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-        }
-        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active' => 'kelompokurusan',
-                                                                            'search' => $this->getControllerStateSession('kelompokurusan', 'search'),
-                                                                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                            'column_order' => $this->getControllerStateSession('kelompokurusan.orderby', 'column_name'),
-                                                                            'direction' => $this->getControllerStateSession('kelompokurusan.orderby', 'order'),
-                                                                            'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate($id)
-    {
-        $theme = 'dore';
-
-        $this->setCurrentPageInsideSession('kelompokurusan', $id);
-        $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with([
-                                                                                    'page_active' => 'kelompokurusan',
-                                                                                    'search' => $this->getControllerStateSession('kelompokurusan', 'search'),
-                                                                                    'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                    'column_order' => $this->getControllerStateSession('kelompokurusan.orderby', 'column_name'),
-                                                                                    'direction' => $this->getControllerStateSession('kelompokurusan.orderby', 'order'),
-                                                                                    'data' => $data
-                                                                                ])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * search resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function search(Request $request)
-    {
-        $theme = 'dore';
-
-        $action = $request->input('action');
-        if ($action == 'reset') {
-            $this->destroyControllerStateSession('kelompokurusan', 'search');
-        } else {
-            $kriteria = $request->input('cmbKriteria');
-            $isikriteria = $request->input('txtKriteria');
-            $this->putControllerStateSession('kelompokurusan', 'search', ['kriteria' => $kriteria, 'isikriteria' => $isikriteria]);
-        }
-        $this->setCurrentPageInsideSession('kelompokurusan', 1);
-        $data = $this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.kelompokurusan.datatable")->with(['page_active' => 'kelompokurusan',
-                                                                                'search' => $this->getControllerStateSession('kelompokurusan', 'search'),
-                                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                                'column_order' => $this->getControllerStateSession('kelompokurusan.orderby', 'column_name'),
-                                                                                'direction' => $this->getControllerStateSession('kelompokurusan.orderby', 'order'),
-                                                                                'data' => $data])->render();
-
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
+    }   
     /**
      * Show the form for creating a new resource.
      *
@@ -162,24 +48,21 @@ class KelompokUrusanController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
-
-        $search = $this->getControllerStateSession('kelompokurusan', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('kelompokurusan');
         $data = $this->populateData($currentpage);
         if ($currentpage > $data->lastPage()) 
         {
             $data = $this->populateData($data->lastPage());
+            $currentpage = $data->currentPage();
         }
-        $this->setCurrentPageInsideSession('kelompokurusan', $data->currentPage());
+        $this->setCurrentPageInsideSession('kelompokurusan', $currentpage);
 
-        return view("pages.$theme.dmaster.kelompokurusan.index")->with(['page_active' => 'kelompokurusan',
-                                                                        'search' => $this->getControllerStateSession('kelompokurusan', 'search'),
-                                                                        'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                        'column_order' => $this->getControllerStateSession('kelompokurusan.orderby', 'column_name'),
-                                                                        'direction' => $this->getControllerStateSession('kelompokurusan.orderby', 'order'),
-                                                                        'data' => $data,
-        ]);
+        return response()->json(['page_active'=>'kelompokurusan',
+                                'search'=>$this->getControllerStateSession('kelompokurusan','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('kelompokurusan.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('kelompokurusan.orderby','order'),
+                                'daftar_kelompokurusan'=>$data],200);   
     }
     /**
      * Display the specified resource.
@@ -189,14 +72,8 @@ class KelompokUrusanController extends Controller
      */
     public function show($id)
     {
-        $theme = 'dore';
-
-        $data = KelompokUrusanModel::where('KUrsID', $id)
-            ->firstOrFail();
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.kelompokurusan.show")->with(['page_active' => 'kelompokurusan',
-                                                                                'data' => $data,
-                                                                            ]);
-        }
+        $data = KelompokUrusanModel::find($id);
+        
+        return response()->json($data,200);   
     }
 }

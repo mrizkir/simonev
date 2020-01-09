@@ -39,7 +39,7 @@ class programController extends Controller
         $numberRecordPerPage = $this->getControllerStateSession('global_controller', 'numberRecordPerPage');
 
         if (!$this->checkStateIsExistSession('program', 'filters')) {
-            $this->putControllerStateSession('program', 'filters', ['UrsID' => 'none']);
+            $this->putControllerStateSession('program', 'filters', ['UrsID' => '']);
         }
         $filter_ursid = $this->getControllerStateSession('program.filters', 'UrsID');
         if ($this->checkStateIsExistSession('program', 'search')) {
@@ -50,17 +50,17 @@ class programController extends Controller
                         ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
                         ->where(['kode_program' => $search['isikriteria']])
                         ->orderBy($column_order, $direction);
-                    break;
+                break;
                 case 'PrgNm':
                     $data = \DB::table('v_urusan_program')
                         ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
                         ->where('PrgNm', 'ILIKE', '%' . $search['isikriteria'] . '%')
                         ->orderBy($column_order, $direction);
-                    break;
+                break;
             }
             $data = $data->paginate($numberRecordPerPage, $columns, 'page', $currentpage);
         } else {
-            $data = $filter_ursid == 'none' || $filter_ursid == null ?
+            $data = $filter_ursid == '' || $filter_ursid == null ?
             \DB::table('v_urusan_program')
                 ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
                 ->orderBy($column_order, $direction)
@@ -76,100 +76,7 @@ class programController extends Controller
         $data->setPath(route('program.index'));
         return $data;
 
-    }
-    /**
-     * digunakan untuk mengganti jumlah record per halaman
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function changenumberrecordperpage(Request $request)
-    {
-        $theme = 'dore';
-
-        $numberRecordPerPage = $request->input('numberRecordPerPage');
-        $this->putControllerStateSession('global_controller', 'numberRecordPerPage', $numberRecordPerPage);
-
-        $this->setCurrentPageInsideSession('program', 1);
-        $data = $this->populateData();
-
-        $datatable = view("pages.$theme.dmaster.program.datatable")->with(['page_active' => 'program',
-                                                                            'search' => $this->getControllerStateSession('program', 'search'),
-                                                                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                            'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                            'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                            'data' => $data])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * digunakan untuk mengurutkan record
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function orderby(Request $request)
-    {
-        $theme = 'dore';
-
-        $daftar_urusan = UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
-        $daftar_urusan['none'] = 'SELURUH URUSAN';
-        $filter_kode_urusan_selected = UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters', 'UrsID'));
-
-        $orderby = $request->input('orderby') == 'asc' ? 'desc' : 'asc';
-        $column = $request->input('column_name');
-        switch ($column) {
-            case 'col-Kode_Program':
-                $column_name = 'kode_program';
-                break;
-            case 'col-PrgNm':
-                $column_name = 'PrgNm';
-                break;
-            case 'col-Nm_Urusan':
-                $column_name = 'Nm_Urusan';
-                break;
-            default:
-                $column_name = 'kode_program';
-        }
-        $this->putControllerStateSession('program', 'orderby', ['column_name' => $column_name, 'order' => $orderby]);
-
-        $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
-        }
-
-        $datatable = view("pages.$theme.dmaster.program.datatable")->with([
-                                                                            'page_active' => 'program',
-                                                                            'search' => $this->getControllerStateSession('program', 'search'),
-                                                                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                            'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                            'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                            'daftar_urusan' => $daftar_urusan,
-                                                                            'filter_ursid_selected' => $this->getControllerStateSession('program.filters', 'UrsID'),
-                                                                            'filter_kode_urusan_selected' => $filter_kode_urusan_selected,
-                                                                            'data' => $data
-                                                                        ])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
-    /**
-     * paginate resource in storage called by ajax
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function paginate($id)
-    {
-        $theme = 'dore';
-        $this->setCurrentPageInsideSession('program', $id);
-        $data = $this->populateData($id);
-        $datatable = view("pages.$theme.dmaster.program.datatable")->with([
-                                                                            'page_active' => 'program',
-                                                                            'search' => $this->getControllerStateSession('program', 'search'),
-                                                                            'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                            'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                            'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                            'data' => $data
-                                                                        ])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
-    }
+    }    
     /**
      * search resource in storage.
      *
@@ -177,14 +84,7 @@ class programController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
-    {
-        $theme = 'dore';
-
-        $$theme = \Auth::user()->theme;
-        $daftar_urusan = UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
-        $daftar_urusan['none'] = 'SELURUH URUSAN';
-        $filter_kode_urusan_selected = UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters', 'UrsID'));
-
+    {       
         $action = $request->input('action');
         if ($action == 'reset') {
             $this->destroyControllerStateSession('program', 'search');
@@ -196,17 +96,35 @@ class programController extends Controller
         $this->setCurrentPageInsideSession('program', 1);
         $data = $this->populateData();
 
-        $datatable = view("pages.$theme.dmaster.program.datatable")->with(['page_active' => 'program',
-                                                                        'search' => $this->getControllerStateSession('program', 'search'),
-                                                                        'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                        'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                        'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                        'daftar_urusan' => $daftar_urusan,
-                                                                        'filter_ursid_selected' => $this->getControllerStateSession('program.filters', 'UrsID'),
-                                                                        'filter_kode_urusan_selected' => $filter_kode_urusan_selected,
-                                                                        'data' => $data])->render();
-        return response()->json(['success' => true, 'datatable' => $datatable], 200);
+        return response()->json(['page_active'=>'program',
+                                'search'=>$this->getControllerStateSession('program','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                'filters'=>$this->getControllerStateSession('program','filters'), 
+                                'daftar_program'=>$data],200); 
 
+    }
+     /**
+     * filter resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function filter (Request $request) 
+    {        
+        $UrsID = $request->input('UrsID');
+        $this->putControllerStateSession('program','filters',['UrsID'=>$UrsID]);        
+        $this->setCurrentPageInsideSession('program',1);
+        
+        $data=$this->populateData();
+        return response()->json(['page_active'=>'program',
+                                'search'=>$this->getControllerStateSession('program','search'),
+                                'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                'filters'=>$this->getControllerStateSession('program','filters'), 
+                                'daftar_program'=>$data],200);     
     }
     /**
      * Show the form for creating a new resource.
@@ -215,30 +133,29 @@ class programController extends Controller
      */
     public function index(Request $request)
     {
-        $theme = 'dore';
-
-        $daftar_urusan = UrusanModel::getDaftarUrusan(\HelperKegiatan::getRPJMDTahunMulai());
-        $daftar_urusan['none'] = 'SELURUH URUSAN';
-
-        $search = $this->getControllerStateSession('program', 'search');
         $currentpage = $request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('program');
-        $data = $this->populateData($currentpage);
-        if ($currentpage > $data->lastPage()) {
-            $data = $this->populateData($data->lastPage());
+        if ($currentpage == 'all')
+        {
+            return \DB::table('v_urusan_program')
+                        ->where('TA', \HelperKegiatan::getRPJMDTahunMulai())
+                        ->get();
         }
-        $this->setCurrentPageInsideSession('program', $data->currentPage());
-        $filter_kode_urusan_selected = UrusanModel::getKodeUrusanByUrsID($this->getControllerStateSession('program.filters', 'UrsID'));
-
-        return view("pages.$theme.dmaster.program.index")->with(['page_active' => 'program',
-                                                                'search' => $this->getControllerStateSession('program', 'search'),
-                                                                'numberRecordPerPage' => $this->getControllerStateSession('global_controller', 'numberRecordPerPage'),
-                                                                'column_order' => $this->getControllerStateSession('program.orderby', 'column_name'),
-                                                                'direction' => $this->getControllerStateSession('program.orderby', 'order'),
-                                                                'daftar_urusan' => $daftar_urusan,
-                                                                'filter_ursid_selected' => $this->getControllerStateSession('program.filters', 'UrsID'),
-                                                                'filter_kode_urusan_selected' => $filter_kode_urusan_selected,
-                                                                'data' => $data]);
-
+        else
+        {            
+            $data = $this->populateData($currentpage);
+            if ($currentpage > $data->lastPage()) {
+                $data = $this->populateData($data->lastPage());
+                $currentpage = $data->currentPage();
+            }
+            $this->setCurrentPageInsideSession('program', $currentpage);
+            return response()->json(['page_active'=>'program',
+                                    'search'=>$this->getControllerStateSession('program','search'),
+                                    'numberRecordPerPage'=>$this->getControllerStateSession('global_controller','numberRecordPerPage'),                                                                    
+                                    'column_order'=>$this->getControllerStateSession('program.orderby','column_name'),
+                                    'direction'=>$this->getControllerStateSession('program.orderby','order'),
+                                    'filters'=>$this->getControllerStateSession('program','filters'), 
+                                    'daftar_program'=>$data],200);  
+        }
     }
     /**
      * Display the specified resource.
@@ -248,17 +165,11 @@ class programController extends Controller
      */
     public function show($id)
     {
-        $theme = 'dore';
 
         $data = ProgramModel::leftJoin('v_urusan_program', 'v_urusan_program.PrgID', 'tmPrg.PrgID')
-            ->where('tmPrg.PrgID', $id)
-            ->firstOrFail(['tmPrg.PrgID', 'v_urusan_program.kode_program', 'tmPrg.PrgNm', 'tmPrg.Descr', 'tmPrg.Jns', 'tmPrg.TA', 'tmPrg.created_at', 'tmPrg.updated_at']);
+                            ->find($id);
 
-        if (!is_null($data)) {
-            return view("pages.$theme.dmaster.program.show")->with(['page_active' => 'program',
-                'data' => $data,
-            ]);
-        }
+        return response()->json($data,200);
 
     }
 }

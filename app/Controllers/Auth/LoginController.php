@@ -25,8 +25,7 @@ class LoginController extends Controller
     }
     public function showLoginForm()
     {
-        $theme = 'dore';
-        return view("pages.$theme.auth.login");
+        return view("pages.login");
     }
     public function username () {
         return 'username';
@@ -51,5 +50,10 @@ class LoginController extends Controller
         $this->putControllerStateSession('global_controller','tahun_perencanaan',$tahun_perencanaan);
         $this->putControllerStateSession('global_controller','tahun_anggaran',$tahun_anggaran);
         $this->putControllerStateSession('global_controller','bulan_realisasi',date('n'));
+
+        //update api_token
+        $user = \Auth::user();
+        $user->api_token = \Hash::make(substr(md5(uniqid(rand(), true)), 0, 6));
+        $user->save();
     }
 }
