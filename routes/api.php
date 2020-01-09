@@ -124,7 +124,8 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/apbdmurni/update2/{uuid}',['uses'=>'RKA\APBDMurniController@update2','as'=>'apbdmurni.update2']);                      
     Route::post('/apbdmurni/update3',['uses'=>'RKA\APBDMurniController@update3','as'=>'apbdmurni.update3']);                      
     Route::post('/apbdmurni/update4/{uuid}',['uses'=>'RKA\APBDMurniController@update4','as'=>'apbdmurni.update4']);                      
-    
+    Route::get('/apbdmurni/totaluraian/{uuid}',['uses'=>'RKA\APBDMurniController@totaluraian','as'=>'apbdmurni.totaluraian']);  
+
     //RKA - APBD Perubahan
     Route::resource('/apbdperubahan','RKA\APBDPerubahanController',['parameters'=>['apbdperubahan'=>'uuid']]);
     Route::get('/apbdperubahan/uraian/rencanatarget/{uuid}',['uses'=>'RKA\APBDPerubahanController@rencanatarget','as'=>'apbdperubahan.rencanatarget']);  
@@ -144,7 +145,8 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::post('/apbdperubahan/update2/{uuid}',['uses'=>'RKA\APBDPerubahanController@update2','as'=>'apbdperubahan.update2']);                      
     Route::post('/apbdperubahan/update3',['uses'=>'RKA\APBDPerubahanController@update3','as'=>'apbdperubahan.update3']);                      
     Route::post('/apbdperubahan/update4/{uuid}',['uses'=>'RKA\APBDPerubahanController@update4','as'=>'apbdperubahan.update4']);
-    
+    Route::get('/apbdperubahan/totaluraian/{uuid}',['uses'=>'RKA\APBDPerubahanController@totaluraian','as'=>'apbdperubahan.totaluraian']);  
+
     //REPORT - Form A Murni
     Route::post('/report/formamurni', ['uses'=>'Report\FormAController@index', 'as'=>'formamurni.index']);
     

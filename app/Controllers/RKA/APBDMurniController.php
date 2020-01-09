@@ -1390,41 +1390,48 @@ class APBDMurniController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request,$id)
-    {
+    { 
+        $pid=$request->input('pid');
+        switch ($pid)
+        {
+            case 'datakegiatan' :
+                $apbdmurni = RKAKegiatanModel::find($id);
+                $result=$apbdmurni->delete();
+                return response()->json(['message'=>"data kegiatan dengan ID ($id) Berhasil di Hapus"],200);                    
+            break;
+            case 'datauraian' :
+                $rinciankegiatan = RKARincianKegiatanModel::find($id);
+                $result=$rinciankegiatan->delete();
+                return response()->json(['message'=>"data rincian kegiatan dengan ID ($id) Berhasil di Hapus"],200);  
+            break;
+            case 'datarencana' :
+                $rinciankegiatan = RKARincianKegiatanModel::find($id);
+                $result=\DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
+                return response()->json(['message'=>"data rencana target fisik dan anggaran kas dengan ID ($id) Berhasil di Hapus"],200);      
+            break;
+            case 'datarealisasi' :
+                $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::find($id);
+                $result=$realisasirinciankegiatan->delete();
+                return response()->json(['message'=>"data realisasi uraian kegiatan dengan ID ($id) Berhasil di Hapus"],200);                                                  
+            break;
+        }            
         
-        if ($request->ajax()) 
-        {
-            $pid=$request->input('pid');
-            switch ($pid)
-            {
-                case 'datakegiatan' :
-                    $apbdmurni = RKAKegiatanModel::find($id);
-                    $result=$apbdmurni->delete();
-                    return response()->json(['message'=>"data kegiatan dengan ID ($id) Berhasil di Hapus"],200);                    
-                break;
-                case 'datauraian' :
-                    $rinciankegiatan = RKARincianKegiatanModel::find($id);
-                    $result=$rinciankegiatan->delete();
-                    return response()->json(['message'=>"data rincian kegiatan dengan ID ($id) Berhasil di Hapus"],200);  
-                break;
-                case 'datarencana' :
-                    $rinciankegiatan = RKARincianKegiatanModel::find($id);
-                    $result=\DB::table('trRKATargetRinc')->where('RKARincID',$id)->delete();
-                    return response()->json(['message'=>"data rencana target fisik dan anggaran kas dengan ID ($id) Berhasil di Hapus"],200);      
-                break;
-                case 'datarealisasi' :
-                    $realisasirinciankegiatan = RKARealisasiRincianKegiatanModel::find($id);
-                    $result=$realisasirinciankegiatan->delete();
-                    return response()->json(['message'=>"data realisasi uraian kegiatan dengan ID ($id) Berhasil di Hapus"],200);                                                  
-                break;
-            }
+        return response()->json(['success'=>true,'datatable'=>$datatable],200); 
               
-            
-            return response()->json(['success'=>true,'datatable'=>$datatable],200); 
-        }
-        else
-        {
-            return redirect(route('apbdmurni.index'))->with('success',"Data ini dengan ($id) telah berhasil dihapus.");
-        }        
+    }
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function totaluraian(Request $request,$id)
+    {
+        $total = \DB::table('trRKARinc')
+                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
+                    ->where('RKAID',$id)
+                    ->sum('pagu_uraian1');
+
+        return response()->json(['totaluraian'=>$total],200);
     }
 }

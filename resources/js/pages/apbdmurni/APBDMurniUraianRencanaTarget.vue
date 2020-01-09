@@ -132,7 +132,7 @@
                                     <thead>
                                         <tr>
                                             <th width="150">BULAN</th>    
-                                            <th>TARGET FISIK</th>
+                                            <th width="400">TARGET FISIK</th>
                                             <th>ANGGARAN KAS</th>                                           
                                         </tr>
                                     </thead>
@@ -604,7 +604,7 @@
                                     <thead>
                                         <tr>
                                             <th width="150">BULAN</th>    
-                                            <th>TARGET FISIK</th>
+                                            <th width="400">>TARGET FISIK</th>
                                             <th>ANGGARAN KAS</th>                                           
                                         </tr>
                                     </thead>
@@ -1321,7 +1321,8 @@ export default {
             switch (pid)
             {                
                 case 'create' :
-                    this.pid = pid;                    
+                    this.pid = pid;    
+                    this.form.pagu_uraian=0;                
                     axios.get('/api/v1/apbdmurni/create3/'+this.detailkegiatan.RKAID,{
                         headers:{
                             'Authorization': window.laravel.api_token,

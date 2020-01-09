@@ -579,7 +579,14 @@ export default {
                                     'Authorization': window.laravel.api_token,
                                 },
                             })
-                            .then(response => {                                                          
+                            .then(response => {     
+                                var page = self.$store.getters.getPage('apbdmurni');
+                                page.detailkegiatan={};
+                                page.datauraian={};
+                                page.datarekening={};
+                                
+                                self.$store.commit('replacePage',page);
+
                                 self.proc('default');                                                                    
                             })
                             .catch(response => {

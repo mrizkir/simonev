@@ -83,6 +83,12 @@
                                             <p class="form-control-static">{{detailkegiatan.PaguDana1|formatUang}}</p>
                                         </div>                            
                                     </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>TOTAL URAIAN: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">{{form.totaluraian|formatUang}}</p>
+                                        </div>                            
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -179,7 +185,7 @@
 											v-bind:class="{'is-invalid': $v.form.pagu_uraian1.$error, 'is-valid': $v.form.pagu_uraian1.$dirty && !$v.form.pagu_uraian1.$invalid}">
 										</vue-autonumeric>
                                         <span class="form-text text-muted">(Harga Satuan * Volume)</span>
-										<div class="text-danger" v-if="$v.form.pagu_uraian1.$error">* wajib isi</div>
+										<div class="text-danger" v-if="$v.form.pagu_uraian1.$error">* wajib isi atau bila sudah di isi, disebabkan total uraian melampau pagu dana</div>
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -232,6 +238,11 @@
 import vSelect from 'vue-select';
 import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
+
+const checkTotalUraian = (value,vm) => {       
+    return (parseFloat(value)+vm.totaluraian) <= parseFloat(vm.PaguDana1);
+};
+
 export default {
     created ()
     {
@@ -243,6 +254,8 @@ export default {
     {
         this.$v.$reset();
         this.fetchJenisPelaksanaan();
+        this.fetchTotalUraian();
+        this.form.PaguDana1=this.detailkegiatan.PaguDana1;
     },
     data: function() 
 	{
@@ -261,6 +274,8 @@ export default {
                 satuan:'',		                                
                 harga_satuan:'',		                                
                 pagu_uraian1: '',
+                totaluraian:0,
+                PaguDana1:0,
                 JenisPelaksanaanID: ''
             }
         }
@@ -288,50 +303,64 @@ export default {
                 this.api_message = response;
             });
         },
+        fetchTotalUraian()
+        {
+            axios.get('/api/v1/apbdmurni/totaluraian/'+this.detailkegiatan.RKAID,{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {             
+                this.form.totaluraian = response.data.totaluraian;    
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
         saveData() 
 		{	
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
             { 
-                var page = this.$store.getters.getPage('apbdmurni');                
-				axios.post('/api/v1/apbdmurni/store2',{
-                    'RKAID':this.detailkegiatan.RKAID,
-                    'RObyID':this.datarekening.code,
-                    'nama_uraian':this.form.nama_uraian,
-                    'volume':this.form.volume,
-                    'satuan':this.form.satuan,
-                    'harga_satuan':this.form.harga_satuan,
-                    'pagu_uraian1':this.form.pagu_uraian1,
-                    'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
-                    'Descr':'-',
-                },{
-                    headers:{
-                        'Authorization': window.laravel.api_token,
-                    },
-                })
-                .then(response => {                          
-                    this.$swal({
-                        title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Menyimpan Data Rincian Kegiatan berhasil dilakukan",
-                        showCancelButton: false,
-                        showConfirmButton: false,
-                        showCloseButton: false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        allowEnterKey: false,
-                    });              
-                    setTimeout(() => {
-                        this.clearform();     
-                        var page = this.$store.getters.getPage('apbdmurni');
-                        page.datarekening = '';                        
-                        this.$store.commit('replacePage',page);         
-                        this.$swal.close();          
-                        this.$router.push('/apbdmurni/uraian');                          
-                    }, 1500);             
-                })
-                .catch(error => {
-                    this.api_message = error.response.data.message;
-                });			
+                // var page = this.$store.getters.getPage('apbdmurni');                
+				// axios.post('/api/v1/apbdmurni/store2',{
+                //     'RKAID':this.detailkegiatan.RKAID,
+                //     'RObyID':this.datarekening.code,
+                //     'nama_uraian':this.form.nama_uraian,
+                //     'volume':this.form.volume,
+                //     'satuan':this.form.satuan,
+                //     'harga_satuan':this.form.harga_satuan,
+                //     'pagu_uraian1':this.form.pagu_uraian1,
+                //     'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
+                //     'Descr':'-',
+                // },{
+                //     headers:{
+                //         'Authorization': window.laravel.api_token,
+                //     },
+                // })
+                // .then(response => {                          
+                //     this.$swal({
+                //         title: '<i class="fas fa-spin fa-spinner"></i>',
+                //         text: "Menyimpan Data Rincian Kegiatan berhasil dilakukan",
+                //         showCancelButton: false,
+                //         showConfirmButton: false,
+                //         showCloseButton: false,
+                //         allowOutsideClick: false,
+                //         allowEscapeKey: false,
+                //         allowEnterKey: false,
+                //     });              
+                //     setTimeout(() => {
+                //         this.clearform();     
+                //         var page = this.$store.getters.getPage('apbdmurni');
+                //         page.datarekening = '';                        
+                //         this.$store.commit('replacePage',page);         
+                //         this.$swal.close();          
+                //         this.$router.push('/apbdmurni/uraian');                          
+                //     }, 1500);             
+                // })
+                // .catch(error => {
+                //     this.api_message = error.response.data.message;
+                // });			
 			}        
         },
         clearform ()
@@ -359,7 +388,8 @@ export default {
 				required
 			},
 			pagu_uraian1: {
-				required
+                required,
+                checkTotalUraian
 			},
 		}
 	},

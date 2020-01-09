@@ -1321,7 +1321,8 @@ export default {
             switch (pid)
             {                
                 case 'create' :
-                    this.pid = pid;                    
+                    this.pid = pid;   
+                    this.form.pagu_uraian=0;                 
                     axios.get('/api/v1/apbdperubahan/create3/'+this.detailkegiatan.RKAID,{
                         headers:{
                             'Authorization': window.laravel.api_token,

@@ -2,6 +2,13 @@ require('./bootstrap');
 window.Vue = require('vue');
 //component
 
+// vue state management
+import 'es6-promise/auto';
+import Vuex from 'vuex';
+import StoreData from './store';
+ 
+Vue.use(Vuex);
+const store = new Vuex.Store(StoreData);
 
 //vue route
 import VueRouter from 'vue-router';
@@ -17,14 +24,6 @@ router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     next();
 });
-
-// vue state management
-import 'es6-promise/auto';
-import Vuex from 'vuex';
-import StoreData from './store';
- 
-Vue.use(Vuex);
-const store = new Vuex.Store(StoreData);
 
 //validate
 import Vuelidate from 'vuelidate';
