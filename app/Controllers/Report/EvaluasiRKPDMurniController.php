@@ -54,8 +54,8 @@ class EvaluasiRKPDMurniController extends Controller
                                         'Nm_Bidang'=>'',                       
                                         'PrgNm'=>'',                       
                                         'KgtNm'=>'',                       
-                                        'ik_program'=>0,                       
-                                        'ik_kegiatan'=>0,                       
+                                        'ik_program'=>'',                       
+                                        'ik_kegiatan'=>'',                       
                                         't_rpjmd_n_k'=>0,                       
                                         't_rpjmd_n_rp'=>0,                       
                                         'rck_rpjmd_n_min_2_k'=>0,                       
@@ -74,6 +74,7 @@ class EvaluasiRKPDMurniController extends Controller
                                         'rck_rkpd_rp'=>0,                       
                                         'rk_rpjmd_sd_n_k'=>0,                       
                                         'rk_rpjmd_sd_n_rp'=>0,                       
+                                        'level'=>0,                       
                                         'OrgID'=>null,                       
                                         'OrgNm'=>null];
 
@@ -94,19 +95,21 @@ class EvaluasiRKPDMurniController extends Controller
                              
                                 foreach ($urusan as $item)
                                 {
+                                    $UrsID=$item->UrsID;
                                     $kode_bidang=$item->Kode_Bidang;
                                     $nama_urusan=$item->Nm_Urusan;
                                     $nama_bidang=$item->Nm_Bidang;
+
                                     $data_urusan=['TA'=>\HelperKegiatan::getTahunPerencanaan(),
                                         'kode'=>$kode_bidang,
-                                        'PrioritasSasaranKabID'=>'',                       
-                                        'Nm_Sasaran'=>'',                       
+                                        'PrioritasSasaranKabID'=>$PrioritasSasaranKabID,                       
+                                        'Nm_Sasaran'=>$Nm_Sasaran,                       
                                         'Nm_Urusan'=>$nama_urusan,  
                                         'Nm_Bidang'=>$nama_bidang,                     
                                         'PrgNm'=>'',                       
                                         'KgtNm'=>'',                       
-                                        'ik_program'=>0,                       
-                                        'ik_kegiatan'=>0,                       
+                                        'ik_program'=>'',                       
+                                        'ik_kegiatan'=>'',                       
                                         't_rpjmd_n_k'=>0,                       
                                         't_rpjmd_n_rp'=>0,                       
                                         'rck_rpjmd_n_min_2_k'=>0,                       
@@ -125,10 +128,107 @@ class EvaluasiRKPDMurniController extends Controller
                                         'rck_rkpd_rp'=>0,                       
                                         'rk_rpjmd_sd_n_k'=>0,                       
                                         'rk_rpjmd_sd_n_rp'=>0,                       
+                                        'level'=>1,                       
                                         'OrgID'=>null,                       
                                         'OrgNm'=>null];
 
                                         RekapEvaluasiRKPDMurniModel::create($data_urusan);
+
+                                        \DB::table('v_rka')
+                                                    ->select(\DB::raw('"PrgID",kode_program,"PrgNm"'))
+                                                    ->where('UrsID',$UrsID)
+                                                    ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                    ->where('EntryLvl',1)
+                                                    ->groupBy('PrgID')
+                                                    ->groupBy('kode_program')
+                                                    ->groupBy('PrgNm')
+                                                    ->orderBy('kode_program')
+                                                    ->chunk(5, function ($program) use ($PrioritasSasaranKabID,$Nm_Sasaran,$nama_urusan,$nama_bidang) {
+                                                        foreach ($program as $item)
+                                                        {
+                                                            $PrgID=$item->PrgID;
+                                                            $kode_program=$item->kode_program;
+                                                            $PrgNm=$item->PrgNm;
+                                                            $data_program=['TA'=>\HelperKegiatan::getTahunPerencanaan(),
+                                                                        'kode'=>$kode_program,
+                                                                        'PrioritasSasaranKabID'=>$PrioritasSasaranKabID,                  
+                                                                        'Nm_Sasaran'=>$Nm_Sasaran,                       
+                                                                        'Nm_Urusan'=>$nama_urusan,  
+                                                                        'Nm_Bidang'=>$nama_bidang,                     
+                                                                        'PrgNm'=>$PrgNm,                       
+                                                                        'KgtNm'=>'',                       
+                                                                        'ik_program'=>'',                       
+                                                                        'ik_kegiatan'=>'',                       
+                                                                        't_rpjmd_n_k'=>0,                       
+                                                                        't_rpjmd_n_rp'=>0,                       
+                                                                        'rck_rpjmd_n_min_2_k'=>0,                       
+                                                                        'rck_rpjmd_n_min_2_rp'=>0,                       
+                                                                        'tk_rkpd_n_min_1_k'=>0,                       
+                                                                        'tk_rkpd_n_min_1_rp'=>0,                       
+                                                                        'rk_tw1_k'=>0,                       
+                                                                        'rk_tw1_rp'=>0,                       
+                                                                        'rk_tw2_k'=>0,                       
+                                                                        'rk_tw2_rp'=>0,                       
+                                                                        'rk_tw3_k'=>0,                       
+                                                                        'rk_tw3_rp'=>0,                       
+                                                                        'rk_tw4_k'=>0,                       
+                                                                        'rk_tw4_rp'=>0,                       
+                                                                        'rck_rkpd_k'=>0,                       
+                                                                        'rck_rkpd_rp'=>0,                       
+                                                                        'rk_rpjmd_sd_n_k'=>0,                       
+                                                                        'rk_rpjmd_sd_n_rp'=>0,                       
+                                                                        'level'=>2,                       
+                                                                        'OrgID'=>null,                       
+                                                                        'OrgNm'=>null];
+
+                                                            RekapEvaluasiRKPDMurniModel::create($data_program);
+
+                                                            \DB::table('v_rka')
+                                                                        ->select(\DB::raw('"RKAID","KgtID","Nm_Urusan","Nm_Bidang","PrgNm",kode_kegiatan,"KgtNm",hasil1,"PaguDana1","OrgID","OrgNm"'))
+                                                                        ->where('PrgID',$PrgID)
+                                                                        ->where('TA',\HelperKegiatan::getTahunPerencanaan())
+                                                                        ->where('EntryLvl',1)
+                                                                        ->orderBy('kode_kegiatan')
+                                                                        ->chunk(10, function ($kegiatan) use ($PrioritasSasaranKabID,$Nm_Sasaran) {
+                                                                            foreach ($kegiatan as $item)
+                                                                            {
+                                                                                $data_kegiatan=['TA'=>\HelperKegiatan::getTahunPerencanaan(),
+                                                                                            'kode'=>$item->kode_kegiatan,
+                                                                                            'PrioritasSasaranKabID'=>$PrioritasSasaranKabID,                       
+                                                                                            'Nm_Sasaran'=>$Nm_Sasaran,                       
+                                                                                            'Nm_Urusan'=>$item->Nm_Urusan,  
+                                                                                            'Nm_Bidang'=>$item->Nm_Bidang,                     
+                                                                                            'PrgNm'=>$item->PrgNm,                       
+                                                                                            'KgtNm'=>$item->KgtNm,                       
+                                                                                            'ik_program'=>'',                       
+                                                                                            'ik_kegiatan'=>$item->hasil1,                       
+                                                                                            't_rpjmd_n_k'=>0,                       
+                                                                                            't_rpjmd_n_rp'=>0,                       
+                                                                                            'rck_rpjmd_n_min_2_k'=>0,                       
+                                                                                            'rck_rpjmd_n_min_2_rp'=>0,                       
+                                                                                            'tk_rkpd_n_min_1_k'=>0,                       
+                                                                                            'tk_rkpd_n_min_1_rp'=>0,                       
+                                                                                            'rk_tw1_k'=>0,                       
+                                                                                            'rk_tw1_rp'=>0,                       
+                                                                                            'rk_tw2_k'=>0,                       
+                                                                                            'rk_tw2_rp'=>0,                       
+                                                                                            'rk_tw3_k'=>0,                       
+                                                                                            'rk_tw3_rp'=>0,                       
+                                                                                            'rk_tw4_k'=>0,                       
+                                                                                            'rk_tw4_rp'=>0,                       
+                                                                                            'rck_rkpd_k'=>0,                       
+                                                                                            'rck_rkpd_rp'=>0,                       
+                                                                                            'rk_rpjmd_sd_n_k'=>0,                       
+                                                                                            'rk_rpjmd_sd_n_rp'=>0,                       
+                                                                                            'level'=>3,                       
+                                                                                            'OrgID'=>$item->OrgID,                       
+                                                                                            'OrgNm'=>$item->OrgNm];
+
+                                                                                RekapEvaluasiRKPDMurniModel::create($data_kegiatan);
+                                                                            }
+                                                                        });
+                                                        }
+                                                    });
                                 }
                             }                            
                         });
@@ -145,10 +245,12 @@ class EvaluasiRKPDMurniController extends Controller
     {                                   
         $rekap=RekapEvaluasiRKPDMurniModel::where('TA',\HelperKegiatan::getTahunPerencanaan())
                                             ->get();    
+
         $generated_html = view("pages.evaluasirkpdm.datatable")->with([
                                                                     'data'=>$rekap,
                                                                 ])->render();
         return response()->json([
+                                'data'=>$rekap,
                                 'generated_html'=>$generated_html
                                 ],200);          
 

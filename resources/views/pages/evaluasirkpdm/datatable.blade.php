@@ -2,9 +2,9 @@
 <table class="table table-bordered mb-2 table-condensed">
     <thead class="text-center">
         <tr>
-            <th rowspan="2">No</th>
-            <th rowspan="2">Kode</th>
-            <th rowspan="2">Urusan/Bidang Urusan Dan Program/Kegiatan</th>
+            <th rowspan="2" width="50">No</th>
+            <th rowspan="2" width="100">Kode</th>
+            <th rowspan="2" width="350">Urusan/Bidang Urusan Dan Program/Kegiatan</th>
             <th rowspan="2">Indikator Kinerja Program (Outcome)/ Kegiatan (output)</th>
             <th rowspan="2" colspan="2">Target RPJMD pada Tahun {{HelperKegiatan::getRPJMDTahunAkhir()}}</th>
             <th rowspan="2" colspan="2">Realisasi Capaian Kinerja RPJMD s/d RKPD Tahun {{HelperKegiatan::getTahunPerencanaan()-1}} (n-2)</th>
@@ -63,7 +63,11 @@
     </thead>
     <tbody>
         @foreach ($data as $key=>$item)
-        @if (strlen($item->kode)>0)
+        @if ($item->level==0)
+        <tr>
+            <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
+        </tr>        
+        @elseif($item->level==1)
         <tr>            
             <tr>
                 <td></td>
@@ -71,9 +75,28 @@
                 <td>{{$item->Nm_Bidang}}</td>
             </tr>
         </tr>
-        @else
-        <tr>
-            <td colspan="25"><strong>Sasaran RPJMD</strong>: {{$item->Nm_Sasaran}}</td>
+        @elseif($item->level==2)
+        <tr>            
+            <tr>
+                <td></td>
+                <td>{{$item->kode}}</td>
+                <td>{{$item->PrgNm}}</td>
+            </tr>
+        </tr>
+        @elseif($item->level==3)
+        <tr>            
+            <tr>
+                <td></td>
+                <td>{{$item->kode}}</td>
+                <td>{{$item->KgtNm}}</td>
+                <td>{{$item->ik_kegiatan}}</td>
+                <td>5K</td>
+                <td>5RP</td>
+                <td>6K</td>
+                <td>6RP</td>
+                <td>7K</td>
+                <td>{{Helper::formatUang($item->tk_rkpd_n_min_1_rp)}}</td>
+            </tr>
         </tr>
         @endif
         @endforeach 

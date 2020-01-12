@@ -42,6 +42,7 @@ class RekapEvaluasiRkpdMurniTables extends Migration
             $table->decimal('rck_rkpd_rp',15,2)->default(0); // Realisasi Kinerja dan Anggaran RPJMD s/d Tahun n                     
             $table->decimal('rk_rpjmd_sd_n_k',5,2)->default(0); //  Tingkat Capaian Kinerja dan Realisasi Anggaran RPJMD s/d Tahun n (%)                       
             $table->decimal('rk_rpjmd_sd_n_rp',15,2)->default(0); //  Tingkat Capaian Kinerja dan Realisasi Anggaran RPJMD s/d Tahun n (%)                   
+            $table->tinyInteger('level');    
             $table->string('OrgID',19)->nullable();    
             $table->string('OrgNm')->nullable();    
             $table->timestamps();

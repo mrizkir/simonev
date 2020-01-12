@@ -46,6 +46,7 @@ class RekapEvaluasiRKPDMurniModel extends Model {
         'rck_rkpd_rp',                       
         'rk_rpjmd_sd_n_k',                       
         'rk_rpjmd_sd_n_rp',                       
+        'level',                       
         'OrgID',                       
         'OrgNm',
     ];
