@@ -253,8 +253,7 @@ class APBDMurniController extends Controller
             $this->putControllerStateSession($this->SessionName,'filters',[
                                                                             'OrgID'=>'',
                                                                             'SOrgID'=>'',
-                                                                            'changetab'=>'ringkasan-tab',
-                                                                            'RKARincID'=>'',
+                                                                            'no_bulan'=>date('n'),
                                                                         ]);
         }        
         $SOrgID= $this->getControllerStateSession(\Helper::getNameOfPage('filters'),'SOrgID');
@@ -423,10 +422,12 @@ class APBDMurniController extends Controller
     {             
         $OrgID=$request->header('OrgID');   
         $SOrgID=$request->header('SOrgID');   
+        $no_bulan=$request->header('no_bulan');   
 
         $filters=$this->getControllerStateSession('apbdmurni','filters');
         $filters['OrgID']=$OrgID;
         $filters['SOrgID']=$SOrgID;
+        $filters['no_bulan']=$no_bulan;
         $this->putControllerStateSession('apbdmurni','filters',$filters);
 
         $currentpage=$request->has('page') ? $request->get('page') : $this->getCurrentPageInsideSession('apbdmurni'); 

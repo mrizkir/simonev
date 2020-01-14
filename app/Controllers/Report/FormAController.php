@@ -278,4 +278,19 @@ class FormAController extends Controller
                                 ],200);
         }
     }
+    /**
+     * collect data from resources for print out to excel
+     *
+     * @return resources
+     */
+    public function printtoexcel (Request $request)
+    {
+        $RKAID=$request->RKAID;
+        $no_bulan=$request->no_bulan;
+
+        return response()->json([
+                                'RKAID'=>$RKAID,
+                                'no_bulan'=>$no_bulan,
+                            ]);
+    }
 }

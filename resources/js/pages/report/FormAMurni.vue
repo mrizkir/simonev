@@ -61,7 +61,10 @@
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                             <div class="card-tools">
-                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                <a type="button" class="btn btn-tool" v-on:click.prevent="proc('printtoexcel',{RKAID:RKAID,no_bulan:no_bulan})" title="Print Form A Murni">
+                                    <i class="fas fa-print"></i>
+                                </a>
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)" title="Keluar">
                                     <i class="fas fa-times"></i>
                                 </button>
                             </div>
@@ -97,6 +100,18 @@
                                             placeholder="PILIH UNIT KERJA" 
                                             :options="daftar_unitkerja"
                                             @input="filter">
+                                        </v-select>
+                                    </div>
+                                </div> 
+                                <div class="form-group row" id="divNoBulan">
+                                    <label class="col-sm-2 col-form-label">BULAN</label>
+                                    <div class="col-sm-10">   
+                                        <v-select 
+                                            v-model="no_bulan" 
+                                            placeholder="PILIH BULAN" 
+                                            :reduce="daftar_bulan => daftar_bulan.code"
+                                            :options="daftar_bulan"
+                                            @input="changeBulan">
                                         </v-select>
                                     </div>
                                 </div>                               
@@ -147,14 +162,17 @@
                                         <td>{{item.TotalPaguUraian1|formatUang}}</td>
                                         <td>{{item.TotalRealisasi1|formatUang}}</td>
                                         <td>{{item.TotalFisik1}}</td>                                            
-                                        <td>
+                                        <td>                                            
                                             <div class="dropdown">
                                                 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-wrench"></i>
                                                 </button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('show',item)">
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('show',item)" title="Detail Form A Murni">
                                                         <i class="fas fa-eye"></i> DETAIL
+                                                    </a>
+                                                    <a class="dropdown-item" v-on:click.prevent="proc('printtoexcel',item)" title="Print Form A Murni">
+                                                        <i class="fas fa-print"></i> PRINT
                                                     </a>
                                                 </div>
                                             </div>
@@ -228,6 +246,7 @@ export default {
             daftar_unitkerja: [],
 
             //show detail
+            RKAID:'',
             no_bulan:bulan,
             daftar_bulan:[],
             html_generated:'',
@@ -301,6 +320,7 @@ export default {
                     'Authorization': window.laravel.api_token,
                     'OrgID':this.OrgID.code,
                     'SOrgID':this.SOrgID.code,
+                    'no_bulan':this.no_bulan,
                 }
             })
             .then(response => {        
@@ -313,12 +333,21 @@ export default {
         },
         changeBulan ()
         {
-            this.html_generated='';
-            var page = this.$store.getters.getPage('reportformamurni');
-            page.no_bulan=this.no_bulan;
-            this.$store.commit('replacePage',page);
+            switch (this.pid)
+            {
+                case 'show' :
+                    this.html_generated='';
+                    var page = this.$store.getters.getPage('reportformamurni');
+                    page.no_bulan=this.no_bulan;
+                    this.$store.commit('replacePage',page);
 
-            this.generateReport();
+                    this.generateReport();
+                break;
+                default :
+                    console.log('test');
+
+            }
+            
         },
         generateReport()
         {
@@ -350,17 +379,38 @@ export default {
 
                     var page = this.$store.getters.getPage('reportformamurni');
                     page.RKAID = item.RKAID;
-                    
+                    this.RKAID = item.RKAID;
+
                     this.no_bulan=page.no_bulan; 
 
                     this.$store.commit('replacePage',page);
                     this.generateReport();
                 break;
+                case 'printtoexcel' :
+                    axios.post('/api/v1/report/formamurni/printtoexcel',{
+                        'RKAID':item.RKAID,
+                        'no_bulan':this.no_bulan,
+                    },{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        },
+                    })
+                    .then(response => {      
+                        console.log(response.data);
+                    })
+                    .catch(error => {
+                        this.api_message = error.response.data.message;
+                    });		
+                break;
                 default :
                     this.pid = pid;
-                    this.fetchOPD();           
-                    this.OrgID=this.$store.getters.getAtributeValueOfPage('reportformamurni','OrgID');      
-                    this.OrgNm=this.$store.getters.getAtributeValueOfPage('reportformamurni','OrgNm');      
+                    var page = this.$store.getters.getPage('reportformamurni'); 
+
+                    this.fetchOPD();          
+                    
+                    this.OrgID=page.OrgID;      
+                    this.OrgNm=page.OrgNm; 
+
                     if (this.OrgID!='')
                     {                                
                         axios.get('/api/v1/master/suborganisasi/daftarunitkerja/'+this.OrgID.code,{
@@ -381,9 +431,14 @@ export default {
                         .catch(response => {
                             this.api_message = response;
                         });                
-                        this.SOrgID=this.$store.getters.getAtributeValueOfPage('reportformamurni','SOrgID');      
-                        this.SOrgNm=this.$store.getters.getAtributeValueOfPage('reportformamurni','SOrgNm');    
-                    }               
+                        this.SOrgID=page.SOrgID;      
+                        this.SOrgNm=page.SOrgNm;    
+                    }       
+                    var daftar_bulan = this.$store.getters.getConfig(0);
+                    this.daftar_bulan=daftar_bulan; 
+                    
+                    this.no_bulan=page.no_bulan;
+
                     this.populateData();              
             }
         },

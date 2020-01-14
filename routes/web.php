@@ -8,11 +8,4 @@ Route::get('/logout', ['uses' => 'Auth\LoginController@logout', 'as' => 'logout'
 
 Route::group(['prefix' => 'admin', 'middleware' => ['disablepreventback', 'web', 'auth']], function () {
     Route::get('/', ['uses' => 'BackendController@index', 'as' => 'backend.index']); 
-    
-    //REPORT - Form A Murni
-    Route::post('/report/formamurni/printtoexcel', ['uses'=>'Report\FormAController@printtoexcel', 'as'=>'formamurni.printtoexcel']);
-    
-    //REPORT - Form B Murni
-    Route::post('/report/formbmurni/printtoexcel', ['uses'=>'Report\FormBController@printtoexcel', 'as'=>'formbmurni.printtoexcel']);
-    
 });

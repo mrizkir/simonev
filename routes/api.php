@@ -149,10 +149,12 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
 
     //REPORT - Form A Murni
     Route::post('/report/formamurni', ['uses'=>'Report\FormAController@index', 'as'=>'formamurni.index']);
-    
+    Route::post('/report/formamurni/printtoexcel', ['uses'=>'Report\FormAController@printtoexcel', 'as'=>'formamurni.printtoexcel']);
+
     //REPORT - Form B Murni
     Route::post('/report/formbmurni', ['uses'=>'Report\FormBController@index', 'as'=>'formbmurni.index']);
-    
+    Route::post('/report/formbmurni/printtoexcel', ['uses'=>'Report\FormBController@printtoexcel', 'as'=>'formbmurni.printtoexcel']);
+
     //REPORT - Evaluasi RKPD Murni
     Route::post('/report/reportevaluasirkpdmurni', ['uses'=>'Report\EvaluasiRKPDMurniController@index', 'as'=>'reportevaluasirkpdmurni.index']);
     Route::get('/report/reportevaluasirkpdmurni/populatedata', ['uses'=>'Report\EvaluasiRKPDMurniController@populatedata', 'as'=>'reportevaluasirkpdmurni.populatedata']);
@@ -160,4 +162,5 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     //setting - app configuration
     Route::resource('/setting/config','Setting\ConfigController',['parameters'=>['config'=>'uuid']]);
     Route::get('/setting/config/all',['uses'=>'Setting\ConfigController@all','as'=>'config.all']);
+    
 });
