@@ -240,7 +240,7 @@ import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
 
 const checkTotalUraian = (value,vm) => {       
-    return (parseFloat(value)+vm.totaluraian) <= parseFloat(vm.PaguDana1);
+    return (parseFloat(value)+parseFloat(vm.totaluraian)) <= parseFloat(vm.PaguDana1);
 };
 
 export default {
