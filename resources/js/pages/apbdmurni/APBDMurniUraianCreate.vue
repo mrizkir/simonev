@@ -322,45 +322,45 @@ export default {
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
             { 
-                // var page = this.$store.getters.getPage('apbdmurni');                
-				// axios.post('/api/v1/apbdmurni/store2',{
-                //     'RKAID':this.detailkegiatan.RKAID,
-                //     'RObyID':this.datarekening.code,
-                //     'nama_uraian':this.form.nama_uraian,
-                //     'volume':this.form.volume,
-                //     'satuan':this.form.satuan,
-                //     'harga_satuan':this.form.harga_satuan,
-                //     'pagu_uraian1':this.form.pagu_uraian1,
-                //     'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
-                //     'Descr':'-',
-                // },{
-                //     headers:{
-                //         'Authorization': window.laravel.api_token,
-                //     },
-                // })
-                // .then(response => {                          
-                //     this.$swal({
-                //         title: '<i class="fas fa-spin fa-spinner"></i>',
-                //         text: "Menyimpan Data Rincian Kegiatan berhasil dilakukan",
-                //         showCancelButton: false,
-                //         showConfirmButton: false,
-                //         showCloseButton: false,
-                //         allowOutsideClick: false,
-                //         allowEscapeKey: false,
-                //         allowEnterKey: false,
-                //     });              
-                //     setTimeout(() => {
-                //         this.clearform();     
-                //         var page = this.$store.getters.getPage('apbdmurni');
-                //         page.datarekening = '';                        
-                //         this.$store.commit('replacePage',page);         
-                //         this.$swal.close();          
-                //         this.$router.push('/apbdmurni/uraian');                          
-                //     }, 1500);             
-                // })
-                // .catch(error => {
-                //     this.api_message = error.response.data.message;
-                // });			
+                var page = this.$store.getters.getPage('apbdmurni');                
+				axios.post('/api/v1/apbdmurni/store2',{
+                    'RKAID':this.detailkegiatan.RKAID,
+                    'RObyID':this.datarekening.code,
+                    'nama_uraian':this.form.nama_uraian,
+                    'volume':this.form.volume,
+                    'satuan':this.form.satuan,
+                    'harga_satuan':this.form.harga_satuan,
+                    'pagu_uraian1':this.form.pagu_uraian1,
+                    'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
+                    'Descr':'-',
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Menyimpan Data Rincian Kegiatan berhasil dilakukan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.clearform();     
+                        var page = this.$store.getters.getPage('apbdmurni');
+                        page.datarekening = '';                        
+                        this.$store.commit('replacePage',page);         
+                        this.$swal.close();          
+                        this.$router.push('/apbdmurni/uraian');                          
+                    }, 1500);             
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			
 			}        
         },
         clearform ()
