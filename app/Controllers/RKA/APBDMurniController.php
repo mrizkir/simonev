@@ -749,7 +749,8 @@ class APBDMurniController extends Controller
             ];
             $apbdmurni = RKAKegiatanModel::create($data);     
             
-            return response()->json([            
+            return response()->json([      
+                'RKAID'=>$apbdmurni->RKAID,      
                 'message'=>'Data rincian telah berhasil disimpan.',
             ],200);
         }
@@ -992,11 +993,7 @@ class APBDMurniController extends Controller
                         ->where('trRKARinc.RKARincID',$id)                
                         ->get();            
 
-        if (is_null($data) )  
-        {
-            return response()->json("Data Uraian dengan ID ($id) tidak ditemukan",500);                                                           
-        }
-        else
+        if (count($data)  > 0 ) 
         {    
             $datauraian=[
                             'RKARincID'=>$data[0]->RKARincID,
@@ -1035,6 +1032,10 @@ class APBDMurniController extends Controller
                         ];
             return response()->json($datauraian,200);       
         }
+        else
+        {
+            return response()->json("Data Uraian dengan ID ($id) tidak ditemukan atau Rencana Target dan Anggaran kas belum di isi",500);                                                           
+        }        
     }
     /**
      * Display the specified resource. [rencanatarget]

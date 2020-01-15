@@ -550,8 +550,8 @@ export default {
                         this.$store.commit('replacePage',page);                                            
                         this.$router.push('/apbdmurni/uraian/realisasi'); 
                     })
-                    .catch(response => {
-                        this.api_message = response;
+                    .catch(error => {
+                        this.api_message = error.response.data;
                     });       
                 break;
                 case 'edit':

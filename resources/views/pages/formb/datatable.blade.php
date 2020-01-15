@@ -145,7 +145,8 @@
                 $totalRealisasiKeuangan=$data_realisasi[0]->realisasi1;
                 $totalRealisasiKeuanganKeseluruhan+=$totalRealisasiKeuangan;
                 $persen_realisasi_keuangan=Helper::formatPersen($totalRealisasiKeuangan,$nilai_pagu_proyek);  
-
+                
+                $persen_tertimbang_keuangan=0.00;
                 if ($persen_realisasi_fisik > 0 && $persen_bobot > 0)
                 {
                     $persen_tertimbang_keuangan=number_format(($persen_realisasi_keuangan*$persen_bobot)/100,3);                            
