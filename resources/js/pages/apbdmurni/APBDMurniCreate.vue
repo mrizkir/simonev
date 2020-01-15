@@ -405,7 +405,11 @@ export default {
                         'Authorization': window.laravel.api_token,
                     },
                 })
-                .then(response => {                          
+                .then(response => {   
+                    var page = this.$store.getters.getPage('apbdmurni');
+                    page.detailkegiatan = {};                        
+                    page.RKAID = response.data.RKAID;                        
+                    this.$store.commit('replacePage',page);                          
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
                         text: "Menyimpan Data Kegiatan berhasil dilakukan",
@@ -419,7 +423,7 @@ export default {
                     setTimeout(() => {
                         this.clearform();              
                         this.$swal.close();          
-                        this.$router.push('/apbdmurni');                          
+                        this.$router.push('/apbdmurni/uraian');                          
                     }, 1500);             
                 })
                 .catch(error => {

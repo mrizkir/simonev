@@ -38,6 +38,46 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
+                            <h3 class="card-title"><i class="fas fa-eye"></i> DATA KEGIATAN</h3>
+                            <div class="card-tools">            
+                                                            
+                            </div>                            
+                        </div>
+                        <div class="card-body">
+                            <div class="row">                                      
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>RKAID: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">{{data_rka.RKAID}}</p>
+                                        </div>                            
+                                    </div> 
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>PROGRAM: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">[{{data_rka.kode_program}}] {{data_rka.PrgNm}}</p>
+                                        </div>                            
+                                    </div>    
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>KEGIATAN: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">[{{data_rka.kode_kegiatan}}] {{data_rka.KgtNm}}</p>
+                                        </div>                            
+                                    </div>    
+                                    <div class="form-group row">
+                                        <label class="col-md-3 col-form-label"><strong>PAGU DANA: </strong></label>
+                                        <div class="col-md-9">
+                                            <p class="form-control-static">{{data_rka.PaguDana1|formatUang}}</p>
+                                        </div>                            
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
                             <h3 class="card-title"><i class="fas fa-bookmark"></i> FILTER</h3>                            
                         </div>
                         <div class="card-body">
@@ -61,7 +101,7 @@
                         <div class="card-header">
                             <h3 class="card-title"></h3>
                             <div class="card-tools">
-                                <a type="button" class="btn btn-tool" v-on:click.prevent="proc('printtoexcel',{RKAID:RKAID,no_bulan:no_bulan})" title="Print Form A Murni">
+                                <a type="button" class="btn btn-tool" v-on:click.prevent="proc('printtoexcel',{RKAID:data_rka.RKAID,no_bulan:no_bulan})" title="Print Form A Murni">
                                     <i class="fas fa-print"></i>
                                 </a>
                                 <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)" title="Keluar">
@@ -246,6 +286,7 @@ export default {
             daftar_unitkerja: [],
 
             //show detail
+            data_rka:{},
             RKAID:'',
             no_bulan:bulan,
             daftar_bulan:[],
@@ -351,6 +392,7 @@ export default {
         },
         generateReport()
         {
+            this.html_generated='';
             var page = this.$store.getters.getPage('reportformamurni');
             axios.post('/api/v1/report/formamurni',{
                 'RKAID':page.RKAID,
@@ -373,16 +415,13 @@ export default {
             {
                 case 'show' :
                     this.pid = pid;
-                    this.html_generated='';
                     var daftar_bulan = this.$store.getters.getConfig(0);
                     this.daftar_bulan=daftar_bulan;   
+                    this.data_rka=item;
 
                     var page = this.$store.getters.getPage('reportformamurni');
                     page.RKAID = item.RKAID;
-                    this.RKAID = item.RKAID;
-
                     this.no_bulan=page.no_bulan; 
-
                     this.$store.commit('replacePage',page);
                     this.generateReport();
                 break;
