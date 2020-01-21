@@ -462,7 +462,12 @@ export default {
             })
             .then(response => {                                        
                 this.asn=response.data; 
-                this.daftar_asn = this.asn.daftar_asn;                           
+                this.daftar_asn = this.asn.daftar_asn;  
+                if(typeof(this.asn.search) !== 'undefined' && this.asn.search !== null)
+                {
+                    this.cmbKriteria = this.asn.search.kriteria;
+                    this.txtKriteria = this.asn.search.isikriteria;
+                }                           
             })
             .catch(response => {
                 this.api_message = response;

@@ -50,7 +50,7 @@ class ASNController extends Controller
                 break;
                 case 'Nm_ASN' :
                     $data = ASNModel::where('TA', \HelperKegiatan::getTahunAnggaran())
-                                    ->where('Nm_ASN', $search['isikriteria'])
+                                    ->where('Nm_ASN', 'ILIKE', '%' . $search['isikriteria'] . '%')
                                     ->orderBy($column_order, $direction);
                 break;
             }           

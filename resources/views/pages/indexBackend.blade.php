@@ -21,10 +21,11 @@
 			</li>			
     	</ul>
     	<ul class="navbar-nav ml-auto">	
-			<li class="nav-item">
-				<a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#"><i
-					class="fas fa-th-large"></i>
-				</a>
+			<li class="nav-item d-none d-sm-inline-block">
+				<span class="posisianggaran">Anda Berada di Tahun Realisasi {{HelperKegiatan::getTahunAnggaran()}}</span>
+			</li>
+			<li class="nav-item d-none d-sm-inline-block">
+				<a href="{{route('logout')}}" class="nav-link">LOGOUT</a>
 			</li>
 		</ul>
   	</nav>
