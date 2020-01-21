@@ -148,12 +148,12 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     Route::get('/apbdperubahan/totaluraian/{uuid}',['uses'=>'RKA\APBDPerubahanController@totaluraian','as'=>'apbdperubahan.totaluraian']);  
 
     //REPORT - Form A Murni
-    Route::post('/report/formamurni', ['uses'=>'Report\FormAController@index', 'as'=>'formamurni.index']);
-    Route::post('/report/formamurni/printtoexcel', ['uses'=>'Report\FormAController@printtoexcel', 'as'=>'formamurni.printtoexcel']);
+    Route::post('/report/formamurni', ['uses'=>'Report\FormAMurniController@index', 'as'=>'formamurni.index']);
+    Route::post('/report/formamurni/printtoexcel', ['uses'=>'Report\FormAMurniController@printtoexcel', 'as'=>'formamurni.printtoexcel']);
 
     //REPORT - Form B Murni
-    Route::post('/report/formbmurni', ['uses'=>'Report\FormBController@index', 'as'=>'formbmurni.index']);
-    Route::post('/report/formbmurni/printtoexcel', ['uses'=>'Report\FormBController@printtoexcel', 'as'=>'formbmurni.printtoexcel']);
+    Route::post('/report/formbmurni', ['uses'=>'Report\FormBMurniController@index', 'as'=>'formbmurni.index']);
+    Route::post('/report/formbmurni/printtoexcel', ['uses'=>'Report\FormBMurniController@printtoexcel', 'as'=>'formbmurni.printtoexcel']);
 
     //REPORT - Evaluasi RKPD Murni
     Route::post('/report/reportevaluasirkpdmurni', ['uses'=>'Report\EvaluasiRKPDMurniController@index', 'as'=>'reportevaluasirkpdmurni.index']);

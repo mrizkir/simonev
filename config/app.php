@@ -4,7 +4,7 @@ return [
     'name' => env('APP_NAME', 'SIMONEV'),
     'env' => env('APP_ENV', 'production'),
     'debug' => env('APP_DEBUG', false),
-    'url' => env('APP_URL', 'https://simonev.bintankab.go.id'),
+    'url' => env('APP_URL', 'https://simonev3.bintankab.go.id'),
     'timezone' => 'Asia/Jakarta',
     'locale' => 'id',
     'fallback_locale' => 'id',

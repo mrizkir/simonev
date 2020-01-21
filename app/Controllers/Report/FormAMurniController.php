@@ -8,7 +8,7 @@ use App\Models\RKA\RKAKegiatanModel;
 use App\Models\RKA\RKARincianKegiatanModel;
 use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
-class FormAController extends Controller 
+class FormAMurniController extends Controller 
 {
     private $dataRKA;
      /**
@@ -283,16 +283,18 @@ class FormAController extends Controller
     /**
      * collect data from resources for print out to excel
      *
-     * @return resources
+     * @return file  excel
      */
     public function printtoexcel (Request $request)
     {
         $RKAID=$request->RKAID;
         $no_bulan=$request->no_bulan;
 
-        return response()->json([
-                                'RKAID'=>$RKAID,
-                                'no_bulan'=>$no_bulan,
-                            ]);
+        $data_report=$this->getDataRKA($RKAID,$no_bulan);
+        $report= new \App\Models\Report\FormAMurniModel ($data_report);
+
+        $generate_date=date('Y-m-d_H_m_s');
+        
+        return $report->download("forma_a_$generate_date.xlsx");
     }
 }

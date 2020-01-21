@@ -428,14 +428,23 @@ export default {
                 case 'printtoexcel' :
                     axios.post('/api/v1/report/formamurni/printtoexcel',{
                         'RKAID':item.RKAID,
-                        'no_bulan':this.no_bulan,
-                    },{
+                        'no_bulan':this.no_bulan
+                    },
+                    {
                         headers:{
                             'Authorization': window.laravel.api_token,
+                            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         },
+                        responseType:'arraybuffer'
                     })
                     .then(response => {      
-                        console.log(response.data);
+                        const url = window.URL.createObjectURL(new Blob([response.data]));
+                        const link = document.createElement('a');
+                        link.href = url;
+
+                        link.setAttribute('download', 'form_a_'+Date.now()+'.xlsx');
+                        document.body.appendChild(link);
+                        link.click();
                     })
                     .catch(error => {
                         this.api_message = error.response.data.message;

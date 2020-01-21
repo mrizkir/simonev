@@ -8,7 +8,7 @@ use App\Models\RKA\RKAKegiatanModel;
 use App\Models\RKA\RKARincianKegiatanModel;
 use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
-class FormBController extends Controller 
+class FormBMurniController extends Controller 
 {
     private $dataRKA;
      /**
