@@ -426,14 +426,16 @@ export default {
                     this.generateReport();
                 break;
                 case 'printtoexcel' :
-                    axios.post('/api/v1/report/formamurni/printtoexcel',{
+                    console.log(item.RKAID);
+                    axios.post(
+                    '/api/v1/report/formamurni/printtoexcel',
+                    {
                         'RKAID':item.RKAID,
                         'no_bulan':this.no_bulan
                     },
                     {
                         headers:{
                             'Authorization': window.laravel.api_token,
-                            'Content-Type': 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                         },
                         responseType:'arraybuffer'
                     })

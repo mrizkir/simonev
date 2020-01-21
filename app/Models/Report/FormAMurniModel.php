@@ -20,6 +20,11 @@ class FormAMurniModel extends ReportModel
     }    
     private function  print()  
     {
+        $no_bulan = $this->dataReport['no_bulan'];
+        $nama_bulan = \Helper::getBulan($no_bulan);
+        $tahun = \HelperKegiatan::getTahunAnggaran();
+        $datakegiatan = $this->dataReport['datakegiatan'];
+
         $sheet = $this->spreadsheet->getActiveSheet();        
         $sheet->setTitle ('LAPORAN FORM A');
 
@@ -75,6 +80,19 @@ class FormAMurniModel extends ReportModel
         $sheet->mergeCells("T$row:U$row");
         $sheet->getStyle("T$row")->getAlignment()->setHorizontal(Alignment::HORIZONTAL_RIGHT);
         $sheet->setCellValue("T$row","POSISI S.D $nama_bulan $tahun");
+        $row+=2;                
+        $row_awal=$row;
+        $row_awal_sekali=$row;
+        $sheet->setCellValue("A$row",'I.');
+        $sheet->mergeCells("B$row:F$row");
+        $sheet->setCellValue("B$row",'DATA UMUM');
+        $sheet->getStyle("A$row:B$row")->getFont()->setBold(true);
+        $row+=1;                
+        $sheet->mergeCells("B$row:F$row");
+        $sheet->setCellValue("B$row",'URUSAN PEMERINTAHAN');
+        $sheet->setCellValue("G$row",': ' . $datakegiatan['kode_urusan']);                
+        $sheet->mergeCells("H$row:T$row");
+        $sheet->setCellValue("H$row",$datakegiatan['Nm_Bidang']);
 
     }
 }

@@ -10,6 +10,8 @@ use App\Models\RKA\RKARealisasiRincianKegiatanModel;
 
 class FormAMurniController extends Controller 
 {
+    private $dataKegiatan;
+
     private $dataRKA;
      /**
      * Membuat sebuah objek
@@ -61,12 +63,13 @@ class FormAMurniController extends Controller
                             ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
                             ->where('trRKA.EntryLvl',\HelperKegiatan::getLevelEntriByName($this->NameOfPage))
                             ->find($id);
+        
         $dataAkhir=[];
         if (!is_null($rka))
         {
-            $data_rka=$rka->toArray();        
-            $totalPaguKegiatan = (float)\DB::table('trRKARinc')->where('RKAID',$rka->RKAID)->sum('pagu_uraian1');
-            $data_rka['total_pagu_kegiatan']=$totalPaguKegiatan;
+            $this->dataKegiatan=$rka->toArray();        
+            $totalPaguUraian = (float)\DB::table('trRKARinc')->where('RKAID',$rka->RKAID)->sum('pagu_uraian1');
+            $this->dataKegiatan['total_pagu_uraian']=$totalPaguUraian;
             $data_akhir = \DB::table('trRKARinc')
                             ->select(\DB::raw('"trRKARinc"."RKARincID",
                                     "trRKARinc"."RKAID",
@@ -111,9 +114,9 @@ class FormAMurniController extends Controller
                 $no_rek5=$v->kode_rek_5;            
                 if (array_key_exists ($no_rek5,$dataAkhir)) 
                 {
-                    $persenbobot=\Helper::formatPersen($v->pagu_uraian1,$totalPaguKegiatan); 
-                    $persen_target=\Helper::formatPersen($target,$totalPaguKegiatan);   
-                    $persen_realisasi=\Helper::formatPersen($realisasi,$totalPaguKegiatan);
+                    $persenbobot=\Helper::formatPersen($v->pagu_uraian1,$totalPaguUraian); 
+                    $persen_target=\Helper::formatPersen($target,$totalPaguUraian);   
+                    $persen_realisasi=\Helper::formatPersen($realisasi,$totalPaguUraian);
                     $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                     $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
                     $dataAkhir[$no_rek5]['child'][]=[
@@ -146,9 +149,9 @@ class FormAMurniController extends Controller
                 }
                 else
                 {
-                    $persenbobot=\Helper::formatPersen($v->pagu_uraian1,$totalPaguKegiatan); 
-                    $persen_target=\Helper::formatPersen($target,$totalPaguKegiatan);   
-                    $persen_realisasi=\Helper::formatPersen($realisasi,$totalPaguKegiatan);
+                    $persenbobot=\Helper::formatPersen($v->pagu_uraian1,$totalPaguUraian); 
+                    $persen_target=\Helper::formatPersen($target,$totalPaguUraian);   
+                    $persen_realisasi=\Helper::formatPersen($realisasi,$totalPaguUraian);
                     $persen_tertimbang_realisasi=number_format(($persen_realisasi*$persenbobot)/100,2);   
                     $persen_tertimbang_fisik=number_format(($persen_fisik*$persenbobot)/100,2);
                     $dataAkhir[$no_rek5]=[
@@ -290,11 +293,15 @@ class FormAMurniController extends Controller
         $RKAID=$request->RKAID;
         $no_bulan=$request->no_bulan;
 
-        $data_report=$this->getDataRKA($RKAID,$no_bulan);
-        $report= new \App\Models\Report\FormAMurniModel ($data_report);
-
-        $generate_date=date('Y-m-d_H_m_s');
+        $rka=$this->getDataRKA($RKAID,$no_bulan);
+        $data_report['RKAID']=$RKAID;
+        $data_report['no_bulan']=$no_bulan;
+        $data_report['rka']=$rka;
+        $data_report['datakegiatan']=$this->dataKegiatan;
         
+        $report= new \App\Models\Report\FormAMurniModel ($data_report);
+        $generate_date=date('Y-m-d_H_m_s');
         return $report->download("forma_a_$generate_date.xlsx");
+        // return response()->json($data_report,200);
     }
 }
