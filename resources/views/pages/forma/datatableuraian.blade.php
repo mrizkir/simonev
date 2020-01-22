@@ -65,7 +65,7 @@
                         if ($rek1 == $k1) 
                         {
                             //tingkat i
-                            $totalPaguDana_Rek1=\App\Controllers\Report\FormAController::calculateEachLevel($rka,$k1,'Kd_Rek_1');
+                            $totalPaguDana_Rek1=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k1,'Kd_Rek_1');
                             $totalPaguDana=$totalPaguDana_Rek1['totalpagu'];
                             $rp_total_pagu_dana_rek1=Helper::formatUang($totalPaguDana);
                             echo '<tr>';
@@ -101,7 +101,7 @@
                                 }
                                 foreach ($rek2_tampil as $a=>$b) 
                                 {
-                                    $totalPaguDana_Rek2=\App\Controllers\Report\FormAController::calculateEachLevel($rka,$a,'kode_rek_2');                                
+                                    $totalPaguDana_Rek2=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$a,'kode_rek_2');                                
                                     $no_=explode ('.',$a);
                                     $rp_total_pagu_dana_rek2=Helper::formatUang($totalPaguDana_Rek2['totalpagu']);
                                     echo '<tr>';
@@ -129,7 +129,7 @@
                                         $rek3=substr($k3,0,3);
                                         if ($a==$rek3) 
                                         {
-                                            $totalPaguDana_Rek3=\App\Controllers\Report\FormAController::calculateEachLevel($rka,$k3,'kode_rek_3');                                        
+                                            $totalPaguDana_Rek3=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k3,'kode_rek_3');                                        
                                             $no_=explode (".",$k3);
                                             $rp_total_pagu_dana_rek3=Helper::formatUang($totalPaguDana_Rek3['totalpagu']);
                                             $persen_bobot_rek3=$totalPaguDana_Rek3['totalpersenbobot'];
@@ -165,7 +165,7 @@
                                             {
                                                 if (preg_match("/^$k3/", $k4)) 
                                                 {
-                                                    $totalPaguDana_Rek4=\App\Controllers\Report\FormAController::calculateEachLevel($rka,$k4,'kode_rek_4');
+                                                    $totalPaguDana_Rek4=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k4,'kode_rek_4');
                                                     $rp_total_pagu_dana_rek4=Helper::formatUang($totalPaguDana_Rek4['totalpagu']);
                                                     $no_=explode (".",$k4);
                                                     $persen_bobot_rek4=$totalPaguDana_Rek4['totalpersenbobot'];
@@ -197,10 +197,12 @@
                                                     echo '<td class="text-right">'.$dalamDpa_rek4.'</td>';                                                                                              
                                                     echo '</tr>';
 
-                                                    foreach ($tingkat_5 as $k5=>$v5) {
-                                                        if (preg_match("/^$k4/", $k5)) {      
+                                                    foreach ($tingkat_5 as $k5=>$v5) 
+                                                    {
+                                                        if (preg_match("/^$k4/", $k5)) 
+                                                        {      
                                                             $totalUraian+=1;
-                                                            $totalPaguDana_Rek5=\App\Controllers\Report\FormAController::calculateEachLevel($rka,$k5,'kode_rek_5');													
+                                                            $totalPaguDana_Rek5=\App\Models\Report\FormAMurniModel::calculateEachLevel($rka,$k5,'kode_rek_5');													
                                                             $rp_total_pagu_dana_rek5=Helper::formatUang($totalPaguDana_Rek5['totalpagu']); 
                                                             $RKARincID=$rka[$k5]['RKARincID'];
                                                             $nama_uraian=$rka[$k5]['nama_uraian']; 
@@ -210,7 +212,7 @@
                                                             $persen_target_rek5=$totalPaguDana_Rek5['totalpersentarget'];
                                                             $rp_total_realisasi_rek5=Helper::formatUang($totalPaguDana_Rek5['totalrealisasi']);
                                                             $persen_realisasi_rek5=$totalPaguDana_Rek5['totalpersenrealisasi'];
-                                                            $persen_tertimbang__realisasi_rek5=$totalPaguDana_Rek5['totalpersentertimbangrealisasi'];                                                        
+                                                            $persen_tertimbang_realisasi_rek5=$totalPaguDana_Rek5['totalpersentertimbangrealisasi'];                                                        
                                                             $persen_rata2_fisik_rek5=Helper::formatPecahan($totalPaguDana_Rek5['totalfisik'],$totalPaguDana_Rek5['totalbaris']);
                                                             $persen_tertimbang_fisik_rek5=$totalPaguDana_Rek5['totalpersentertimbangfisik'];
                                                             $dalamDpa_rek5=Helper::formatUang($totalPaguDana_Rek5['totalpagu']-$totalPaguDana_Rek5['totalrealisasi']);                                                                                                        
@@ -229,7 +231,7 @@
                                                             echo '<td class="text-center">'.$persen_target_rek5.'</td>';
                                                             echo '<td class="text-right">'.$rp_total_realisasi_rek5.'</td>';
                                                             echo '<td class="text-center">'.$persen_realisasi_rek5.'</td>';
-                                                            echo '<td class="text-center">'.$persen_tertimbang__realisasi_rek5.'</td>';                                                        
+                                                            echo '<td class="text-center">'.$persen_tertimbang_realisasi_rek5.'</td>';                                                        
                                                             echo '<td class="text-right">'.$dalamDpa_rek5.'</td>';                                                        
                                                             echo '</tr>';	
                                                             
