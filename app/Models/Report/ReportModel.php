@@ -81,10 +81,16 @@ class ReportModel extends Model
                                             "v_rka"."PaguDana1",
                                             "v_rka"."Descr",
                                             "v_rka"."EntryLvl",
+                                            "A"."NIP_ASN" AS nip_pa,
+                                            "A"."Nm_ASN" AS nama_pa,
+                                            "B"."NIP_ASN" AS nip_pptk,
+                                            "B"."Nm_ASN" AS nama_pptk,
                                             "v_rka"."created_at",
                                             "v_rka"."updated_at"
                                             '))
                             ->join('v_rka','v_rka.RKAID','trRKA.RKAID')     
+                            ->leftJoin('tmASN AS A','A.ASNID','v_rka.nip_pa1')     
+                            ->leftJoin('tmASN AS B','B.ASNID','v_rka.nip_pptk1')     
                             ->where('trRKA.EntryLvl',$entryLvl)
                             ->find($id);
         

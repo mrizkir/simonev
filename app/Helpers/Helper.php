@@ -142,5 +142,20 @@ class Helper {
             $result=number_format(((float)$pembilang/(float)$penyebut),$dec_sep);
         }
         return $result;
-	}    
+    }
+    /**
+     * Format NIP
+     * @param type $nip integer
+     */
+    public static function formatNIP ($nip) {        
+        $formatnip=$nip;        
+        if (isset($nip[17])) {             
+            $tgllahir=  substr($nip, 0, 8);
+            $tmtcpns=  substr($nip, 8, 6);
+            $jk=  substr($nip, 14, 1);
+            $nourut=substr($nip, 15, 3);
+            $formatnip = "$tgllahir $tmtcpns $jk $nourut";
+        }       
+        return $formatnip;
+    }    
 }
