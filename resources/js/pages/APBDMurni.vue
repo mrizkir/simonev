@@ -48,28 +48,28 @@
                         <form class="form-horizontal" @submit.prevent="updateData">
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">PROGRAM</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">PROGRAM</label>
+                                    <div class="col-sm-9">
                                         [{{form.kode_program}}] {{form.PrgNm}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">RKPDID</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">RKPDID</label>
+                                    <div class="col-sm-9">
                                         {{form.RKPDID}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">KEGIATAN</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">KEGIATAN</label>
+                                    <div class="col-sm-9">
                                         <p class="form-control-static">
                                             [{{form.kode_kegiatan}}] {{form.KgtNm}}
                                         </p>
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">PAGU DANA</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">PAGU DANA</label>
+                                    <div class="col-sm-9">
 										<vue-autonumeric 
 											v-model.trim="form.PaguDana1" 
 											v-on:input="$v.form.$touch"
@@ -89,8 +89,143 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">PA</label>
-                                    <div class="col-sm-10">
+                                    <label class="control-label col-sm-3">LOKASI KEGIATAN:</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.lokasi_kegiatan1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.lokasi_kegiatan1.$error, 'is-valid': $v.form.lokasi_kegiatan1.$dirty && !$v.form.lokasi_kegiatan1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">SUMBER DANA:</label>
+                                    <div class="col-sm-9">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">                                
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">CAPAIAN PROGRAM:</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.capaian_program1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.capaian_program1.$error, 'is-valid': $v.form.capaian_program1.$dirty && !$v.form.capaian_program1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">TARGET KINERJA CAPAIAN (%):</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.tk_capaian1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.tk_capaian1.$error, 'is-valid': $v.form.tk_capaian1.$dirty && !$v.form.tk_capaian1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">MASUKAN:</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.masukan1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.masukan1.$error, 'is-valid': $v.form.masukan1.$dirty && !$v.form.masukan1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">KELUARAN (OUTPUT):</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.keluaran1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.keluaran1.$error, 'is-valid': $v.form.keluaran1.$dirty && !$v.form.keluaran1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">TARGET KINERJA KELUARAN (OUTPUT):</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.tk_keluaran1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.tk_keluaran1.$error, 'is-valid': $v.form.tk_keluaran1.$dirty && !$v.form.tk_keluaran1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">HASIL (OUTCOME):</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.hasil1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.hasil1.$error, 'is-valid': $v.form.hasil1.$dirty && !$v.form.hasil1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">TARGET KINERJA HASIL (OUTCOME):</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.tk_hasil1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.tk_hasil1.$error, 'is-valid': $v.form.tk_hasil1.$dirty && !$v.form.tk_hasil1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">KELOMPOK SASARAN KEGIATAN:</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.ksk1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.ksk1.$error, 'is-valid': $v.form.ksk1.$dirty && !$v.form.ksk1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">SIFAT KEGIATAN:</label>
+                                    <div class="col-sm-9">
+                                        <select 
+                                            type="text" 
+                                            v-model.trim="form.sifat_kegiatan1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.sifat_kegiatan1.$error, 'is-valid': $v.form.sifat_kegiatan1.$dirty && !$v.form.sifat_kegiatan1.$invalid}"
+                                        >
+        
+                                        </select>
+                                    </div>
+                                </div>
+                                 <div class="form-group row">
+                                    <label class="control-label col-sm-3">WAKTU PELAKSANAAN:</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.waktu_pelaksanaan1" 
+                                            class="form-control"
+                                            v-bind:class="{'is-invalid': $v.form.waktu_pelaksanaan1.$error, 'is-valid': $v.form.waktu_pelaksanaan1.$dirty && !$v.form.waktu_pelaksanaan1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">PA</label>
+                                    <div class="col-sm-9">
                                         <v-select 
                                             v-model="form.nip_pa" 
                                             :reduce="daftar_pa => daftar_pa.code" 
@@ -100,8 +235,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">KPA</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">KPA</label>
+                                    <div class="col-sm-9">
                                         <v-select 
                                             v-model="form.nip_kpa" 
                                             :reduce="daftar_kpa => daftar_kpa.code" 
@@ -111,8 +246,8 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">PPK</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">PPK</label>
+                                    <div class="col-sm-9">
                                         <v-select 
                                             placeholder="SILAHKAN PILIH PPK (PEJABAT PEMBUAT KOMITMEN)" 
                                             v-model="form.nip_ppk" 
@@ -122,8 +257,8 @@
                                     </div>
                                 </div>                               
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">PPTK</label>
-                                    <div class="col-sm-10">
+                                    <label class="col-sm-3 col-form-label">PPTK</label>
+                                    <div class="col-sm-9">
                                         <v-select 
                                             v-model="form.nip_pptk" 
                                             :reduce="daftar_pptk => daftar_pptk.code"
@@ -135,10 +270,10 @@
                             </div>
                             <div class="card-footer">
                                 <div class="form-group row">
-                                    <div class="col-sm-2">
+                                    <div class="col-sm-3">
                                         &nbsp;
                                     </div>
-                                    <div class="col-sm-10">
+                                    <div class="col-sm-9">
                                         <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
                                     </div>                                    
                                 </div>
@@ -325,6 +460,18 @@ export default {
                 PrgNm:'',		                                
                 kode_kegiatan:'',		                                
                 KgtNm: '',
+                lokasi_kegiatan1: '',
+                SumberDananID:'',
+                capaian_program1:'',
+                masukan1:'',
+                tk_capaian1:'',
+                keluaran1:'',
+                tk_keluaran1:'',
+                hasil1:'',
+                tk_hasil1:'',
+                ksk1:'',
+                sifat_kegiatan1:'',
+                waktu_pelaksanaan1:'',
                 PaguDana1: '',	
                 nip_kpa:'',			
                 nip_pa:'',			
@@ -540,7 +687,7 @@ export default {
                     }                    
                 break;
                 case 'edit':
-                    this.pid=pid;                    
+                    this.pid=pid; 
                     this.form.RKAID = item.RKAID;
                     this.form.RKPDID = item.RKPDID;
                     this.form.kode_program = item.kode_program;
@@ -548,6 +695,29 @@ export default {
                     this.form.kode_kegiatan = item.kode_kegiatan;
                     this.form.KgtNm = item.KgtNm;
                     this.form.PaguDana1 = item.PaguDana1;
+
+                    axios.get('/api/v1/apbdmurni/'+item.RKAID,{
+                        headers:{
+                            'Authorization': window.laravel.api_token,
+                        }
+                    })
+                    .then(response => {   
+                        console.log(response.data.rka);
+                        this.form.lokasi_kegiatan1 = response.data.rka.lokasi_kegiatan1;
+                        this.form.capaian_program1 = response.data.rka.capaian_program1;
+                        this.form.masukan1 = response.data.rka.masukan1;
+                        this.form.tk_capaian1 = response.data.rka.tk_capaian1;
+                        this.form.keluaran1 = response.data.rka.keluaran1;
+                        this.form.tk_keluaran1 = response.data.rka.tk_keluaran1;
+                        this.form.hasil1 = response.data.rka.hasil1;
+                        this.form.tk_hasil1 = response.data.rka.tk_hasil1;
+                        this.form.ksk1 = response.data.rka.ksk1;
+                        this.form.sifat_kegiatan1 = response.data.rka.sifat_kegiatan1;
+                        this.form.waktu_pelaksanaan1 = response.data.rka.waktu_pelaksanaan1;
+                    })
+                    .catch(response => {
+                        this.api_message = response;
+                    });       
 
                     this.fetchPejabat();                                    
                     this.form.nip_pa=item.nip_pa1;			
@@ -629,11 +799,22 @@ export default {
         clearform ()
         {   
             this.form.RKAID='';
+            this.form.SumberDanaID='';
             this.form.RKPDID='';
             this.form.kode_program='';
-            this.form.KgtNm='';
             this.form.kode_kegiatan='';
             this.form.KgtNm='';
+            this.form.lokasi_kegiatan1='';
+            this.form.capaian_program1='';
+            this.form.masukan1='';
+            this.form.tk_capaian1='';
+            this.form.keluaran1='';
+            this.form.tk_keluaran1='';
+            this.form.hasil1='';
+            this.form.tk_hasil1='';
+            this.form.ksk1='';
+            this.form.sifat_kegiatan1='';
+            this.form.waktu_pelaksanaan1='';
             this.form.PaguDana1=0;
             this.form.nip_pa='';
             this.form.nip_kpa='';
@@ -645,6 +826,39 @@ export default {
     validations: {
 		form: {
 			PaguDana1: {
+				required
+			},
+			lokasi_kegiatan1: {
+				required
+			},
+			capaian_program1: {
+				required
+			},
+			tk_capaian1: {
+				required
+			},
+			masukan1: {
+				required
+			},
+			keluaran1: {
+				required
+			},
+			tk_keluaran1: {
+				required
+			},
+			hasil1: {
+				required
+			},
+			tk_hasil1: {
+				required
+			},
+			ksk1: {
+				required
+			},
+			sifat_kegiatan1: {
+				required
+			},
+			waktu_pelaksanaan1: {
 				required
 			},
 		}
