@@ -1198,23 +1198,23 @@ class APBDMurniController extends Controller
         $apbdmurni = RKAKegiatanModel::find($id);
         
         $validator=\Validator::make($request->all(), [
+            'lokasi_kegiatan1'=>'required',
+            'SumberDanaID'=>'required',
+            'capaian_program1'=>'required',
+            'tk_capaian1'=>'required',
+            'masukan1'=>'required',
+            'keluaran1'=>'required',
+            'tk_keluaran1'=>'required',
+            'hasil1'=>'required',
+            'tk_hasil1'=>'required',
+            'ksk1'=>'required',
+            'sifat_kegiatan1'=>'required',
+            'waktu_pelaksanaan1'=>'required',
             'PaguDana1'=>'required',
             'nip_pa' => 'required',
             'nip_kpa' => 'required',
             'nip_ppk' => 'required',
             'nip_pptk' => 'required'
-            // 'lokasi_kegiatan'=>'required',
-            // 'SumberDanaID'=>'required',
-            // 'capaian_program'=>'required',
-            // 'tk_capaian'=>'required',
-            // 'masukan'=>'required',
-            // 'keluaran'=>'required',
-            // 'tk_keluaran'=>'required',
-            // 'hasil'=>'required',
-            // 'tk_hasil'=>'required',
-            // 'ksk'=>'required',
-            // 'sifat_kegiatan'=>'required',
-            // 'waktu_pelaksanaan'=>'required'
         ]);
         
         if ($validator->fails())
@@ -1225,24 +1225,24 @@ class APBDMurniController extends Controller
         }
         else
         {      
+            $apbdmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan1');
+            $apbdmurni->SumberDanaID=$request->input('SumberDanaID');
+            $apbdmurni->capaian_program1=$request->input('capaian_program1');
+            $apbdmurni->tk_capaian1=$request->input('tk_capaian1');
+            $apbdmurni->masukan1=$request->input('masukan1');
+            $apbdmurni->keluaran1=$request->input('keluaran1');
+            $apbdmurni->tk_keluaran1=$request->input('tk_keluaran1');
+            $apbdmurni->hasil1=$request->input('hasil1');
+            $apbdmurni->tk_hasil1=$request->input('tk_hasil1');
+            $apbdmurni->ksk1=$request->input('ksk1');
+            $apbdmurni->sifat_kegiatan1=$request->input('sifat_kegiatan1');
+            $apbdmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan1');
+            $apbdmurni->Descr=$request->input('Descr');
             $apbdmurni->PaguDana1 = $request->input('PaguDana1');          
             $apbdmurni->nip_pa1 = $request->input('nip_pa');          
             $apbdmurni->nip_kpa1 = $request->input('nip_kpa');          
             $apbdmurni->nip_ppk1 = $request->input('nip_ppk');          
-            $apbdmurni->nip_pptk1 = $request->input('nip_pptk');          
-            // $apbdmurni->lokasi_kegiatan1 = $request->input('lokasi_kegiatan');
-            // $apbdmurni->SumberDanaID=$request->input('SumberDanaID');
-            // $apbdmurni->capaian_program1=$request->input('capaian_program');
-            // $apbdmurni->tk_capaian1=$request->input('tk_capaian');
-            // $apbdmurni->masukan1=$request->input('masukan');
-            // $apbdmurni->keluaran1=$request->input('keluaran');
-            // $apbdmurni->tk_keluaran1=$request->input('tk_keluaran');
-            // $apbdmurni->hasil1=$request->input('hasil');
-            // $apbdmurni->tk_hasil1=$request->input('tk_hasil');
-            // $apbdmurni->ksk1=$request->input('ksk');
-            // $apbdmurni->sifat_kegiatan1=$request->input('sifat_kegiatan');
-            // $apbdmurni->waktu_pelaksanaan1=$request->input('waktu_pelaksanaan');
-            // $apbdmurni->Descr=$request->input('Descr');
+            $apbdmurni->nip_pptk1 = $request->input('nip_pptk');           
             $apbdmurni->save();
 
             return response()->json([       

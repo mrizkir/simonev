@@ -105,6 +105,13 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/jenispelaksanaan/search', ['uses' => 'DMaster\JenisPelaksanaanController@search', 'as' => 'jenispelaksanaan.search']);
     
+    //masters - urusan 
+    Route::resource('/master/sumberdana', 'DMaster\SumberDanaController', [
+        'parameters' => ['sumberdana' => 'uuid'],
+        'only' => ['index', 'show']
+    ]);
+    Route::post('/master/sumberdana/search',['uses'=>'DMaster\SumberDanaController@search','as'=>'sumberdana.search']);  
+
     //RKA - APBD Murni
     Route::resource('/apbdmurni','RKA\APBDMurniController',['parameters'=>['apbdmurni'=>'uuid']]);
     Route::get('/apbdmurni/uraian/rencanatarget/{uuid}',['uses'=>'RKA\APBDMurniController@rencanatarget','as'=>'apbdmurni.rencanatarget']);  

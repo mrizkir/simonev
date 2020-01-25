@@ -104,7 +104,14 @@
                                 <div class="form-group row">
                                     <label class="control-label col-sm-3">SUMBER DANA:</label>
                                     <div class="col-sm-9">
-                                        
+                                        <v-select 
+                                            v-model="form.SumberDanaID" 
+                                            :reduce="daftar_sumberdana => daftar_sumberdana.code"
+                                            v-on:input="$v.form.$touch" 
+                                            placeholder="SILAHKAN PILIH SUMBER DANA" 
+                                            :options="daftar_sumberdana" 
+                                            v-bind:class="{'is-invalid': $v.form.SumberDanaID.$error, 'is-valid': $v.form.SumberDanaID.$dirty && !$v.form.SumberDanaID.$invalid}">
+                                        </v-select>
                                     </div>
                                 </div>
                             </div>
@@ -204,13 +211,13 @@
                                             type="text" 
                                             v-model.trim="form.sifat_kegiatan1" 
                                             class="form-control"
-                                            v-bind:class="{'is-invalid': $v.form.sifat_kegiatan1.$error, 'is-valid': $v.form.sifat_kegiatan1.$dirty && !$v.form.sifat_kegiatan1.$invalid}"
                                         >
-        
+                                            <option value="BARU" :selected="form.sifat_kegiatan1=='BARU'">BARU</option>
+                                            <option value="LANJUTAN" :selected="form.sifat_kegiatan1=='LANJUTAN'">LANJUTAN</option>
                                         </select>
                                     </div>
                                 </div>
-                                 <div class="form-group row">
+                                <div class="form-group row">
                                     <label class="control-label col-sm-3">WAKTU PELAKSANAAN:</label>
                                     <div class="col-sm-9">
                                         <input 
@@ -218,6 +225,16 @@
                                             v-model.trim="form.waktu_pelaksanaan1" 
                                             class="form-control"
                                             v-bind:class="{'is-invalid': $v.form.waktu_pelaksanaan1.$error, 'is-valid': $v.form.waktu_pelaksanaan1.$dirty && !$v.form.waktu_pelaksanaan1.$invalid}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <label class="control-label col-sm-3">KETERANGAN:</label>
+                                    <div class="col-sm-9">
+                                        <input 
+                                            type="text" 
+                                            v-model.trim="form.Descr" 
+                                            class="form-control"
                                         >
                                     </div>
                                 </div>
@@ -449,6 +466,7 @@ export default {
             daftar_unitkerja: [],
 
             //form			
+            daftar_sumberdana: [],
             daftar_pa: [],
             daftar_kpa: [],
             daftar_ppk: [],
@@ -461,7 +479,7 @@ export default {
                 kode_kegiatan:'',		                                
                 KgtNm: '',
                 lokasi_kegiatan1: '',
-                SumberDananID:'',
+                SumberDanaID:'',
                 capaian_program1:'',
                 masukan1:'',
                 tk_capaian1:'',
@@ -533,6 +551,27 @@ export default {
                 this.api_message = response;
             });
             this.populateData();
+        },
+        fetchSumberDana ()
+        {
+            axios.get('/api/v1/master/sumberdana',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {     
+                var daftar_sumberdana = [];
+                $.each(response.data,function(key,value){
+                    daftar_sumberdana.push({
+                        code:value.SumberDanaID,
+                        label:value.Nm_SumberDana
+                    });
+                });           
+                this.daftar_sumberdana=daftar_sumberdana;                            
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
         },
         filter ()
         {           
@@ -624,11 +663,24 @@ export default {
             { 
                 axios.post('/api/v1/apbdmurni/update/'+this.form.RKAID,{                   
                     '_method':'PUT',                   
+                    'lokasi_kegiatan1':this.form.lokasi_kegiatan1,                   
+                    'SumberDanaID':this.form.SumberDanaID,                   
+                    'capaian_program1':this.form.capaian_program1,                   
+                    'masukan1':this.form.masukan1,                   
+                    'tk_capaian1':this.form.tk_capaian1,                   
+                    'keluaran1':this.form.keluaran1,                   
+                    'tk_keluaran1':this.form.tk_keluaran1,                   
+                    'hasil1':this.form.hasil1,                   
+                    'tk_hasil1':this.form.tk_hasil1,                   
+                    'ksk1':this.form.ksk1,                   
+                    'sifat_kegiatan1':this.form.sifat_kegiatan1,                   
+                    'waktu_pelaksanaan1':this.form.waktu_pelaksanaan1,                   
                     'PaguDana1':this.form.PaguDana1,                   
                     'nip_pa':this.form.nip_pa,
                     'nip_kpa':this.form.nip_kpa,
                     'nip_ppk':this.form.nip_ppk,
                     'nip_pptk':this.form.nip_pptk,
+                    'Descr':this.form.Descr,
                 },{
                     headers:{
                         'Authorization': window.laravel.api_token,
@@ -688,6 +740,7 @@ export default {
                 break;
                 case 'edit':
                     this.pid=pid; 
+                    this.fetchSumberDana();
                     this.form.RKAID = item.RKAID;
                     this.form.RKPDID = item.RKPDID;
                     this.form.kode_program = item.kode_program;
@@ -702,7 +755,7 @@ export default {
                         }
                     })
                     .then(response => {   
-                        console.log(response.data.rka);
+                        this.form.SumberDanaID = response.data.rka.SumberDanaID;
                         this.form.lokasi_kegiatan1 = response.data.rka.lokasi_kegiatan1;
                         this.form.capaian_program1 = response.data.rka.capaian_program1;
                         this.form.masukan1 = response.data.rka.masukan1;
@@ -714,6 +767,7 @@ export default {
                         this.form.ksk1 = response.data.rka.ksk1;
                         this.form.sifat_kegiatan1 = response.data.rka.sifat_kegiatan1;
                         this.form.waktu_pelaksanaan1 = response.data.rka.waktu_pelaksanaan1;
+                        this.form.Descr = response.data.rka.Descr;
                     })
                     .catch(response => {
                         this.api_message = response;
@@ -825,6 +879,9 @@ export default {
     },         
     validations: {
 		form: {
+			SumberDanaID: {
+				required
+			},
 			PaguDana1: {
 				required
 			},
@@ -853,9 +910,6 @@ export default {
 				required
 			},
 			ksk1: {
-				required
-			},
-			sifat_kegiatan1: {
 				required
 			},
 			waktu_pelaksanaan1: {
