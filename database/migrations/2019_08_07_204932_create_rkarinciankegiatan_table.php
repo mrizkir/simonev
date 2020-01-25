@@ -18,6 +18,7 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->string('RKAID',19);
             $table->string('RObyID',19);
             $table->string('JenisPelaksanaanID',19)->nullable();
+            $table->string('SumberDanaID',19)->nullable();
             $table->text('nama_uraian')->nullable();
             $table->string('volume1')->nullable();
             $table->string('volume2')->nullable();
@@ -27,6 +28,21 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->decimal('harga_satuan2',15,2);
             $table->decimal('pagu_uraian1',15,2);            
             $table->decimal('pagu_uraian2',15,2);            
+            $table->string('idlok',19)->nullable();
+            $table->string('ket_lok',3)->nullable();
+            $table->string('rw',5)->nullable();
+            $table->string('rt',5)->nullable();
+            $table->string('nama_perusahaan')->nullable();
+            $table->string('alamat_perusahaan')->nullable();
+            $table->string('no_telepon',25)->nullable();
+            $table->string('nama_direktur')->nullable();
+            $table->string('npwpw',25)->nullable();
+            $table->string('no_kontrak')->nullable();
+            $table->date('tgl_kontrak')->nullable();
+            $table->date('tgl_mulai_pelaksanaan')->nullable();
+            $table->date('tgl_selesai_pelaksanaan')->nullable();
+            $table->boolean('status_lelang')->default(0);
+
             $table->tinyInteger('EntryLvl')->default(0);
             $table->string('Descr')->nullable();            
             $table->year('TA'); 
