@@ -105,6 +105,12 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
     ]);
     Route::post('/master/jenispelaksanaan/search', ['uses' => 'DMaster\JenisPelaksanaanController@search', 'as' => 'jenispelaksanaan.search']);
     
+    //masters - jenis pembangunan [lain-lain]
+    Route::resource('/master/jenispembangunan', 'DMaster\JenisPembangunanController', [
+        'parameters' => ['jenispembangunan' => 'uuid'],
+    ]);
+    Route::post('/master/jenispembangunan/search', ['uses' => 'DMaster\JenisPembangunanController@search', 'as' => 'jenispembangunan.search']);
+    
     //masters - urusan 
     Route::resource('/master/sumberdana', 'DMaster\SumberDanaController', [
         'parameters' => ['sumberdana' => 'uuid'],

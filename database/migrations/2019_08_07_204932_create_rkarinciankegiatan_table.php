@@ -36,7 +36,7 @@ class CreateRkarinciankegiatanTable extends Migration
             $table->string('alamat_perusahaan')->nullable();
             $table->string('no_telepon',25)->nullable();
             $table->string('nama_direktur')->nullable();
-            $table->string('npwpw',25)->nullable();
+            $table->string('npwp',25)->nullable();
             $table->string('no_kontrak')->nullable();
             $table->date('tgl_kontrak')->nullable();
             $table->date('tgl_mulai_pelaksanaan')->nullable();

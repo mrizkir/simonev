@@ -265,6 +265,51 @@
                     </div>
 				</div>
             </div>
+            <div class="row" v-if="pid=='editdetail'">
+				<div class="col-12">
+                    <!-- Horizontal Form -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="fas fa-edit"></i> UBAH DETAIL URAIAN KEGIATAN
+                            </h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" v-on:click.prevent="proc('default',null)">
+                                    <i class="fas fa-times"></i>
+                                </button>                                                
+                            </div>       
+                        </div>
+                        <form class="form-horizontal" @submit.prevent="updateDataDetail">
+                            <div class="card-body">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">NAMA REKENING: </label>
+                                    <div class="col-md-9">
+                                        <p class="form-control-static">[{{form.kode_rek_5}}] {{form.RObyNm}}</p>
+                                    </div>                            
+                                </div>                  
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NAMA URAIAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.nama_uraian" class="form-control" v-bind:class="{'is-invalid': $v.form.nama_uraian.$error, 'is-valid': $v.form.nama_uraian.$dirty && !$v.form.nama_uraian.$invalid}">
+										<div class="text-danger" v-if="$v.form.nama_uraian.$error">* wajib isi</div>
+                                    </div>
+								</div>
+                                
+                            </div>
+                            <div class="card-footer">
+                                <div class="form-group row">
+                                    <div class="col-sm-3">
+                                        &nbsp;
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <button type="submit" class="btn btn-info" :disabled="$v.form.$error">Simpan</button>                                        
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+				</div>
+            </div>
             <div class="row" v-if="pid=='default'">
                 <div class="col-12">
                     <div class="card">
@@ -318,6 +363,9 @@
                                                     </a>
                                                     <a class="dropdown-item" href="#" v-on:click.prevent="proc('edit',item)">
                                                         <i class="fas fa-edit"></i> UBAH
+                                                    </a>
+                                                    <a class="dropdown-item" href="#" v-on:click.prevent="proc('editdetail',item)">
+                                                        <i class="fas fa-edit"></i> UBAH DETAIL
                                                     </a>
                                                     <a class="dropdown-item" v-on:click.prevent="proc('destroy',item)" href="#">
                                                         <i class="fas fa-trash-alt"></i> HAPUS
@@ -409,13 +457,27 @@ export default {
 			form: {		
                 RKARincID:'',
                 kode_rek_5:'',
+                JenisPelaksanaanID: '',
                 RObyNm:'',
                 nama_uraian:'',
                 volume:'',		                                
                 satuan:'',		                                
                 harga_satuan:'',		                                
                 pagu_uraian1: '',
-                JenisPelaksanaanID: ''
+                idlok: '',
+                ket_lok: '',
+                rw: '',
+                rt: '',                
+                nama_perusahaan: '',                
+                alamat_perusahaan: '',                
+                no_telepon: '',                
+                nama_direktur: '',                
+                npwp: '',                
+                no_kontrak: '',                
+                tgl_kontrak: '',                
+                tgl_mulai_pelaksanaan: '',                
+                tgl_selesai_pelaksanaan: '',                
+                status_lelang: '',                
             }
         }
     },
@@ -489,7 +551,8 @@ export default {
             this.$v.form.$touch();    
             if(this.$v.$invalid == false)
             {                 
-                axios.post('/api/v1/apbdmurni/update2/'+this.form.RKARincID,{                   
+                axios.post('/api/v1/apbdmurni/update2/'+this.form.RKARincID,{ 
+                    'pid':'edit',                              
                     'nama_uraian':this.form.nama_uraian,
                     'volume':this.form.volume,
                     'satuan':this.form.satuan,
@@ -506,6 +569,47 @@ export default {
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
                         text: "Mengubah Data Uraian Kegiatan berhasil dilakukan",
+                        showCancelButton: false,
+                        showConfirmButton: false,
+                        showCloseButton: false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        allowEnterKey: false,
+                    });              
+                    setTimeout(() => {
+                        this.clearform();                             
+                        this.$swal.close();   
+                        this.proc('default');       
+                    }, 1500);             
+                })
+                .catch(error => {
+                    this.api_message = error.response.data.message;
+                });			
+            }
+        },
+        updateDataDetail ()
+        {
+            this.$v.form.$touch();    
+            if(this.$v.$invalid == false)
+            {                 
+                axios.post('/api/v1/apbdmurni/update2/'+this.form.RKARincID,{      
+                    'pid':'editdetail',             
+                    'nama_uraian':this.form.nama_uraian,
+                    'volume':this.form.volume,
+                    'satuan':this.form.satuan,
+                    'harga_satuan':this.form.harga_satuan,
+                    'pagu_uraian1':this.form.pagu_uraian1,
+                    'JenisPelaksanaanID':this.form.JenisPelaksanaanID,
+                    'Descr':'-',                   
+                },{
+                    headers:{
+                        'Authorization': window.laravel.api_token,
+                    },
+                })
+                .then(response => {                          
+                    this.$swal({
+                        title: '<i class="fas fa-spin fa-spinner"></i>',
+                        text: "Mengubah Detail Data Uraian Kegiatan berhasil dilakukan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -567,6 +671,15 @@ export default {
                     this.form.harga_satuan=item.harga_satuan1;
                     this.form.pagu_uraian1=item.pagu_uraian1;
                     this.form.JenisPelaksanaanID=item.JenisPelaksanaanID;
+                break;
+                case 'editdetail':
+                    this.pid=pid;                    
+                    this.fetchJenisPelaksanaan();
+                    this.form.RKARincID=item.RKARincID;
+                    this.form.kode_rek_5=item.kode_rek_5;
+                    this.form.RObyNm=item.RObyNm;
+                    this.form.nama_uraian=item.nama_uraian;
+                    
                 break;
                 case 'destroy':
                     var self = this;
