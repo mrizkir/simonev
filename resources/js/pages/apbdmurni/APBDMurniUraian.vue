@@ -294,6 +294,39 @@
 										<div class="text-danger" v-if="$v.form.nama_uraian.$error">* wajib isi</div>
                                     </div>
 								</div>
+                            </div>
+                            <div class="card-body">
+                                  <div class="form-group row">
+                                    <label class="col-md-3 col-form-label">LOKASI: </label>
+                                    <div class="col-md-9">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <input type="radio" name="lokasidefault" checked>Lokasi Default
+                                            </div>
+                                            <div class="col-md-6">
+                                                <input type="radio" name="lokasilainnya">Lokasi Lainnya
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                </div>                  
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">KABUPATEN / KOTA</label>
+                                    <div class="col-sm-9">
+										<v-select 
+                                            v-model="form.dt2" 
+                                            :reduce="daftar_dt2 => daftar_dt2.code" 
+                                            placeholder="PILIH KABUPATEN / KOTA" 
+                                            :options="daftar_dt2"
+                                            @input="changeLokasi('dt2')">
+                                        </v-select>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">KABUPATE / KOTA</label>
+                                    <div class="col-sm-9">
+										
+                                    </div>
+								</div>
                                 
                             </div>
                             <div class="card-footer">
@@ -454,6 +487,9 @@ export default {
 
             //form			
             daftar_jenispelaksanaan: [],           
+            daftar_dt2: [],           
+            daftar_kec: [],           
+            daftar_kel: [],           
 			form: {		
                 RKARincID:'',
                 kode_rek_5:'',
@@ -465,6 +501,9 @@ export default {
                 harga_satuan:'',		                                
                 pagu_uraian1: '',
                 idlok: '',
+                dt2:'',
+                kec:'',
+                kel:'',
                 ket_lok: '',
                 rw: '',
                 rt: '',                
