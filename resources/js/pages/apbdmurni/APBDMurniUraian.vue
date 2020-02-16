@@ -181,14 +181,14 @@
 											v-on:input="$v.form.$touch"
 											:options="{
 												allowDecimalPadding: false,
-                                                minimumValue:0,
-                                                maximumValue:99999999999999999,
+                                                minimumvalue:0,
+                                                maximumvalue:99999999999999999,
                                                 numericPos:true,
                                                 decimalPlaces : 0,
                                                 digitGroupSeparator : '',
                                                 showWarnings:false,
                                                 unformatOnSubmit: true,
-                                                modifyValueOnWheel:false
+                                                modifyvalueOnWheel:false
 											}" 
 											class="form-control" 
 											v-bind:class="{'is-invalid': $v.form.volume.$error, 'is-valid': $v.form.volume.$dirty && !$v.form.volume.$invalid}">
@@ -207,7 +207,7 @@
 											v-model.trim="form.harga_satuan" 
 											v-on:input="$v.form.$touch"
 											:options="{
-												minimumValue: '0',
+												minimumvalue: '0',
 												decimalCharacter: ',',
 												digitGroupSeparator: '.',
                                                 emptyInputBehavior:0,
@@ -226,7 +226,7 @@
 											v-model.trim="form.pagu_uraian1" 
 											v-on:input="$v.form.$touch"
 											:options="{
-												minimumValue: '0',
+												minimumvalue: '0',
 												decimalCharacter: ',',
 												digitGroupSeparator: '.',
                                                 emptyInputBehavior:0,
@@ -322,12 +322,160 @@
                                     </div>
 								</div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">KABUPATE / KOTA</label>
+                                    <label class="col-sm-3 col-form-label">KECAMATAN</label>
                                     <div class="col-sm-9">
-										
+										<v-select 
+                                            v-model="form.kec" 
+                                            :reduce="daftar_kecamatan => daftar_kecamatan.code" 
+                                            placeholder="PILIH KECAMATAN" 
+                                            :options="daftar_kecamatan"
+                                            @input="changeLokasi('kec')">
+                                        </v-select>
                                     </div>
 								</div>
-                                
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">DESA/KELURAHAN</label>
+                                    <div class="col-sm-9">
+										<v-select 
+                                            v-model="form.desa" 
+                                            :reduce="daftar_desa => daftar_desa.code" 
+                                            placeholder="PILIH DESA / KELURAHAN" 
+                                            :options="daftar_desa"
+                                            @input="changeLokasi('desa')">
+                                        </v-select>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">RW</label>
+                                    <div class="col-sm-9">
+										<select v-model="form.rw" class="form-control">                                            
+                                            <option value="0"></option>
+                                            <option value="1">I</option>
+                                            <option value="2">II</option>
+                                            <option value="3">III</option>
+                                            <option value="4">IV</option>
+                                            <option value="5">V</option>
+                                            <option value="6">VI</option>
+                                            <option value="7">VII</option>
+                                            <option value="8">VIII</option>
+                                            <option value="9">IX</option>
+                                            <option value="10">X</option>
+                                            <option value="11">XI</option>
+                                            <option value="12">XII</option>
+                                            <option value="13">XIII</option>
+                                            <option value="14">XIV</option>
+                                            <option value="15">XV</option>
+                                            <option value="16">XVI</option>
+                                            <option value="17">XVII</option>
+                                            <option value="18">XVIII</option>
+                                            <option value="19">XIX</option>
+                                            <option value="20">XX</option>
+										</select>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">RT</label>
+                                    <div class="col-sm-9">
+										<select v-model="form.rw" class="form-control">                                            
+                                            <option value="0"></option>
+                                            <option value="1">I</option>
+                                            <option value="2">II</option>
+                                            <option value="3">III</option>
+                                            <option value="4">IV</option>
+                                            <option value="5">V</option>
+                                            <option value="6">VI</option>
+                                            <option value="7">VII</option>
+                                            <option value="8">VIII</option>
+                                            <option value="9">IX</option>
+                                            <option value="10">X</option>
+                                            <option value="11">XI</option>
+                                            <option value="12">XII</option>
+                                            <option value="13">XIII</option>
+                                            <option value="14">XIV</option>
+                                            <option value="15">XV</option>
+                                            <option value="16">XVI</option>
+                                            <option value="17">XVII</option>
+                                            <option value="18">XVIII</option>
+                                            <option value="19">XIX</option>
+                                            <option value="20">XX</option>
+										</select>
+                                    </div>
+								</div>
+                            </div>
+                            <div class="card-body">
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">JENIS PEMBANGUNAN</label>
+                                    <div class="col-sm-9">
+										<v-select 
+                                            v-model="form.JenisPembangunanID" 
+                                            :reduce="daftar_jenispembangunan => daftar_jenispembangunan.code" 
+                                            placeholder="PILIH JENIS PEMBANGUNAN" 
+                                            :options="daftar_jenispembangunan">
+                                        </v-select>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NAMA PERUSAHAAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.nama_perusahaan" class="form-control">
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">ALAMAT PERUSAHAAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.alamat_perusahaan" class="form-control">
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NO. TELEPON PERUSAHAAN</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.no_telepon" class="form-control">
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NAMA DIREKTUR</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.nama_direktur" class="form-control">
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NPWPW</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.npwpw" class="form-control">
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">NOMOR KONTRAK</label>
+                                    <div class="col-sm-9">
+										<input type="text" v-model="form.no_kontrak" class="form-control">
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">TANGGAL KONTRAK</label>
+                                    <div class="col-sm-9">
+										<datetime v-model="form.tgl_kontrak" zone="Asia/Jakarta"></datetime>
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">WAKTU PELAKSANAAN</label>
+                                    <div class="col-sm-9">
+                                        Mulai :
+										<datetime v-model="form.tgl_mulai_pelaksanaan" zone="Asia/Jakarta"></datetime>
+                                        Selesa: 
+										<datetime v-model="form.tgl_selesai_pelaksanaan" zone="Asia/Jakarta"></datetime>
+
+                                    </div>
+								</div>
+                                <div class="form-group row">
+                                    <label class="col-sm-3 col-form-label">STATUS</label>
+                                    <div class="col-sm-9">
+										<select v-model="form.rw" class="form-control">                                            
+                                            <option value="0">BELUM DILELANG</option>
+                                            <option value="1">PROSES LELANG</option>
+                                            <option value="2">TELAH DILELANG</option>
+										</select>
+                                    </div>
+								</div>
                             </div>
                             <div class="card-footer">
                                 <div class="form-group row">
@@ -464,6 +612,8 @@
 import vSelect from 'vue-select';
 import { required} from 'vuelidate/lib/validators';
 import VueAutonumeric from 'vue-autonumeric';
+import { Datetime } from 'vue-datetime';
+import 'vue-datetime/dist/vue-datetime.css'
 
 export default {
     mounted()
@@ -782,6 +932,7 @@ export default {
 	{
         'v-select': vSelect,
         'vue-autonumeric':VueAutonumeric,
+        datetime: Datetime
     }
 }
 </script>
