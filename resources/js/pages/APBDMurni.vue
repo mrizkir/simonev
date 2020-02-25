@@ -54,9 +54,9 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-3 col-form-label">RKPDID</label>
+                                    <label class="col-sm-3 col-form-label">EBudgetingID</label>
                                     <div class="col-sm-9">
-                                        {{form.RKPDID}}
+                                        {{form.EBudgetingID}}
                                     </div>
                                 </div>
                                 <div class="form-group row">
@@ -473,7 +473,7 @@ export default {
             daftar_pptk: [],
 			form: {		
                 RKAID:'',
-                RKPDID:'',
+                EBudgetingID:'',
                 kode_program:'',		                                
                 PrgNm:'',		                                
                 kode_kegiatan:'',		                                
@@ -742,7 +742,7 @@ export default {
                     this.pid=pid; 
                     this.fetchSumberDana();
                     this.form.RKAID = item.RKAID;
-                    this.form.RKPDID = item.RKPDID;
+                    this.form.EBudgetingID = item.EBudgetingID;
                     this.form.kode_program = item.kode_program;
                     this.form.PrgNm = item.PrgNm;
                     this.form.kode_kegiatan = item.kode_kegiatan;
@@ -854,7 +854,7 @@ export default {
         {   
             this.form.RKAID='';
             this.form.SumberDanaID='';
-            this.form.RKPDID='';
+            this.form.EBudgetingID='';
             this.form.kode_program='';
             this.form.kode_kegiatan='';
             this.form.KgtNm='';

@@ -64,14 +64,14 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
-                                    <label class="col-sm-2 col-form-label">RKPD</label>
+                                    <label class="col-sm-2 col-form-label">EBudgeting</label>
                                     <div class="col-sm-10">
                                         <v-select 
-                                            v-model="form.RKPDID" 
+                                            v-model="form.EBudgetingID" 
                                             :reduce="daftar_rkpd => daftar_rkpd.code"
-                                            placeholder="SILAHKAN PILIH RKPD" 
+                                            placeholder="SILAHKAN PILIH EBudgeting" 
                                             :options="daftar_rkpd" 
-                                            @input="fetchRKPD">
+                                            @input="fetchEBudgeting">
                                         </v-select>
                                     </div>
                                 </div>
@@ -224,7 +224,7 @@ export default {
 			form: {		
                 RKAID:'',
                 PrgID:'',		                                
-                RKPDID:'',		                                
+                EBudgetingID:'',		                                
                 KgtID: '',
                 PaguDana1: '',	
                 nip_kpa:'',			
@@ -295,11 +295,11 @@ export default {
                 this.api_message = response;
             });
         },
-        fetchRKPD ()
+        fetchEBudgeting ()
         {  
             this.form.KgtID='';
             axios.post('/api/v1/apbdmurni/filter',{
-                    'RKPDID':this.form.RKPDID,
+                    'EBudgetingID':this.form.EBudgetingID,
                     'create':0,
                 },{
                     headers:{
@@ -309,7 +309,7 @@ export default {
                 .then(response => {      
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Melakukan pencarian kegiatan di RKPD",
+                        text: "Melakukan pencarian kegiatan di EBudgeting",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -336,7 +336,7 @@ export default {
         },
         fetchKegiatan ()
         {  
-            this.form.RKPDID='';
+            this.form.EBudgetingID='';
             this.form.KgtID='';
             axios.post('/api/v1/apbdmurni/filter',{
                     'PrgID':this.form.PrgID,
@@ -349,7 +349,7 @@ export default {
                 .then(response => {      
                     this.$swal({
                         title: '<i class="fas fa-spin fa-spinner"></i>',
-                        text: "Melakukan pencarian kegiatan di RKPD dan Master Kegiatan",
+                        text: "Melakukan pencarian kegiatan di EBudgeting dan Master Kegiatan",
                         showCancelButton: false,
                         showConfirmButton: false,
                         showCloseButton: false,
@@ -393,7 +393,7 @@ export default {
                     'SOrgID':page.SOrgID.code,
                     'PrgID':this.form.PrgID,
                     'KgtID':this.form.KgtID,
-                    'RKPDID':this.form.RKPDID,
+                    'EBudgetingID':this.form.EBudgetingID,
                     'PaguDana1':this.form.PaguDana1,
                     'nip_pa':this.form.nip_pa,
                     'nip_kpa':this.form.nip_kpa,
@@ -435,7 +435,7 @@ export default {
         {   
             this.form.PrgID='';
             this.form.KgtID='';
-            this.form.RKPDID='';
+            this.form.EBudgetingID='';
             this.form.PaguDana1='';
             this.form.nip_pa='';
             this.form.nip_kpa='';

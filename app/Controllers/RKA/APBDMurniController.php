@@ -319,22 +319,22 @@ class APBDMurniController extends Controller
         if ($request->exists('PrgID') && $request->exists('create'))
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
-            $r=\DB::table('v_rkpd')
-                    ->select(\DB::raw('"EBudgetingID","kode_kegiatan","KgtNm"'))
-                    ->where('TA',\HelperKegiatan::getTahunAnggaran())
-                    ->where('PrgID',$PrgID)
-                    ->WhereNotIn('EBudgetingID',function($query) use ($filters) {
-                        $query->select('EBudgetingID')
-                                ->from('trRKA')
-                                ->where('TA', \HelperKegiatan::getTahunAnggaran())
-                                ->where('SOrgID', $filters['SOrgID']);
-                    }) 
-                    ->get();
+            // $r=\DB::table('v_rkpd')
+            //         ->select(\DB::raw('"EBudgetingID","kode_kegiatan","KgtNm"'))
+            //         ->where('TA',\HelperKegiatan::getTahunAnggaran())
+            //         ->where('PrgID',$PrgID)
+            //         ->WhereNotIn('EBudgetingID',function($query) use ($filters) {
+            //             $query->select('EBudgetingID')
+            //                     ->from('trRKA')
+            //                     ->where('TA', \HelperKegiatan::getTahunAnggaran())
+            //                     ->where('SOrgID', $filters['SOrgID']);
+            //         }) 
+            //         ->get();
             $daftar_rkpd=[];        
-            foreach ($r as $k=>$v)
-            {               
-                $daftar_rkpd[$v->EBudgetingID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->EBudgetingID.')';
-            }                        
+            // foreach ($r as $k=>$v)
+            // {               
+            //     $daftar_rkpd[$v->EBudgetingID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->EBudgetingID.')';
+            // }                        
             $json_data['daftar_rkpd']=$daftar_rkpd;
 
             $r=\DB::table('v_program_kegiatan')
