@@ -45,7 +45,7 @@ class CreateVRencanaFisikAnggaranKasView extends Migration
                 SELECT "RKARincID",array_agg(fisik1) a,array_agg(target1) b
                 FROM "trRKATargetRinc"
                 GROUP BY 1	
-            ) z
+            ) AS z
         ');				
     }
 

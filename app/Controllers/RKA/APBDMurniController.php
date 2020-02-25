@@ -273,7 +273,7 @@ class APBDMurniController extends Controller
         {
             $data = \DB::table('v_rka')
                         ->select(\DB::raw('"RKAID",
-                                            "RKPDID",
+                                            "EBudgetingID",
                                             kode_program,
                                             "PrgNm",
                                             kode_kegiatan,
@@ -320,11 +320,11 @@ class APBDMurniController extends Controller
         {
             $PrgID = $request->input('PrgID')==''?'none':$request->input('PrgID');   
             $r=\DB::table('v_rkpd')
-                    ->select(\DB::raw('"RKPDID","kode_kegiatan","KgtNm"'))
+                    ->select(\DB::raw('"EBudgetingID","kode_kegiatan","KgtNm"'))
                     ->where('TA',\HelperKegiatan::getTahunAnggaran())
                     ->where('PrgID',$PrgID)
-                    ->WhereNotIn('RKPDID',function($query) use ($filters) {
-                        $query->select('RKPDID')
+                    ->WhereNotIn('EBudgetingID',function($query) use ($filters) {
+                        $query->select('EBudgetingID')
                                 ->from('trRKA')
                                 ->where('TA', \HelperKegiatan::getTahunAnggaran())
                                 ->where('SOrgID', $filters['SOrgID']);
@@ -333,7 +333,7 @@ class APBDMurniController extends Controller
             $daftar_rkpd=[];        
             foreach ($r as $k=>$v)
             {               
-                $daftar_rkpd[$v->RKPDID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->RKPDID.')';
+                $daftar_rkpd[$v->EBudgetingID]='['.$v->kode_kegiatan.']. '.$v->KgtNm . ' ('.$v->EBudgetingID.')';
             }                        
             $json_data['daftar_rkpd']=$daftar_rkpd;
 
@@ -355,14 +355,14 @@ class APBDMurniController extends Controller
             }            
             $json_data['daftar_kegiatan']=$daftar_kegiatan;
         } 
-        //select RKPDID create 0
-        if ($request->exists('RKPDID') && $request->exists('create'))
+        //select EBudgetingID create 0
+        if ($request->exists('EBudgetingID') && $request->exists('create'))
         {
-            $RKPDID = $request->input('RKPDID')==''?'none':$request->input('RKPDID'); 
+            $EBudgetingID = $request->input('EBudgetingID')==''?'none':$request->input('EBudgetingID'); 
             $daftar_kegiatan=[];  
             $r=\DB::table('v_rkpd')
                     ->where('TA',\HelperKegiatan::getTahunAnggaran())
-                    ->where('RKPDID',$RKPDID)
+                    ->where('EBudgetingID',$EBudgetingID)
                     ->WhereNotIn('KgtID',function($query) {
                         $SOrgID=$this->getControllerStateSession($this->SessionName,'filters.SOrgID');
                         $query->select('KgtID')
@@ -734,7 +734,7 @@ class APBDMurniController extends Controller
                 'SOrgID' => $request->input('SOrgID'),
                 'PrgID' => $request->input('PrgID'),
                 'KgtID' => $request->input('KgtID'),
-                'RKPDID' => $request->input('RKPDID'),            
+                'EBudgetingID' => $request->input('EBudgetingID'),            
                 'PaguDana1' => $request->input('PaguDana1'),
                 'PaguDana2' => 0,
                 'sifat_kegiatan1' => 'baru',

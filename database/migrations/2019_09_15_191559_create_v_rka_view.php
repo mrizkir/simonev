@@ -16,7 +16,7 @@ class CreateVRkaView extends Migration
         \DB::statement('CREATE VIEW v_rka AS
             SELECT 
                 A."RKAID",
-                A."RKPDID",
+                A."EBudgetingID",
                 A."OrgID",
                 A."SOrgID",
                 E."Kd_Urusan" AS "Kd_UrusanUnit",

@@ -19,7 +19,7 @@ class CreateRkakegiatanTable extends Migration
             $table->string('SOrgID',19);
             $table->string('PrgID',19);
             $table->string('KgtID',19);
-            $table->string('RKPDID',19)->nullable();
+            $table->string('EBudgetingID')->nullable();
             $table->string('SumberDanaID',19)->nullable();
             $table->text('keluaran1')->nullable();
             $table->text('keluaran2')->nullable();
@@ -66,7 +66,7 @@ class CreateRkakegiatanTable extends Migration
             $table->index('SOrgID');
             $table->index('PrgID');
             $table->index('KgtID');
-            $table->index('RKPDID');
+            $table->index('EBudgetingID');
             $table->index('SumberDanaID');
             $table->index('nip_pa1');
             $table->index('nip_pa2');
@@ -101,13 +101,6 @@ class CreateRkakegiatanTable extends Migration
                     ->on('tmKgt')
                     ->onDelete('cascade')
                     ->onUpdate('cascade');
-
-            $table->foreign('RKPDID')
-                    ->references('RKPDID')
-                    ->on('trRKPD')
-                    ->onDelete('set null')
-                    ->onUpdate('cascade');
-
         });       
     }
 
