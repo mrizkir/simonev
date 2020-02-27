@@ -55,6 +55,11 @@ class FrontendController extends Controller {
                         ->where('TA',$ta)
                         ->sum('Jumlah1');
 
+            $pagu_opd_terinput=\DB::table('s_targetkinerja_opd')
+                                    ->where('TA',$ta)
+                                    ->where('bulan',$bulan_realisasi)
+                                    ->sum('pagudinas1');
+            
             $realisasi=\DB::table('s_targetkinerja_opd')
                         ->where('TA',$ta)
                         ->where('bulan',$bulan_realisasi)
@@ -78,7 +83,7 @@ class FrontendController extends Controller {
                                     ->where('TA',$ta)
                                     ->where('bulan',$bulan_realisasi)
                                     ->sum('target_fisik1');
-
+                                    
             $target_fisik = \Helper::formatPecahan($t_fisik,$jumlah_opd);
             $r_fisik=\DB::table('s_targetkinerja_opd')
                                     ->where('TA',$ta)
@@ -95,6 +100,7 @@ class FrontendController extends Controller {
                 'pagudana' => $pagudana,
                 'jumlah_program' => $jumlah_program,
                 'jumlah_kegiatan' => $jumlah_kegiatan,
+                'pagu_opd_terinput'=>$pagu_opd_terinput,
                 'realisasi' => $realisasi,
                 'sisa_anggaran' => $sisa_anggaran,
                 'persen_target_keuangan' => $persen_target_keuangan,
@@ -124,6 +130,11 @@ class FrontendController extends Controller {
                         ->where('TA',$ta)
                         ->sum('Jumlah1');
 
+            $pagu_opd_terinput=\DB::table('s_targetkinerja_opd')
+                                    ->where('TA',$ta)
+                                    ->where('bulan',$bulan_realisasi)
+                                    ->sum('pagudinas1');
+            
             $realisasi=\DB::table('s_targetkinerja_opd')
                         ->where('TA',$ta)
                         ->where('bulan',$bulan_realisasi)
@@ -164,6 +175,7 @@ class FrontendController extends Controller {
                 'pagudana' => $pagudana,
                 'jumlah_program' => $jumlah_program,
                 'jumlah_kegiatan' => $jumlah_kegiatan,
+                'pagu_opd_terinput'=>$pagu_opd_terinput,
                 'realisasi' => $realisasi,
                 'sisa_anggaran' => $sisa_anggaran,
                 'persen_target_keuangan' => $persen_target_keuangan,

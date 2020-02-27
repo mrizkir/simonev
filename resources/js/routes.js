@@ -1,5 +1,4 @@
 // const DashboardFront = () => import ('./pages/DashboardFront.vue');
-// const FormValidation = () => import ('./pages/FormValidation.vue');
 
 // DATA MASTER
 // const KelompokUrusan = () => import ('./pages/dmaster/KelompokUrusan.vue');
@@ -31,7 +30,6 @@
 // const APBDMurniUraianRealisasi = () => import ('./pages/apbdmurni/APBDMurniUraianRealisasi.vue');
 
 import DashboardFront from './pages/DashboardFront.vue';
-import FormValidation from './pages/FormValidation.vue';
 
 // DATA MASTER
 import KelompokUrusan from './pages/dmaster/KelompokUrusan.vue';
@@ -85,14 +83,6 @@ export const routes =  [
             title: "DASHBOARD"
         },
         component: DashboardFront
-    },
-    {
-        name:'formvalidation',
-        path: '/formvalidation',
-        meta:{
-            title: "LATIHAN FORM VALIDATION"
-        },
-        component: FormValidation
     },
     // DATA MASTER
     {
