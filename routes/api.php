@@ -110,6 +110,7 @@ Route::group (['prefix'=>'v1','middleware'=>['auth:api']],function() {
         'parameters' => ['jenispembangunan' => 'uuid'],
     ]);
     Route::post('/master/jenispembangunan/search', ['uses' => 'DMaster\JenisPembangunanController@search', 'as' => 'jenispembangunan.search']);
+    Route::get('/master/jenispembangunan/daftar_jenispembangunan/{ta}', ['uses' => 'DMaster\JenisPembangunanController@getDaftarJenisPembangunan', 'as' => 'jenispembangunan.daftar_jenispembangunan']);
     
     //masters - urusan 
     Route::resource('/master/sumberdana', 'DMaster\SumberDanaController', [

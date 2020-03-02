@@ -326,9 +326,9 @@
                                     <div class="col-sm-9">
 										<v-select 
                                             v-model="form.kec" 
-                                            :reduce="daftar_kecamatan => daftar_kecamatan.code" 
+                                            :reduce="daftar_kec => daftar_kecamatan.code" 
                                             placeholder="PILIH KECAMATAN" 
-                                            :options="daftar_kecamatan"
+                                            :options="daftar_kec"
                                             @input="changeLokasi('kec')">
                                         </v-select>
                                     </div>
@@ -338,9 +338,9 @@
                                     <div class="col-sm-9">
 										<v-select 
                                             v-model="form.desa" 
-                                            :reduce="daftar_desa => daftar_desa.code" 
+                                            :reduce="daftar_kel => daftar_desa.code" 
                                             placeholder="PILIH DESA / KELURAHAN" 
-                                            :options="daftar_desa"
+                                            :options="daftar_kel"
                                             @input="changeLokasi('desa')">
                                         </v-select>
                                     </div>
@@ -461,7 +461,7 @@
                                     <div class="col-sm-9">
                                         Mulai :
 										<datetime v-model="form.tgl_mulai_pelaksanaan" zone="Asia/Jakarta"></datetime>
-                                        Selesa: 
+                                        Selesai: 
 										<datetime v-model="form.tgl_selesai_pelaksanaan" zone="Asia/Jakarta"></datetime>
 
                                     </div>
@@ -640,10 +640,12 @@ export default {
             daftar_dt2: [],           
             daftar_kec: [],           
             daftar_kel: [],           
+            daftar_jenispembangunan: [],           
 			form: {		
                 RKARincID:'',
                 kode_rek_5:'',
                 JenisPelaksanaanID: '',
+                JenisPembangunanID: '',
                 RObyNm:'',
                 nama_uraian:'',
                 volume:'',		                                
@@ -688,6 +690,27 @@ export default {
                     });
                 });                
                 this.daftar_jenispelaksanaan=daftar_jenispelaksanaan;    
+            })
+            .catch(response => {
+                this.api_message = response;
+            });
+        },
+        fetchJenisPembangunan()
+        {
+            axios.get('/api/v1/master/jenispembangunan/daftar_jenispembangunan/2020',{
+                headers:{
+                    'Authorization': window.laravel.api_token,
+                }
+            })
+            .then(response => {             
+                var daftar_jenispembangunan = [];
+                $.each(response.data,function(key,value){
+                    daftar_jenispembangunan.push({
+                        code:key,
+                        label:value
+                    });
+                });                
+                this.daftar_jenispembangunan=daftar_jenispembangunan;    
             })
             .catch(response => {
                 this.api_message = response;
@@ -864,6 +887,7 @@ export default {
                 case 'editdetail':
                     this.pid=pid;                    
                     this.fetchJenisPelaksanaan();
+                    this.fetchJenisPembangunan();
                     this.form.RKARincID=item.RKARincID;
                     this.form.kode_rek_5=item.kode_rek_5;
                     this.form.RObyNm=item.RObyNm;

@@ -140,10 +140,21 @@ class JenisPembangunanController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Request $request,$uuid)
-    {
-        
+    {        
         $jenispembangunan = JenisPembangunanModel::find($uuid);
         $result=$jenispembangunan->delete();
         return response()->json(['message'=>"data jenis pelaksanaan dengan ID ($uuid) Berhasil di Hapus"],200);  
+    }
+    /**
+     * digunakan untuk mendapatkan daftar jenis pembangunan
+     *
+     * @param  int  $uuid
+     * @return \Illuminate\Http\Response
+     */
+    public function getDaftarJenisPembangunan (Request $request,$ta)
+    {
+        $daftar_jenispembangunan=JenisPembangunanModel::getJenisPembangunan($ta);  
+        // dd($daftar_jenispembangunan);           
+        return response()->json($daftar_jenispembangunan,200);
     }
 }
