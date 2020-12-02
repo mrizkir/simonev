@@ -1,0 +1,15 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH1=/home2/bintankab/simonev3/frontend/dist/
+    - /bin/rm -rf $DEPLOYPATH1/css
+    - /bin/rm -rf $DEPLOYPATH1/img
+    - /bin/rm -rf $DEPLOYPATH1/js
+    - /bin/cp -R frontend/dist/* $DEPLOYPATH1
+    - /bin/cp -R frontend/dist/.htaccess $DEPLOYPATH1
+    - export DEPLOYPATH2=/home2/bintankab/simonev3/backend/
+    - /bin/rm -rf $DEPLOYPATH2/app
+    - /bin/rm -rf $DEPLOYPATH2/database
+    - /bin/cp -R backend/* $DEPLOYPATH2
+    - /bin/cp -R backend/.env.example $DEPLOYPATH2
+    - /usr/bin/git push origin master -u
