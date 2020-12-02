@@ -13,3 +13,5 @@ Bila ingin ikut mengembangkan maka dibutuhkan :
 3. vue-cli
 ## Instalasi
 Silahkan rujuk ke masing-masing folder (frontend dan backend)
+## Pemilik
+SIMONEV ini dimiliki oleh BAPPELITBANG - Pemerintah Kabupaten Bintan
