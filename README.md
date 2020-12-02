@@ -14,4 +14,4 @@ Bila ingin ikut mengembangkan maka dibutuhkan :
 ## Instalasi
 Silahkan rujuk ke masing-masing folder (frontend dan backend)
 ## Pemilik
-SIMONEV ini dimiliki oleh BAPPELITBANG - Pemerintah Kabupaten Bintan
+SIMONEV ini dimiliki oleh Badan Perencanaan, Penelitian, dan Pengembangan Pemerintah Kabupaten Bintan.
