@@ -702,11 +702,11 @@ export default {
             headers: [                        
                 { text: 'KODE', value: 'kode_uraian',width:100},   
                 { text: 'NAMA PAKET PEKERJAAN', value: 'nama_uraian',width:300},                   
-                { text: 'PAGU URAIAN', align:'end',value: 'PaguUraian2'},   
-                { text: 'REALISASI FISIK (%)', align:'end',value: 'fisik2'},   
-                { text: 'REALISASI KEUANGAN', align:'end',value: 'realisasi2'},                   
-                { text: '%', align:'end',value: 'persen_keuangan2'},                   
-                { text: 'SISA PAGU', align:'end',value: 'sisa'},    
+                { text: 'PAGU URAIAN', align:'end',value: 'PaguUraian2',width:100},   
+                { text: 'REALISASI FISIK (%)', align:'end',value: 'fisik2',width:100},   
+                { text: 'REALISASI KEUANGAN', align:'end',value: 'realisasi2',width:100},                   
+                { text: '%', align:'end',value: 'persen_keuangan2',width:100},                   
+                { text: 'SISA PAGU', align:'end',value: 'sisa',width:100},    
                 { text: 'AKSI', value: 'actions', sortable: false,width:80 },
             ],
             footers :{ 

@@ -231,7 +231,7 @@ export default {
                 { text: 'PAGU KEGIATAN', value: 'PaguDana1',align:'end',width:100 },   
                 { text: 'REALISASI FISIK', value: 'RealisasiFisik1',align:'end',width:100},   
                 { text: 'REALISASI KEUANGAN', value: 'RealisasiKeuangan1',align:'end',width:100 },   
-                { text: '%', align:'end',value: 'persen_keuangan1'},                   
+                { text: '%', align:'end',value: 'persen_keuangan1',width:50},                   
                 { text: 'SISA PAGU', value: 'SisaAnggaran',align:'end',width:100},   
                 { text: 'AKSI', value: 'actions', sortable: false,width:80 },
             ],

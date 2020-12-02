@@ -506,11 +506,11 @@ export default {
             datatable:[],
             headers: [                        
                 { text: 'BULAN', value: 'NamaBulan',width:70},   
-                { text: 'ANGGARAN KAS', align:'end', value: 'target2'},                   
-                { text: 'REALISASI/SP2D', align:'end', value: 'realisasi2'},                   
-                { text: 'TARGET FISIK', align:'end',value: 'target_fisik2'},   
-                { text: 'FISIK (%)', align:'end',value: 'fisik2'},                   
-                { text: 'SISA ANGGARAN', align:'end',value: 'sisa_anggaran'},    
+                { text: 'ANGGARAN KAS', align:'end', value: 'target2',width:100},                   
+                { text: 'REALISASI/SP2D', align:'end', value: 'realisasi2',width:100},                   
+                { text: 'TARGET FISIK', align:'end',value: 'target_fisik2',width:100},   
+                { text: 'FISIK (%)', align:'end',value: 'fisik2',width:100},                   
+                { text: 'SISA ANGGARAN', align:'end',value: 'sisa_anggaran',width:100},    
                 { text: 'AKSI', value: 'actions', sortable: false,width:100 },
             ],
             footers :{ 
