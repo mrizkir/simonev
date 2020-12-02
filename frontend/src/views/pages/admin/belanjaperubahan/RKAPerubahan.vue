@@ -128,8 +128,8 @@
                             <tr class="amber darken-1 font-weight-black">
                                 <td colspan="3" class="text-right">TOTAL</td>
                                 <td class="text-right">{{footers.pagukegiatan|formatUang}}</td>
-                                <td class="text-right">{{footers.realisasi|formatUang}}</td>                                
                                 <td class="text-right">{{footers.fisik}}</td>
+                                <td class="text-right">{{footers.realisasi|formatUang}}</td>                                                                
                                 <td class="text-right">{{footers.persen_keuangan.toFixed(2)}}</td>
                                 <td class="text-right">{{footers.sisa|formatUang}}</td>
                                 <td></td>

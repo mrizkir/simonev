@@ -419,7 +419,11 @@ class RKAMurniController extends Controller
                             $item->persen_keuangan1=Helper::formatPersen($item->RealisasiKeuangan1,$item->PaguDana1);
                             return $item;
                         });
-                        
+        $unitkerja->RealisasiKeuangan1=$data->sum('RealisasiKeuangan1');
+        $jumlah_realisasi_fisik=$data->sum('RealisasiFisik1');
+        $unitkerja->RealisasiFisik1=Helper::formatPecahan($jumlah_realisasi_fisik,$unitkerja->JumlahKegiatan1);
+        $unitkerja->save();
+
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',

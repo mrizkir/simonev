@@ -413,6 +413,10 @@ class RKAPerubahanController extends Controller
             $item->persen_keuangan2=Helper::formatPersen($item->RealisasiKeuangan2,$item->PaguDana2);
             return $item;
         });
+        $unitkerja->RealisasiKeuangan2=$data->sum('RealisasiKeuangan2');
+        $jumlah_realisasi_fisik=$data->sum('RealisasiFisik2');
+        $unitkerja->RealisasiFisik2=Helper::formatPecahan($jumlah_realisasi_fisik,$unitkerja->JumlahKegiatan2);
+        $unitkerja->save();
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',
