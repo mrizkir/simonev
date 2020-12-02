@@ -11,3 +11,5 @@ Bila ingin ikut mengembangkan maka dibutuhkan :
 1. npm
 2. composer
 3. vue-cli
+## Instalasi
+Silahkan rujuk ke masing-masing folder (frontend dan backend)
