@@ -392,6 +392,34 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/evaluasi/EvaluasiRKPDPerubahan.vue'),		
 	},
+	//evaluasi renja
+	{
+		path: '/evaluasirenja',
+		name: 'EvaluasiRenja',
+		meta:{
+			title: "EVALUASI RENJA",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/evaluasi/EvaluasiRenja.vue'),		
+	},
+	{
+		path: '/evaluasirenja/murni',
+		name: 'EvaluasiRenjaMurni',
+		meta:{
+			title: "EVALUASI RENJA MURNI",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/evaluasi/EvaluasiRenjaMurni.vue'),		
+	},
+	{
+		path: '/evaluasirenja/perubahan',
+		name: 'EvaluasiRenjaPerubahan',
+		meta:{
+			title: "EVALUASI RENJA PERUBAHAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/evaluasi/EvaluasiRenjaPerubahan.vue'),		
+	},
 	//settings
 	{
 		path: '/setting/users',

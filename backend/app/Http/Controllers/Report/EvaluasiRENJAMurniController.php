@@ -9,7 +9,7 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\Belanja\RKAModel;
 
 
-class EvaluasiRENJAMurniController extends Controller 
+class EvaluasiRenjaMurniController extends Controller 
 {
      /**
      * Show the form for creating a new resource.
@@ -18,7 +18,7 @@ class EvaluasiRENJAMurniController extends Controller
      */
     public function index(Request $request)
     {             
-        $this->hasPermissionTo('REPORT-EVALUASI-RENJA-MURNI_BROWSE');
+        $this->hasPermissionTo('EVALUASI-RENJA-MURNI_BROWSE');
 
         $this->validate($request, [            
             'tahun'=>'required',                     
@@ -287,7 +287,7 @@ class EvaluasiRENJAMurniController extends Controller
     }
     public function printtoexcel (Request $request)
     {
-        $this->hasPermissionTo('REPORT-EVALUASI-RENJA-MURNI_BROWSE');
+        $this->hasPermissionTo('EVALUASI-RENJA-MURNI_BROWSE');
 
         $this->validate($request, [            
             'tahun'=>'required',                     
@@ -305,9 +305,9 @@ class EvaluasiRENJAMurniController extends Controller
                         'nama_pengguna_anggaran'=>$opd->NamaKepalaUnitKerja,
                         'nip_pengguna_anggaran'=>$opd->NIPKepalaUnitKerja
                     ];
-        $report= new \App\Models\Report\EvaluasiRENJAMurniModel ($data_report);
+        $report= new \App\Models\Report\EvaluasiRenjaMurniModel ($data_report);
         $generate_date=date('Y-m-d_H_m_s');
-        return $report->download("form_evaluasi_rkpd_murni_$generate_date.xlsx");
+        return $report->download("form_evaluasi_renja_murni_$generate_date.xlsx");
     }
 
 }

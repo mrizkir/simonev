@@ -240,7 +240,7 @@ class EvaluasiRKPDMurniController extends Controller
                     $totalPersenTargetFisik+=$persen_target_fisik;               
 
                     $data[]=[
-                        'EvaluasiRKPMurniID'=>uniqid('uid'),
+                        'EvaluasiRKPDMurniID'=>uniqid('uid'),
                         'RKAID'=>$RKAID,
                         'kode'=>$n->kode_kegiatan,
                         'nama'=>$n->KgtNm,      
