@@ -33,7 +33,7 @@ class EvaluasiRenjaPerubahanController extends Controller
                                     ->where('kode_organisasi',$opd->kode_organisasi)                                            
                                     ->where('TA',$tahun)  
                                     ->where('EntryLvl',2)
-                                    ->sum('PaguDana1');        
+                                    ->sum('PaguDana2');        
         
         $total_kegiatan=0;
         $total_uraian=0;
@@ -58,7 +58,7 @@ class EvaluasiRenjaPerubahanController extends Controller
         {
             $kode_program = $data_program->kode_program;
             $daftar_kegiatan = \DB::table('trRKA')
-                                    ->select(\DB::raw('"RKAID","kode_kegiatan","KgtNm",capaian_program1,tk_capaian1,keluaran1,tk_keluaran1,"PaguDana1","lokasi_kegiatan1"'))
+                                    ->select(\DB::raw('"RKAID","kode_kegiatan","KgtNm",capaian_program2,tk_capaian2,keluaran2,tk_keluaran2,"PaguDana2","lokasi_kegiatan2"'))
                                     ->where('kode_program',$kode_program)                                            
                                     ->where('kode_organisasi',$opd->kode_organisasi)                                            
                                     ->where('TA',$tahun)  
@@ -76,7 +76,7 @@ class EvaluasiRenjaPerubahanController extends Controller
                 
             $data_target_program=\DB::table('trRKATargetRinc')
                                     ->join('trRKA','trRKA.RKAID','trRKATargetRinc.RKAID')
-                                    ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                                    ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
                                     ->where('kode_program',$kode_program) 
                                     ->where('kode_organisasi',$opd->kode_organisasi)
                                     ->where('trRKA.TA',$tahun)                                        
@@ -89,69 +89,69 @@ class EvaluasiRenjaPerubahanController extends Controller
 
             if(isset($daftar_kegiatan[0]))
             {
-                $totalpagueachprogram=$daftar_kegiatan->sum('PaguDana1');
+                $totalpagueachprogram=$daftar_kegiatan->sum('PaguDana2');
                   
                 $data_realisasi_tw1=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->join('trRKA','trRKARealisasiRinc.RKAID','trRKA.RKAID')
                                             ->where('kode_program',$kode_program) 
                                             ->where('kode_organisasi',$opd->kode_organisasi)
-                                            ->where('bulan1','>=',1)                            
-                                            ->where('bulan1','<=',3)   
+                                            ->where('bulan2','>=',1)                            
+                                            ->where('bulan2','<=',3)   
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                                
                                             ->get();
                 
-                $fisik_tw_1=Helper::formatPecahan($data_realisasi_tw1[0]->fisik1,$jumlahuraian_program);
-                $keuangan_tw_1=$data_realisasi_tw1[0]->realisasi1;
+                $fisik_tw_1=Helper::formatPecahan($data_realisasi_tw1[0]->fisik2,$jumlahuraian_program);
+                $keuangan_tw_1=$data_realisasi_tw1[0]->realisasi2;
                 
                 $data_realisasi_tw2=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->join('trRKA','trRKARealisasiRinc.RKAID','trRKA.RKAID')
                                             ->where('kode_program',$kode_program) 
                                             ->where('kode_organisasi',$opd->kode_organisasi)
-                                            ->where('bulan1','>=',4)                            
-                                            ->where('bulan1','<=',6)   
+                                            ->where('bulan2','>=',4)                            
+                                            ->where('bulan2','<=',6)   
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                                
                                             ->get();
                 
-                $fisik_tw_2=Helper::formatPecahan($data_realisasi_tw2[0]->fisik1,$jumlahuraian_program);
-                $keuangan_tw_2=$data_realisasi_tw2[0]->realisasi1;
+                $fisik_tw_2=Helper::formatPecahan($data_realisasi_tw2[0]->fisik2,$jumlahuraian_program);
+                $keuangan_tw_2=$data_realisasi_tw2[0]->realisasi2;
 
                 $data_realisasi_tw3=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->join('trRKA','trRKARealisasiRinc.RKAID','trRKA.RKAID')
                                             ->where('kode_program',$kode_program) 
                                             ->where('kode_organisasi',$opd->kode_organisasi)
-                                            ->where('bulan1','>=',7)                            
-                                            ->where('bulan1','<=',9)   
+                                            ->where('bulan2','>=',7)                            
+                                            ->where('bulan2','<=',9)   
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                                
                                             ->get();
                 
-                $fisik_tw_3=Helper::formatPecahan($data_realisasi_tw3[0]->fisik1,$jumlahuraian_program);
-                $keuangan_tw_3=$data_realisasi_tw3[0]->realisasi1;
+                $fisik_tw_3=Helper::formatPecahan($data_realisasi_tw3[0]->fisik2,$jumlahuraian_program);
+                $keuangan_tw_3=$data_realisasi_tw3[0]->realisasi2;
 
                 $data_realisasi_tw4=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->join('trRKA','trRKARealisasiRinc.RKAID','trRKA.RKAID')
                                             ->where('kode_program',$kode_program) 
                                             ->where('kode_organisasi',$opd->kode_organisasi)
-                                            ->where('bulan1','>=',10)                            
-                                            ->where('bulan1','<=',12)   
+                                            ->where('bulan2','>=',10)                            
+                                            ->where('bulan2','<=',12)   
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                                
                                             ->get();
                 
-                $fisik_tw_4=Helper::formatPecahan($data_realisasi_tw4[0]->fisik1,$jumlahuraian_program);
-                $keuangan_tw_4=$data_realisasi_tw4[0]->realisasi1;
+                $fisik_tw_4=Helper::formatPecahan($data_realisasi_tw4[0]->fisik2,$jumlahuraian_program);
+                $keuangan_tw_4=$data_realisasi_tw4[0]->realisasi2;
                 
                 $data[]=[
                     'EvaluasiRKPPerubahanID'=>uniqid('uid'),
                     'RKAID'=>null,
                     'kode'=>$kode_program,
                     'nama'=>$data_program->PrgNm,            
-                    'indikator_kinerja'=>$daftar_kegiatan[0]->capaian_program1,                                                                                    
-                    'target_kinerja'=>$daftar_kegiatan[0]->tk_capaian1, 
-                    'fisik_target1'=>$persen_target_fisik_program,
-                    'pagu_dana1'=>$totalpagueachprogram,                                                                                   
+                    'indikator_kinerja'=>$daftar_kegiatan[0]->capaian_program2,                                                                                    
+                    'target_kinerja'=>$daftar_kegiatan[0]->tk_capaian2, 
+                    'fisik_target2'=>$persen_target_fisik_program,
+                    'pagu_dana2'=>$totalpagueachprogram,                                                                                   
                     'fisik_tw_1'=>$fisik_tw_1,                                                                                   
                     'keuangan_tw_1'=>$keuangan_tw_1,                                                                                   
                     'fisik_tw_2'=>$fisik_tw_2,                                                                                   
@@ -165,64 +165,64 @@ class EvaluasiRenjaPerubahanController extends Controller
                 foreach ($daftar_kegiatan as $n)
                 {
                     $RKAID=$n->RKAID;
-                    $nilai_pagu_proyek=$n->PaguDana1;      
+                    $nilai_pagu_proyek=$n->PaguDana2;      
 
                     //jumlah baris uraian
                     $jumlahuraian = \DB::table('trRKARinc')->where('RKAID',$RKAID)->count();	
                     $total_uraian+=$jumlahuraian;
 
                     $data_target=\DB::table('trRKATargetRinc')
-                                        ->select(\DB::raw('COALESCE(SUM(target1),0) AS totaltarget, COALESCE(SUM(fisik1),0) AS jumlah_fisik'))
+                                        ->select(\DB::raw('COALESCE(SUM(target2),0) AS totaltarget, COALESCE(SUM(fisik2),0) AS jumlah_fisik'))
                                         ->where('RKAID',$RKAID)                                    
                                         ->get();
 
                     $data_realisasi_tw1=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->where('RKAID',$RKAID)    
-                                            ->where('bulan1','>=',1)                            
-                                            ->where('bulan1','<=',3)   
+                                            ->where('bulan2','>=',1)                            
+                                            ->where('bulan2','<=',3)   
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                                
                                             ->get();
 
-                    $fisik_tw_1=Helper::formatPecahan($data_realisasi_tw1[0]->fisik1,$jumlahuraian);
-                    $keuangan_tw_1=$data_realisasi_tw1[0]->realisasi1;
+                    $fisik_tw_1=Helper::formatPecahan($data_realisasi_tw1[0]->fisik2,$jumlahuraian);
+                    $keuangan_tw_1=$data_realisasi_tw1[0]->realisasi2;
                     $totalFisikTW1+=$fisik_tw_1;
                     $totalKeuanganTW1+=$keuangan_tw_1;
 
                     $data_realisasi_tw2=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->where('RKAID',$RKAID)    
-                                            ->where('bulan1','>=',4)                            
-                                            ->where('bulan1','<=',6)     
+                                            ->where('bulan2','>=',4)                            
+                                            ->where('bulan2','<=',6)     
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                       
                                             ->get();
 
-                    $fisik_tw_2=Helper::formatPecahan($data_realisasi_tw2[0]->fisik1,$jumlahuraian);
-                    $keuangan_tw_2=$data_realisasi_tw2[0]->realisasi1;
+                    $fisik_tw_2=Helper::formatPecahan($data_realisasi_tw2[0]->fisik2,$jumlahuraian);
+                    $keuangan_tw_2=$data_realisasi_tw2[0]->realisasi2;
                     $totalFisikTW2+=$fisik_tw_2;
                     $totalKeuanganTW2+=$keuangan_tw_2;
 
                     $data_realisasi_tw3=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->where('RKAID',$RKAID)    
-                                            ->where('bulan1','>=',7)                            
-                                            ->where('bulan1','<=',9)    
+                                            ->where('bulan2','>=',7)                            
+                                            ->where('bulan2','<=',9)    
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                               
                                             ->get();
-                    $fisik_tw_3=Helper::formatPecahan($data_realisasi_tw3[0]->fisik1,$jumlahuraian);
-                    $keuangan_tw_3=$data_realisasi_tw3[0]->realisasi1;
+                    $fisik_tw_3=Helper::formatPecahan($data_realisasi_tw3[0]->fisik2,$jumlahuraian);
+                    $keuangan_tw_3=$data_realisasi_tw3[0]->realisasi2;
                     $totalFisikTW3+=$fisik_tw_3;
                     $totalKeuanganTW3+=$keuangan_tw_3;
 
                     $data_realisasi_tw4=\DB::table('trRKARealisasiRinc')
-                                            ->select(\DB::raw('COALESCE(SUM(realisasi1),0) AS realisasi1, COALESCE(SUM(fisik1),0) AS fisik1'))
+                                            ->select(\DB::raw('COALESCE(SUM(realisasi2),0) AS realisasi2, COALESCE(SUM(fisik2),0) AS fisik2'))
                                             ->where('RKAID',$RKAID)    
-                                            ->where('bulan1','>=',10)                            
-                                            ->where('bulan1','<=',12)      
+                                            ->where('bulan2','>=',10)                            
+                                            ->where('bulan2','<=',12)      
                                             ->where('trRKARealisasiRinc.EntryLvl',2)                                             
                                             ->get();
-                    $fisik_tw_4=Helper::formatPecahan($data_realisasi_tw4[0]->fisik1,$jumlahuraian);
-                    $keuangan_tw_4=$data_realisasi_tw4[0]->realisasi1;
+                    $fisik_tw_4=Helper::formatPecahan($data_realisasi_tw4[0]->fisik2,$jumlahuraian);
+                    $keuangan_tw_4=$data_realisasi_tw4[0]->realisasi2;
                     $totalFisikTW4+=$fisik_tw_4;
                     $totalKeuanganTW4+=$keuangan_tw_4;
 
@@ -236,10 +236,10 @@ class EvaluasiRenjaPerubahanController extends Controller
                         'RKAID'=>$RKAID,
                         'kode'=>$n->kode_kegiatan,
                         'nama'=>$n->KgtNm,      
-                        'indikator_kinerja'=>$n->keluaran1,                               
-                        'target_kinerja'=>$n->tk_keluaran1, 
-                        'fisik_target1'=>$persen_target_fisik,
-                        'pagu_dana1'=>$nilai_pagu_proyek,   
+                        'indikator_kinerja'=>$n->keluaran2,                               
+                        'target_kinerja'=>$n->tk_keluaran2, 
+                        'fisik_target2'=>$persen_target_fisik,
+                        'pagu_dana2'=>$nilai_pagu_proyek,   
                         
                         'fisik_tw_1'=>$fisik_tw_1,                                                                                   
                         'keuangan_tw_1'=>$keuangan_tw_1,                                                                                   
