@@ -38,13 +38,13 @@ class EvaluasiRenjaMurniModel extends ReportModel
         ]);
         
         $row=1;        
-        $sheet->mergeCells("A$row:AA$row");		
+        $sheet->mergeCells("A$row:Y$row");		
         $sheet->setCellValue("A$row",'Evaluasi Terhadap Hasil Renja Perangkat Daerah');         
         $row+=1;                
-        $sheet->mergeCells("A$row:AA$row");		
+        $sheet->mergeCells("A$row:Y$row");		
         $sheet->setCellValue("A$row",$this->dataReport['OrgNm']. ' Kabupaten Bintan');         
         $row+=1;        
-        $sheet->mergeCells("A$row:AA$row");		
+        $sheet->mergeCells("A$row:Y$row");		
         $sheet->setCellValue("A$row","Periode Pelaksanaan $tahun");         
         
         $styleArray=array( 
@@ -56,10 +56,10 @@ class EvaluasiRenjaMurniModel extends ReportModel
 
 
         $row+=2;        
-        $sheet->mergeCells("A$row:AA$row");		
+        $sheet->mergeCells("A$row:Y$row");		
         $sheet->setCellValue("A$row","Indikator dan target kinerja yang mengacu pada sasaran RKPD :");         
         $row+=2;        
-        $sheet->mergeCells("A$row:AA$row");		
+        $sheet->mergeCells("A$row:Y$row");		
 
         $row+=2;     
         $row_awal_header=$row;   
@@ -68,36 +68,39 @@ class EvaluasiRenjaMurniModel extends ReportModel
         $sheet->setCellValue("A$row",'NO');                        
         $sheet->mergeCells("B$row:B$row_akhir");
         $sheet->setCellValue("B$row",'SASARAN');
-        $sheet->mergeCells("C$row:F$row_akhir");
-        $sheet->setCellValue("C$row",'KODE');
-        $sheet->mergeCells("G$row:G$row_akhir");
-        $sheet->setCellValue("G$row",'Program/Kegiatan');
-        $sheet->mergeCells("H$row:H$row_akhir");
-        $sheet->setCellValue("H$row",'Indikator Kinerja Program (Outcome)/Kegiatan (Output)');
+        
+        $sheet->mergeCells("C$row:C$row_akhir");
+        $sheet->setCellValue("C$row",'Program/Kegiatan');
+        $sheet->mergeCells("D$row:D$row_akhir");
+        $sheet->setCellValue("D$row",'Indikator Kinerja Program (Outcome)/Kegiatan (Output)');
+        $sheet->mergeCells("E$row:F$row_akhir");
+        $sheet->setCellValue("E$row",'Target RENSTRA Tahun '.$tahun_akhir_renstra);
+        $sheet->mergeCells("G$row:H$row_akhir");
+        $sheet->setCellValue("G$row",'Realisasi Capaian Kinerja RENSTRA s/d Renja Tahun Lalu ('.($tahun-1).')');                
         $sheet->mergeCells("I$row:J$row_akhir");
-        $sheet->setCellValue("I$row",'Target RENSTRA Tahun '.$tahun_akhir_renstra);
-        $sheet->mergeCells("K$row:L$row_akhir");
-        $sheet->setCellValue("K$row",'Realisasi Capaian Kinerja RENSTRA s/d Renja Tahun Lalu ('.($tahun-1).')');                
-        $sheet->mergeCells("M$row:N$row_akhir");
-        $sheet->setCellValue("M$row",'Target Kinerja dan Anggaran Renja Tahun Berjalan (N-1) yang Dievaluasi');                
+        $sheet->setCellValue("I$row",'Target Kinerja dan Anggaran Renja Tahun Berjalan (N-1) yang Dievaluasi');                
 
-        $sheet->mergeCells("O$row:V$row");        
-        $sheet->setCellValue("O$row",'Realisasi Kinerja pada Triwulan'); 
+        $sheet->mergeCells("K$row:R$row");        
+        $sheet->setCellValue("K$row",'Realisasi Kinerja pada Triwulan'); 
+        $sheet->mergeCells("K$row_akhir:L$row_akhir");
+        $sheet->setCellValue("K$row_akhir",'I');
+        $sheet->mergeCells("M$row_akhir:N$row_akhir");
+        $sheet->setCellValue("M$row_akhir",'II');
         $sheet->mergeCells("O$row_akhir:P$row_akhir");
-        $sheet->setCellValue("O$row_akhir",'I');
+        $sheet->setCellValue("O$row_akhir",'III');
         $sheet->mergeCells("Q$row_akhir:R$row_akhir");
-        $sheet->setCellValue("Q$row_akhir",'II');
-        $sheet->mergeCells("S$row_akhir:T$row_akhir");
-        $sheet->setCellValue("S$row_akhir",'III');
-        $sheet->mergeCells("U$row_akhir:V$row_akhir");
-        $sheet->setCellValue("U$row_akhir",'IV');
+        $sheet->setCellValue("Q$row_akhir",'IV');
 
-        $sheet->mergeCells("W$row:X$row_akhir");ran RENSTRA s/d Tahun $tahun");                
-        $sheet->mergeCells("Y$row:Z$row_akhir");
-        $sheet->setCellValue("W$row","Realisasi Kinerja dan Angga
-        $sheet->setCellValue("Y$row","Tingkat Capaian Kinerja dan Realisasi Anggaran Renstra s/d Tahun $tahun");                
-        $sheet->mergeCells("AA$row:AA$row_akhir");
-        $sheet->setCellValue("AA$row","Perangkat Daerah Penanggung Jawab");  
+        $sheet->mergeCells("S$row:T$row_akhir");
+        $sheet->setCellValue("S$row","Realisasi Capaian Kinerja dan Anggaran Renja"); 
+
+        $sheet->mergeCells("U$row:V$row_akhir");
+        $sheet->setCellValue("U$row","Realisasi Kinerja dan Anggaran Renstra s/d Tahun $tahun");                
+
+        $sheet->mergeCells("W$row:X$row_akhir");
+        $sheet->setCellValue("W$row","Tingkat Capaian Kinerja dan Realisasi Anggaran Renstra s/d Tahun $tahun");                
+        $sheet->mergeCells("Y$row:Y$row_akhir");
+        $sheet->setCellValue("Y$row","Perangkat Daerah Penanggung Jawab");  
 
         $row+=2;
         $row_akhir=$row+1;
@@ -105,33 +108,38 @@ class EvaluasiRenjaMurniModel extends ReportModel
         $sheet->setCellValue("A$row",'1');                
         $sheet->mergeCells("B$row:B$row_akhir");
         $sheet->setCellValue("B$row",'2');                
-        $sheet->mergeCells("C$row:F$row_akhir");
-        $sheet->setCellValue("C$row",'3');                        
-        $sheet->mergeCells("G$row:G$row_akhir");
-        $sheet->setCellValue("G$row",'4');                
-        $sheet->mergeCells("H$row:H$row_akhir");
-        $sheet->setCellValue("H$row",'5');                
+        
+        $sheet->mergeCells("C$row:C$row_akhir");
+        $sheet->setCellValue("C$row",'4');                
+        $sheet->mergeCells("D$row:D$row_akhir");
+        $sheet->setCellValue("D$row",'5');                
+        $sheet->mergeCells("E$row:F$row");
+        $sheet->setCellValue("E$row",'6');                
+        $sheet->mergeCells("G$row:H$row");
+        $sheet->setCellValue("G$row",'7');                
         $sheet->mergeCells("I$row:J$row");
-        $sheet->setCellValue("I$row",'6');                
+        $sheet->setCellValue("I$row",'8');                
         $sheet->mergeCells("K$row:L$row");
-        $sheet->setCellValue("K$row",'7');                
+        $sheet->setCellValue("K$row",'9');                
         $sheet->mergeCells("M$row:N$row");
-        $sheet->setCellValue("M$row",'8');                
+        $sheet->setCellValue("M$row",'10');                
         $sheet->mergeCells("O$row:P$row");
-        $sheet->setCellValue("O$row",'9');                
+        $sheet->setCellValue("O$row",'11');                
         $sheet->mergeCells("Q$row:R$row");
-        $sheet->setCellValue("Q$row",'10');                
+        $sheet->setCellValue("Q$row",'12');                
         $sheet->mergeCells("S$row:T$row");
-        $sheet->setCellValue("S$row",'11');                
+        $sheet->setCellValue("S$row",'13');                
         $sheet->mergeCells("U$row:V$row");
-        $sheet->setCellValue("U$row",'12');                
+        $sheet->setCellValue("U$row",'14');                
         $sheet->mergeCells("W$row:X$row");
-        $sheet->setCellValue("W$row",'13');                
-        $sheet->mergeCells("Y$row:Z$row");
-        $sheet->setCellValue("Y$row",'14');                
-        $sheet->mergeCells("AA$row:AA$row_akhir");
-        $sheet->setCellValue("AA$row",'15');                
+        $sheet->setCellValue("W$row",'15');                
+        $sheet->mergeCells("Y$row:Y$row_akhir");
+        $sheet->setCellValue("Y$row",'16');                
         $row+=1;
+        $sheet->setCellValue("E$row",'K');                
+        $sheet->setCellValue("F$row",'Rp');                
+        $sheet->setCellValue("G$row",'K');                
+        $sheet->setCellValue("H$row",'Rp');                
         $sheet->setCellValue("I$row",'K');                
         $sheet->setCellValue("J$row",'Rp');                
         $sheet->setCellValue("K$row",'K');                
@@ -148,24 +156,22 @@ class EvaluasiRenjaMurniModel extends ReportModel
         $sheet->setCellValue("V$row",'Rp');                
         $sheet->setCellValue("W$row",'K');                
         $sheet->setCellValue("X$row",'Rp');                
-        $sheet->setCellValue("Y$row",'K');                
-        $sheet->setCellValue("Z$row",'Rp');                
         
         $sheet->getRowDimension(6)->setRowHeight(30);
         $sheet->getColumnDimension('A')->setWidth(10);
-        $sheet->getColumnDimension('B')->setWidth(27);                
-        $sheet->getColumnDimension('C')->setWidth(5);
-        $sheet->getColumnDimension('D')->setWidth(5);                
-        $sheet->getColumnDimension('E')->setWidth(5);                
-        $sheet->getColumnDimension('F')->setWidth(5);
-        $sheet->getColumnDimension('G')->setWidth(50);    
-        $sheet->getColumnDimension('H')->setWidth(30);
-        $sheet->getColumnDimension('I')->setWidth(10);                
+        $sheet->getColumnDimension('B')->setWidth(27);                        
+        $sheet->getColumnDimension('C')->setWidth(50);    
+        $sheet->getColumnDimension('D')->setWidth(30);
+        $sheet->getColumnDimension('E')->setWidth(10);                
+        $sheet->getColumnDimension('F')->setWidth(20);                
+        $sheet->getColumnDimension('G')->setWidth(10);
+        $sheet->getColumnDimension('H')->setWidth(20);
+        $sheet->getColumnDimension('I')->setWidth(10); 
         $sheet->getColumnDimension('J')->setWidth(20);                
         $sheet->getColumnDimension('K')->setWidth(10);
         $sheet->getColumnDimension('L')->setWidth(20);
-        $sheet->getColumnDimension('M')->setWidth(10); 
-        $sheet->getColumnDimension('N')->setWidth(20);                
+        $sheet->getColumnDimension('M')->setWidth(10);
+        $sheet->getColumnDimension('N')->setWidth(20);
         $sheet->getColumnDimension('O')->setWidth(10);
         $sheet->getColumnDimension('P')->setWidth(20);
         $sheet->getColumnDimension('Q')->setWidth(10);
@@ -175,10 +181,8 @@ class EvaluasiRenjaMurniModel extends ReportModel
         $sheet->getColumnDimension('U')->setWidth(10);
         $sheet->getColumnDimension('V')->setWidth(20);
         $sheet->getColumnDimension('W')->setWidth(10);
-        $sheet->getColumnDimension('X')->setWidth(20);
-        $sheet->getColumnDimension('Y')->setWidth(10);
-        $sheet->getColumnDimension('Z')->setWidth(20);
-        $sheet->getColumnDimension('AA')->setWidth(25);
+        $sheet->getColumnDimension('X')->setWidth(25);
+        $sheet->getColumnDimension('Y')->setWidth(30);
         
         $styleArray=array(
                         'font' => array('bold' => true),
@@ -186,8 +190,8 @@ class EvaluasiRenjaMurniModel extends ReportModel
                                             'vertical'=>Alignment::HORIZONTAL_CENTER),
                         'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
                     );
-        $sheet->getStyle("A$row_awal_header:AA$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A$row_awal_header:AA$row")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A$row_awal_header:Y$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A$row_awal_header:Y$row")->getAlignment()->setWrapText(true);
         
         $totalPaguOPD = (float)\DB::table('trRKA')
                                     ->where('kode_organisasi',$kode_organisasi)                                            
@@ -319,31 +323,27 @@ class EvaluasiRenjaMurniModel extends ReportModel
                         ],
                     ],
                 ];                
-                $sheet->getStyle("A$row:AA$row")->applyFromArray($styleArray);
-                
-                $rekening=explode('.',$kode_program);
-                $sheet->setCellValue("C$row",$rekening[0]);
-                $sheet->setCellValue("D$row",$rekening[1]);
-                $sheet->setCellValue("E$row",$rekening[2]);                
-                $sheet->setCellValue("G$row",$data_program->PrgNm);
+                $sheet->getStyle("A$row:Y$row")->applyFromArray($styleArray);
+                                
+                $sheet->setCellValue("C$row",$data_program->PrgNm);
                 $indikator_kinerja=empty(trim($daftar_kegiatan[0]->capaian_program1))?'':$daftar_kegiatan[0]->capaian_program1.' ('.$daftar_kegiatan[0]->tk_capaian1.'%)';
-                $sheet->setCellValue("H$row",$indikator_kinerja);
+                $sheet->setCellValue("D$row",$indikator_kinerja);
 
-                $sheet->setCellValue("N$row",Helper::formatUang($totalpagueachprogram));
+                $sheet->setCellValue("J$row",Helper::formatUang($totalpagueachprogram));
                 
-                $sheet->setCellValue("O$row",$fisik_tw_1);
-                $sheet->setCellValue("P$row",Helper::formatUang($keuangan_tw_1));
-                $sheet->setCellValue("Q$row",$fisik_tw_2);
-                $sheet->setCellValue("R$row",Helper::formatUang($keuangan_tw_2));
-                $sheet->setCellValue("S$row",$fisik_tw_3);
-                $sheet->setCellValue("T$row",Helper::formatUang($keuangan_tw_3));
-                $sheet->setCellValue("U$row",$fisik_tw_4);
-                $sheet->setCellValue("V$row",Helper::formatUang($keuangan_tw_4));
+                $sheet->setCellValue("K$row",$fisik_tw_1);
+                $sheet->setCellValue("L$row",Helper::formatUang($keuangan_tw_1));
+                $sheet->setCellValue("M$row",$fisik_tw_2);
+                $sheet->setCellValue("N$row",Helper::formatUang($keuangan_tw_2));
+                $sheet->setCellValue("O$row",$fisik_tw_3);
+                $sheet->setCellValue("P$row",Helper::formatUang($keuangan_tw_3));
+                $sheet->setCellValue("Q$row",$fisik_tw_4);
+                $sheet->setCellValue("R$row",Helper::formatUang($keuangan_tw_4));
                 $total_w_fisik=$fisik_tw_1+$fisik_tw_2+$fisik_tw_3+$fisik_tw_4;
-                $sheet->setCellValue("W$row",$total_w_fisik);
+                $sheet->setCellValue("S$row",$total_w_fisik);
                 $total_x_keuangan=$keuangan_tw_1+$keuangan_tw_2+$keuangan_tw_3+$keuangan_tw_4;
-                $sheet->setCellValue("X$row",Helper::formatUang($total_x_keuangan));
-                $sheet->setCellValue("AA$row",$this->dataReport['OrgNm']);
+                $sheet->setCellValue("T$row",Helper::formatUang($total_x_keuangan));
+                $sheet->setCellValue("Y$row",$this->dataReport['OrgNm']);
 
                 $row+=1;  
 
@@ -423,29 +423,25 @@ class EvaluasiRenjaMurniModel extends ReportModel
 
                     $indikator_kinerja=empty(trim($n->hasil1))?'':$n->hasil1.' ('.$n->tk_hasil1.')';
                     $sheet->setCellValue("B$row",$indikator_kinerja);
-                    $rekening=explode('.',$n->kode_kegiatan);
-                    $sheet->setCellValue("C$row",$rekening[0]);
-                    $sheet->setCellValue("D$row",$rekening[1]);
-                    $sheet->setCellValue("E$row",$rekening[2]);
-                    $sheet->setCellValue("F$row",$rekening[3]);
-                    $sheet->setCellValue("G$row",$n->KgtNm);
+                    $rekening=explode('.',$n->kode_kegiatan);                    
+                    $sheet->setCellValue("C$row",$n->KgtNm);
                     $indikator_kinerja=empty(trim($n->keluaran1))?'':$n->keluaran1.' ('.$n->tk_keluaran1.')';
-                    $sheet->setCellValue("H$row",$indikator_kinerja);
-                    $sheet->setCellValue("N$row",Helper::formatUang($nilai_pagu_proyek));
+                    $sheet->setCellValue("D$row",$indikator_kinerja);
+                    $sheet->setCellValue("J$row",Helper::formatUang($nilai_pagu_proyek));
 
-                    $sheet->setCellValue("O$row",$fisik_tw_1);
-                    $sheet->setCellValue("P$row",Helper::formatUang($keuangan_tw_1));
-                    $sheet->setCellValue("Q$row",$fisik_tw_2);
-                    $sheet->setCellValue("R$row",Helper::formatUang($keuangan_tw_2));
-                    $sheet->setCellValue("S$row",$fisik_tw_3);
-                    $sheet->setCellValue("T$row",Helper::formatUang($keuangan_tw_3));
-                    $sheet->setCellValue("U$row",$fisik_tw_4);
-                    $sheet->setCellValue("V$row",Helper::formatUang($keuangan_tw_4));
+                    $sheet->setCellValue("K$row",$fisik_tw_1);
+                    $sheet->setCellValue("L$row",Helper::formatUang($keuangan_tw_1));
+                    $sheet->setCellValue("M$row",$fisik_tw_2);
+                    $sheet->setCellValue("N$row",Helper::formatUang($keuangan_tw_2));
+                    $sheet->setCellValue("O$row",$fisik_tw_3);
+                    $sheet->setCellValue("P$row",Helper::formatUang($keuangan_tw_3));
+                    $sheet->setCellValue("Q$row",$fisik_tw_4);
+                    $sheet->setCellValue("R$row",Helper::formatUang($keuangan_tw_4));
                     $total_w_fisik=$fisik_tw_1+$fisik_tw_2+$fisik_tw_3+$fisik_tw_4;
-                    $sheet->setCellValue("W$row",$total_w_fisik);
+                    $sheet->setCellValue("S$row",$total_w_fisik);
                     $total_x_keuangan=$keuangan_tw_1+$keuangan_tw_2+$keuangan_tw_3+$keuangan_tw_4;
-                    $sheet->setCellValue("X$row",Helper::formatUang($total_x_keuangan));
-                    $sheet->setCellValue("AA$row",$this->dataReport['OrgNm']);
+                    $sheet->setCellValue("T$row",Helper::formatUang($total_x_keuangan));
+                    $sheet->setCellValue("Y$row",$this->dataReport['OrgNm']);
 
                     $total_kegiatan+=1;
                     $row+=1;
@@ -458,43 +454,43 @@ class EvaluasiRenjaMurniModel extends ReportModel
         $totalFisikTW3 = Helper::formatPecahan($totalFisikTW3,$total_kegiatan);         
         $totalFisikTW4 = Helper::formatPecahan($totalFisikTW4,$total_kegiatan); 
 
-        $sheet->mergeCells("A$row:H$row");                
+        $sheet->mergeCells("A$row:D$row");                
         $sheet->setCellValue("A$row",'Jumlah');                                       
-        $sheet->setCellValue("N$row",Helper::formatUang($totalPaguOPD));
+        $sheet->setCellValue("J$row",Helper::formatUang($totalPaguOPD));
         
-        $sheet->setCellValue("O$row",$totalFisikTW1);                                       
-        $sheet->setCellValue("P$row",Helper::formatUang($totalKeuanganTW1));                                       
-        $sheet->setCellValue("Q$row",$totalFisikTW2);                                       
-        $sheet->setCellValue("R$row",Helper::formatUang($totalKeuanganTW2));                                       
-        $sheet->setCellValue("S$row",$totalFisikTW3);                                       
-        $sheet->setCellValue("T$row",Helper::formatUang($totalKeuanganTW3));                                       
-        $sheet->setCellValue("U$row",$totalFisikTW4);                                       
-        $sheet->setCellValue("V$row",Helper::formatUang($totalKeuanganTW4));                                       
+        $sheet->setCellValue("K$row",$totalFisikTW1);                                       
+        $sheet->setCellValue("L$row",Helper::formatUang($totalKeuanganTW1));                                       
+        $sheet->setCellValue("M$row",$totalFisikTW2);                                       
+        $sheet->setCellValue("N$row",Helper::formatUang($totalKeuanganTW2));                                       
+        $sheet->setCellValue("O$row",$totalFisikTW3);                                       
+        $sheet->setCellValue("P$row",Helper::formatUang($totalKeuanganTW3));                                       
+        $sheet->setCellValue("Q$row",$totalFisikTW4);                                       
+        $sheet->setCellValue("R$row",Helper::formatUang($totalKeuanganTW4));                                       
         $total_w_fisik=$totalFisikTW1+$totalFisikTW2+$totalFisikTW3+$totalFisikTW4;
-        $sheet->setCellValue("W$row",$total_w_fisik);
+        $sheet->setCellValue("S$row",$total_w_fisik);
         $total_x_keuangan=$totalKeuanganTW1+$totalKeuanganTW2+$totalKeuanganTW3+$totalKeuanganTW4;
-        $sheet->setCellValue("X$row",Helper::formatUang($total_x_keuangan));
+        $sheet->setCellValue("T$row",Helper::formatUang($total_x_keuangan));
 
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_CENTER,
                                'vertical'=>Alignment::HORIZONTAL_CENTER),
             'borders' => array('allBorders' => array('borderStyle' =>Border::BORDER_THIN))
         );   																					 
-        $sheet->getStyle("A$row_awal:AA$row")->applyFromArray($styleArray);
-        $sheet->getStyle("A$row_awal:AA$row")->getAlignment()->setWrapText(true);
+        $sheet->getStyle("A$row_awal:Y$row")->applyFromArray($styleArray);
+        $sheet->getStyle("A$row_awal:Y$row")->getAlignment()->setWrapText(true);
 
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_LEFT)
         );																					 
         $sheet->getStyle("B$row_awal:B$row")->applyFromArray($styleArray);
-        $sheet->getStyle("G$row_awal:H$row")->applyFromArray($styleArray);
-        $sheet->getStyle("AA$row_awal:AA$row")->applyFromArray($styleArray);
-        // $sheet->getStyle("R$row_awal:S$row")->applyFromArray($styleArray);
+        $sheet->getStyle("C$row_awal:D$row")->applyFromArray($styleArray);
+        $sheet->getStyle("Y$row_awal:Y$row")->applyFromArray($styleArray);
+        // $sheet->getStyle("N$row_awal:O$row")->applyFromArray($styleArray);
 
         $styleArray=array(								
             'alignment' => array('horizontal'=>Alignment::HORIZONTAL_RIGHT)
         );																					 
-        $sheet->getStyle("I$row_awal:Z$row")->applyFromArray($styleArray);               
-        // $sheet->getStyle("P$row_awal:Q$row")->applyFromArray($styleArray);
+        $sheet->getStyle("E$row_awal:V$row")->applyFromArray($styleArray);               
+        // $sheet->getStyle("L$row_awal:M$row")->applyFromArray($styleArray);
     }
 }
