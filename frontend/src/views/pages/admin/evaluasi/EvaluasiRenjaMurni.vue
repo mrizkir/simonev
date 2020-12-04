@@ -104,19 +104,19 @@
                                     <td>{{item.nama}}</td>
                                     <td class="text-right">{{item.indikator_kinerja}}</td>
                                     <td class="text-right">{{item.target_kinerja}}</td>                                    
-                                    <td class="text-right">{{item.fisik_target1|formatPersen}}</td>                                                                        
+                                    <td class="text-right">{{item.fisik_target1}}</td>                                                                        
                                     <td class="text-right">{{item.pagu_dana1|formatUang}}</td> 
 
-                                    <td class="text-right">{{item.fisik_tw_1|formatPersen}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_1}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_1|formatUang}}</td>   
 
-                                    <td class="text-right">{{item.fisik_tw_2|formatPersen}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_2}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_2|formatUang}}</td>                
 
-                                    <td class="text-right">{{item.fisik_tw_3|formatPersen}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_3}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_3|formatUang}}</td>                                                                                                         
 
-                                    <td class="text-right">{{item.fisik_tw_4|formatPersen}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_4}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_4|formatUang}}</td>                                                                                                         
                                 </tr>
                             </tbody>
