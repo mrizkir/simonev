@@ -85,6 +85,7 @@
                             min-height="140"
                             class="clickable deep-purple darken-1"
                             color="#385F73"                             
+                            @click.native="$router.push('/rpjmd')"
                             dark>
                             <v-card-title class="headline">
                                 RPJMD
@@ -183,7 +184,7 @@
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
 					<strong>{{NamaAPP}} (2019-2020)</strong> dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan. 
-					<v-btn dark icon href="https://github.com/mrizkir/simonev-vuetify">
+					<v-btn dark icon href="https://github.com/mrizkir/simonev">
 						<v-icon>mdi-github</v-icon>
 					</v-btn>					
 				</v-card-text>

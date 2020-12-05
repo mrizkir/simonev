@@ -106,6 +106,16 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/dmaster/UnitKerja.vue'),		
 	},
+	//data master - kegiatan
+	{
+		path: '/dmaster/kelompokurusan',
+		name: 'DMasterKelompokUrusan',
+		meta:{
+			title: "KELOMPOK URUSAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/KelompokUrusan.vue'),		
+	},
 	{
 		path: '/dmaster/jenispelaksanaan',
 		name: 'DMasterJenisPelaksanaan',
@@ -160,6 +170,17 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/dmaster/TA.vue'),		
 	},
+	// rpjmd
+	{
+		path: '/rpjmd',
+		name: 'RPJMD',
+		meta:{
+			title: "RPJMD",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/rpjmd/RPJMD.vue'),		
+	},
+
 	//belanja murni
 	{
 		path: '/belanjamurni',

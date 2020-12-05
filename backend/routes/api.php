@@ -86,13 +86,20 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/dmaster/unitkerja/loadpaguapbdp',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadpaguapbdp','as'=>'opd.loadpaguapbdp']);    
     $router->put('/dmaster/unitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\SubOrganisasiController@update','as'=>'unitkerja.update']);
     
-    //data master - jenis pelaksanaan
+    //data master - kegiatan - kelompok urusan
+    $router->post('/dmaster/rekening/kelompokurusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\KelompokUrusanController@index','as'=>'kelompokurusan.index']);    
+    $router->post('/dmaster/rekening/kelompokurusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KelompokUrusanController@store','as'=>'kelompokurusan.store']);
+    $router->put('/dmaster/rekening/kelompokurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KelompokUrusanController@update','as'=>'kelompokurusan.update']);
+    $router->delete('/dmaster/rekening/kelompokurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\KelompokUrusanController@destroy','as'=>'kelompokurusan.destroy']);    
+
+
+    //data master - kegiatan - jenis pelaksanaan
     $router->post('/dmaster/jenispelaksanaan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\JenisPelaksanaanController@index','as'=>'jenispelaksanaan.index']);    
     $router->post('/dmaster/jenispelaksanaan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@store','as'=>'jenispelaksanaan.store']);
     $router->put('/dmaster/jenispelaksanaan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@update','as'=>'jenispelaksanaan.update']);
     $router->delete('/dmaster/jenispelaksanaan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@destroy','as'=>'jenispelaksanaan.destroy']);    
     
-    //data master - jenis pembangunan
+    //data master - kegiatan - jenis pembangunan
     $router->post('/dmaster/jenispembangunan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\JenisPembangunanController@index','as'=>'jenispembangunan.index']);    
     $router->post('/dmaster/jenispembangunan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@store','as'=>'jenispembangunan.store']);
     $router->put('/dmaster/jenispembangunan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPembangunanController@update','as'=>'jenispembangunan.update']);

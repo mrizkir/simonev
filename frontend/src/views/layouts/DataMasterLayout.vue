@@ -86,7 +86,38 @@
                     <v-list-item-content>
                         <v-list-item-title>BOARD DATA MASTER</v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>       
+                </v-list-item> 
+                <v-subheader>KEGIATAN</v-subheader>
+                <v-list-item link v-if="CAN_ACCESS('KELOMPOK URUSAN_BROWSE')" to="/dmaster/kelompokurusan">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-group</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            KELOMPOK URUSAN
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>   
+                <v-list-item link v-if="CAN_ACCESS('JENIS PELAKSANAAN_BROWSE')" to="/dmaster/jenispelaksanaan">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-road</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            JENIS PELAKSANAAN
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>   
+                <v-list-item link v-if="CAN_ACCESS('JENIS PEMBANGUNAN_BROWSE')" to="/dmaster/jenispembangunan">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-shovel</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            JENIS PEMBANGUNAN
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>      
                 <v-subheader>REKENING</v-subheader>         
                 <v-list-item link to="/dmaster/rekening/transaksi" v-if="CAN_ACCESS('OPD_BROWSE')">
                     <v-list-item-icon class="mr-2">
@@ -158,28 +189,7 @@
                             UNIT KERJA
                         </v-list-item-title>
                     </v-list-item-content>
-                </v-list-item>   
-                <v-subheader>KEGIATAN</v-subheader>
-                <v-list-item link v-if="CAN_ACCESS('JENIS PELAKSANAAN_BROWSE')" to="/dmaster/jenispelaksanaan">
-                    <v-list-item-icon class="mr-2">
-                        <v-icon>mdi-road</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            JENIS PELAKSANAAN
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>   
-                <v-list-item link v-if="CAN_ACCESS('JENIS PEMBANGUNAN_BROWSE')" to="/dmaster/jenispembangunan">
-                    <v-list-item-icon class="mr-2">
-                        <v-icon>mdi-shovel</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content>
-                        <v-list-item-title>
-                            JENIS PEMBANGUNAN
-                        </v-list-item-title>
-                    </v-list-item-content>
-                </v-list-item>
+                </v-list-item>                   
                 <v-subheader>PEGAWAI</v-subheader>
                 <v-list-item link v-if="CAN_ACCESS('ASN_BROWSE')" to="/dmaster/asn">
                     <v-list-item-icon class="mr-2">
@@ -256,7 +266,7 @@
 				<v-divider></v-divider>
 				<v-card-text class="py-2 white--text text-center">
 					<strong>{{NamaAPP}} (2019-2020)</strong> dikembangkan oleh TIM IT BAPELITBANG KAB. Bintan. 
-					<v-btn dark icon href="https://github.com/mrizkir/simonev-vuetify">
+					<v-btn dark icon href="https://github.com/mrizkir/simonev">
 						<v-icon>mdi-github</v-icon>
 					</v-btn>					
 				</v-card-text>

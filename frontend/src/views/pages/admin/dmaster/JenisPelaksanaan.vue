@@ -158,6 +158,11 @@ export default {
                 href:'#'
             },
             {
+                text:'KEGIATAN',
+                disabled:true,
+                href:'#'
+            },
+            {
                 text:'JENIS PELAKSANAAN',
                 disabled:true,
                 href:'#'
