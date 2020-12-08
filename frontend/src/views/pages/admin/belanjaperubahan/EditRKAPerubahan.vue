@@ -106,7 +106,7 @@
                                         {{ (item.PaguDana1-item.RealisasiKeuangan1)|formatUang }}
                                     </template>
                                     <template v-slot:no-data>                                                                                                                                                   
-                                        belum ada data
+                                        tidak ada kegiatan murni yang memiliki kode yang sama dengan {{search}}.
                                     </template>                 
                                 </v-data-table>
                             </v-col>
@@ -532,8 +532,14 @@ export default {
                         Authorization:this.$store.getters['auth/Token']
                     }
                 }
-            ).then(({data})=>{                              
-                this.datatable = data.rka;                
+            ).then(({data})=>{     
+                var datatable=data.rka;
+                datatable.forEach(item => {
+                    if (item.kode_kegiatan==this.datakegiatan.kode_kegiatan)
+                    {
+                        this.datatable.push(item);
+                    }
+                });               
                 this.btnLoading=false;     
                 this.search=this.datakegiatan.kode_kegiatan;
                 this.dialogcopykegiatan=true;           
