@@ -142,6 +142,9 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
 
     $router->post('/belanjaperubahan/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\PeringkatOPDPerubahanController@index','as'=>'peringkatopdperubahan.index']);    
 
+    //belanja - data mentah murni
+    $router->post('/belanja/datamentahmurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\DataMentahMurniController@index','as'=>'datamentahmurni.index']);    
+
     //belanja - rka murni
     $router->post('/belanja/rkamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAMurniController@index','as'=>'rkamurni.index']);    
     $router->get('/belanja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAMurniController@show','as'=>'rkamurni.show']);    

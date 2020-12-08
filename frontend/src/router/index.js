@@ -192,6 +192,15 @@ const routes = [
 		component: () => import('../views/pages/admin/belanjamurni/BelanjaMurni.vue'),		
 	},
 	{
+		path: '/belanjamurni/datamentah',
+		name: 'DataMentahMurni',
+		meta:{
+			title: "DATA MENTAH",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/belanjamurni/DataMentahMurni.vue'),		
+	},
+	{
 		path: '/belanjamurni/rka',
 		name: 'BelanjaMurniRKA',
 		meta:{
