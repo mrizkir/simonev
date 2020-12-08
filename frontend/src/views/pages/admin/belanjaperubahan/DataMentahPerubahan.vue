@@ -1,5 +1,5 @@
 <template>
-   <BelanjaMurniLayout :showrightsidebar="false">
+   <BelanjaPerubahanLayout :showrightsidebar="false">
        <template v-slot:system-bar>
             Tahun Anggaran: {{$store.getters['uifront/getTahunAnggaran']}} | Bulan Realisasi:{{$store.getters['uifront/getNamaBulan']}}
         </template>
@@ -97,8 +97,8 @@
                                 mdi-lock
                             </v-icon>
                         </template>
-                        <template v-slot:item.PaguDana1="{ item }">                            
-                            {{ item.PaguDana1|formatUang }}
+                        <template v-slot:item.PaguDana2="{ item }">                            
+                            {{ item.PaguDana2|formatUang }}
                         </template>
                         <template v-slot:item.status="{ item }">                            
                             <v-chip label outlined color="primary">
@@ -129,13 +129,13 @@
                 </v-col>
             </v-row>             
         </v-container>
-   </BelanjaMurniLayout>
+   </BelanjaPerubahanLayout>
 </template>
 <script>
-import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
+import BelanjaPerubahanLayout from '@/views/layouts/BelanjaPerubahanLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'DataMentahMurni',
+    name:'DataMentahPerubahan',
     created ()
     {
         this.breadcrumbs = [
@@ -145,9 +145,9 @@ export default {
                 href:'/dashboard/'+this.$store.getters['auth/AccessToken']
             },
             {
-                text:'BELANJA MURNI',
+                text:'BELANJA PERUBAHAN',
                 disabled:false,
-                href:'/belanjamurni'
+                href:'/belanjaperubahan'
             },
             {
                 text:'DATA MENTAH',
@@ -156,17 +156,17 @@ export default {
             }
         ];
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'datamentahmurni',
+            name:'datamentahperubahan',
             OrgID_Selected:'',            
             datakegiatan:{
                 kode_kegiatan:'',
-            },                
+            },       
         })
     },
     mounted()
     {
         this.fetchOPD(); 
-        var OrgID_Selected=this.$store.getters['uiadmin/AtributeValueOfPage']('datamentahmurni','OrgID_Selected');          
+        var OrgID_Selected=this.$store.getters['uiadmin/AtributeValueOfPage']('datamentahperubahan','OrgID_Selected');          
         if (OrgID_Selected.length > 0) 
         {
             this.OrgID_Selected = OrgID_Selected;                              
@@ -190,7 +190,7 @@ export default {
                 { text: 'NAMA PROGRAM', value: 'PrgNm',width:200},   
                 { text: 'KODE KEGIATAN', value: 'kode_kegiatan',width:80 },   
                 { text: 'NAMA KEGIATAN', value: 'KgtNm',width:300 },                   
-                { text: 'PAGU DANA', value: 'PaguDana1',align:'end',width:100 },                   
+                { text: 'PAGU DANA', value: 'PaguDana2',align:'end',width:100 },                   
                 { text: 'STATUS', value: 'status',width:100 },                   
                 { text: 'AKSI', value: 'actions', sortable: false,width:80 },
             ],
@@ -229,7 +229,7 @@ export default {
                 var totalpagukegiatan=0;
                 for (var i = 0; i < data.length;i++)
                 {
-                    var num = new Number(data[i].PaguDana1);
+                    var num = new Number(data[i].PaguDana2);
                     totalpagukegiatan+=num;
                 }
                 summary.paguopd=totalpagukegiatan;                
@@ -254,11 +254,11 @@ export default {
                     this.datatableLoaded=false;     
                 }
             });
-        },       
+        },  
         loaddatakegiatan:async function ()
         {
             this.datatableLoading=true;
-            await this.$ajax.post('/belanja/datamentahmurni',
+            await this.$ajax.post('/belanja/datamentahperubahan',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                     OrgID:this.OrgID_Selected,                       
@@ -277,14 +277,14 @@ export default {
         },        
     },
     components:{
-        BelanjaMurniLayout,
+        BelanjaPerubahanLayout,
         ModuleHeader,
     },    
     watch:{
         OrgID_Selected (val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('datamentahmurni');
-            
+            var page = this.$store.getters['uiadmin/Page']('datamentahperubahan');
+
             if (this.firstloading == false && val.length > 0 )
             {
                 this.datatableLoaded=false;                

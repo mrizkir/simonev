@@ -303,6 +303,15 @@ const routes = [
 		component: () => import('../views/pages/admin/belanjaperubahan/BelanjaPerubahan.vue'),		
 	},
 	{
+		path: '/belanjaperubahan/datamentah',
+		name: 'DataMentahPerubahan',
+		meta:{
+			title: "DATA MENTAH",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/belanjaperubahan/DataMentahPerubahan.vue'),		
+	},
+	{
 		path: '/belanjaperubahan/rka',
 		name: 'BelanjaPerubahanRKA',
 		meta:{

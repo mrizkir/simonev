@@ -8,7 +8,7 @@ use App\Helpers\Helper;
 use App\Models\DMaster\OrganisasiModel;
 use App\Models\DMaster\SIMDAModel;
 
-class DataMentahMurniController extends Controller 
+class DataMentahPerubahanController extends Controller 
 {
     /**
      * Show the form for creating a new resource.
@@ -17,7 +17,7 @@ class DataMentahMurniController extends Controller
      */
     public function index(Request $request)
     {             
-        $this->hasPermissionTo('RKA MURNI_BROWSE');
+        $this->hasPermissionTo('RKA PERUBAHAN_BROWSE');
         
         $this->validate($request, [            
             'tahun'=>'required',            
@@ -36,13 +36,13 @@ class DataMentahMurniController extends Controller
                             "KgtNm",
                             kode_program,                                                        
                             "PrgNm",
-                            0 AS "PaguDana1",
+                            0 AS "PaguDana2",
                             \'BELUM DICOPY\' AS status,                                                                                    
                             "TA"
                         '))
                         ->where('kode_organisasi',$organisasi->kode_organisasi)
                         ->where('TA',$tahun)
-                        ->where('EntryLvl',1)
+                        ->where('EntryLvl',2)
                         ->orderBy('kode_program','ASC')
                         ->orderBy('kode_kegiatan','ASC')
                         ->get();        
@@ -51,7 +51,7 @@ class DataMentahMurniController extends Controller
             $rka = \DB::table('trRKA')
                         ->where('kode_organisasi',$organisasi->kode_organisasi)
                         ->where('TA',$organisasi->TA)
-                        ->where('EntryLvl',1)
+                        ->where('EntryLvl',2)
                         ->where('kode_kegiatan',$item->kode_kegiatan)
                         ->get();
             $item->Kd_Urusan=$item->Kd_Urusan;
@@ -60,14 +60,13 @@ class DataMentahMurniController extends Controller
             {
                 $item->status='SUDAH DICOPY';
             }
-            $item->PaguDana1=\DB::table('simda')
-                                ->where('EntryLvl',1)
+            $item->PaguDana2=\DB::table('simda')
+                                ->where('EntryLvl',2)
                                 ->where('TA',$organisasi->TA)
                                 ->where('kode_kegiatan',$item->kode_kegiatan)
-                                ->sum('PaguUraian1');
+                                ->sum('PaguUraian2');
             return $item;
         });
-        
         return Response()->json([
                                 'status'=>1,
                                 'pid'=>'fetchdata',

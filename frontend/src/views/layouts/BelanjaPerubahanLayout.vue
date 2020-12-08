@@ -88,6 +88,16 @@
                     </v-list-item-content>
                 </v-list-item>                
                 <v-divider />
+                <v-list-item link to="/belanjaperubahan/datamentah" v-if="CAN_ACCESS('RKA PERUBAHAN_BROWSE')">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-database</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            DATA MENTAH
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item> 
                 <v-subheader>TRANSAKSI</v-subheader>
                 <v-list-item link to="/belanjaperubahan/rka" v-if="CAN_ACCESS('RKA PERUBAHAN_BROWSE')">
                     <v-list-item-icon class="mr-2">
