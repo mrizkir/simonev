@@ -97,14 +97,39 @@
                                 <v-spacer></v-spacer>
                             </v-toolbar>
                         </template>
-                        <template v-slot:item.actions="{ item }">
-                            <v-icon
-                                small
-                                class="mr-2"
-                                @click.stop="viewUraian(item)"
-                            >
-                                mdi-eye
-                            </v-icon>
+                        <template v-slot:item.actions="{ item }">                            
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">      
+                                    <v-icon
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        class="ma-2"
+                                        color="primary"
+                                        @click.stop="viewUraian(item)"
+                                    >
+                                        mdi-eye
+                                    </v-icon>                                                                       
+                                </template>
+                                <span>detail uraian kegiatan</span>                                   
+                            </v-tooltip>
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">      
+                                    <v-icon
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        class="ma-2"
+                                        color="warning"
+                                        :loading="btnLoading"
+                                        :disabled="item.PaguDana2>0"
+                                        @click.stop="loaddatauraianfirsttime(item)"
+                                    >
+                                        mdi-sync-circle
+                                    </v-icon>                                                                       
+                                </template>
+                                <span>load uraian</span>                                   
+                            </v-tooltip>
                         </template>
                         <template v-slot:item.PaguDana2="{ item }">                            
                             {{ item.PaguDana2|formatUang }}
@@ -228,7 +253,7 @@ export default {
                 { text: 'REALISASI KEUANGAN', value: 'RealisasiKeuangan2',align:'end',width:100 },   
                 { text: '%', value: 'persen_keuangan2',align:'end',width:100 },                   
                 { text: 'SISA PAGU', value: 'SisaAnggaran',align:'end',width:100},   
-                { text: 'AKSI', value: 'actions', sortable: false,width:80 },
+                { text: 'AKSI', value: 'actions', sortable: false,width:110 },
             ],
             footers :{ 
                 paguunitkerja:0,
@@ -346,7 +371,29 @@ export default {
             }).catch(()=>{
                 this.btnLoading=false;
             });            
-        },            
+        }, 
+        loaddatauraianfirsttime:async function (item)
+        {
+            if (!item.PaguDana2 > 0)
+            {            
+                this.btnLoading=true;
+                await this.$ajax.post('/belanja/rkaperubahan/loaddatauraianfirsttime',
+                    {
+                        RKAID:item.RKAID,                       
+                    },
+                    {
+                        headers:{
+                            Authorization:this.$store.getters['auth/Token']
+                        }
+                    }
+                ).then(()=>{  
+                    this.$router.go();
+                    this.btnLoading=false;
+                }).catch(()=>{
+                    this.btnLoading=false;
+                });        
+            }
+        },           
         loaddatakegiatan:async function ()
         {
             this.datatableLoading=true;
