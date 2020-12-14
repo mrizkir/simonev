@@ -166,7 +166,7 @@ class DashboardController extends Controller
                                         '))
                                         ->find($tahun);
 
-        $statistik1_perubahan->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1_murni->RealisasiKeuangan2,$statistik1_murni->PaguDana2);
+        $statistik1_perubahan->PersenRealisasiKeuangan2=Helper::formatPersen($statistik1_murni->statistik1_perubahan,$statistik1_perubahan->PaguDana2);
 
         $chart_keuangan_perubahan=[
             [
