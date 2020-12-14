@@ -101,9 +101,28 @@
                             {{ item.PaguDana1|formatUang }}
                         </template>
                         <template v-slot:item.status="{ item }">                            
-                            <v-chip label outlined color="primary">
+                            <v-chip label outlined :color="colorStatus(item.status)">
                                 {{item.status}}
                             </v-chip>
+                        </template>                        
+                        <template v-slot:item.actions="{ item }">                            
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">                                             
+                                    <v-btn 
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        color="primary" 
+                                        icon 
+                                        outlined 
+                                        small 
+                                        class="ma-2" 
+                                        @click.stop="copyrka"
+                                        :disabled="item.status=='SUDAH DICOPY'">
+                                        <v-icon small>mdi-content-copy</v-icon>
+                                    </v-btn>     
+                                </template>
+                                <span>salin ke RKA Murni</span>                                   
+                            </v-tooltip>
                         </template>                        
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
@@ -274,7 +293,11 @@ export default {
                 this.datatableLoading=false;
                 this.footersummary();
             });        
-        },        
+        },     
+        colorStatus(status)
+        {
+            return status === 'SUDAH DICOPY'?'blue-grey lighten-4':'primary'
+        }   
     },
     components:{
         BelanjaMurniLayout,

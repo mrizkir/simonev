@@ -87,6 +87,31 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
+                                <v-dialog v-model="dialogcopyrka" max-width="700px" persistent>                 
+                                    <v-card>
+                                        <v-card-title class="mb-2">
+                                            <span class="headline">SALIN DATA KEGIATAN DARI DATA MENTAH</span>
+                                        </v-card-title>
+                                        <v-card-subtitle>
+                                            <v-alert type="warning">
+                                                Tentukan Unit Kerja yang akan menerima data kegiatan ini, selanjutnya tekan tombol salin.
+                                            </v-alert>
+                                        </v-card-subtitle>
+                                        <v-card-text>
+                                            <v-autocomplete 
+                                                :items="daftar_unitkerja" 
+                                                v-model="SOrgID_Selected"
+                                                label="UNIT KERJA" 
+                                                item-text="SOrgNm" 
+                                                item-value="SOrgID">                                        
+                                            </v-autocomplete> 
+                                        </v-card-text>
+                                        <v-card-actions>                                    
+                                            <v-spacer></v-spacer>
+                                            <v-btn color="blue darken-1" text @click.stop="closedialogcopykegiatan">BATAL</v-btn>                        
+                                        </v-card-actions>
+                                    </v-card>                    
+                                </v-dialog>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.actions="{ item }">                            
@@ -101,10 +126,29 @@
                             {{ item.PaguDana2|formatUang }}
                         </template>
                         <template v-slot:item.status="{ item }">                            
-                            <v-chip label outlined color="primary">
+                            <v-chip label outlined :color="colorStatus(item.status)">
                                 {{item.status}}
                             </v-chip>
-                        </template>                        
+                        </template>       
+                        <template v-slot:item.actions="{ item }">                            
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">                                             
+                                    <v-btn 
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        color="primary" 
+                                        icon 
+                                        outlined 
+                                        small 
+                                        class="ma-2" 
+                                        @click.stop="showdialogcopyrka(item)"
+                                        :disabled="item.status=='SUDAH DICOPY'">
+                                        <v-icon small>mdi-content-copy</v-icon>
+                                    </v-btn>     
+                                </template>
+                                <span>salin ke RKA Perubahan</span>                                   
+                            </v-tooltip>
+                        </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12" clœass="mb1">
@@ -200,9 +244,13 @@ export default {
             //filter form
             daftar_opd:[],
             OrgID_Selected : '',
+
+            daftar_unitkerja:[],
+            SOrgID_Selected : '',
             
-            //Organisasi
-            DataOPD: null,            
+            //form data
+            data_rka:{}, 
+            dialogcopyrka:false           
         }
         
     },
@@ -255,6 +303,18 @@ export default {
                 }
             });
         },  
+        loadunitkerja:async function ()
+        {
+            await this.$ajax.get('/dmaster/opd/'+this.OrgID_Selected+'/unitkerja',              
+                {
+                    headers:{
+                        Authorization:this.$store.getters['auth/Token']
+                    }
+                }
+            ).then(({data})=>{                       
+                this.daftar_unitkerja = data.unitkerja;                
+            });      
+        },
         loaddatakegiatan:async function ()
         {
             this.datatableLoading=true;
@@ -275,6 +335,31 @@ export default {
                 this.footersummary();
             });        
         },        
+        colorStatus(status)
+        {
+            return status === 'SUDAH DICOPY'?'blue-grey lighten-4':'primary'
+        },
+        showdialogcopyrka()
+        {
+            this.dialogcopyrka=true;
+        },
+        async copyrka (item)
+        {
+            this.datatableLoading=true;
+            await this.$ajax.post('/belanja/datamentahperubahan/copyka',
+                {
+                    kode_kegiatan:item.kode_kegiatan,                       
+                    SOrgID:this.SOrgID_Selected,                       
+                },
+                {
+                    headers:{
+                        Authorization:this.$store.getters['auth/Token']
+                    }
+                }
+            ).then(({data})=>{                              
+                console.log(data);
+            });        
+        }
     },
     components:{
         BelanjaPerubahanLayout,
@@ -292,6 +377,8 @@ export default {
             page.OrgID_Selected = val;
             this.$store.dispatch('uiadmin/updatePage',page);
             this.loaddatakegiatan();    
+
+            this.loadunitkerja();
         },  
     }
 }

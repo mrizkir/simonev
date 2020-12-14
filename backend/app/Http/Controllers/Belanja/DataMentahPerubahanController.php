@@ -75,5 +75,13 @@ class DataMentahPerubahanController extends Controller
                                 'message'=>'Fetch data rka murni berhasil diperoleh'
                             ],200)->setEncodingOptions(JSON_NUMERIC_CHECK);              
     }   
-    
+    public function copyrka(Request $request)
+    {
+        $this->validate($request, [             
+            'OrgID'=>'required|exists:tmOrg,OrgID',            
+            'kode_kegiatan'=>'required|exists:simda,kode_kegiatan',            
+        ]);
+
+        
+    }
 }
