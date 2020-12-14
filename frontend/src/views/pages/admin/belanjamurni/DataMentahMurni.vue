@@ -87,6 +87,64 @@
                                     vertical
                                 ></v-divider>
                                 <v-spacer></v-spacer>
+                                <v-dialog v-model="dialogcopyrka" max-width="700px" persistent>                 
+                                    <v-form ref="frmcopyrka" v-model="form_valid" lazy-validation>
+                                        <v-card>
+                                            <v-card-title class="mb-2">
+                                                <span class="headline">SALIN DATA KEGIATAN DARI DATA MENTAH</span>
+                                            </v-card-title>
+                                            <v-card-subtitle>
+                                                <v-alert type="warning">
+                                                    Proses ini akan menyalin kegiatan diatas ke RKA Murni.
+                                                </v-alert>
+                                            </v-card-subtitle>
+                                            <v-card-text>
+                                                <table>
+                                                    <tr>
+                                                        <td width="100"><strong>Kode Kelompok</strong></td>
+                                                        <td width="150">{{data_rka.Kd_Urusan}}</td>
+                                                        <td width="120"><strong>Nama Kelompok</strong></td>
+                                                        <td>{{data_rka.Nm_Urusan}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Kode Urusan</strong></td>
+                                                        <td>{{data_rka.Kd_Bidang}}</td>
+                                                        <td><strong>Nama Urusan</strong></td>
+                                                        <td>{{data_rka.Nm_Bidang}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Kode Program</strong></td>
+                                                        <td>{{data_rka.kode_program}}</td>
+                                                        <td><strong>Nama Program</strong></td>
+                                                        <td>{{data_rka.PrgNm}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Kode Kegiatan</strong></td>
+                                                        <td>{{data_rka.kode_kegiatan}}</td>
+                                                        <td><strong>Nama Kegiatan</strong></td>
+                                                        <td>{{data_rka.KgtNm}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Pagu Dana</strong></td>
+                                                        <td><strong>{{data_rka.PaguDana1|formatUang}}</strong></td>                                                    
+                                                    </tr>
+                                                </table>                                                
+                                            </v-card-text>
+                                            <v-card-actions>                                    
+                                                <v-spacer></v-spacer>
+                                                <v-btn 
+                                                    color="blue darken-1" 
+                                                    text 
+                                                    :loading="btnLoading"                                        
+                                                    @click.stop="copyrka(data_rka)" 
+                                                    :disabled="!form_valid||btnLoading">
+                                                        SALIN
+                                                </v-btn>
+                                                <v-btn color="blue darken-1" text @click.stop="closedialogcopyrka">BATAL</v-btn>                        
+                                            </v-card-actions>
+                                        </v-card>                    
+                                    </v-form>
+                                </v-dialog>
                             </v-toolbar>
                         </template>
                         <template v-slot:item.actions="{ item }">                            
@@ -104,7 +162,7 @@
                             <v-chip label outlined :color="colorStatus(item.status)">
                                 {{item.status}}
                             </v-chip>
-                        </template>                        
+                        </template>       
                         <template v-slot:item.actions="{ item }">                            
                             <v-tooltip bottom>             
                                 <template v-slot:activator="{ on, attrs }">                                             
@@ -116,14 +174,14 @@
                                         outlined 
                                         small 
                                         class="ma-2" 
-                                        @click.stop="copyrka"
+                                        @click.stop="showdialogcopyrka(item)"
                                         :disabled="item.status=='SUDAH DICOPY'">
                                         <v-icon small>mdi-content-copy</v-icon>
                                     </v-btn>     
                                 </template>
                                 <span>salin ke RKA Murni</span>                                   
                             </v-tooltip>
-                        </template>                        
+                        </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
                                 <v-col cols="12" clœass="mb1">
@@ -176,10 +234,7 @@ export default {
         ];
         this.$store.dispatch('uiadmin/addToPages',{
             name:'datamentahmurni',
-            OrgID_Selected:'',            
-            datakegiatan:{
-                kode_kegiatan:'',
-            },                
+            OrgID_Selected:'',                        
         })
     },
     mounted()
@@ -219,9 +274,12 @@ export default {
             //filter form
             daftar_opd:[],
             OrgID_Selected : '',
+
+            //form data
+            form_valid:true,
+            data_rka:{}, 
+            dialogcopyrka:false,           
             
-            //Organisasi
-            DataOPD: null,            
         }
         
     },
@@ -273,7 +331,7 @@ export default {
                     this.datatableLoaded=false;     
                 }
             });
-        },       
+        },          
         loaddatakegiatan:async function ()
         {
             this.datatableLoading=true;
@@ -293,11 +351,41 @@ export default {
                 this.datatableLoading=false;
                 this.footersummary();
             });        
-        },     
+        },        
         colorStatus(status)
         {
             return status === 'SUDAH DICOPY'?'blue-grey lighten-4':'primary'
-        }   
+        },
+        showdialogcopyrka(item)
+        {
+            this.data_rka=item;
+            this.dialogcopyrka=true;
+        },
+        closedialogcopyrka ()
+        {
+            this.data_rka={};
+            this.dialogcopyrka=false;
+        },
+        async copyrka (item)
+        {
+            if (this.$refs.frmcopyrka.validate())
+            {
+                this.datatableLoading=true;
+                await this.$ajax.post('/belanja/datamentahmurni/copyrka',
+                    {
+                        kode_kegiatan:item.kode_kegiatan,                       
+                        OrgID:this.OrgID_Selected,                       
+                    },
+                    {
+                        headers:{
+                            Authorization:this.$store.getters['auth/Token']
+                        }
+                    }
+                ).then(()=>{                              
+                    this.$router.go();
+                });        
+            }
+        }
     },
     components:{
         BelanjaMurniLayout,
@@ -307,7 +395,7 @@ export default {
         OrgID_Selected (val)
         {   
             var page = this.$store.getters['uiadmin/Page']('datamentahmurni');
-            
+
             if (this.firstloading == false && val.length > 0 )
             {
                 this.datatableLoaded=false;                

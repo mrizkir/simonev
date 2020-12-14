@@ -143,11 +143,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/belanjaperubahan/statistik/peringkatopd',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\PeringkatOPDPerubahanController@index','as'=>'peringkatopdperubahan.index']);    
 
     //belanja - data mentah murni
-    $router->post('/belanja/datamentahmurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\DataMentahMurniController@index','as'=>'datamentahmurni.index']);    
-    
+    $router->post('/belanja/datamentahmurni',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahMurniController@index','as'=>'datamentahmurni.index']);    
+    $router->post('/belanja/datamentahmurni/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahMurniController@copyrka','as'=>'datamentahmurni.copyrka']);    
+
     //belanja - data mentah perubahan
-    $router->post('/belanja/datamentahperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\DataMentahPerubahanController@index','as'=>'datamentahperubahan.index']);    
-    $router->post('/belanja/datamentahperubahan/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\DataMentahPerubahanController@copyrka','as'=>'datamentahperubahan.copyrka']);    
+    $router->post('/belanja/datamentahperubahan',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahPerubahanController@index','as'=>'datamentahperubahan.index']);    
+    $router->post('/belanja/datamentahperubahan/copyrka',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\DataMentahPerubahanController@copyrka','as'=>'datamentahperubahan.copyrka']);    
 
     //belanja - rka murni
     $router->post('/belanja/rkamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAMurniController@index','as'=>'rkamurni.index']);    

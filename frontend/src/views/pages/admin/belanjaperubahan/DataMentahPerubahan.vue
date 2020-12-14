@@ -88,29 +88,62 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                                 <v-dialog v-model="dialogcopyrka" max-width="700px" persistent>                 
-                                    <v-card>
-                                        <v-card-title class="mb-2">
-                                            <span class="headline">SALIN DATA KEGIATAN DARI DATA MENTAH</span>
-                                        </v-card-title>
-                                        <v-card-subtitle>
-                                            <v-alert type="warning">
-                                                Tentukan Unit Kerja yang akan menerima data kegiatan ini, selanjutnya tekan tombol salin.
-                                            </v-alert>
-                                        </v-card-subtitle>
-                                        <v-card-text>
-                                            <v-autocomplete 
-                                                :items="daftar_unitkerja" 
-                                                v-model="SOrgID_Selected"
-                                                label="UNIT KERJA" 
-                                                item-text="SOrgNm" 
-                                                item-value="SOrgID">                                        
-                                            </v-autocomplete> 
-                                        </v-card-text>
-                                        <v-card-actions>                                    
-                                            <v-spacer></v-spacer>
-                                            <v-btn color="blue darken-1" text @click.stop="closedialogcopykegiatan">BATAL</v-btn>                        
-                                        </v-card-actions>
-                                    </v-card>                    
+                                    <v-form ref="frmcopyrka" v-model="form_valid" lazy-validation>
+                                        <v-card>
+                                            <v-card-title class="mb-2">
+                                                <span class="headline">SALIN DATA KEGIATAN DARI DATA MENTAH</span>
+                                            </v-card-title>
+                                            <v-card-subtitle>
+                                                <v-alert type="warning">
+                                                    Proses ini akan menyalin kegiatan diatas ke RKA Perubahan.
+                                                </v-alert>
+                                            </v-card-subtitle>
+                                            <v-card-text>
+                                                <table>
+                                                    <tr>
+                                                        <td width="100"><strong>Kode Kelompok</strong></td>
+                                                        <td width="150">{{data_rka.Kd_Urusan}}</td>
+                                                        <td width="120"><strong>Nama Kelompok</strong></td>
+                                                        <td>{{data_rka.Nm_Urusan}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Kode Urusan</strong></td>
+                                                        <td>{{data_rka.Kd_Bidang}}</td>
+                                                        <td><strong>Nama Urusan</strong></td>
+                                                        <td>{{data_rka.Nm_Bidang}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Kode Program</strong></td>
+                                                        <td>{{data_rka.kode_program}}</td>
+                                                        <td><strong>Nama Program</strong></td>
+                                                        <td>{{data_rka.PrgNm}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Kode Kegiatan</strong></td>
+                                                        <td>{{data_rka.kode_kegiatan}}</td>
+                                                        <td><strong>Nama Kegiatan</strong></td>
+                                                        <td>{{data_rka.KgtNm}}</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><strong>Pagu Dana</strong></td>
+                                                        <td><strong>{{data_rka.PaguDana2|formatUang}}</strong></td>                                                    
+                                                    </tr>
+                                                </table>                                                
+                                            </v-card-text>
+                                            <v-card-actions>                                    
+                                                <v-spacer></v-spacer>
+                                                <v-btn 
+                                                    color="blue darken-1" 
+                                                    text 
+                                                    :loading="btnLoading"                                        
+                                                    @click.stop="copyrka(data_rka)" 
+                                                    :disabled="!form_valid||btnLoading">
+                                                        SALIN
+                                                </v-btn>
+                                                <v-btn color="blue darken-1" text @click.stop="closedialogcopyrka">BATAL</v-btn>                        
+                                            </v-card-actions>
+                                        </v-card>                    
+                                    </v-form>
                                 </v-dialog>
                             </v-toolbar>
                         </template>
@@ -201,10 +234,7 @@ export default {
         ];
         this.$store.dispatch('uiadmin/addToPages',{
             name:'datamentahperubahan',
-            OrgID_Selected:'',            
-            datakegiatan:{
-                kode_kegiatan:'',
-            },       
+            OrgID_Selected:'',                        
         })
     },
     mounted()
@@ -245,12 +275,11 @@ export default {
             daftar_opd:[],
             OrgID_Selected : '',
 
-            daftar_unitkerja:[],
-            SOrgID_Selected : '',
-            
             //form data
+            form_valid:true,
             data_rka:{}, 
-            dialogcopyrka:false           
+            dialogcopyrka:false,           
+            
         }
         
     },
@@ -302,19 +331,7 @@ export default {
                     this.datatableLoaded=false;     
                 }
             });
-        },  
-        loadunitkerja:async function ()
-        {
-            await this.$ajax.get('/dmaster/opd/'+this.OrgID_Selected+'/unitkerja',              
-                {
-                    headers:{
-                        Authorization:this.$store.getters['auth/Token']
-                    }
-                }
-            ).then(({data})=>{                       
-                this.daftar_unitkerja = data.unitkerja;                
-            });      
-        },
+        },          
         loaddatakegiatan:async function ()
         {
             this.datatableLoading=true;
@@ -339,26 +356,35 @@ export default {
         {
             return status === 'SUDAH DICOPY'?'blue-grey lighten-4':'primary'
         },
-        showdialogcopyrka()
+        showdialogcopyrka(item)
         {
+            this.data_rka=item;
             this.dialogcopyrka=true;
+        },
+        closedialogcopyrka ()
+        {
+            this.data_rka={};
+            this.dialogcopyrka=false;
         },
         async copyrka (item)
         {
-            this.datatableLoading=true;
-            await this.$ajax.post('/belanja/datamentahperubahan/copyka',
-                {
-                    kode_kegiatan:item.kode_kegiatan,                       
-                    SOrgID:this.SOrgID_Selected,                       
-                },
-                {
-                    headers:{
-                        Authorization:this.$store.getters['auth/Token']
+            if (this.$refs.frmcopyrka.validate())
+            {
+                this.datatableLoading=true;
+                await this.$ajax.post('/belanja/datamentahperubahan/copyrka',
+                    {
+                        kode_kegiatan:item.kode_kegiatan,                       
+                        OrgID:this.OrgID_Selected,                       
+                    },
+                    {
+                        headers:{
+                            Authorization:this.$store.getters['auth/Token']
+                        }
                     }
-                }
-            ).then(({data})=>{                              
-                console.log(data);
-            });        
+                ).then(()=>{                              
+                    this.$router.go();
+                });        
+            }
         }
     },
     components:{
@@ -377,8 +403,6 @@ export default {
             page.OrgID_Selected = val;
             this.$store.dispatch('uiadmin/updatePage',page);
             this.loaddatakegiatan();    
-
-            this.loadunitkerja();
         },  
     }
 }
