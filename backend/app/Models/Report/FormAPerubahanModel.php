@@ -652,10 +652,10 @@ class FormAPerubahanModel extends ReportModel
 
         $row+=1;
         $data = \DB::table('trRKATargetRinc')
-                    ->select(\DB::raw('bulan1,SUM(target1) AS target'))
+                    ->select(\DB::raw('bulan2,SUM(target2) AS target'))
                     ->where('RKAID',$RKAID)
-                    ->groupBy('bulan1')
-                    ->orderBy('bulan1','ASC')
+                    ->groupBy('bulan2')
+                    ->orderBy('bulan2','ASC')
                     ->get();
                     
         $triwulan1=0;
@@ -664,7 +664,7 @@ class FormAPerubahanModel extends ReportModel
         $triwulan4=0;
         
         foreach ($data as $v) {
-            switch ($v->bulan1) {
+            switch ($v->bulan2) {
                 case 1 :
                 case 2 :
                 case 3 :                        
