@@ -106,8 +106,7 @@
                                     <v-icon
                                         small
                                         v-bind="attrs"
-                                        v-on="on"
-                                        class="ma-2"
+                                        v-on="on"                                        
                                         color="primary"
                                         @click.stop="viewUraian(item)"
                                     >
@@ -125,13 +124,29 @@
                                         class="ma-2"
                                         color="warning"
                                         :loading="btnLoading"
-                                        :disabled="item.PaguDana2>0"
+                                        :disabled="item.PaguDana2>0||btnLoading"
                                         @click.stop="loaddatauraianfirsttime(item)"
                                     >
                                         mdi-sync-circle
                                     </v-icon>                                                                       
                                 </template>
                                 <span>load uraian</span>                                   
+                            </v-tooltip>
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">      
+                                    <v-icon
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"                                        
+                                        color="red"
+                                        :loading="btnLoading"                                        
+                                        :disabled="btnLoading||item.Locked"                                        
+                                        @click.stop="deleteItem(item)"
+                                    >
+                                        mdi-delete
+                                    </v-icon>                                                                       
+                                </template>
+                                <span>Hapus RKA</span>                                   
                             </v-tooltip>
                         </template>
                         <template v-slot:item.PaguDana2="{ item }">                            
@@ -437,7 +452,30 @@ export default {
                     }                
                 });
             }
-        }
+        },
+        deleteItem (item) {           
+            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data RKA Perubahan dengan Nama "'+item.KgtNm+'" ?', { color: 'red',width:'600px' }).then((confirm) => {
+                if (confirm)
+                {
+                    this.btnLoading=true;
+                    this.$ajax.post('/belanja/rkaperubahan/'+item.RKAID,
+                        {
+                            '_method':'DELETE',
+                            'pid':'datarka'
+                        },
+                        {
+                            headers:{
+                                Authorization:this.$store.getters['auth/Token']
+                            }
+                        }
+                    ).then(()=>{   
+                        this.$router.go();
+                    }).catch(()=>{
+                        this.btnLoading=false;
+                    });
+                }                
+            });
+        },       
     },
     components:{
         BelanjaPerubahanLayout,

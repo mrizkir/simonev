@@ -1455,6 +1455,11 @@ class RKAPerubahanController extends Controller
         $pid=$request->input('pid');
         switch ($pid)
         {            
+            case 'datarka' :
+                $rka = RKAModel::find($id);
+                $rka->delete();
+                $message="data rka perubahan dengan ID ($id) Berhasil di Hapus";                 
+            break;
             case 'datarealisasi' :
                 $realisasi = RKARealisasiModel::find($id);
                 $RKAID=$realisasi->RKAID;

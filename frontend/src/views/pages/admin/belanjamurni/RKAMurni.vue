@@ -97,13 +97,54 @@
                                 <v-spacer></v-spacer>
                             </v-toolbar>
                         </template>
-                        <template v-slot:item.actions="{ item }">
-                            <v-icon
-                                small
-                                class="mr-2"
-                                @click.stop="viewUraian(item)">
-                                mdi-eye
-                            </v-icon>
+                        <template v-slot:item.actions="{ item }">                             
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">      
+                                    <v-icon
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"                                        
+                                        color="primary"
+                                        @click.stop="viewUraian(item)"
+                                    >
+                                        mdi-eye
+                                    </v-icon>                                                                       
+                                </template>
+                                <span>detail uraian kegiatan</span>                                   
+                            </v-tooltip>
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">      
+                                    <v-icon
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"
+                                        class="ma-2"
+                                        color="warning"
+                                        :loading="btnLoading"
+                                        :disabled="item.PaguDana1>0 || item.Locked || btnLoading"
+                                        @click.stop="loaddatauraianfirsttime(item)"
+                                    >
+                                        mdi-sync-circle
+                                    </v-icon>                                                                       
+                                </template>
+                                <span>load uraian</span>                                   
+                            </v-tooltip>                     
+                            <v-tooltip bottom>             
+                                <template v-slot:activator="{ on, attrs }">      
+                                    <v-icon
+                                        small
+                                        v-bind="attrs"
+                                        v-on="on"                                        
+                                        color="red"
+                                        :loading="btnLoading"    
+                                        :disabled="btnLoading||item.Locked"                                    
+                                        @click.stop="deleteItem(item)">
+                                    >
+                                        mdi-delete
+                                    </v-icon>                                                                       
+                                </template>
+                                <span>Hapus RKA</span>                                   
+                            </v-tooltip>
                             <v-icon
                                 small
                                 class="mr-2"
@@ -233,7 +274,7 @@ export default {
                 { text: 'REALISASI KEUANGAN', value: 'RealisasiKeuangan1',align:'end',width:100 },   
                 { text: '%', align:'end',value: 'persen_keuangan1',width:50},                   
                 { text: 'SISA PAGU', value: 'SisaAnggaran',align:'end',width:100},   
-                { text: 'AKSI', value: 'actions', sortable: false,width:80 },
+                { text: 'AKSI', value: 'actions', sortable: false,width:110 },
             ],
             footers :{ 
                 paguunitkerja:0,
@@ -330,6 +371,28 @@ export default {
                 this.datatableLoaded=false;
             });      
         },
+        loaddatauraianfirsttime:async function (item)
+        {
+            if (!item.PaguDana2 > 0)
+            {            
+                this.btnLoading=true;
+                await this.$ajax.post('/belanja/rkamurni/loaddatauraianfirsttime',
+                    {
+                        RKAID:item.RKAID,                       
+                    },
+                    {
+                        headers:{
+                            Authorization:this.$store.getters['auth/Token']
+                        }
+                    }
+                ).then(()=>{  
+                    this.$router.go();
+                    this.btnLoading=false;
+                }).catch(()=>{
+                    this.btnLoading=false;
+                });        
+            }
+        },           
         loaddatakegiatanFirsttime: async function ()
         {
             this.btnLoading=true;
@@ -392,7 +455,30 @@ export default {
                     }                
                 });
             }
-        }
+        },
+        deleteItem (item) {           
+            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data RKA Murni dengan Nama "'+item.KgtNm+'" ?', { color: 'red',width:'600px' }).then((confirm) => {
+                if (confirm)
+                {
+                    this.btnLoading=true;
+                    this.$ajax.post('/belanja/rkamurni/'+item.RKAID,
+                        {
+                            '_method':'DELETE',
+                            'pid':'datarka'
+                        },
+                        {
+                            headers:{
+                                Authorization:this.$store.getters['auth/Token']
+                            }
+                        }
+                    ).then(()=>{   
+                        this.$router.go();
+                    }).catch(()=>{
+                        this.btnLoading=false;
+                    });
+                }                
+            });
+        },       
     },
     components:{
         BelanjaMurniLayout,

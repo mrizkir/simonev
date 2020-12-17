@@ -168,6 +168,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->delete('/belanja/rkamurni/deleterealisasi/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAMurniController@destroy','as'=>'rkamurni.deleterealisasi']);             
     $router->post('/belanja/rkamurni/loaddatakegiatanfirsttime',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\RKAMurniController@loaddatakegiatanFirsttime','as'=>'rkamurni.loaddatakegiatanfirsttime']);    
     $router->post('/belanja/rkamurni/loaddatauraianfirsttime',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\RKAMurniController@loaddatauraianFirsttime','as'=>'rkamurni.loaddatauraianfirsttime']);    
+    $router->delete('/belanja/rkamurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAMurniController@destroy','as'=>'rkamurni.deleterka']);             
 
     //belanja - rka perubahan
     $router->post('/belanja/rkaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAPerubahanController@index','as'=>'rkaperubahan.index']);    
@@ -187,6 +188,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->delete('/belanja/rkaperubahan/deleterealisasi/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAPerubahanController@destroy','as'=>'rkaperubahan.deleterealisasi']);             
     $router->post('/belanja/rkaperubahan/loaddatakegiatanfirsttime',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\RKAPerubahanController@loaddatakegiatanFirsttime','as'=>'rkaperubahan.loaddatakegiatanfirsttime']);    
     $router->post('/belanja/rkaperubahan/loaddatauraianfirsttime',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\RKAPerubahanController@loaddatauraianFirsttime','as'=>'rkaperubahan.loaddatauraianfirsttime']);    
+    $router->delete('/belanja/rkaperubahan/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Belanja\RKAPerubahanController@destroy','as'=>'rkaperubahan.deleterka']);             
     //id disini adalah RKAID perubahan
     $router->put('/belanja/rkaperubahan/copykegiatanmurni/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\RKAPerubahanController@copykegiatanmurni','as'=>'rkaperubahan.copykegiatanmurni']);    
     $router->put('/belanja/rkaperubahan/copytarget/{id}',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Belanja\RKAPerubahanController@copytarget','as'=>'rkaperubahan.copytarget']);    
