@@ -9,7 +9,7 @@ use PhpOffice\PhpSpreadsheet\Style\NumberFormat;
 use PhpOffice\PhpSpreadsheet\Cell\DataType;
 use PhpOffice\PhpSpreadsheet\Style\Fill;
 
-class EvaluasiRenjaMurniModel extends ReportModel
+class EvaluasiRENJAMurniModel extends ReportModel
 {   
     public function __construct($dataReport,$print=true)
     {

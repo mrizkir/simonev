@@ -228,12 +228,12 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     $router->post('/report/evaluasirkpdperubahan/printtoexcel',['middleware'=>['role:superadmin'],'uses'=>'Report\EvaluasiRKPDPerubahanController@printtoexcel','as'=>'evaluasirkpdperubahan.printtoexcel']);    
     
     //report - evaluasi renja murni
-    $router->post('/report/evaluasirenjamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRenjaMurniController@index','as'=>'evaluasirenjamurni.index']);    
-    $router->post('/report/evaluasirenjamurni/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRenjaMurniController@printtoexcel','as'=>'evaluasirenjamurni.printtoexcel']);    
+    $router->post('/report/evaluasirenjamurni',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRENJAMurniController@index','as'=>'evaluasirenjamurni.index']);    
+    $router->post('/report/evaluasirenjamurni/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRENJAMurniController@printtoexcel','as'=>'evaluasirenjamurni.printtoexcel']);    
     
     //report - evaluasi renja perubahan
-    $router->post('/report/evaluasirenjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRenjaPerubahanController@index','as'=>'evaluasirenjaperubahan.index']);    
-    $router->post('/report/evaluasirenjaperubahan/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRenjaPerubahanController@printtoexcel','as'=>'evaluasirenjaperubahan.printtoexcel']);    
+    $router->post('/report/evaluasirenjaperubahan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRENJAPerubahanController@index','as'=>'evaluasirenjaperubahan.index']);    
+    $router->post('/report/evaluasirenjaperubahan/printtoexcel',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Report\EvaluasiRENJAPerubahanController@printtoexcel','as'=>'evaluasirenjaperubahan.printtoexcel']);    
     
     //setting - permissions
     $router->get('/setting/permissions',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Settings\PermissionsController@index','as'=>'permissions.index']);

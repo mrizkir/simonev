@@ -9,7 +9,7 @@ use App\Models\DMaster\OrganisasiModel;
 use App\Models\Belanja\RKAModel;
 
 
-class EvaluasiRenjaMurniController extends Controller 
+class EvaluasiRENJAMurniController extends Controller 
 {
      /**
      * Show the form for creating a new resource.
@@ -305,7 +305,7 @@ class EvaluasiRenjaMurniController extends Controller
                         'nama_pengguna_anggaran'=>$opd->NamaKepalaUnitKerja,
                         'nip_pengguna_anggaran'=>$opd->NIPKepalaUnitKerja
                     ];
-        $report= new \App\Models\Report\EvaluasiRenjaMurniModel ($data_report);
+        $report= new \App\Models\Report\EvaluasiRENJAMurniModel ($data_report);
         $generate_date=date('Y-m-d_H_m_s');
         return $report->download("form_evaluasi_renja_murni_$generate_date.xlsx");
     }
