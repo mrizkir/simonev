@@ -169,7 +169,6 @@
                                                     :min="null"
                                                     :max="null"
                                                     filled
-                                                    :disabled="true"
                                                     v-model="formuraian.PaguUraian2"
                                                 >
                                                 </v-currency-field>
@@ -949,6 +948,7 @@ export default {
                             'volume2':this.formuraian.volume2,   
                             'satuan2':this.formuraian.satuan2,   
                             'harga_satuan2':this.formuraian.harga_satuan2,   
+                            'PaguUraian2':this.formuraian.PaguUraian2,   
                             'JenisPelaksanaanID':this.formuraian.JenisPelaksanaanID,  
                         },
                         {
@@ -956,7 +956,8 @@ export default {
                                 Authorization:this.$store.getters['auth/Token']
                             }
                         }
-                    ).then(()=>{                       
+                    ).then(()=>{                   
+                        this.initialize();    
                         this.closedialogedituraian();
                     }).catch(()=>{
                         this.btnLoading=false;

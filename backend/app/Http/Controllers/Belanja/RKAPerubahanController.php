@@ -495,25 +495,54 @@ class RKAPerubahanController extends Controller
         $this->hasPermissionTo('RKA PERUBAHAN_UPDATE');
 
         $rinciankegiatan = RKARincianModel::find($id);
-        
-        $this->validate($request, [
-            'volume2'=>'required',
-            'satuan2'=>'required',
-            'harga_satuan2'=>'required',
-        ]);
+        if (is_null($rinciankegiatan))
+        {
+            return Response()->json([
+                                        'status'=>0,
+                                        'pid'=>'update',                
+                                        'message'=>'Update uraian gagal disimpan.'
+                                    ],422); 
+        }
+        else
+        {
+            $this->validate($request, [ 
+                'volume2'=>'required',
+                'satuan2'=>'required',
+                'harga_satuan2'=>'required',
+                'PaguUraian2'=>'required',
+            ]);
 
-        $rinciankegiatan->volume2=$request->input('volume2');
-        $rinciankegiatan->satuan2=$request->input('satuan2');
-        $rinciankegiatan->harga_satuan2=$request->input('harga_satuan2');
-        $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');                   
-        $rinciankegiatan->save();
+            $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
+                $rinciankegiatan->volume2=$request->input('volume2');
+                $rinciankegiatan->satuan2=$request->input('satuan2');
+                $rinciankegiatan->harga_satuan2=$request->input('harga_satuan2');        
+                $rinciankegiatan->JenisPelaksanaanID = $request->input('JenisPelaksanaanID');                   
+                $rinciankegiatan->save();
+                
+                \DB::table('simda')
+                    ->where('TepraID',$rinciankegiatan->RKARincID)
+                    ->update(['PaguUraian2'=>$request->input('PaguUraian2')]);                
 
-        
-        return Response()->json([
-                                'status'=>1,
-                                'pid'=>'update',
-                                'message'=>'Update uraian berhasil disimpan.'
-                            ],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+                $paguuraian=RKARincianModel::select(\DB::raw('
+                                                SUM("PaguUraian2") AS "PaguUraian2"                                               
+                                            '))
+                                            ->join('simda','simda.TepraID','trRKARinc.RKARincID')
+                                            ->where('RKAID',$rinciankegiatan->RKAID)                                 
+                                            ->first();
+                if (!is_null($paguuraian))
+                {
+                    $rka=RKAModel::find($rinciankegiatan->RKAID);
+                    $rka->PaguDana2=$paguuraian->PaguUraian2;
+                    $rka->save();
+                }
+            });
+
+            return Response()->json([
+                                    'status'=>1,
+                                    'pid'=>'update',
+                                    'message'=>'Update uraian berhasil disimpan.'
+                                ],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
+        }
     }
     /**
      * Update the specified resource in storage.
