@@ -169,8 +169,7 @@
                                                     label="PAGU URAIAN (VOLUME * HARGA PER SATUAN)" 
                                                     :min="null"
                                                     :max="null"
-                                                    filled
-                                                    :disabled="true"
+                                                    filled                                                    
                                                     v-model="formuraian.PaguUraian1"
                                                 >
                                                 </v-currency-field>
@@ -918,7 +917,8 @@ export default {
                             'RKARincID':this.formuraian.RKARincID,
                             'volume1':this.formuraian.volume1,   
                             'satuan1':this.formuraian.satuan1,   
-                            'harga_satuan1':this.formuraian.harga_satuan1,   
+                            'harga_satuan1':this.formuraian.harga_satuan1, 
+                            'PaguUraian1':this.formuraian.PaguUraian1,     
                             'JenisPelaksanaanID':this.formuraian.JenisPelaksanaanID,  
                         },
                         {
@@ -926,7 +926,13 @@ export default {
                                 Authorization:this.$store.getters['auth/Token']
                             }
                         }
-                    ).then(()=>{                       
+                    ).then(({data})=>{         
+                        var page = this.$store.getters['uiadmin/Page']('rkamurni');
+                        this.datakegiatan = data.rka;
+                        page.datakegiatan = data.rka;
+                        this.$store.dispatch('uiadmin/updatePage',page);             
+                        
+                        this.initialize();                
                         this.closedialogedituraian();
                     }).catch(()=>{
                         this.btnLoading=false;

@@ -956,7 +956,12 @@ export default {
                                 Authorization:this.$store.getters['auth/Token']
                             }
                         }
-                    ).then(()=>{                   
+                    ).then(({data})=>{                   
+                        var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+                        this.datakegiatan = data.rka;
+                        page.datakegiatan = data.rka;
+                        this.$store.dispatch('uiadmin/updatePage',page);             
+                        
                         this.initialize();    
                         this.closedialogedituraian();
                     }).catch(()=>{

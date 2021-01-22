@@ -512,7 +512,7 @@ class RKAPerubahanController extends Controller
                 'PaguUraian2'=>'required',
             ]);
 
-            $rinciankegiatan = \DB::transaction(function () use ($request,$rinciankegiatan) {
+            $rka = \DB::transaction(function () use ($request,$rinciankegiatan) {
                 $rinciankegiatan->volume2=$request->input('volume2');
                 $rinciankegiatan->satuan2=$request->input('satuan2');
                 $rinciankegiatan->harga_satuan2=$request->input('harga_satuan2');        
@@ -529,17 +529,19 @@ class RKAPerubahanController extends Controller
                                             ->join('simda','simda.TepraID','trRKARinc.RKARincID')
                                             ->where('RKAID',$rinciankegiatan->RKAID)                                 
                                             ->first();
-                if (!is_null($paguuraian))
-                {
-                    $rka=RKAModel::find($rinciankegiatan->RKAID);
+
+                $rka=$this->getDataRKA($rinciankegiatan->RKAID);
+                if (!is_null($paguuraian))                {
                     $rka->PaguDana2=$paguuraian->PaguUraian2;
                     $rka->save();
                 }
+                return $rka;
             });
 
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
+                                    'rka'=>$rka,
                                     'message'=>'Update uraian berhasil disimpan.'
                                 ],200)->setEncodingOptions(JSON_NUMERIC_CHECK); 
         }
