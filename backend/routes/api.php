@@ -252,6 +252,7 @@ $router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($rout
     //setting - users
     $router->get('/setting/users',['middleware'=>['role:superadmin'],'uses'=>'Settings\UsersController@index','as'=>'users.index']);
     $router->post('/setting/users/store',['middleware'=>['role:superadmin'],'uses'=>'Settings\UsersController@store','as'=>'users.store']);
+    $router->put('/setting/users/updatepassword/{id}',['uses'=>'Settings\UsersController@updatepassword','as'=>'users.updatepassword']);
     $router->post('/setting/users/uploadfoto/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Settings\UsersController@uploadfoto','as'=>'users.uploadfoto']);
     $router->post('/setting/users/resetfoto/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'Settings\UsersController@resetfoto','as'=>'users.resetfoto']);
     $router->post('/setting/users/syncallpermissions',['middleware'=>['role:superadmin|bapelitbang|opd'],'uses'=>'Settings\UsersController@syncallpermissions','as'=>'users.syncallpermissions']);
