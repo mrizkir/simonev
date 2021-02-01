@@ -30,7 +30,23 @@ class DashboardController extends Controller
                                             0 AS "PersenRealisasiKeuangan1"
                                         '))
                                         ->find($tahun);
-                            
+
+        if (is_null($statistik1_murni) )
+        {
+            $statistik1_murni = Statistik1Model::create([
+                                    'statistikID'=>$tahun, 
+                                    'PaguDana1'=>0, 
+                                    'PaguDana2'=>0,
+                                    'JumlahProgram1'=>0, 
+                                    'JumlahProgram2'=>0, 
+                                    'JumlahKegiatan1'=>0, 
+                                    'JumlahKegiatan2'=>0, 
+                                    'RealisasiKeuangan1'=>0, 
+                                    'RealisasiKeuangan2'=>0,
+                                    'RealisasiFisik1'=>0,
+                                    'RealisasiFisik2'=>0
+                                ]);
+        }
         $statistik1_murni->PersenRealisasiKeuangan1=Helper::formatPersen($statistik1_murni->RealisasiKeuangan1,$statistik1_murni->PaguDana1);
         
         $chart_keuangan_murni=[
