@@ -415,8 +415,8 @@
                                 <td colspan="2" class="text-right">TOTAL</td>
                                 <td class="text-right">{{footers.anggarankas|formatUang}}</td>
                                 <td class="text-right">{{footers.realisasi|formatUang}}</td>
-                                <td class="text-right">{{footers.targetfisik}}</td>
-                                <td class="text-right">{{footers.fisik}}</td>
+                                <td class="text-right">{{footers.targetfisik|makeLookPrecision}}</td>
+                                <td class="text-right">{{footers.fisik|makeLookPrecision}}</td>
                                 <td class="text-right">{{footers.sisa|formatUang}}</td>
                                 <td></td>                                
                             </tr>

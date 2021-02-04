@@ -155,8 +155,14 @@
                         <template v-slot:item.RealisasiKeuangan2="{ item }">                            
                             {{ item.RealisasiKeuangan2|formatUang }}
                         </template>
+                        <template v-slot:item.RealisasiFisik2="{ item }">                            
+                            {{ item.RealisasiFisik2|makeLookPrecision }}
+                        </template>
                         <template v-slot:item.SisaAnggaran="{ item }">                            
                             {{ (item.PaguDana2-item.RealisasiKeuangan2)|formatUang }}
+                        </template>
+                        <template v-slot:item.persen_keuangan2="{ item }">                            
+                            {{ item.persen_keuangan2|makeLookPrecision }}
                         </template>
                         <template v-slot:expanded-item="{ headers, item }">
                             <td :colspan="headers.length" class="text-center">
@@ -171,7 +177,7 @@
                             <tr class="amber darken-1 font-weight-black">
                                 <td colspan="3" class="text-right">TOTAL</td>
                                 <td class="text-right">{{footers.pagukegiatan|formatUang}}</td>
-                                <td class="text-right">{{footers.fisik}}</td>
+                                <td class="text-right">{{footers.fisik|makeLookPrecision}}</td>
                                 <td class="text-right">{{footers.realisasi|formatUang}}</td>                                                                
                                 <td class="text-right">{{footers.persen_keuangan.toFixed(2)}}</td>
                                 <td class="text-right">{{footers.sisa|formatUang}}</td>

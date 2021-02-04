@@ -19,6 +19,18 @@ Vue.filter('formatUang', function(value)
 	num = num.substring(0,pos) + ',' + num.substring(pos+1)	
 	return num;
 });
+Vue.filter('makeLookPrecision', function(value) 
+{
+	if (value)
+	{
+		return new Number(value).toFixed(2);
+	}
+	else
+	{
+		return 0.00;
+	}
+	
+});
 
 new Vue({
 	router,

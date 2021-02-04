@@ -96,7 +96,7 @@
                             Realisasi Fisik TA {{$store.getters['uifront/getTahunAnggaran']}}
                         </v-card-subtitle>
                         <v-card-text>
-                            {{statistik1.RealisasiFisik2}} %
+                            {{statistik1.RealisasiFisik2|makeLookPrecision}} %
                         </v-card-text>
                         <v-card-actions>
                             <v-progress-linear v-model="statistik1.RealisasiFisik2" color="success" background-color="error"></v-progress-linear>
