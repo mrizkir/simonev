@@ -115,21 +115,21 @@
                                         &nbsp;
                                     </td>                                    
                                     <td class="text-right" v-else>
-                                        {{item.persen_bobot}}
+                                        {{item.persen_bobot|makeLookPrecision}}
                                     </td>                    
 
                                     <td class="text-right" v-if="item.tingkat==1 || item.tingkat==2">
                                         &nbsp;
                                     </td>                                    
                                     <td class="text-right" v-else>
-                                        {{item.persen_rata2_fisik}}
+                                        {{item.persen_rata2_fisik|makeLookPrecision}}
                                     </td>                    
 
                                     <td class="text-right" v-if="item.tingkat==1 || item.tingkat==2">
                                         &nbsp;
                                     </td>                                    
                                     <td class="text-right" v-else>
-                                        {{item.persen_tertimbang_fisik}}
+                                        {{item.persen_tertimbang_fisik|makeLookPrecision}}
                                     </td>                    
 
                                     <td class="text-right" v-if="item.tingkat==1 || item.tingkat==2">
@@ -150,14 +150,14 @@
                                         &nbsp;
                                     </td>                                    
                                     <td class="text-right" v-else>
-                                        {{item.persen_realisasi}}
+                                        {{item.persen_realisasi|makeLookPrecision}}
                                     </td>                   
 
                                     <td class="text-right" v-if="item.tingkat==1 || item.tingkat==2">
                                         &nbsp;
                                     </td>                                    
                                     <td class="text-right" v-else>
-                                        {{item.persen_tertimbang_realisasi}}
+                                        {{item.persen_tertimbang_realisasi|makeLookPrecision}}
                                     </td>                    
 
                                     <td class="text-right" v-if="item.tingkat==1 || item.tingkat==2">
@@ -177,7 +177,7 @@
                                     <td class="text-right">{{total_forma.totalPersenTertimbangFisikSatuKegiatan}}</td>                                    
                                     <td class="text-right">{{total_forma.totalTargetSatuKegiatan|formatUang}}</td>                                    
                                     <td class="text-right">{{total_forma.totalRealisasiSatuKegiatan|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_forma.total_persen_rata2_realisasi}}</td>                                    
+                                    <td class="text-right">{{total_forma.total_persen_rata2_realisasi|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_forma.totalPersenTertimbangRealisasiSatuKegiatan}}</td>                                    
                                     <td class="text-right">{{total_forma.sisa_anggaran|formatUang}}</td>                                    
                                 </tr>
@@ -270,11 +270,11 @@
                                     </td>
                                     <td>{{item.nama}}</td>
                                     <td class="text-right">{{item.pagu_dana2|formatUang}}</td>                                                                      
-                                    <td class="text-right">{{item.fisik_target2}}</td>                                    
-                                    <td class="text-right">{{item.fisik_realisasi2}}</td>                                                                        
+                                    <td class="text-right">{{item.fisik_target2|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{item.fisik_realisasi2|makeLookPrecision}}</td>                                                                        
                                     <td class="text-right">{{item.keuangan_target2|formatUang}}</td>                                                                        
                                     <td class="text-right">{{item.keuangan_realisasi2|formatUang}}</td>                                 
-                                    <td class="text-right">{{item.keuangan_realisasi_persen_2}}</td>                                 
+                                    <td class="text-right">{{item.keuangan_realisasi_persen_2|makeLookPrecision}}</td>                                 
                                     <td class="text-right">{{item.sisa_anggaran|formatUang}}</td>                                                    
                                 </tr>
                             </tbody>
@@ -282,11 +282,11 @@
                                 <tr class="orange font-weight-bold dark">
                                     <td colspan="2" class="text-right">TOTAL</td>
                                     <td class="text-right">{{total_data.totalPaguUnit|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_data.totalPersenTargetFisik}}</td>
-                                    <td class="text-right">{{total_data.totalPersenRealisasiFisik}}</td>                                    
+                                    <td class="text-right">{{total_data.totalPersenTargetFisik|makeLookPrecision}}</td>
+                                    <td class="text-right">{{total_data.totalPersenRealisasiFisik|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_data.totalTargetKeuanganKeseluruhan|formatUang}}</td>                                                                        
                                     <td class="text-right">{{total_data.totalRealisasiKeuanganKeseluruhan|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_data.totalPersenTargetKeuangan}}</td>                                    
+                                    <td class="text-right">{{total_data.totalPersenTargetKeuangan|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_data.totalSisaAnggaran|formatUang}}</td>                                    
                                 </tr>
                             </tfoot>

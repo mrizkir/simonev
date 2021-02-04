@@ -376,6 +376,28 @@
                                     </v-form>
                                 </v-dialog>                               
                             </v-toolbar>
+                        </template>                        
+                        <template v-slot:item.target2="{ item }">                            
+                            {{ item.target2|formatUang }}
+                        </template>
+                        <template v-slot:item.target_fisik2="{ item }">                            
+                            {{ item.target_fisik2|makeLookPrecision }}
+                        </template>
+                        <template v-slot:item.realisasi2="{ item }">                            
+                            {{ item.realisasi2|formatUang }}
+                        </template>
+                        <template v-slot:item.fisik2="{ item }">                            
+                            {{ item.fisik2|makeLookPrecision }}
+                        </template>
+                        <template v-slot:item.sisa_anggaran="{ item }">                            
+                            {{  item.sisa_anggaran|formatUang }}
+                        </template>
+                        <template v-slot:expanded-item="{ headers, item }">
+                            <td :colspan="headers.length" class="text-center">
+                                <strong>ID:</strong>{{ item.RKARealisasiRincID }}                                
+                                <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
+                                <strong>updated_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
+                            </td>
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon
@@ -393,22 +415,6 @@
                             >
                                 mdi-delete
                             </v-icon>
-                        </template>
-                        <template v-slot:item.target2="{ item }">                            
-                            {{ item.target2|formatUang }}
-                        </template>
-                        <template v-slot:item.realisasi2="{ item }">                            
-                            {{ item.realisasi2|formatUang }}
-                        </template>
-                        <template v-slot:item.sisa_anggaran="{ item }">                            
-                            {{  item.sisa_anggaran|formatUang }}
-                        </template>
-                        <template v-slot:expanded-item="{ headers, item }">
-                            <td :colspan="headers.length" class="text-center">
-                                <strong>ID:</strong>{{ item.RKARealisasiRincID }}                                
-                                <strong>created_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
-                                <strong>updated_at:</strong>{{ $date(item.created_at).format('DD/MM/YYYY HH:mm') }}
-                            </td>
                         </template>
                         <template v-slot:body.append>
                             <tr class="amber darken-1 font-weight-black">

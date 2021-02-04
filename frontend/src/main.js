@@ -23,11 +23,12 @@ Vue.filter('makeLookPrecision', function(value)
 {
 	if (value)
 	{
+		console.log(value);
 		return new Number(value).toFixed(2);
 	}
 	else
 	{
-		return 0.00;
+		return '0.00';
 	}
 	
 });

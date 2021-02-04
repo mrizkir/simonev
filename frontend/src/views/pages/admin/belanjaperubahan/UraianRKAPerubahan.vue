@@ -575,6 +575,21 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>                                
                             </v-toolbar>
+                        </template>                        
+                        <template v-slot:item.PaguUraian2="{ item }">                            
+                            {{ item.PaguUraian2|formatUang }}
+                        </template>
+                        <template v-slot:item.fisik2="{ item }">                            
+                            {{ item.fisik2|makeLookPrecision }}
+                        </template>
+                        <template v-slot:item.realisasi2="{ item }">                            
+                            {{ item.realisasi2|formatUang }}
+                        </template>
+                        <template v-slot:item.persen_keuangan2="{ item }">                            
+                            {{ item.persen_keuangan2|makeLookPrecision }}
+                        </template>
+                        <template v-slot:item.sisa="{ item }">                            
+                            {{  (item.PaguUraian2-item.realisasi2)|formatUang }}
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <v-icon
@@ -592,20 +607,11 @@
                                 mdi-pencil
                             </v-icon>
                         </template>
-                        <template v-slot:item.PaguUraian2="{ item }">                            
-                            {{ item.PaguUraian2|formatUang }}
-                        </template>
-                        <template v-slot:item.realisasi2="{ item }">                            
-                            {{ item.realisasi2|formatUang }}
-                        </template>
-                        <template v-slot:item.sisa="{ item }">                            
-                            {{  (item.PaguUraian2-item.realisasi2)|formatUang }}
-                        </template>
                         <template v-slot:body.append>
                             <tr class="amber darken-1 font-weight-black">
                                 <td colspan="3" class="text-right">TOTAL</td>
                                 <td class="text-right">{{footers.paguuraian|formatUang}}</td>
-                                <td class="text-right">{{footers.fisik.toFixed(2)}}</td>
+                                <td class="text-right">{{footers.fisik|makeLookPrecision}}</td>
                                 <td class="text-right">{{footers.realisasi|formatUang}}</td>                                
                                 <td class="text-right">{{footers.persen_keuangan.toFixed(2)}}</td>
                                 <td class="text-right">{{footers.sisa|formatUang}}</td>   
