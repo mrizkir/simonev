@@ -256,7 +256,16 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
-                        </template>                  
+                        </template>       
+                        <template v-slot:item.fisik_target1="{ item }">                            
+                            {{ item.fisik_target1|makeLookPrecision }}
+                        </template>              
+                        <template v-slot:item.fisik_realisasi1="{ item }">                            
+                            {{ item.fisik_realisasi1|makeLookPrecision }}
+                        </template>              
+                        <template v-slot:item.keuangan_realisasi_persen_1="{ item }">                            
+                            {{ item.keuangan_realisasi_persen_1|makeLookPrecision }}
+                        </template>            
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item) in items" v-bind:key="item.FormBMurniID" v-bind:class="{'indigo lighten-4 font-weight-bold':isProgram(item)}">                                    
@@ -270,11 +279,11 @@
                                     </td>
                                     <td>{{item.nama}}</td>
                                     <td class="text-right">{{item.pagu_dana1|formatUang}}</td>                                                                      
-                                    <td class="text-right">{{item.fisik_target1}}</td>                                    
-                                    <td class="text-right">{{item.fisik_realisasi1}}</td>                                                                        
+                                    <td class="text-right">{{item.fisik_target1|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{item.fisik_realisasi1|makeLookPrecision}}</td>                                                                        
                                     <td class="text-right">{{item.keuangan_target1|formatUang}}</td>                                                                        
                                     <td class="text-right">{{item.keuangan_realisasi1|formatUang}}</td>                                 
-                                    <td class="text-right">{{item.keuangan_realisasi_persen_1}}</td>                                 
+                                    <td class="text-right">{{item.keuangan_realisasi_persen_1|makeLookPrecision}}</td>                                 
                                     <td class="text-right">{{item.sisa_anggaran|formatUang}}</td>                                                    
                                 </tr>
                             </tbody>
@@ -282,11 +291,11 @@
                                 <tr class="orange font-weight-bold dark">
                                     <td colspan="2" class="text-right">TOTAL</td>
                                     <td class="text-right">{{total_data.totalPaguUnit|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_data.totalPersenTargetFisik}}</td>
-                                    <td class="text-right">{{total_data.totalPersenRealisasiFisik}}</td>                                    
+                                    <td class="text-right">{{total_data.totalPersenTargetFisik|makeLookPrecision}}</td>
+                                    <td class="text-right">{{total_data.totalPersenRealisasiFisik|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_data.totalTargetKeuanganKeseluruhan|formatUang}}</td>                                                                        
                                     <td class="text-right">{{total_data.totalRealisasiKeuanganKeseluruhan|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_data.totalPersenTargetKeuangan}}</td>                                    
+                                    <td class="text-right">{{total_data.totalPersenTargetKeuangan|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_data.totalSisaAnggaran|formatUang}}</td>                                    
                                 </tr>
                             </tfoot>

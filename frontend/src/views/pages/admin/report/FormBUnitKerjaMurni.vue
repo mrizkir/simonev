@@ -108,44 +108,68 @@
                                     <v-icon>mdi-printer</v-icon>
                                 </v-btn>
                             </v-toolbar>
-                        </template>                  
+                        </template>  
+                        <template v-slot:item.bobot1="{ item }">                            
+                            {{ item.bobot1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.fisik_target1="{ item }">                            
+                            {{ item.fisik_target1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.fisik_realisasi1="{ item }">                            
+                            {{ item.fisik_realisasi1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.fisik_ttb1="{ item }">                            
+                            {{ item.fisik_ttb1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.keuangan_target_persen_1="{ item }">                            
+                            {{ item.keuangan_target_persen_1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.keuangan_realisasi_persen_1="{ item }">                            
+                            {{ item.keuangan_realisasi_persen_1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.keuangan_ttb1="{ item }">                            
+                            {{ item.keuangan_ttb1|makeLookPrecision }}
+                        </template>                
+                        <template v-slot:item.sisa_anggaran_persen="{ item }">                            
+                            {{ item.sisa_anggaran_persen|makeLookPrecision }}
+                        </template>                     
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item) in items" v-bind:key="item.FormBMurniID" v-bind:class="{'indigo lighten-4 font-weight-bold':isProgram(item)}">
                                     <td>{{item.kode}}</td>
                                     <td>{{item.nama}}</td>
                                     <td class="text-right">{{item.pagu_dana1|formatUang}}</td>
-                                    <td class="text-right">{{item.bobot1}}</td>                                    
-                                    <td class="text-right">{{item.fisik_target1}}</td>                                    
-                                    <td class="text-right">{{item.fisik_realisasi1}}</td>                                    
-                                    <td class="text-right">{{item.fisik_ttb1}}</td>                                    
+                                    <td class="text-right">{{item.bobot1|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{item.fisik_target1|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{item.fisik_realisasi1|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{item.fisik_ttb1|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{item.keuangan_target1|formatUang}}</td>                                    
-                                    <td class="text-right">{{item.keuangan_target_persen_1}}</td>                                    
+                                    <td class="text-right">{{item.keuangan_target_persen_1|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{item.keuangan_realisasi1|formatUang}}</td>                                    
-                                    <td class="text-right">{{item.keuangan_realisasi_persen_1}}</td>                                    
-                                    <td class="text-right">{{item.keuangan_ttb1}}</td>                                    
+                                    <td class="text-right">{{item.keuangan_realisasi_persen_1|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{item.keuangan_ttb1|makeLookPrecision}}</td>                                    
                                     <td class="text-left">{{item.lokasi}}</td>                        
                                     <td class="text-right">{{item.sisa_anggaran|formatUang}}</td>                 
-                                    <td class="text-right">{{item.sisa_anggaran_persen}}</td> 
+                                    <td class="text-right">{{item.sisa_anggaran_persen|makeLookPrecision}}</td> 
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr class="orange font-weight-bold dark">
                                     <td colspan="2" class="text-right">TOTAL</td>
                                     <td class="text-right">{{total_data.totalPaguUnit|formatUang}}</td>
-                                    <td class="text-right">{{total_data.totalPersenBobot}}</td>
-                                    <td class="text-right">{{total_data.totalPersenTargetFisik}}</td>
-                                    <td class="text-right">{{total_data.totalPersenRealisasiFisik}}</td>
-                                    <td class="text-right">{{total_data.total_ttb_fisik}}</td>
+                                    <td class="text-right">{{total_data.totalPersenBobot|makeLookPrecision}}</td>
+                                    <td class="text-right">{{total_data.totalPersenTargetFisik|makeLookPrecision}}</td>
+                                    <td class="text-right">{{total_data.totalPersenRealisasiFisik|makeLookPrecision}}</td>
+                                    <td class="text-right">{{total_data.total_ttb_fisik|makeLookPrecision}}</td>
 
                                     <td class="text-right">{{total_data.totalTargetKeuanganKeseluruhan|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_data.totalPersenTargetKeuangan}}</td>
+                                    <td class="text-right">{{total_data.totalPersenTargetKeuangan|makeLookPrecision}}</td>
                                     <td class="text-right">{{total_data.totalRealisasiKeuanganKeseluruhan|formatUang}}</td>
-                                    <td class="text-right">{{total_data.totalPersenRealisasiKeuangan}}</td>
-                                    <td class="text-right">{{total_data.total_ttb_keuangan}}</td>
+                                    <td class="text-right">{{total_data.totalPersenRealisasiKeuangan|makeLookPrecision}}</td>
+                                    <td class="text-right">{{total_data.total_ttb_keuangan|makeLookPrecision}}</td>
                                     <td class="text-center"></td>
                                     <td class="text-right">{{total_data.totalSisaAnggaran|formatUang}}</td>
-                                    <td class="text-right">{{total_data.totalPersenSisaAnggaran}}</td>
+                                    <td class="text-right">{{total_data.totalPersenSisaAnggaran|makeLookPrecision}}</td>
                                 </tr>
                             </tfoot>
                         </template>    

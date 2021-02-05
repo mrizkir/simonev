@@ -256,7 +256,16 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
-                        </template>                  
+                        </template>        
+                        <template v-slot:item.fisik_target2="{ item }">                            
+                            {{ item.fisik_target2|makeLookPrecision }}
+                        </template>              
+                        <template v-slot:item.fisik_realisasi2="{ item }">                            
+                            {{ item.fisik_realisasi2|makeLookPrecision }}
+                        </template>              
+                        <template v-slot:item.keuangan_realisasi_persen_2="{ item }">                            
+                            {{ item.keuangan_realisasi_persen_2|makeLookPrecision }}
+                        </template>             
                         <template v-slot:body="{ items }">
                             <tbody>
                                 <tr v-for="(item) in items" v-bind:key="item.FormBPerubahanID" v-bind:class="{'indigo lighten-4 font-weight-bold':isProgram(item)}">                                    
