@@ -172,13 +172,13 @@
                                 <tr class="orange font-weight-bold dark">
                                     <td colspan="2" class="text-right">TOTAL</td>
                                     <td class="text-right">{{total_forma.totalPaguDana|formatUang}}</td>                                    
-                                    <td class="text-right">{{total_forma.totalPersenBobot}}</td>                                    
-                                    <td class="text-right">{{total_forma.totalRealisasiFisik}}</td>                                    
-                                    <td class="text-right">{{total_forma.totalPersenTertimbangFisikSatuKegiatan}}</td>                                    
+                                    <td class="text-right">{{total_forma.totalPersenBobot|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{total_forma.totalRealisasiFisik|makeLookPrecision}}</td>                                    
+                                    <td class="text-right">{{total_forma.totalPersenTertimbangFisikSatuKegiatan|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_forma.totalTargetSatuKegiatan|formatUang}}</td>                                    
                                     <td class="text-right">{{total_forma.totalRealisasiSatuKegiatan|formatUang}}</td>                                    
                                     <td class="text-right">{{total_forma.total_persen_rata2_realisasi|makeLookPrecision}}</td>                                    
-                                    <td class="text-right">{{total_forma.totalPersenTertimbangRealisasiSatuKegiatan}}</td>                                    
+                                    <td class="text-right">{{total_forma.totalPersenTertimbangRealisasiSatuKegiatan|makeLookPrecision}}</td>                                    
                                     <td class="text-right">{{total_forma.sisa_anggaran|formatUang}}</td>                                    
                                 </tr>
                             </tfoot>

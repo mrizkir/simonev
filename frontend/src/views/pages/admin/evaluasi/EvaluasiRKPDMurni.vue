@@ -104,34 +104,34 @@
                                     <td>{{item.nama}}</td>
                                     <td class="text-right">{{item.indikator_kinerja}}</td>
                                     <td class="text-right">{{item.target_kinerja}}</td>                                    
-                                    <td class="text-right">{{item.fisik_target1}}</td>                                                                        
+                                    <td class="text-right">{{item.fisik_target1|makeLookPrecision}}</td>                                                                        
                                     <td class="text-right">{{item.pagu_dana1|formatUang}}</td> 
 
-                                    <td class="text-right">{{item.fisik_tw_1}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_1|makeLookPrecision}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_1|formatUang}}</td>   
 
-                                    <td class="text-right">{{item.fisik_tw_2}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_2|makeLookPrecision}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_2|formatUang}}</td>                
 
-                                    <td class="text-right">{{item.fisik_tw_3}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_3|makeLookPrecision}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_3|formatUang}}</td>                                                                                                         
 
-                                    <td class="text-right">{{item.fisik_tw_4}}</td>                                                                                                         
+                                    <td class="text-right">{{item.fisik_tw_4|makeLookPrecision}}</td>                                                                                                         
                                     <td class="text-right">{{item.keuangan_tw_4|formatUang}}</td>                                                                                                         
                                 </tr>
                             </tbody>
                             <tfoot>
                                 <tr class="orange font-weight-bold dark">
                                     <td colspan="4" class="text-right">TOTAL</td>  
-                                    <td class="text-right">{{total_data.totalPersenTargetFisik}}</td>         
+                                    <td class="text-right">{{total_data.totalPersenTargetFisik|makeLookPrecision}}</td>         
                                     <td class="text-right">{{total_data.totalPaguOPD|formatUang}}</td>                            
-                                    <td class="text-right">{{total_data.totalFisikTW1}}</td>         
+                                    <td class="text-right">{{total_data.totalFisikTW1|makeLookPrecision}}</td>         
                                     <td class="text-right">{{total_data.totalKeuanganTW1|formatUang}}</td>                            
-                                    <td class="text-right">{{total_data.totalFisikTW2}}</td>         
+                                    <td class="text-right">{{total_data.totalFisikTW2|makeLookPrecision}}</td>         
                                     <td class="text-right">{{total_data.totalKeuanganTW2|formatUang}}</td>                            
-                                    <td class="text-right">{{total_data.totalFisikTW3}}</td>                                             
+                                    <td class="text-right">{{total_data.totalFisikTW3|makeLookPrecision}}</td>                                             
                                     <td class="text-right">{{total_data.totalKeuanganTW3|formatUang}}</td>                                                                
-                                    <td class="text-right">{{total_data.totalFisikTW4}}</td>                                             
+                                    <td class="text-right">{{total_data.totalFisikTW4|makeLookPrecision}}</td>                                             
                                     <td class="text-right">{{total_data.totalKeuanganTW4|formatUang}}</td>                                                                
                                 </tr>
                             </tfoot>

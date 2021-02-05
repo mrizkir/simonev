@@ -67,7 +67,13 @@
                                 ></v-divider>
                                 <v-spacer></v-spacer>
                             </v-toolbar>
-                        </template>                                  
+                        </template> 
+                        <template v-slot:item.RealisasiFisik2="{ item }">                            
+                            {{ item.RealisasiFisik2|makeLookPrecision }}
+                        </template>                                
+                        <template v-slot:item.PersenRealisasiKeuangan2="{ item }">                            
+                            {{ item.PersenRealisasiKeuangan2|makeLookPrecision }}
+                        </template>                                                                 
                         <template v-slot:no-data>                            
                             data peringkat opd tidak tersedia.
                         </template>

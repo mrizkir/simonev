@@ -23,7 +23,7 @@ class AuthController extends Controller
         $credentials = $request->only('username', 'password');
         $credentials['active']=1;
 
-        if (! $token = $this->guard()->attempt($credentials)) {
+        if (! $token = $this->guard()->attempt($credentials,['exp' => \Carbon\Carbon::now()->addDays(1)->timestamp])) {
             return response()->json([
                                     'page' => 'login',
                                     'error' => 'Unauthorized',                                    
