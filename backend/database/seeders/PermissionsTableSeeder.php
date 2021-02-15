@@ -68,6 +68,7 @@ class PermissionsTableSeeder extends Seeder
 
         $modules = [
             'DASHBOARD',
+            'KELOMPOK-URUSAN',
             'REKENING-TRANSAKSI',
             'REKENING-KELOMPOK',
             'REKENING-JENIS',
