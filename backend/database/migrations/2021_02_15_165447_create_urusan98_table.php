@@ -14,7 +14,8 @@ class CreateUrusan98Table extends Migration
     public function up()
     {
         Schema::create('tmKUrs98', function (Blueprint $table) {
-            $table->string('KUrsID',19);            
+            $table->string('KUrsID',19);  
+            $table->string('RpjmdVisiID',19)->nullable();          
             $table->string('Kd_Urusan',2);
             $table->string('Nm_Urusan');            
             $table->string('Descr')->nullable();

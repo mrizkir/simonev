@@ -25,6 +25,7 @@ class Urusan98Model extends Model
      */
     protected $fillable = [
         'KUrsID', 
+        'RpjmdVisiID', 
         'Kd_Urusan', 
         'Nm_Urusan', 
         'Descr',

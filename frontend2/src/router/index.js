@@ -44,6 +44,15 @@ const routes = [
 		component: () => import('../views/pages/admin/dmaster/DMaster.vue'),		
 	},
 	{
+		path: '/dmaster/kodefikasi/urusan',
+		name: 'DMasterUrusan',
+		meta:{
+			title: "URUSAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/KodefikasiUrusan.vue'),		
+	},
+	{
 		path: '/dmaster/rekening/transaksi',
 		name: 'DMasterTransaksi',
 		meta:{

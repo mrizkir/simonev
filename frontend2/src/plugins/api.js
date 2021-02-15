@@ -4,7 +4,7 @@ export default {
     install(Vue)
     {
         let ajax = axios.create({
-            baseURL:process.env.VUE_APP_APIUrlV1
+            baseURL:process.env.VUE_APP_APIUrlV2
         });
         
         Vue.prototype.$api = {

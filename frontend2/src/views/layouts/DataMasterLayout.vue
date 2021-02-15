@@ -87,17 +87,18 @@
                         <v-list-item-title>BOARD DATA MASTER</v-list-item-title>
                     </v-list-item-content>
                 </v-list-item> 
-                <v-subheader>KEGIATAN</v-subheader>
-                <v-list-item link v-if="CAN_ACCESS('KELOMPOK URUSAN_BROWSE')" to="/dmaster/kelompokurusan">
+                <v-subheader>KODEFIKASI</v-subheader>
+                <v-list-item link v-if="CAN_ACCESS('URUSAN_BROWSE')" to="/dmaster/kodefikasi/urusan">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-group</v-icon>
                     </v-list-item-icon>
                     <v-list-item-content>
                         <v-list-item-title>
-                            KELOMPOK URUSAN
+                            URUSAN
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>   
+                <v-subheader>KEGIATAN</v-subheader>                
                 <v-list-item link v-if="CAN_ACCESS('JENIS PELAKSANAAN_BROWSE')" to="/dmaster/jenispelaksanaan">
                     <v-list-item-icon class="mr-2">
                         <v-icon>mdi-road</v-icon>

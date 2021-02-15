@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\DMaster;
+namespace App\Http\Controllers\v2\DMaster;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -8,9 +8,9 @@ use App\Models\DMaster\Urusan98Model;
 
 use Illuminate\Validation\Rule;
 
-class Urusan98Controller extends Controller {              
+class KodefikasiUrusanController extends Controller {              
     /**
-     * get all kelompok urusan
+     * get all urusan
      *
      * @return \Illuminate\Http\Response
      */
@@ -22,7 +22,7 @@ class Urusan98Controller extends Controller {
             'TA'=>'required'
         ]);    
         $ta = $request->input('TA');
-        $kelompokurusan=Urusan98Model::select(\DB::raw('
+        $urusan=Urusan98Model::select(\DB::raw('
                                         "KUrsID",                                                                                
                                         "Kd_Urusan",
                                         "Nm_Urusan",
@@ -37,8 +37,8 @@ class Urusan98Controller extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'fetchdata',
-                                    'kelompokurusan'=>$kelompokurusan,
-                                    'message'=>'Fetch data kelompok urusan berhasil.'
+                                    'urusan'=>$urusan,
+                                    'message'=>'Fetch data urusan berhasil.'
                                 ],200);
     }
     /**
@@ -53,7 +53,7 @@ class Urusan98Controller extends Controller {
 
         $this->validate($request, [
             'Kd_Urusan'=> [
-                        Rule::unique('tmKUrs')->where(function($query) use ($request){
+                        Rule::unique('tmKUrs98')->where(function($query) use ($request){
                             return $query->where('TA',$request->input('TA'));
                         }),
                         'required',
@@ -64,7 +64,7 @@ class Urusan98Controller extends Controller {
             
         $ta = $request->input('TA');
         
-        $kelompokurusan = Urusan98Model::create([
+        $urusan = Urusan98Model::create([
             'KUrsID' => uniqid('uid'),            
             'Kd_Urusan' => $request->input('Kd_Urusan'),
             'Nm_Urusan' => $request->input('Nm_Urusan'),
@@ -75,8 +75,8 @@ class Urusan98Controller extends Controller {
         return Response()->json([
                                     'status'=>1,
                                     'pid'=>'store',
-                                    'kelompokurusan'=>$kelompokurusan,                                    
-                                    'message'=>'Data Kelompok Urusan berhasil disimpan.'
+                                    'urusan'=>$urusan,                                    
+                                    'message'=>'Data Urusan berhasil disimpan.'
                                 ],200); 
     }               
     
@@ -90,30 +90,30 @@ class Urusan98Controller extends Controller {
     {        
         $this->hasPermissionTo('URUSAN_UPDATE');
 
-        $kelompokurusan = Urusan98Model::find($id);
+        $urusan = Urusan98Model::find($id);
         
-        if (is_null($kelompokurusan))
+        if (is_null($urusan))
         {
             return Response()->json([
                                     'status'=>0,
                                     'pid'=>'update',                
-                                    'message'=>["Data Kelompok Urusan ($id) gagal diupdate"]
+                                    'message'=>["Data Urusan ($id) gagal diupdate"]
                                 ],422); 
         }
         else
         {
             $this->validate($request, [    
                                         'Kd_Urusan'=>[
-                                                    Rule::unique('tmKUrs')->where(function($query) use ($request,$kelompokurusan) {  
-                                                        if ($request->input('Kd_Urusan')==$kelompokurusan->Kd_Urusan) 
+                                                    Rule::unique('tmKUrs98')->where(function($query) use ($request,$urusan) {  
+                                                        if ($request->input('Kd_Urusan')==$urusan->Kd_Urusan) 
                                                         {
                                                             return $query->where('Kd_Urusan','ignore')
-                                                                        ->where('TA',$kelompokurusan->TA);
+                                                                        ->where('TA',$urusan->TA);
                                                         }                 
                                                         else
                                                         {
                                                             return $query->where('Kd_Urusan',$request->input('Kd_Urusan'))
-                                                                    ->where('TA',$kelompokurusan->TA);
+                                                                    ->where('TA',$urusan->TA);
                                                         }                                                                                    
                                                     }),
                                                     'required',
@@ -123,16 +123,16 @@ class Urusan98Controller extends Controller {
                                     ]);
             
             
-            $kelompokurusan->Kd_Urusan = $request->input('Kd_Urusan');
-            $kelompokurusan->Nm_Urusan = $request->input('Nm_Urusan');
-            $kelompokurusan->Descr = $request->input('Descr');
-            $kelompokurusan->save();
+            $urusan->Kd_Urusan = $request->input('Kd_Urusan');
+            $urusan->Nm_Urusan = $request->input('Nm_Urusan');
+            $urusan->Descr = $request->input('Descr');
+            $urusan->save();
 
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'update',
-                                    'kelompokurusan'=>$kelompokurusan,                                    
-                                    'message'=>'Data Kelompok Urusan '.$kelompokurusan->Nm_Urusan.' berhasil diubah.'
+                                    'urusan'=>$urusan,                                    
+                                    'message'=>'Data Urusan '.$urusan->Nm_Urusan.' berhasil diubah.'
                                 ],200);
         }
         
@@ -147,25 +147,25 @@ class Urusan98Controller extends Controller {
     {   
         $this->hasPermissionTo('URUSAN_DESTROY');
 
-        $kelompokurusan = Urusan98Model::find($id);
+        $urusan = Urusan98Model::find($id);
 
-        if (is_null($kelompokurusan))
+        if (is_null($urusan))
         {
             return Response()->json([
                                     'status'=>0,
                                     'pid'=>'destroy',                
-                                    'message'=>["Data Kelompok Urusan ($id) gagal dihapus"]
+                                    'message'=>["Data Urusan ($id) gagal dihapus"]
                                 ],422); 
         }
         else
         {
             
-            $result=$kelompokurusan->delete();
+            $result=$urusan->delete();
 
             return Response()->json([
                                     'status'=>1,
                                     'pid'=>'destroy',                
-                                    'message'=>"Data Kelompok Urusan dengan ID ($id) berhasil dihapus"
+                                    'message'=>"Data Urusan dengan ID ($id) berhasil dihapus"
                                 ],200);
         }
     }
