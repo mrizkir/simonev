@@ -100,7 +100,8 @@ $app->alias('cache', \Illuminate\Cache\CacheManager::class);
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
 ], function ($router) {
-    require __DIR__.'/../routes/api.php';
+    require __DIR__.'/../routes/v1.php';
+    require __DIR__.'/../routes/v2.php';
 });
 
 return $app;

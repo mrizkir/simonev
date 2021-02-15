@@ -8,7 +8,7 @@ $router->get('/', function () use ($router) {
 
     return response()->json($res);
 });
-$router->group(['prefix'=>'v1'], function () use ($router)
+$router->group(['prefix'=>'v2'], function () use ($router)
 {
     //dashboard
     $router->post('/dashboard/front',['uses'=>'DashboardController@indexfront','as'=>'dashboard.indexfront']);
@@ -35,7 +35,7 @@ $router->group(['prefix'=>'v1'], function () use ($router)
     $router->get('/setting/uifront',['uses'=>'Settings\UIController@frontend','as'=>'ui.frontend']);
 
 });
-$router->group(['prefix'=>'v1','middleware'=>'auth:api'], function () use ($router)
+$router->group(['prefix'=>'v2','middleware'=>'auth:api'], function () use ($router)
 {
     //authentication
     $router->post('/auth/logout',['uses'=>'AuthController@logout','as'=>'auth.logout']);
