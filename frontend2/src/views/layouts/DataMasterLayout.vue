@@ -98,6 +98,16 @@
                         </v-list-item-title>
                     </v-list-item-content>
                 </v-list-item>   
+                <v-list-item link v-if="CAN_ACCESS('BIDANG-URUSAN_BROWSE')" to="/dmaster/kodefikasi/bidangurusan">
+                    <v-list-item-icon class="mr-2">
+                        <v-icon>mdi-group</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-content>
+                        <v-list-item-title>
+                            BIDANG URUSAN
+                        </v-list-item-title>
+                    </v-list-item-content>
+                </v-list-item>   
                 <v-subheader>KEGIATAN</v-subheader>                
                 <v-list-item link v-if="CAN_ACCESS('JENIS PELAKSANAAN_BROWSE')" to="/dmaster/jenispelaksanaan">
                     <v-list-item-icon class="mr-2">
