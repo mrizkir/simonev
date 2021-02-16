@@ -42,6 +42,18 @@ $router->group(['prefix'=>'v2','middleware'=>'auth:api'], function () use ($rout
     $router->get('/auth/refresh',['uses'=>'AuthController@refresh','as'=>'v2.auth.refresh']);
     $router->get('/auth/me',['uses'=>'AuthController@me','as'=>'v2.auth.me']);
 
+    //data master - kodefikasi - urusan
+    $router->post('/dmaster/kodefikasi/urusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'v2\DMaster\KodefikasiUrusanController@index','as'=>'v2.urusan.index']);    
+    $router->post('/dmaster/kodefikasi/urusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiUrusanController@store','as'=>'v2.urusan.store']);
+    $router->put('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiUrusanController@update','as'=>'v2.urusan.update']);
+    $router->delete('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiUrusanController@destroy','as'=>'v2.urusan.destroy']);    
+    
+    //data master - kodefikasi - bidang urusan
+    $router->post('/dmaster/kodefikasi/bidangurusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'v2\DMaster\KodefikasiBidangUrusanController@index','as'=>'v2.bidangurusan.index']);    
+    $router->post('/dmaster/kodefikasi/bidangurusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiBidangUrusanController@store','as'=>'v2.bidangurusan.store']);
+    $router->put('/dmaster/kodefikasi/bidangurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiBidangUrusanController@update','as'=>'v2.bidangurusan.update']);
+    $router->delete('/dmaster/kodefikasi/bidangurusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiBidangUrusanController@destroy','as'=>'v2.bidangurusan.destroy']);    
+    
     //data master - rekening - transaksi
     $router->post('/dmaster/rekening/transaksi',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\TransaksiController@index','as'=>'v2.rekening.transaksi.index']);    
     $router->post('/dmaster/rekening/transaksi/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\TransaksiController@store','as'=>'v2.rekening.transaksi.store']);
@@ -86,13 +98,6 @@ $router->group(['prefix'=>'v2','middleware'=>'auth:api'], function () use ($rout
     $router->post('/dmaster/unitkerja/loadpaguapbdp',['middleware'=>['role:superadmin'],'uses'=>'DMaster\SubOrganisasiController@loadpaguapbdp','as'=>'v2.opd.loadpaguapbdp']);    
     $router->put('/dmaster/unitkerja/{id}',['middleware'=>['role:superadmin|bapelitbang|opd|unitkerja'],'uses'=>'DMaster\SubOrganisasiController@update','as'=>'v2.unitkerja.update']);
     
-    //data master - urusan
-    $router->post('/dmaster/kodefikasi/urusan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'v2\DMaster\KodefikasiUrusanController@index','as'=>'v2.urusan.index']);    
-    $router->post('/dmaster/kodefikasi/urusan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiUrusanController@store','as'=>'v2.urusan.store']);
-    $router->put('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiUrusanController@update','as'=>'v2.urusan.update']);
-    $router->delete('/dmaster/kodefikasi/urusan/{id}',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'v2\DMaster\KodefikasiUrusanController@destroy','as'=>'v2.urusan.destroy']);    
-
-
     //data master - kegiatan - jenis pelaksanaan
     $router->post('/dmaster/jenispelaksanaan',['middleware'=>['role:superadmin|bapelitbang|opd|pptk'],'uses'=>'DMaster\JenisPelaksanaanController@index','as'=>'v2.jenispelaksanaan.index']);    
     $router->post('/dmaster/jenispelaksanaan/store',['middleware'=>['role:superadmin|bapelitbang'],'uses'=>'DMaster\JenisPelaksanaanController@store','as'=>'v2.jenispelaksanaan.store']);

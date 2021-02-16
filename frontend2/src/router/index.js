@@ -53,6 +53,15 @@ const routes = [
 		component: () => import('../views/pages/admin/dmaster/KodefikasiUrusan.vue'),		
 	},
 	{
+		path: '/dmaster/kodefikasi/bidangurusan',
+		name: 'DMasterBidangUrusan',
+		meta:{
+			title: "BIDANG URUSAN",
+			requiresAuth:true,
+        },
+		component: () => import('../views/pages/admin/dmaster/KodefikasiBidangUrusan.vue'),		
+	},
+	{
 		path: '/dmaster/rekening/transaksi',
 		name: 'DMasterTransaksi',
 		meta:{
@@ -115,16 +124,7 @@ const routes = [
         },
 		component: () => import('../views/pages/admin/dmaster/UnitKerja.vue'),		
 	},
-	//data master - kegiatan
-	{
-		path: '/dmaster/kelompokurusan',
-		name: 'DMasterKelompokUrusan',
-		meta:{
-			title: "KELOMPOK URUSAN",
-			requiresAuth:true,
-        },
-		component: () => import('../views/pages/admin/dmaster/KelompokUrusan.vue'),		
-	},
+	//data master - kegiatan	
 	{
 		path: '/dmaster/jenispelaksanaan',
 		name: 'DMasterJenisPelaksanaan',

@@ -24,7 +24,7 @@
                     colored-border
                     type="info"
                     >
-                    Daftar "kelompok urusan" uraian digunakan sebagai referensi di uraian kegiatan saat proses integrasi.
+                    Daftar "urusan" uraian digunakan sebagai referensi di uraian kegiatan saat proses integrasi.
                 </v-alert>
             </template>
         </ModuleHeader>
@@ -253,7 +253,7 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'KelompokUrusan',
+    name:'KodefikasiUrusan',
     created () 
     {
         this.breadcrumbs = [

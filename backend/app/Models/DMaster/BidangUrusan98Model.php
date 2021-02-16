@@ -4,33 +4,33 @@ namespace App\Models\DMaster;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Urusan98Model extends Model
+class BidangUrusan98Model extends Model
 {
     /**
      * nama tabel model ini.
      *
      * @var string
      */
-    protected $table = 'tmKUrs98';
+    protected $table = 'tmUrs98';
     /**
      * primary key tabel ini.
      *
      * @var string
      */
-    protected $primaryKey = 'KUrsID';
+    protected $primaryKey = 'UrsID';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
+        'UrsID', 
         'KUrsID', 
-        'RpjmdVisiID', 
-        'Kd_Urusan', 
-        'Nm_Urusan', 
+        'Kd_Bidang', 
+        'Nm_Bidang', 
         'Descr',
         'TA',
-        'KUrsID_Src',
+        'UrsID_Src',
         'Locked',
     ];
     /**
