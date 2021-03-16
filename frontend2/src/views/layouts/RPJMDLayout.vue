@@ -154,7 +154,7 @@
 <script>
 import {mapGetters} from 'vuex';
 export default {
-    name:'EvaluasiRKPDLayout',  
+    name: 'EvaluasiRKPDLayout',  
     props:{
         showrightsidebar:{
             type:Boolean,
@@ -209,8 +209,7 @@ export default {
             NamaAPP: 'getNamaAPP',
             NamaAPPAlias: 'getNamaAPPAlias',            
         }),        
-        photoUser()
-		{
+        photoUser() {
 			let img=this.ATTRIBUTE_USER('foto');
 			var photo;
 			if (img == '')
@@ -244,5 +243,5 @@ export default {
             immediate:true
         },        
     }
-}
+};
 </script>

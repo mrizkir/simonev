@@ -442,11 +442,11 @@ import Vue from 'vue'
 import BelanjaPerubahanLayout from '@/views/layouts/BelanjaPerubahanLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'RealisasiRKAPerubahan',
-    created () 
+    name: 'RealisasiRKAPerubahan',
+    created()
     {
         this.RKARincID = this.$route.params.rkarincid;    
-        var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+        var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');
         this.datakegiatan = page.datakegiatan;            
         this.datauraian = page.datauraian;       
 
@@ -485,7 +485,7 @@ export default {
         else
         {
             page.datakegiatan ={
-                RKAID:'',
+                RKAID: "",
             };
             page.datauraian ={
                 RKARincID:'',
@@ -497,7 +497,7 @@ export default {
         }
         
     }, 
-    data ()
+    data()
     {
         return {
             //modul
@@ -618,7 +618,7 @@ export default {
     methods: {
         initialize:async function  () 
         {
-            this.datatableLoading=true;   
+            this.datatableLoading = true;   
             
             this.$ajax.post('/belanja/rkaperubahan/realisasi',
                 {
@@ -626,7 +626,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                   
@@ -636,9 +636,9 @@ export default {
                 this.footers.sisa=data.sisa_anggaran;
                 this.footers.targetfisik=data.totaltargetfisik;
                 this.footers.fisik=data.totalfisik;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             }).catch(()=>{
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });            
             
         },
@@ -658,7 +658,7 @@ export default {
             await this.$ajax.get('/belanja/rkaperubahan/bulanrealisasi/'+this.datauraian.RKARincID,               
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{   
@@ -677,7 +677,7 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/belanja/rkaperubahan/updaterealisasi/'+this.formdata.RKARealisasiRincID,
@@ -691,14 +691,14 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         this.initialize();
                         this.closedialogfrmedit();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 } else {
                     this.$ajax.post('/belanja/rkaperubahan/saverealisasi',
@@ -715,14 +715,14 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         this.initialize();
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
@@ -733,13 +733,13 @@ export default {
             this.bulan2=item.bulan2;
             await this.$ajax.post('/belanja/rkaperubahan/rencanatarget',
                 {
-                    'mode':'bulan',
+                    'mode': 'bulan',
                     'RKARincID':this.datauraian.RKARincID,
                     'bulan2':item.bulan2,
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{      
@@ -761,25 +761,25 @@ export default {
             this.dialogfrmedit=true;
         },     
         deleteItem (item) {                       
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus realisasi dengan ID '+item.RKARealisasiRincID+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus realisasi dengan ID '+item.RKARealisasiRincID+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/belanja/rkaperubahan/deleterealisasi/'+item.RKARealisasiRincID,
                         {
-                            '_method':'DELETE',
-                            'pid':'datarealisasi'
+                            _method: "DELETE",
+                            pid: 'datarealisasi'
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         this.initialize();    
-                        this.btnLoading=false;                    
+                        this.btnLoading = false;                    
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }                
             });
@@ -789,7 +789,7 @@ export default {
             this.$root.$confirm.open('Salin Realisasi dari Kegiatan Murni', 'Apakah Anda ingin menyalin realisasi ?. Proses ini akan menghapus terlebih dahulu realisasi saat ini', { color: 'green',width:500 }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/belanja/rkaperubahan/copyrealisasi/'+this.datauraian.RKARincID,
                         {
                             _method:'put',
@@ -797,23 +797,23 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{                                                     
-                        var page = this.$store.getters['uiadmin/Page']('rkaperubahan');                        
+                        var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');                        
                         page.datauraian.RKARincID_Src=data.rincian_perubahan.RKARincID_Src;       
                         this.$store.dispatch('uiadmin/updatePage',page);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                         this.$router.go();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             });
         },
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false;
             this.bulan2=null;            
             setTimeout(() => {
@@ -824,7 +824,7 @@ export default {
             );
         },
         closedialogfrmedit () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrmedit = false;
             this.bulan2=null;            
             setTimeout(() => {
@@ -836,8 +836,8 @@ export default {
         },
         exitrealisasi ()
         {
-            this.btnLoading=false;
-            var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+            this.btnLoading = false;
+            var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');
             page.datauraian ={
                 RKARincID:'',
             };
@@ -853,13 +853,13 @@ export default {
            {
                await this.$ajax.post('/belanja/rkaperubahan/rencanatarget',
                     {
-                        'mode':'bulan',
+                        'mode': 'bulan',
                         'RKARincID':this.datauraian.RKARincID,
                         'bulan2':this.bulan2,
                     },
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(({data})=>{      
@@ -872,9 +872,9 @@ export default {
            }
        }
     },
-    components:{
+    components: {
         BelanjaPerubahanLayout,
         ModuleHeader,
     },
-}
+};
 </script>

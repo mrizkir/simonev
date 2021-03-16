@@ -12,7 +12,7 @@
 import EvaluasiRenjaLayout from '@/views/layouts/EvaluasiRenjaLayout';
 
 export default {
-    name:'EvaluasiRenja',
+    name: 'EvaluasiRenja',
     created()
     {
         this.tahun_anggaran=this.$store.getters['uifront/getTahunAnggaran'];
@@ -29,8 +29,8 @@ export default {
 
         },
     },
-    components:{
+    components: {
         EvaluasiRenjaLayout,        
     },
-}
+};
 </script>

@@ -183,8 +183,8 @@ import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import Filter2 from '@/components/sidebar/FilterMode2';
 export default {
-    name:'FormBOPDMurni',
-    created ()
+    name: 'FormBOPDMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -209,7 +209,7 @@ export default {
             }
         ];
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'formbopdmurni',
+            name: 'formbopdmurni',
             OrgID_Selected:'',            
         })
     },
@@ -224,7 +224,7 @@ export default {
             this.$refs.filter2.setFirstTimeLoading(this.firstloading);
         }          
     },
-    data ()
+    data()
     {
         return {
             bulan_realisasi:null,
@@ -277,7 +277,7 @@ export default {
         }
         
     },
-    methods :{
+    methods: {
         changeBulanRealisasi (bulan)
         {
             this.bulan_realisasi=bulan;
@@ -290,7 +290,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status})=>{
@@ -303,7 +303,7 @@ export default {
         },             
         loaddatakegiatan:async function ()
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/report/formbopdmurni',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -312,23 +312,23 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                              
                 this.datatable = data.rka;    
                 this.total_data=data.total_data;            
                 this.datatableLoaded = false;
-                this.datatableLoading=false;                
+                this.datatableLoading = false;                
             });        
         },
         isProgram(item)
         {
-            return (item.RKAID == null || item.RKAID == '');            
+            return (item.RKAID == null || item.RKAID == "");            
         },
         printtoexcel:async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/report/formbopdmurni/printtoexcel',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -337,7 +337,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     },
                     responseType:'arraybuffer'
                 }
@@ -349,13 +349,13 @@ export default {
                 link.setAttribute('download', 'form_b_'+Date.now()+'.xlsx');
                 document.body.appendChild(link);
                 link.click();                     
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });     
         }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
         Filter2
@@ -363,10 +363,10 @@ export default {
     computed: {
        
     },
-    watch:{        
-        OrgID_Selected (val)
+    watch: {        
+        OrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('formbopdmurni');
+            var page = this.$store.getters["uiadmin/Page"]('formbopdmurni');
             
             if (this.firstloading == false && val.length > 0 )
             {
@@ -384,5 +384,5 @@ export default {
             }            
         }, 
     }
-}
+};
 </script>

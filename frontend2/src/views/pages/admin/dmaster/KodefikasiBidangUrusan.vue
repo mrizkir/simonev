@@ -253,8 +253,8 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'KodefikasiBidangUrusan',
-    created () 
+    name: 'KodefikasiBidangUrusan',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -280,7 +280,7 @@ export default {
         ];
         this.initialize()
     }, 
-    data ()
+    data()
     {
         return {
             btnLoading:false,
@@ -337,19 +337,19 @@ export default {
     methods: {
         initialize:async function () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/dmaster/kodefikasi/bidangurusan',
                 {
                     TA:this.$store.getters['uifront/getTahunAnggaran'],                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.urusan;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });                      
         },
         dataTableRowClicked(item)
@@ -375,26 +375,26 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;                
+                this.btnLoading = true;                
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/dmaster/kodefikasi/bidangurusan/'+this.formdata.KUrsID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             Kd_Urusan:this.formdata.Kd_Urusan,
                             Nm_Urusan:this.formdata.Nm_Urusan,
                             Descr:this.formdata.Descr,
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{   
                         Object.assign(this.datatable[this.editedIndex], data.urusan);
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                 
                     
                 } else {
@@ -407,44 +407,44 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{   
                         this.datatable.push(data.urusan);
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data bidang urusan dengan ID '+item.KUrsID+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus data bidang urusan dengan ID '+item.KUrsID+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/dmaster/kodefikasi/bidangurusan/'+item.KUrsID,
                         {
-                            '_method':'DELETE',
+                            _method: "DELETE",
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         const index = this.datatable.indexOf(item);
                         this.datatable.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }                
             });
         },        
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);                
@@ -467,9 +467,9 @@ export default {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },
     },
-    components:{
+    components: {
         DataMasterLayout,
         ModuleHeader,
     },
-}
+};
 </script>

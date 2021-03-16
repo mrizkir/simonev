@@ -149,8 +149,8 @@
 import EvaluasiRKPDLayout from '@/views/layouts/EvaluasiRKPDLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'EvaluasiRKPDMurni',
-    created ()
+    name: 'EvaluasiRKPDMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -171,7 +171,7 @@ export default {
         ];
 
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'evaluasirkpdmurni',
+            name: 'evaluasirkpdmurni',
             OrgID_Selected:'',            
         })
     },
@@ -185,7 +185,7 @@ export default {
         }          
         this.firstloading=false;
     },
-    data ()
+    data()
     {
         return {
             firstloading:true,
@@ -237,7 +237,7 @@ export default {
         }
         
     },
-    methods :{
+    methods: {
         fetchOPD: async function ()
         {
             await this.$ajax.post('/dmaster/opd',
@@ -246,7 +246,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status})=>{
@@ -259,7 +259,7 @@ export default {
         },             
         loaddatakegiatan:async function ()
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/report/evaluasirkpdmurni',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                                           
@@ -267,7 +267,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{              
@@ -275,16 +275,16 @@ export default {
                 this.datatable = data.rka;    
                 this.total_data=data.total_data;            
                 this.datatableLoaded = false;
-                this.datatableLoading=false;                
+                this.datatableLoading = false;                
             });        
         },
         isProgram(item)
         {
-            return (item.RKAID == null || item.RKAID == '');            
+            return (item.RKAID == null || item.RKAID == "");            
         },
         printtoexcel:async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/report/evaluasirkpdmurni/printtoexcel',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                                           
@@ -292,7 +292,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     },
                     responseType:'arraybuffer'
                 }
@@ -304,19 +304,19 @@ export default {
                 link.setAttribute('download', 'evaluasi_rkpd_murni_'+Date.now()+'.xlsx');
                 document.body.appendChild(link);
                 link.click();                     
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });     
         }
     },    
     computed: {
        
     },
-    watch:{
-        OrgID_Selected (val)
+    watch: {
+        OrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('evaluasirkpdmurni');
+            var page = this.$store.getters["uiadmin/Page"]('evaluasirkpdmurni');
             if (this.firstloading == true && val.length > 0 )
             {
                 page.OrgID_Selected = val;
@@ -334,9 +334,9 @@ export default {
             }
         },
     },
-    components:{
+    components: {
         EvaluasiRKPDLayout,
         ModuleHeader,
     },
-}
+};
 </script>

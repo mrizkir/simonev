@@ -358,8 +358,8 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'UNITKERJA',
-    created () 
+    name: 'UNITKERJA',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -380,7 +380,7 @@ export default {
         ];
         this.initialize()
     }, 
-    data ()
+    data()
     {
         return {
             btnLoading:false,
@@ -465,7 +465,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
@@ -473,7 +473,7 @@ export default {
                 this.footers.jumlah_apbd=data.jumlah_apbd;
                 this.footers.jumlah_apbdp=data.jumlah_apbdp;
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });                      
         },
         loaddataunitkerja ()
@@ -481,50 +481,50 @@ export default {
             this.$root.$confirm.open('Load Data Unit Kerja', 'Apakah Anda ingin meload data Unit Kerja kembali ?', { color: 'yellow' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/dmaster/unitkerja/loadunitkerja',
                         {
                             tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{                
                         this.datatable = data.unitkerja;
                         this.footers.jumlah_apbd=data.jumlah_apbd;
                         this.footers.jumlah_apbdp=data.jumlah_apbdp;
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             });
         },
         loadPaguAPBDP ()
         {
-            this.btnLoading=true;
-            this.datatableLoading=true;
+            this.btnLoading = true;
+            this.datatableLoading = true;
             this.$ajax.post('/dmaster/unitkerja/loadpaguapbdp',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.unitkerja;
                 this.footers.jumlah_apbd=data.jumlah_apbd;
                 this.footers.jumlah_apbdp=data.jumlah_apbdp;
-                this.btnLoading=false;
+                this.btnLoading = false;
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
-                this.datatableLoading=false;
+                this.btnLoading = false;
+                this.datatableLoading = false;
             });  
         },
         viewItem (item) {
@@ -539,12 +539,12 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/dmaster/unitkerja/'+this.formdata.SOrgID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             SOrgAlias:this.formdata.SOrgAlias,                        
                             Alamat:this.formdata.Alamat,                        
                             NamaKepalaUnitKerja:this.formdata.NamaKepalaUnitKerja,                        
@@ -553,21 +553,21 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{   
                         Object.assign(this.datatable[this.editedIndex], data.unitkerja);
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                 
                     
                 }
             }
         },
         closedialogdetailitem () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogdetailitem = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault)
@@ -576,7 +576,7 @@ export default {
             );
         },
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);                
@@ -600,9 +600,9 @@ export default {
             return bool;
         }
     },
-    components:{
+    components: {
         DataMasterLayout,
         ModuleHeader,
     },
-}
+};
 </script>

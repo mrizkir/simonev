@@ -273,8 +273,8 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'Pejabat',
-    created () 
+    name: 'Pejabat',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -294,7 +294,7 @@ export default {
             }
         ];
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'pejabat',
+            name: 'pejabat',
             OrgID_Selected:'',
         });            
     }, 
@@ -307,7 +307,7 @@ export default {
             this.OrgID_Selected = OrgID_Selected;                                  
         }  
     },
-    data ()
+    data()
     {
         return {
             btnLoading:false,
@@ -386,7 +386,7 @@ export default {
     methods: {
         initialize:async function (OrgID_Selected) 
         {    
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/dmaster/pejabat',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -394,12 +394,12 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{         
                 this.datatable = data.pejabat;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });                      
         },
         fetchOPD: async function ()
@@ -410,7 +410,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status})=>{
@@ -440,16 +440,16 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.dialogfrm = true;
                 this.daftar_asn = data.asn;  
                 this.formdata.OrgID=this.OrgID_Selected;              
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
         },         
         viewItem (item) {
@@ -459,7 +459,7 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;       
+                this.btnLoading = true;       
                 this.$ajax.post('/dmaster/pejabat/store',
                     {
                         OrgID:this.formdata.OrgID,    
@@ -469,44 +469,44 @@ export default {
                     },
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(()=>{   
                     this.initialize(this.OrgID_Selected);
                     this.closedialogfrm();
                 }).catch(()=>{
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 });
     
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data jabatan ASN dengan ID '+item.ASNID+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus data jabatan ASN dengan ID '+item.ASNID+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/dmaster/pejabat/'+item.RiwayatJabatanASNID,
                         {
-                            '_method':'DELETE',
+                            _method: "DELETE",
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         const index = this.datatable.indexOf(item);
                         this.datatable.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }                
             });
         },        
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false; 
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);                
@@ -525,9 +525,9 @@ export default {
         },
     },
     watch: {
-        OrgID_Selected (val)
+        OrgID_Selected(val)
         { 
-            var page = this.$store.getters['uiadmin/Page']('pejabat');
+            var page = this.$store.getters["uiadmin/Page"]('pejabat');
             page.OrgID_Selected = val;
             this.$store.dispatch('uiadmin/updatePage',page);
             this.initialize(val);
@@ -538,9 +538,9 @@ export default {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },
     },
-    components:{
+    components: {
         DataMasterLayout,
         ModuleHeader,
     },
-}
+};
 </script>

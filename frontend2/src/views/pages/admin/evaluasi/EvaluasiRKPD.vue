@@ -12,7 +12,7 @@
 import EvaluasiRKPDLayout from '@/views/layouts/EvaluasiRKPDLayout';
 
 export default {
-    name:'EvaluasiRKPD',
+    name: 'EvaluasiRKPD',
     created()
     {
         this.tahun_anggaran=this.$store.getters['uifront/getTahunAnggaran'];
@@ -29,8 +29,8 @@ export default {
 
         },
     },
-    components:{
+    components: {
         EvaluasiRKPDLayout,        
     },
-}
+};
 </script>

@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-    name:'FilterMode1',
+    name: 'FilterMode1',
     created()
     {
         this.daftar_ta=this.$store.getters['uifront/getDaftarTA'];  
@@ -34,13 +34,13 @@ export default {
         daftar_ta:[],
         tahun_anggaran:null
     }),
-    methods:{
+    methods: {
         setFirstTimeLoading (bool)
         {            
             this.firstloading=bool;            
         }
     },
-    watch:{
+    watch: {
         tahun_anggaran(val)
         {
             if (!this.firstloading)
@@ -58,5 +58,5 @@ export default {
             }
         },
     }
-}
+};
 </script>

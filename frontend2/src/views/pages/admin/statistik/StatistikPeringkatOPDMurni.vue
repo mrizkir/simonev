@@ -88,7 +88,7 @@ import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name: 'StatistikPeringkatOPDMurni',
-    created ()
+    created()
 	{
 		this.breadcrumbs = [
             {
@@ -128,22 +128,21 @@ export default {
         ],
     }),
     methods : {
-		initialize:async function()
-		{
-            this.datatableLoading=true;
+		initialize:async function() {
+            this.datatableLoading = true;
             await this.$ajax.post('/belanjamurni/statistik/peringkatopd',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                                                            
 				},
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
 				
             ).then(({data})=>{    
                 this.peringkat=data.peringkat;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });		
         },        
 	},
@@ -156,9 +155,9 @@ export default {
             }));
         }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,		
         ModuleHeader,
 	}
-}
+};
 </script>

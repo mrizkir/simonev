@@ -143,8 +143,8 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'JenisPelaksanaan',
-    created () 
+    name: 'JenisPelaksanaan',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -170,7 +170,7 @@ export default {
         ];
         this.initialize()
     }, 
-    data ()
+    data()
     {
         return {
             btnLoading:false,
@@ -215,19 +215,19 @@ export default {
     methods: {
         initialize:async function () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/dmaster/jenispelaksanaan',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.jenispelaksanaan;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });                      
         },
         dataTableRowClicked(item)
@@ -249,25 +249,25 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/dmaster/jenispelaksanaan/'+this.formdata.JenisPelaksanaanID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             NamaJenis:this.formdata.NamaJenis,                       
                             Descr:'',       
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{   
                         Object.assign(this.datatable[this.editedIndex], data.jenispelaksanaan);
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                 
                     
                 } else {
@@ -279,44 +279,44 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{   
                         this.datatable.push(data.jenispelaksanaan);
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data dengan ID '+item.JenisPelaksanaanID+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus data dengan ID '+item.JenisPelaksanaanID+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/dmaster/jenispelaksanaan/'+item.JenisPelaksanaanID,
                         {
-                            '_method':'DELETE',
+                            _method: "DELETE",
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         const index = this.datatable.indexOf(item);
                         this.datatable.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }                
             });
         },        
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);                
@@ -331,9 +331,9 @@ export default {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },
     },
-    components:{
+    components: {
         DataMasterLayout,
         ModuleHeader,
     },
-}
+};
 </script>

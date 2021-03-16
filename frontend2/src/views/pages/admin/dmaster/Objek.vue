@@ -263,8 +263,8 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'Rincian',
-    created () 
+    name: 'Rincian',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -290,7 +290,7 @@ export default {
         ];
         this.initialize()
     }, 
-    data ()
+    data()
     {
         return {
             btnLoading:false,
@@ -354,19 +354,19 @@ export default {
     methods: {
         initialize:async function () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/dmaster/rekening/objek',
                 {
                     TA:this.$store.getters['uifront/getTahunAnggaran'],                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.objek;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });                      
         },
         dataTableRowClicked(item)
@@ -382,35 +382,35 @@ export default {
         },
         async addItem ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/dmaster/rekening/rincian',
                 {
                     TA:this.$store.getters['uifront/getTahunAnggaran'], 
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token'],
+                        Authorization: this.$store.getters["auth/Token"],
                         'Access-Control-Allow-Origin': '*',
                     }
                 }
             ).then(({data})=>{   
                 this.dialogfrm=true;
                 this.daftar_rincian=data.rincian;                
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
             
         },
         async editItem (item) {     
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/dmaster/rekening/rincian',
                 {
                     TA:this.$store.getters['uifront/getTahunAnggaran'], 
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{   
@@ -418,9 +418,9 @@ export default {
                 this.daftar_rincian=data.rincian;            
                 this.editedIndex = this.datatable.indexOf(item);
                 this.formdata = Object.assign({}, item);                                
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });            
         }, 
         viewItem (item) {
@@ -430,12 +430,12 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;                
+                this.btnLoading = true;                
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/dmaster/rekening/objek/'+this.formdata.RObyID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             ObyID:this.formdata.ObyID,
                             Kd_Rek_5:this.formdata.Kd_Rek_5,
                             RObyNm:this.formdata.RObyNm,
@@ -443,13 +443,13 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         this.$router.go();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                 
                     
                 } else {
@@ -463,43 +463,43 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         this.$router.go();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data dengan ID '+item.RObyID+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus data dengan ID '+item.RObyID+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/dmaster/rekening/objek/'+item.RObyID,
                         {
-                            '_method':'DELETE',
+                            _method: "DELETE",
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         const index = this.datatable.indexOf(item);
                         this.datatable.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }                
             });
         },        
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);                
@@ -522,9 +522,9 @@ export default {
             return this.editedIndex === -1 ? 'TAMBAH DATA' : 'UBAH DATA'
         },
     },
-    components:{
+    components: {
         DataMasterLayout,
         ModuleHeader,
     },
-}
+};
 </script>

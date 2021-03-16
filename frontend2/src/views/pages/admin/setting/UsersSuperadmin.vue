@@ -233,7 +233,7 @@ import SettingUserLayout from '@/views/layouts/SettingUserLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
     name: 'UsersSuperAdmin',  
-    created () {
+    created(){
         this.breadcrumbs = [
             {
                 text:'HOME',
@@ -336,7 +336,7 @@ export default {
     methods: {
         initialize:async function () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.get('/setting/users',{
                 headers: {
                     Authorization:this.TOKEN
@@ -344,7 +344,7 @@ export default {
             }).then(({data})=>{               
                 this.daftar_users = data.users;
                 this.role_id=data.role.id;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });          
             
         },
@@ -420,7 +420,7 @@ export default {
                 this.daftar_roles=daftar_roles;                                                
             });    
 
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.get('/setting/users/'+item.id+'/roles',
             {
                 headers: {
@@ -428,12 +428,12 @@ export default {
                 }
             }).then(({data})=>{  
                 this.editedItem.role_id=data.roles;                   
-                this.btnLoading=false;
+                this.btnLoading = false;
                 this.dialogEdit = true;
             });   
         },        
         close () {            
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialog = false;
             this.dialogEdit = false;            
             setTimeout(() => {
@@ -446,12 +446,12 @@ export default {
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/setting/users/'+this.editedItem.id,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             name:this.editedItem.name,
                             email:this.editedItem.email,                            
                             username:this.editedItem.username,
@@ -467,7 +467,7 @@ export default {
                         Object.assign(this.daftar_users[this.editedIndex], data.user);
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                    
                     
                 } else {
@@ -488,19 +488,19 @@ export default {
                         this.daftar_users.push(data.user);
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus username '+item.username+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus username '+item.username+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/setting/users/'+item.id,
                         {
-                            '_method':'DELETE',
+                            _method: "DELETE",
                         },
                         {
                             headers:{
@@ -510,9 +510,9 @@ export default {
                     ).then(()=>{   
                         const index = this.daftar_users.indexOf(item);
                         this.daftar_users.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             });
@@ -536,9 +536,9 @@ export default {
             val || this.close()
         },        
     },    
-    components:{
+    components: {
         SettingUserLayout,
         ModuleHeader,        
     },
-}
+};
 </script>

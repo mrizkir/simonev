@@ -269,7 +269,7 @@ import ModuleHeader from '@/components/ModuleHeader';
 import UserPermissions from '@/views/pages/admin/setting/UserPermissions';
 export default {
     name: 'UsersOPD',
-    created () {
+    created(){
         this.breadcrumbs = [
             {
                 text:'HOME',
@@ -382,7 +382,7 @@ export default {
     methods: {
         initialize:async function ()
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.get('/setting/usersopd',{
                 headers: {
                     Authorization:this.TOKEN
@@ -390,7 +390,7 @@ export default {
             }).then(({data})=>{
                 this.daftar_users = data.users;             
                 this.role_id=data.role.id;   
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });
 
         },
@@ -407,25 +407,25 @@ export default {
         },
         syncPermission:async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/setting/users/syncallpermissions',
                 {
-                    role_name:'opd',
+                    role_name: 'opd',
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
         },
         showDialogTambahUserOPD:async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/dmaster/opd',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -437,10 +437,10 @@ export default {
                 }
             ).then(({data})=>{                
                 this.daftar_opd = data.opd; 
-                this.btnLoading=false;      
+                this.btnLoading = false;      
                 this.dialog = true;           
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });             
         },
         editItem:async function (item) {
@@ -463,15 +463,15 @@ export default {
                     this.editedItem = Object.assign({}, item);
                     this.editedItem.payload=Object.values(JSON.parse(item.payload)); 
 
-                    this.btnLoading=false;     
+                    this.btnLoading = false;     
                     this.dialogEdit = true;
                 }
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });             
         },
         setPermission: async function (item) {
-            this.btnLoading=true;
+            this.btnLoading = true;
             this.$ajax.get('/setting/roles/'+this.role_id+'/permission',{
                 headers: {
                     Authorization:this.TOKEN
@@ -479,7 +479,7 @@ export default {
             }).then(({data})=>{
                 this.daftar_permissions = data.permissions;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
 
             await this.$ajax.get('/setting/users/'+item.id+'/permission',{
@@ -488,17 +488,17 @@ export default {
                 }
             }).then(({data})=>{
                 this.permissions_selected = data.permissions;
-                this.btnLoading=false;
+                this.btnLoading = false;
 
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
             this.dialogUserPermission = true;
             this.editedItem=item;
 
         },
         close () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialog = false;
             this.dialogEdit = false;
             setTimeout(() => {
@@ -509,19 +509,19 @@ export default {
             );
         },
         closeUserPermissions () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.permissions_selected=[];
             this.dialogUserPermission = false;
         },
         save () {
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1)
                 {
                     this.$ajax.post('/setting/usersopd/'+this.editedItem.id,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             name:this.editedItem.name,
                             email:this.editedItem.email,                            
                             username:this.editedItem.username,
@@ -537,7 +537,7 @@ export default {
                         Object.assign(this.daftar_users[this.editedIndex], data.user);
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
 
                 } else {
@@ -558,19 +558,19 @@ export default {
                         this.daftar_users.push(data.user);
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
         },
         deleteItem (item) {
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus username '+item.username+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus username '+item.username+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/setting/usersopd/'+item.id,
                         {
-                            '_method':'DELETE',
+                            _method: "DELETE",
                         },
                         {
                             headers:{
@@ -580,9 +580,9 @@ export default {
                     ).then(()=>{
                         const index = this.daftar_users.indexOf(item);
                         this.daftar_users.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             });
@@ -606,10 +606,10 @@ export default {
             val || this.close()
         },
     },
-    components:{
+    components: {
         SettingUserLayout,
         ModuleHeader,
         UserPermissions
     },
-}
+};
 </script>

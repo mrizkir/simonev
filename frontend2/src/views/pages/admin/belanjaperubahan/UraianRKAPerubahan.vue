@@ -653,8 +653,8 @@ import Vue from 'vue';
 import BelanjaPerubahanLayout from '@/views/layouts/BelanjaPerubahanLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'UraianRKAPerubahan',
-    created () 
+    name: 'UraianRKAPerubahan',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -679,7 +679,7 @@ export default {
             }
         ];
         this.RKAID = this.$route.params.rkaid;  
-        var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+        var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');
         this.datakegiatan = page.datakegiatan;   
         if (Object.keys(this.datakegiatan).length > 1)
         {
@@ -690,11 +690,11 @@ export default {
             this.exituraianrka();
         }      
     },     
-    data ()
+    data()
     {
         return {
             //modul
-            RKAID:'',
+            RKAID: "",
             datakegiatan: [],
             datakegiatan_murni:{
                 Locked:null
@@ -816,46 +816,46 @@ export default {
     methods: {
         initialize:async function  () 
         {   
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.get('/belanja/rkaperubahan/'+this.datakegiatan.RKAID,                
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.uraian;
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
                 this.footersummary();
             }).catch(()=>{
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });   
             
         },
         loaddatauraianfirsttime:async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/belanja/rkaperubahan/loaddatauraianfirsttime',
                 {
                     RKAID:this.datakegiatan.RKAID,                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{  
-                var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+                var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');
                 this.datakegiatan = data.rka;
                 page.datakegiatan = data.rka;
                 this.$store.dispatch('uiadmin/updatePage',page);              
                 this.datatable = data.uraian;
                 this.footersummary();
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });        
         },
         dataTableRowClicked(item)
@@ -904,7 +904,7 @@ export default {
             this.footers = summary;
         },
         viewItem (item) {
-            var page = this.$store.getters['uiadmin/Page']('rkaperubahan');              
+            var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');              
             if (page.datauraian.RKARincID == '')
             {
                 page.datauraian = item;
@@ -929,7 +929,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
@@ -946,10 +946,10 @@ export default {
             {
                 if (this.editedIndex > -1)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     await this.$ajax.post('/belanja/rkaperubahan/updateuraian/'+this.formuraian.RKARincID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             'RKARincID':this.formuraian.RKARincID,
                             'volume2':this.formuraian.volume2,   
                             'satuan2':this.formuraian.satuan2,   
@@ -959,11 +959,11 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{                   
-                        var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+                        var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');
                         this.datakegiatan = data.rka;
                         page.datakegiatan = data.rka;
                         this.$store.dispatch('uiadmin/updatePage',page);             
@@ -971,7 +971,7 @@ export default {
                         this.initialize();    
                         this.closedialogedituraian();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             }
@@ -981,7 +981,7 @@ export default {
             this.$root.$confirm.open('Salin data Target Fisik dan Anggaran Kas', 'Proses ini akan menyalin target fisik dan anggaran kas dari kegiatan murni sekaligus menghapus yang saat ini. Apakah bersedia ?', { color: 'red',width:500 }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;            
+                    this.btnLoading = true;            
                     this.$ajax.post('/belanja/rkaperubahan/copytarget/'+this.datakegiatan.RKAID,
                         {
                             _method:'PUT',
@@ -989,13 +989,13 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{            
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                  
                 }
             });
@@ -1003,24 +1003,24 @@ export default {
         savetargetfisik: async function () {
             if (this.$refs.frmtargetfisik.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1)
                 {
                     await this.$ajax.post('/belanja/rkaperubahan/updatetargetfisik',
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             'RKARincID':this.RKARincID_Selected,
                             'bulan_fisik':this.formtarget.targetfisik,   
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetfisik();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
                 else
@@ -1034,13 +1034,13 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetfisik();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             }
@@ -1048,24 +1048,24 @@ export default {
         savetargetanggarankas: async function () {
             if (this.$refs.frmtargetanggarankas.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1)
                 {
                     await this.$ajax.post('/belanja/rkaperubahan/updatetargetanggarankas',
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             'RKARincID':this.RKARincID_Selected,
                             'bulan_anggaran':this.formtarget.targetanggarankas,   
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetanggarankas();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
                 else
@@ -1079,13 +1079,13 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetanggarankas();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             }
@@ -1104,18 +1104,18 @@ export default {
             this.formtarget.targetfisik=[0,0,0,0,0,0,0,0,0,0,0,0];              
             if (this.datakegiatan.RKAID_Src != null)
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 await this.$ajax.get('/belanja/rkamurni/'+this.datakegiatan.RKAID_Src,                
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(({data})=>{                      
                     this.datakegiatan_murni=data.datakegiatan;      
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 }).catch(()=>{
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 });   
             }            
             this.dialogtargetfisik = true;           
@@ -1127,24 +1127,24 @@ export default {
             this.formtarget.targetanggarankas=[0,0,0,0,0,0,0,0,0,0,0,0]; 
             if (this.datakegiatan.RKAID_Src != null)
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 await this.$ajax.get('/belanja/rkamurni/'+this.datakegiatan.RKAID_Src,                
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(({data})=>{                      
                     this.datakegiatan_murni=data.datakegiatan;      
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 }).catch(()=>{
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 });   
             }                   
             this.dialogtargetanggarankas = true;   
         },
         closedialogedituraian () {
-            this.btnLoading=false;            
+            this.btnLoading = false;            
             setTimeout(() => {                
                 this.editedIndex = -1;
                 this.$refs.frmedituraian.resetValidation();               
@@ -1153,14 +1153,14 @@ export default {
             );            
         },
         closedialogtargetfisik () {
-            this.btnLoading=false;            
+            this.btnLoading = false;            
             setTimeout(() => {
                this.$router.go();
                 }, 300
             );            
         },
         closedialogtargetanggarankas () {    
-            this.btnLoading=false;                     
+            this.btnLoading = false;                     
             setTimeout(() => {
                 this.$router.go();
                 }, 300
@@ -1168,10 +1168,10 @@ export default {
         },
         exituraianrka ()
         {
-            this.btnLoading=false;
-            var page = this.$store.getters['uiadmin/Page']('rkaperubahan');
+            this.btnLoading = false;
+            var page = this.$store.getters["uiadmin/Page"]('rkaperubahan');
             page.datakegiatan ={
-                RKAID:'',
+                RKAID: "",
             };
             page.datauraian ={
                 RKARincID:'',
@@ -1237,7 +1237,7 @@ export default {
        {
            if (val !== null && typeof val !== 'undefined')
            {   
-                var mode = this.dialogtargetfisik == true ? 'targetfisik':'targetanggarankas'
+                var mode = this.dialogtargetfisik == true ? 'targetfisik': 'targetanggarankas'
                 await this.$ajax.post('/belanja/rkaperubahan/rencanatarget',
                         {
                             'mode':mode,
@@ -1245,7 +1245,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{               
@@ -1306,9 +1306,9 @@ export default {
            }
        }
     },
-    components:{
+    components: {
         BelanjaPerubahanLayout,
         ModuleHeader,
     },
-}
+};
 </script>

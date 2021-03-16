@@ -195,7 +195,7 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    name:'DashboardAdmin',
+    name: 'DashboardAdmin',
     created()
     {
         this.dashboard=this.$store.getters['uiadmin/getDefaultDashboard'];
@@ -211,8 +211,7 @@ export default {
         tahun_anggaran:''
     }),
     methods : {
-		initialize:async function()
-		{	            
+		initialize:async function() {	            
             await this.$ajax.get('/auth/me',                
             {
                 headers: {
@@ -269,8 +268,7 @@ export default {
             CAN_ACCESS:'can',         
             ATTRIBUTE_USER:'AttributeUser',               
         }),
-        photoUser()
-		{
+        photoUser() {
 			let img=this.ATTRIBUTE_USER('foto');
 			var photo;
 			if (img == '')
@@ -284,5 +282,5 @@ export default {
 			return photo;
         },
     }    
-}
+};
 </script>

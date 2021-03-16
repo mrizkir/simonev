@@ -212,8 +212,8 @@
 import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'DataMentahMurni',
-    created ()
+    name: 'DataMentahMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -233,7 +233,7 @@ export default {
             }
         ];
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'datamentahmurni',
+            name: 'datamentahmurni',
             OrgID_Selected:'',                        
         })
     },
@@ -247,7 +247,7 @@ export default {
         }          
         this.firstloading=false;
     },
-    data ()
+    data()
     {
         return {
             firstloading:true,
@@ -283,7 +283,7 @@ export default {
         }
         
     },
-    methods :{
+    methods: {
         dataTableRowClicked(item)
         {
             if ( item === this.expanded[0])
@@ -321,7 +321,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status})=>{
@@ -334,7 +334,7 @@ export default {
         },          
         loaddatakegiatan:async function ()
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/belanja/datamentahmurni',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -342,19 +342,19 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                              
                 this.datatable = data.rka;
                 this.datatableLoaded = true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
                 this.footersummary();
             });        
         },        
         colorStatus(status)
         {
-            return status === 'SUDAH DICOPY'?'blue-grey lighten-4':'primary'
+            return status === 'SUDAH DICOPY'?'blue-grey lighten-4': 'primary'
         },
         showdialogcopyrka(item)
         {
@@ -370,7 +370,7 @@ export default {
         {
             if (this.$refs.frmcopyrka.validate())
             {
-                this.datatableLoading=true;
+                this.datatableLoading = true;
                 await this.$ajax.post('/belanja/datamentahmurni/copyrka',
                     {
                         kode_kegiatan:item.kode_kegiatan,                       
@@ -378,7 +378,7 @@ export default {
                     },
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(()=>{                              
@@ -387,14 +387,14 @@ export default {
             }
         }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
     },    
-    watch:{
-        OrgID_Selected (val)
+    watch: {
+        OrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('datamentahmurni');
+            var page = this.$store.getters["uiadmin/Page"]('datamentahmurni');
 
             if (this.firstloading == false && val.length > 0 )
             {
@@ -405,5 +405,5 @@ export default {
             this.loaddatakegiatan();    
         },  
     }
-}
+};
 </script>

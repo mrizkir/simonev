@@ -169,7 +169,7 @@ export default {
     methods: {        
         save()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             this.$ajax.post('/setting/users/storeuserpermissions',
                 {
                     user_id:this.user.id,
@@ -183,12 +183,12 @@ export default {
             ).then(()=>{   
                 this.close();                
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
         },
         revoke(item)
         {   
-            this.btnLoading=true;         
+            this.btnLoading = true;         
             this.$ajax.post('/setting/users/revokeuserpermissions',
                 {
                     user_id:this.user.id,
@@ -202,12 +202,12 @@ export default {
             ).then(()=>{   
                 this.close();                
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
         },
         close()
         {            
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.permissions_selected=[];     
             this.$emit('closeUserPermissions');
         }
@@ -244,5 +244,5 @@ export default {
         }
 
     }
-}
+};
 </script>

@@ -317,8 +317,8 @@ import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 import Filter2 from '@/components/sidebar/FilterMode2';
 export default {
-    name:'FormAMurni',
-    created ()
+    name: 'FormAMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -343,7 +343,7 @@ export default {
             }
         ];
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'formamurni',
+            name: 'formamurni',
             OrgID_Selected:'',
             SOrgID_Selected:'',
             datakegiatan:[],
@@ -380,7 +380,7 @@ export default {
             }            
         }        
     },
-    data ()
+    data()
     {
         return {
             bulan_realisasi:null,
@@ -457,7 +457,7 @@ export default {
         }
         
     },
-    methods :{
+    methods: {
         changeBulanRealisasi (bulan)
         {
             this.bulan_realisasi=bulan;
@@ -470,7 +470,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status})=>{
@@ -486,7 +486,7 @@ export default {
             await this.$ajax.get('/dmaster/opd/'+this.OrgID_Selected+'/unitkerja',              
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{       
@@ -497,7 +497,7 @@ export default {
         },              
         loaddatakegiatan:async function ()
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/report/formbunitkerjamurni',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -506,7 +506,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{              
@@ -514,17 +514,17 @@ export default {
                 this.datatable = data.rka;    
                 this.total_data=data.total_data;            
                 this.datatableLoaded = false;
-                this.datatableLoading=false;                
+                this.datatableLoading = false;                
             });        
         },
         isProgram(item)
         {
-            return (item.RKAID == null || item.RKAID == '');            
+            return (item.RKAID == null || item.RKAID == "");            
         },
         viewitem (item)
         {
             this.formadetail=true;
-            var page = this.$store.getters['uiadmin/Page']('formamurni');
+            var page = this.$store.getters["uiadmin/Page"]('formamurni');
             page.formadetail=true;
             page.datakegiatan=item;
             this.$store.dispatch('uiadmin/updatePage',page);      
@@ -533,7 +533,7 @@ export default {
         },
         initalizeforma:async function ()
         {
-            var page = this.$store.getters['uiadmin/Page']('formamurni');
+            var page = this.$store.getters["uiadmin/Page"]('formamurni');
             this.datakegiatan=page.datakegiatan;            
             let RKAID=this.datakegiatan.RKAID;
 
@@ -544,7 +544,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{            
@@ -572,7 +572,7 @@ export default {
         printtoexcel:async function ()
         {
             var SOrgID_Selected=this.$store.getters['uiadmin/AtributeValueOfPage']('formamurni','SOrgID_Selected');  
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/report/formamurni/printtoexcel',
                 {                 
                     SOrgID:SOrgID_Selected,
@@ -582,7 +582,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     },
                     responseType:'arraybuffer'
                 }
@@ -594,21 +594,21 @@ export default {
                 link.setAttribute('download', 'form_a_'+Date.now()+'.xlsx');
                 document.body.appendChild(link);
                 link.click();                     
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });     
         },
         exitforma()
         {
-            var page = this.$store.getters['uiadmin/Page']('formamurni');
+            var page = this.$store.getters["uiadmin/Page"]('formamurni');
             page.formadetail=false;
             page.datakegiatan=[];
             this.$store.dispatch('uiadmin/updatePage',page);                               
             this.$router.go() ;
         }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
         Filter2
@@ -616,10 +616,10 @@ export default {
     computed: {
         
     },
-    watch:{
-        OrgID_Selected (val)
+    watch: {
+        OrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('formamurni');
+            var page = this.$store.getters["uiadmin/Page"]('formamurni');
             if (this.firstloading == true && val.length > 0 )
             {
                 page.OrgID_Selected = val;
@@ -637,9 +637,9 @@ export default {
                 this.datatable=[];
             }
         },
-        SOrgID_Selected (val)
+        SOrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('formamurni');
+            var page = this.$store.getters["uiadmin/Page"]('formamurni');
             
             if (this.firstloading == false && val.length > 0 )
             {
@@ -665,5 +665,5 @@ export default {
         }, 
 
     }
-}
+};
 </script>

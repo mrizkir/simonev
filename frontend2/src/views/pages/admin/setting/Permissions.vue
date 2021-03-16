@@ -204,14 +204,14 @@ export default {
     methods: {
         initialize () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             this.$ajax.get('/setting/permissions',{
                 headers: {
                     Authorization:this.TOKEN
                 }
             }).then(({data})=>{                
                 this.daftar_permissions = data.permissions;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });          
             
         },
@@ -232,7 +232,7 @@ export default {
             this.dialog = true
         },
         close () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialog = false;
             this.$refs.frmdata.reset(); 
             setTimeout(() => {
@@ -246,7 +246,7 @@ export default {
             {
                 if (!(this.editedIndex > -1)) 
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/setting/permissions/store',
                         {
                             name:this.editedItem.name.toLowerCase()
@@ -260,19 +260,19 @@ export default {
                         this.initialize();
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
         },
         deleteItem (item) {   
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus permission '+item.name+' ?', { color: 'red' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus permission '+item.name+' ?', { color: 'red' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/setting/permissions/'+item.id,
                     {
-                        '_method':'DELETE',
+                        _method: "DELETE",
                     },
                     {
                         headers:{
@@ -282,9 +282,9 @@ export default {
                     ).then(()=>{   
                         const index = this.daftar_permissions.indexOf(item);
                         this.daftar_permissions.splice(index, 1);
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             });      
@@ -306,9 +306,9 @@ export default {
             val || this.close()
         },
     },   
-    components:{
+    components: {
 		SettingUserLayout,
 		ModuleHeader,
 	}
-}
+};
 </script>

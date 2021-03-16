@@ -8,9 +8,9 @@
 <script>
 import SettingUserLayout from '@/views/layouts/SettingUserLayout';
 export default {
-    name:'DMaster',
-    components:{
+    name: 'DMaster',
+    components: {
         SettingUserLayout,      
     },
-}
+};
 </script>

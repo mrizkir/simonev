@@ -620,8 +620,8 @@ import Vue from 'vue';
 import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'UraianRKAMurni',
-    created () 
+    name: 'UraianRKAMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -646,7 +646,7 @@ export default {
             }
         ];
         this.RKAID = this.$route.params.rkaid;  
-        var page = this.$store.getters['uiadmin/Page']('rkamurni');
+        var page = this.$store.getters["uiadmin/Page"]('rkamurni');
         this.datakegiatan = page.datakegiatan;   
         if (Object.keys(this.datakegiatan).length > 1)
         {
@@ -657,11 +657,11 @@ export default {
             this.exituraianrka();
         }      
     },     
-    data ()
+    data()
     {
         return {
             //modul
-            RKAID:'',
+            RKAID: "",
             datakegiatan: [],
             btnLoading:false,
             datatableLoading:false,
@@ -780,46 +780,46 @@ export default {
     methods: {
         initialize:async function  () 
         {   
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.get('/belanja/rkamurni/'+this.datakegiatan.RKAID,                
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.uraian;
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
                 this.footersummary();
             }).catch(()=>{
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });   
             
         },
         loaddatauraianfirsttime:async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/belanja/rkamurni/loaddatauraianfirsttime',
                 {
                     RKAID:this.datakegiatan.RKAID,                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{  
-                var page = this.$store.getters['uiadmin/Page']('rkamurni');
+                var page = this.$store.getters["uiadmin/Page"]('rkamurni');
                 this.datakegiatan = data.rka;
                 page.datakegiatan = data.rka;
                 this.$store.dispatch('uiadmin/updatePage',page);              
                 this.datatable = data.uraian;
                 this.footersummary();
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });        
         },
         dataTableRowClicked(item)
@@ -868,7 +868,7 @@ export default {
             this.footers = summary;
         },
         viewItem (item) {
-            var page = this.$store.getters['uiadmin/Page']('rkamurni');              
+            var page = this.$store.getters["uiadmin/Page"]('rkamurni');              
             if (page.datauraian.RKARincID == '')
             {
                 page.datauraian = item;
@@ -893,7 +893,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
@@ -910,10 +910,10 @@ export default {
             {
                 if (this.editedIndex > -1)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     await this.$ajax.post('/belanja/rkamurni/updateuraian/'+this.formuraian.RKARincID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             'RKARincID':this.formuraian.RKARincID,
                             'volume1':this.formuraian.volume1,   
                             'satuan1':this.formuraian.satuan1,   
@@ -923,11 +923,11 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{         
-                        var page = this.$store.getters['uiadmin/Page']('rkamurni');
+                        var page = this.$store.getters["uiadmin/Page"]('rkamurni');
                         this.datakegiatan = data.rka;
                         page.datakegiatan = data.rka;
                         this.$store.dispatch('uiadmin/updatePage',page);             
@@ -935,7 +935,7 @@ export default {
                         this.initialize();                
                         this.closedialogedituraian();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             }
@@ -943,24 +943,24 @@ export default {
         savetargetfisik: async function () {
             if (this.$refs.frmtargetfisik.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1)
                 {
                     await this.$ajax.post('/belanja/rkamurni/updatetargetfisik',
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             'RKARincID':this.RKARincID_Selected,
                             'bulan_fisik':this.formtarget.targetfisik,   
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetfisik();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
                 else
@@ -974,13 +974,13 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetfisik();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             }
@@ -988,24 +988,24 @@ export default {
         savetargetanggarankas: async function () {
             if (this.$refs.frmtargetanggarankas.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1)
                 {
                     await this.$ajax.post('/belanja/rkamurni/updatetargetanggarankas',
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             'RKARincID':this.RKARincID_Selected,
                             'bulan_anggaran':this.formtarget.targetanggarankas,   
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetanggarankas();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
                 else
@@ -1019,13 +1019,13 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{                       
                         this.closedialogtargetanggarankas();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             }
@@ -1052,7 +1052,7 @@ export default {
             this.dialogtargetanggarankas = true;   
         },
         closedialogedituraian () {
-            this.btnLoading=false;            
+            this.btnLoading = false;            
             setTimeout(() => {                
                 this.editedIndex = -1;
                 this.$refs.frmedituraian.resetValidation();               
@@ -1061,14 +1061,14 @@ export default {
             );            
         },
         closedialogtargetfisik () {
-            this.btnLoading=false;            
+            this.btnLoading = false;            
             setTimeout(() => {
                this.$router.go();
                 }, 300
             );            
         },
         closedialogtargetanggarankas () {    
-            this.btnLoading=false;                     
+            this.btnLoading = false;                     
             setTimeout(() => {
                 this.$router.go();
                 }, 300
@@ -1076,10 +1076,10 @@ export default {
         },
         exituraianrka ()
         {
-            this.btnLoading=false;
-            var page = this.$store.getters['uiadmin/Page']('rkamurni');
+            this.btnLoading = false;
+            var page = this.$store.getters["uiadmin/Page"]('rkamurni');
             page.datakegiatan ={
-                RKAID:'',
+                RKAID: "",
             };
             page.datauraian ={
                 RKARincID:'',
@@ -1145,7 +1145,7 @@ export default {
        {
            if (val !== null && typeof val !== 'undefined')
            {   
-                var mode = this.dialogtargetfisik == true ? 'targetfisik':'targetanggarankas'
+                var mode = this.dialogtargetfisik == true ? 'targetfisik': 'targetanggarankas'
                 await this.$ajax.post('/belanja/rkamurni/rencanatarget',
                         {
                             'mode':mode,
@@ -1153,7 +1153,7 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{               
@@ -1214,9 +1214,9 @@ export default {
            }
        }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
     },
-}
+};
 </script>

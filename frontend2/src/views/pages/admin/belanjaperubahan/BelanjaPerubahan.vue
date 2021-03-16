@@ -150,7 +150,7 @@ import BelanjaPerubahanLayout from '@/views/layouts/BelanjaPerubahanLayout';
 import ChartTargetRealisasi from '@/components/chart/ChartTargetRealisasi';
 
 export default {
-    name:'BelanjaPerubahan',
+    name: 'BelanjaPerubahan',
     created()
     {
         this.tahun_anggaran=this.$store.getters['uifront/getTahunAnggaran'];
@@ -167,7 +167,7 @@ export default {
             },
             {
                 headers: {
-                    Authorization:this.$store.getters['auth/Token']
+                    Authorization: this.$store.getters["auth/Token"]
                 }
             }).then(({data})=>{ 
                 this.statistik1=data.statistik1;
@@ -193,7 +193,7 @@ export default {
             },
             {
                 headers: {
-                    Authorization:this.$store.getters['auth/Token']
+                    Authorization: this.$store.getters["auth/Token"]
                 }
             }).then(()=>{                 
                 this.$router.go();
@@ -207,7 +207,7 @@ export default {
             },
             {
                 headers: {
-                    Authorization:this.$store.getters['auth/Token']
+                    Authorization: this.$store.getters["auth/Token"]
                 }
             }).then(()=>{                 
                 this.$router.go();
@@ -236,10 +236,10 @@ export default {
             []
         ]
     }),
-    components:{
+    components: {
         BelanjaPerubahanLayout,  
         'chart-realisasi-keuangan':ChartTargetRealisasi,        
         'chart-realisasi-fisik':ChartTargetRealisasi,        
     },
-}
+};
 </script>

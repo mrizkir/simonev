@@ -205,8 +205,8 @@
 import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'RKAMurni',
-    created ()
+    name: 'RKAMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -226,16 +226,16 @@ export default {
             }
         ];
         this.$store.dispatch('uiadmin/addToPages',{
-            name:'rkamurni',
+            name: 'rkamurni',
             OrgID_Selected:'',
             SOrgID_Selected:'',
-            datakegiatan:{
-                RKAID:'',
+            datakegiatan: {
+                RKAID: "",
             },
             datauraian:{
                 RKARincID:''
             },
-            datarekening:{},
+            datarekening: {},
         })
     },
     mounted()
@@ -256,7 +256,7 @@ export default {
         }
         this.firstloading=false;
     },
-    data ()
+    data()
     {
         return {
             firstloading:true,
@@ -297,7 +297,7 @@ export default {
         }
         
     },
-    methods :{
+    methods: {
         dataTableRowClicked(item)
         {
             if ( item === this.expanded[0])
@@ -346,7 +346,7 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data,status})=>{
@@ -362,7 +362,7 @@ export default {
             await this.$ajax.get('/dmaster/opd/'+this.OrgID_Selected+'/unitkerja',              
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{       
@@ -375,27 +375,27 @@ export default {
         {
             if (!item.PaguDana2 > 0)
             {            
-                this.btnLoading=true;
+                this.btnLoading = true;
                 await this.$ajax.post('/belanja/rkamurni/loaddatauraianfirsttime',
                     {
-                        RKAID:item.RKAID,                       
+                        RKAID: item.RKAID,                       
                     },
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(()=>{  
                     this.$router.go();
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 }).catch(()=>{
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 });        
             }
         },           
         loaddatakegiatanFirsttime: async function ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.post('/belanja/rkamurni/loaddatakegiatanfirsttime',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -403,21 +403,21 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.DataUnitKerja = data.unitkerja;
                 this.datatable = data.rka;
                 this.footersummary();
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });            
         },            
         loaddatakegiatan:async function ()
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/belanja/rkamurni',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
@@ -425,21 +425,21 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{              
                 this.DataUnitKerja = data.unitkerja;
                 this.datatable = data.rka;
                 this.datatableLoaded = true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
                 this.footersummary();
             });        
         },
         viewUraian (item)
         {
-            var page = this.$store.getters['uiadmin/Page']('rkamurni');  
-            if (page.datakegiatan.RKAID == '')
+            var page = this.$store.getters["uiadmin/Page"]('rkamurni');  
+            if (page.datakegiatan.RKAID == "")
             {
                 page.datakegiatan = item;
                 this.$store.dispatch('uiadmin/updatePage',page);
@@ -457,35 +457,35 @@ export default {
             }
         },
         deleteItem (item) {           
-            this.$root.$confirm.open('Delete', 'Apakah Anda ingin menghapus data RKA Murni dengan Nama "'+item.KgtNm+'" ?', { color: 'red',width:'600px' }).then((confirm) => {
+            this.$root.$confirm.open("Delete", 'Apakah Anda ingin menghapus data RKA Murni dengan Nama "'+item.KgtNm+'" ?', { color: 'red',width:'600px' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/belanja/rkamurni/'+item.RKAID,
                         {
-                            '_method':'DELETE',
-                            'pid':'datarka'
+                            _method: "DELETE",
+                            pid: 'datarka'
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(()=>{   
                         this.$router.go();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }                
             });
         },       
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
     },
     computed: {
-        showBtnLoadDataKegiatan ()
+        showBtnLoadDataKegiatan()
         {
             var bool = true;
             if (this.SOrgID_Selected.length > 0 && this.datatableLoaded == true)
@@ -495,10 +495,10 @@ export default {
             return bool;
         }
     },
-    watch:{
-        OrgID_Selected (val)
+    watch: {
+        OrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('rkamurni');
+            var page = this.$store.getters["uiadmin/Page"]('rkamurni');
             if (this.firstloading == true && val.length > 0 )
             {
                 page.OrgID_Selected = val;
@@ -516,9 +516,9 @@ export default {
                 this.datatable=[];
             }
         },
-        SOrgID_Selected (val)
+        SOrgID_Selected(val)
         {   
-            var page = this.$store.getters['uiadmin/Page']('rkamurni');
+            var page = this.$store.getters["uiadmin/Page"]('rkamurni');
             
             if (this.firstloading == false && val.length > 0 )
             {
@@ -529,5 +529,5 @@ export default {
             this.loaddatakegiatan();            
         }
     }
-}
+};
 </script>

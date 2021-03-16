@@ -11,7 +11,7 @@
 </template>
 <script>
 export default {
-    name:'FilterMode2',
+    name: 'FilterMode2',
     created()
     {
         this.daftar_bulan=this.$store.getters['uifront/getDaftarBulan'];  
@@ -23,13 +23,13 @@ export default {
         daftar_bulan:[],
         bulan_realisasi:null,
     }),
-    methods:{
+    methods: {
         setFirstTimeLoading (bool)
         {            
             this.firstloading=bool;            
         }
     },
-    watch:{        
+    watch: {        
         bulan_realisasi(val)
         {
             if (!this.firstloading)
@@ -39,5 +39,5 @@ export default {
             }
         },
     }
-}
+};
 </script>

@@ -262,8 +262,8 @@
 import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'EditRKAMurni',
-    created () 
+    name: 'EditRKAMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -289,7 +289,7 @@ export default {
         ];
 
         this.RKAID = this.$route.params.rkaid;            
-        var page = this.$store.getters['uiadmin/Page']('rkamurni');
+        var page = this.$store.getters["uiadmin/Page"]('rkamurni');
         this.datakegiatan = page.datakegiatan; 
 
         if (Object.keys(this.datakegiatan).length > 1)
@@ -300,7 +300,7 @@ export default {
         else
         {
             page.datakegiatan ={
-                RKAID:'',
+                RKAID: "",
             };
             page.datauraian ={
                 RKARincID:'',
@@ -311,12 +311,12 @@ export default {
             this.$router.push('/belanja/rkamurni');
         } 
     },     
-    data ()
+    data()
     {
         return {
             //modul
             OrgID:'',
-            RKAID:'',
+            RKAID: "",
             btnLoading:false,
             datakegiatan: [],
             //form data               
@@ -420,7 +420,7 @@ export default {
             await this.$ajax.get('/dmaster/opd/'+this.OrgID+'/pejabat',
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                 
@@ -429,7 +429,7 @@ export default {
                 this.daftar_ppk=data.pejabat.ppk;
                 this.daftar_pptk=data.pejabat.pptk;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
 
             await this.$ajax.post('/dmaster/sumberdana',
@@ -438,13 +438,13 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                      
                 this.daftar_sumberdana=data.sumberdana;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
 
         },
@@ -452,7 +452,7 @@ export default {
         {
             if (this.$refs.frmeditkegiatan.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 await this.$ajax.post('/belanja/rkamurni/updatekegiatan/'+this.formdata.RKAID,
                     {
                         _method: 'PUT',
@@ -476,11 +476,11 @@ export default {
                     },
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(()=>{    
-                    var page = this.$store.getters['uiadmin/Page']('rkamurni');
+                    var page = this.$store.getters["uiadmin/Page"]('rkamurni');
                     page.datakegiatan.SumberDanaID= this.formdata.SumberDanaID,
                     page.datakegiatan.keluaran1= this.formdata.keluaran1,                
                     page.datakegiatan.tk_keluaran1= this.formdata.tk_keluaran1,                
@@ -501,7 +501,7 @@ export default {
                     this.$store.dispatch('uiadmin/updatePage',page);
                     this.closeeditkegiatan();
                 }).catch(()=>{                    
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 });  
             }
         },
@@ -510,9 +510,9 @@ export default {
             this.$router.push('/belanjamurni/rka/uraian/'+this.datakegiatan.RKAID);            
         }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
     },
-}
+};
 </script>

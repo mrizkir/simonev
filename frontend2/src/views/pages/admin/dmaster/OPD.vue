@@ -355,8 +355,8 @@
 import DataMasterLayout from '@/views/layouts/DataMasterLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'OPD',
-    created () 
+    name: 'OPD',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -377,7 +377,7 @@ export default {
         ];
         this.initialize()
     }, 
-    data ()
+    data()
     {
         return {
             btnLoading:false,
@@ -452,14 +452,14 @@ export default {
     methods: {
         initialize:async function () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             await this.$ajax.post('/dmaster/opd',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
@@ -467,7 +467,7 @@ export default {
                 this.footers.jumlah_apbd=data.jumlah_apbd;
                 this.footers.jumlah_apbdp=data.jumlah_apbdp;
                 this.datatableLoaded=true;
-                this.datatableLoading=false;
+                this.datatableLoading = false;
             });                      
         },
         loaddataopd ()
@@ -475,46 +475,46 @@ export default {
             this.$root.$confirm.open('Load Data OPD', 'Apakah Anda ingin meload data OPD kembali ?', { color: 'yellow' }).then((confirm) => {
                 if (confirm)
                 {
-                    this.btnLoading=true;
+                    this.btnLoading = true;
                     this.$ajax.post('/dmaster/opd/loadopd',
                         {
                             tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{                
                         this.datatable = data.opd;
                         this.footers.jumlah_apbd=data.jumlah_apbd;
                         this.footers.jumlah_apbdp=data.jumlah_apbdp;
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });  
                 }
             });
         },
         loadPaguAPBDP ()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             this.$ajax.post('/dmaster/opd/loadpaguapbdp',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran'],                       
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                
                 this.datatable = data.opd;
                 this.footers.jumlah_apbd=data.jumlah_apbd;
                 this.footers.jumlah_apbdp=data.jumlah_apbdp;
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
         },
         viewItem (item) {
@@ -534,7 +534,7 @@ export default {
                 {
                     this.$ajax.post('/dmaster/opd/'+this.formdata.OrgID,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             OrgAlias:this.formdata.OrgAlias,                        
                             Alamat:this.formdata.Alamat,                        
                             NamaKepalaSKPD:this.formdata.NamaKepalaSKPD,                        
@@ -543,21 +543,21 @@ export default {
                         },
                         {
                             headers:{
-                                Authorization:this.$store.getters['auth/Token']
+                                Authorization: this.$store.getters["auth/Token"]
                             }
                         }
                     ).then(({data})=>{   
                         Object.assign(this.datatable[this.editedIndex], data.opd);
                         this.closedialogfrm();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                 
                     
                 }
             }
         },
         closedialogdetailitem () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogdetailitem = false;            
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault)
@@ -566,7 +566,7 @@ export default {
             );
         },
         closedialogfrm () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialogfrm = false; 
             setTimeout(() => {
                 this.formdata = Object.assign({}, this.formdefault);                
@@ -590,9 +590,9 @@ export default {
             return bool;
         }
     },
-    components:{
+    components: {
         DataMasterLayout,
         ModuleHeader,
     },
-}
+};
 </script>

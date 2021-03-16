@@ -305,7 +305,7 @@ export default {
     methods: {
         initialize () 
         {
-            this.datatableLoading=true;
+            this.datatableLoading = true;
             this.$ajax.get('/setting/roles',{
                 headers: {
                     Authorization:this.TOKEN
@@ -314,7 +314,7 @@ export default {
                 if (status==200)
                 {
                     this.datatable = data.roles;
-                    this.datatableLoading=false;
+                    this.datatableLoading = false;
                 }     
             
             });          
@@ -380,7 +380,7 @@ export default {
         
         },
         close () {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.dialog = false;
             this.$refs.frmdata.reset(); 
             this.form_error_message='';           
@@ -398,12 +398,12 @@ export default {
             this.form_error_message='';
             if (this.$refs.frmdata.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 if (this.editedIndex > -1) 
                 {
                     this.$ajax.post('/setting/roles/'+this.editedItem.id,
                         {
-                            '_method':'PUT',
+                            '_method': 'PUT',
                             name:this.editedItem.name.toLowerCase(),
                         },
                         {
@@ -415,7 +415,7 @@ export default {
                         Object.assign(this.datatable[this.editedIndex], data.roles);
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });                    
                     
                 } else {
@@ -432,7 +432,7 @@ export default {
                         this.datatable.push(data.roles);
                         this.close();
                     }).catch(()=>{
-                        this.btnLoading=false;
+                        this.btnLoading = false;
                     });
                 }
             }
@@ -452,12 +452,12 @@ export default {
             val || this.close()
         },
     },   
-    components:{
+    components: {
 		SettingUserLayout,
         ModuleHeader,
         RolePermissions
 	}
 
 
-}
+};
 </script>

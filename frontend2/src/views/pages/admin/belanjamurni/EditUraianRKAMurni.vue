@@ -333,8 +333,8 @@
 import BelanjaMurniLayout from '@/views/layouts/BelanjaMurniLayout';
 import ModuleHeader from '@/components/ModuleHeader';
 export default {
-    name:'EditUraianRKAMurni',
-    created () 
+    name: 'EditUraianRKAMurni',
+    created()
     {
         this.breadcrumbs = [
             {
@@ -365,7 +365,7 @@ export default {
         ];
 
         this.RKARincID = this.$route.params.rkarincid;            
-        var page = this.$store.getters['uiadmin/Page']('rkamurni');        
+        var page = this.$store.getters["uiadmin/Page"]('rkamurni');        
         this.datakegiatan = page.datakegiatan; 
         this.datauraian = page.datauraian; 
 
@@ -396,7 +396,7 @@ export default {
         else
         {
             page.datakegiatan ={
-                RKAID:'',
+                RKAID: "",
             };
             page.datauraian ={
                 RKARincID:'',
@@ -407,7 +407,7 @@ export default {
             this.$router.push('/belanjamurni/rka');
         } 
     },     
-    data ()
+    data()
     {
         return {
             //modul
@@ -535,7 +535,7 @@ export default {
             formlokasi_rw:'',
             formlokasi_rt:'',            
             formdata :{
-                RKARincID: '',
+                RKARincID: "",
                 RKAID: '',
                 JenisPelaksanaanID:'',
                 SumberDanaID: null,
@@ -595,13 +595,13 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                 
                 this.daftar_jenispelaksanaan=data.jenispelaksanaan;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
             
             await this.$ajax.post('/dmaster/jenispembangunan',
@@ -610,13 +610,13 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                                 
                 this.daftar_jenispembangunan=data.jenispembangunan;                
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
 
             await this.$ajax.post('/dmaster/sumberdana',
@@ -625,13 +625,13 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                      
                 this.daftar_sumberdana=data.sumberdana;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
 
             await this.$ajax.get('/dmaster/provinsi',
@@ -640,13 +640,13 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                      
                 this.daftar_prov=data.provinsi;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });  
             
             
@@ -655,7 +655,7 @@ export default {
         {
             if (this.$refs.frmedituraian.validate())
             {
-                this.btnLoading=true;
+                this.btnLoading = true;
                 var idlok = this.formdata.idlok;
                 var ket_lok = this.formdata.ket_lok;
                 if (this.tab==1)
@@ -686,11 +686,11 @@ export default {
                     },
                     {
                         headers:{
-                            Authorization:this.$store.getters['auth/Token']
+                            Authorization: this.$store.getters["auth/Token"]
                         }
                     }
                 ).then(()=>{    
-                    var page = this.$store.getters['uiadmin/Page']('rkamurni');
+                    var page = this.$store.getters["uiadmin/Page"]('rkamurni');
                     page.datauraian.JenisPelaksanaanID= this.formdata.JenisPelaksanaanID;
                     page.datauraian.SumberDanaID= this.formdata.SumberDanaID;                
                     page.datauraian.JenisPembangunanID= this.formdata.JenisPembangunanID;                                    
@@ -715,9 +715,9 @@ export default {
                     page.datauraian.Descr= this.formdata.Descr;      
                     this.$store.dispatch('uiadmin/updatePage',page);
                     this.closeedituraian();
-                    this.btnLoading=false;                    
+                    this.btnLoading = false;                    
                 }).catch(()=>{                    
-                    this.btnLoading=false;
+                    this.btnLoading = false;
                 });  
             }
         },
@@ -726,27 +726,27 @@ export default {
             this.$router.push('/belanjamurni/rka/realisasi/'+this.formdata.RKARincID);                                
         }
     },
-    watch:{
+    watch: {
         formlokasi_PMProvID:async function (val)
         {
             let PMProvID=val;            
-            this.btnLoading=true;                        
+            this.btnLoading = true;                        
             await this.$ajax.get('/dmaster/provinsi/'+PMProvID+'/kota',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran']
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                      
                 this.daftar_kab=data.kota;
                 this.formdata.idlok=PMProvID;
                 this.formdata.ket_lok='provinsi';
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });                 
             if (this.firstformload_prov)
             {
@@ -759,23 +759,23 @@ export default {
         formlokasi_PmKotaID:async function (val)
         {
             let PmKotaID=val;
-            this.btnLoading=true;
+            this.btnLoading = true;
             await this.$ajax.get('/dmaster/kota/'+PmKotaID+'/kecamatan',
                 {
                     tahun:this.$store.getters['uifront/getTahunAnggaran']
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                      
                 this.daftar_kecamatan=data.kecamatan;
                 this.formdata.idlok=PmKotaID;
                 this.formdata.ket_lok='kota';
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });                                 
             if (this.firstformload_kota)
             {
@@ -793,16 +793,16 @@ export default {
                 },
                 {
                     headers:{
-                        Authorization:this.$store.getters['auth/Token']
+                        Authorization: this.$store.getters["auth/Token"]
                     }
                 }
             ).then(({data})=>{                                      
                 this.daftar_desa=data.desa;
                 this.formdata.idlok=PmKecamatanID;
                 this.formdata.ket_lok='kecamatan';
-                this.btnLoading=false;
+                this.btnLoading = false;
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             }); 
             if (this.firstformload_kecamatan)
             {
@@ -816,9 +816,9 @@ export default {
             this.formdata.ket_lok='desa';        
         }
     },
-    components:{
+    components: {
         BelanjaMurniLayout,
         ModuleHeader,
     },
-}
+};
 </script>

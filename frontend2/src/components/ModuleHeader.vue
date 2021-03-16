@@ -29,12 +29,11 @@
 </template>
 <script>
 export default {
-    name:'ModuleHeader',
+    name: 'ModuleHeader',
     computed : {        
-        isReportPage ()
-		{
+        isReportPage () {
 			return true;
 		},
     }
-}
+};
 </script>

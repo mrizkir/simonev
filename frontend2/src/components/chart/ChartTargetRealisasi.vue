@@ -2,7 +2,7 @@
 import {Line} from 'vue-chartjs';
 
 export default {
-    name:'ChartTargetRealisasi',
+    name: 'ChartTargetRealisasi',
     extends: Line,
 
     props:{
@@ -73,5 +73,5 @@ export default {
             maintainAspectRatio: false,
         }  
     })
-}
+};
 </script>

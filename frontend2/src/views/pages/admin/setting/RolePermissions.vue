@@ -135,7 +135,7 @@ export default {
     methods: {
         save()
         {
-            this.btnLoading=true;
+            this.btnLoading = true;
             this.$ajax.post('/setting/roles/storerolepermissions',
                 {
                     role_id:this.role.id,
@@ -147,15 +147,15 @@ export default {
                     }
                 }
             ).then(()=>{   
-                this.btnLoading=false;
+                this.btnLoading = false;
                 this.close();                
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
         },
         revoke(item)
         {   
-            this.btnLoading=true;         
+            this.btnLoading = true;         
             this.$ajax.post('/setting/roles/revokerolepermissions',
                 {
                     role_id:this.role.id,
@@ -167,15 +167,15 @@ export default {
                     }
                 }
             ).then(()=>{   
-                this.btnLoading=false;
+                this.btnLoading = false;
                 this.close();                
             }).catch(()=>{
-                this.btnLoading=false;
+                this.btnLoading = false;
             });
         },
         close()
         {
-            this.btnLoading=false;
+            this.btnLoading = false;
             this.permissions_selected=[];
             this.$emit('closeRolePermissions',this.role.id);
         }
@@ -211,5 +211,5 @@ export default {
             }
         }
     }
-}
+};
 </script>

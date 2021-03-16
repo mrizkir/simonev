@@ -112,7 +112,7 @@
 <script>
 import { mapGetters } from 'vuex';
 export default {
-    name:'FrontLayout',      
+    name: 'FrontLayout',      
     props:{
         showrightsidebar:{
             type:Boolean,
@@ -127,7 +127,7 @@ export default {
         drawer:null,
         drawerRight:null,         
     }), 
-    methods:{
+    methods: {
         resetCache()
         {
             this.$store.dispatch('uifront/reinit');  
@@ -139,11 +139,10 @@ export default {
             NamaAPP: 'getNamaAPP',
             NamaAPPAlias: 'getNamaAPPAlias',            
         }),        
-        photoUser()
-		{
+        photoUser() {
 			var photo = this.$api.url+'/storage/images/users/no_photo.png';			
 			return photo;
 		}
     }
-}
+};
 </script>
